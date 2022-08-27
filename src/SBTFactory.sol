@@ -20,13 +20,15 @@ contract SBTFactory {
             token := create2(0, add(code, 0x20), mload(code), salt)
         }
         
-        // ISBT(token).initialize(_name, _symbol, _initial, msg.sender);
-        bytes memory initdata = abi.encodeWithSignature("initialize(string,string,address,address)", _name, _symbol, _initial, msg.sender);
-        (bool success,) = token.call(initdata);
-        require(success, "Failed to initialize SBT");
+        
+        // bytes memory initdata = abi.encodeWithSignature("initialize(string,string,address[],address)", _name, _symbol, _initial, msg.sender);
+        // (bool success,) = token.call(initdata);
+        // require(success, "Failed to initialize SBT");
+        ISBT(token).initialize(_name, _symbol, _initial, msg.sender);
+
         isValidToken[token] = true;
         allTokens.push(token);
 
-        emit TokenCreated(token, msg.sender, allTokens.length);   
+        emit TokenCreated(token, msg.sender, allTokens.length);
     }
 }

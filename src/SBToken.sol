@@ -2,7 +2,7 @@ pragma solidity >=0.8.0 <0.9.0;
 //SPDX-License-Identifier: MIT
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "base64-sol/base64.sol";
+import "./base64-sol/base64.sol";
 
 interface ISBT {
     function initialize(string memory name_, string memory symbol_, address[] memory _initial, address admin_) external;
@@ -19,14 +19,14 @@ contract SBToken is ERC721 {
   // Token symbol
   string private _symbol;
 
-  address private admin;
+  address public admin;
   address private factory;
   
   string public SBTMetadata;
   mapping (uint => string) public metadata;
   mapping (uint => address) public tokenToMinter;
 
-  event Mint(address mintedTo, uint256 tokenId, address mintedBy);
+  event Mint(address to, uint256 tokenId, address mintedBy);
   event MetadataAdded(string metadata);
   event Revoked(address revokedBy, uint256 tokenId);
 
@@ -48,6 +48,20 @@ contract SBToken is ERC721 {
       _mint(_initial[i], totalSupply);
     }
   }
+
+   /**
+     * @dev See {IERC721Metadata-name}.
+     */
+    function name() public view override returns (string memory) {
+        return _name;
+    }
+
+    /**
+     * @dev See {IERC721Metadata-symbol}.
+     */
+    function symbol() public view override returns (string memory) {
+        return _symbol;
+    }
 
   //@notice Mints a new token to the given address, can only be called by admins of this SBT or the admin of the contract
   function mint(address _to) public {
