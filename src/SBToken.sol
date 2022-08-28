@@ -37,10 +37,11 @@ contract SBToken is ERC721, AccessControlEnumerable {
         address _admin
     ) ERC721(_name, _symbol) {
         factory = msg.sender;
-        
-        // setup access control 
-        _setRoleAdmin(DEFAULT_ADMIN_ROLE, keccak256(abi.encodePacked(_admin)));
-        _setRoleAdmin(DELEGATE_ROLE, keccak256(abi.encodePacked(_admin)));
+
+        // setup access control
+        _setRoleAdmin(DELEGATE_ROLE, DEFAULT_ADMIN_ROLE);
+        _grantRole(DELEGATE_ROLE, _admin);
+        _grantRole(DEFAULT_ADMIN_ROLE, _admin);
 
         for (uint256 i; i < _initial.length; i++) {
             totalSupply++;
@@ -62,14 +63,30 @@ contract SBToken is ERC721, AccessControlEnumerable {
     //@notice Mints a new token to the given address, can only be called by admins of this SBT or the admin of the contract
     function mint(address _to) public onlyRole(DELEGATE_ROLE) {
         // why is this so? shouldn't this be restricted to admins/delegate
-        require(
-            balanceOf(msg.sender) > 0,
-            "Only admins of an SBT can mint tokens."
-        );
+        // require(
+        //     balanceOf(msg.sender) > 0,
+        //     "Only admins of an SBT can mint tokens."
+        // );
         totalSupply++;
         _mint(_to, totalSupply);
         tokenToMinter[totalSupply] = msg.sender;
         emit Mint(_to, totalSupply, msg.sender);
+    }
+
+    function burn(uint256 _tokenId) public {
+        require(
+            ownerOf(_tokenId) == msg.sender,
+            "Only the owner can burn their token"
+        );
+        _burn(_tokenId);
+        tokenToMinter[totalSupply] = address(0);
+        emit Revoked(msg.sender, _tokenId);
+    }
+
+    function revoke(uint256 _tokenId) external onlyRole(DELEGATE_ROLE) {
+        _burn(_tokenId);
+        tokenToMinter[totalSupply] = address(0);
+        emit Revoked(msg.sender, _tokenId);
     }
 
     //@notice Function to fetch the metadata of a token
@@ -98,7 +115,10 @@ contract SBToken is ERC721, AccessControlEnumerable {
     }
 
     //@notice Function to add or update metadata of a token
-    function setSBTMetadata(string memory _metadata) public onlyRole(DEFAULT_ADMIN_ROLE) {
+    function setSBTMetadata(string memory _metadata)
+        public
+        onlyRole(DEFAULT_ADMIN_ROLE)
+    {
         // require(
         //     admin == msg.sender,
         //     "Only an admin or authorized delegate can set contract metadata."
@@ -116,14 +136,5 @@ contract SBToken is ERC721, AccessControlEnumerable {
             to == address(0) || from == address(0),
             "This token can only be burned"
         );
-    }
-
-    function burn(uint256 _tokenId) public {
-        require(
-            ownerOf(_tokenId) == msg.sender,
-            "Only the owner can burn their token"
-        );
-        _burn(_tokenId);
-        emit Revoked(msg.sender, _tokenId);
     }
 }
