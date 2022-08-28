@@ -6,10 +6,6 @@ import {console} from "forge-std/console.sol";
 import "src/SBFactory.sol";
 import {Utils} from "./Utils/Utils.sol";
 
-// test emiited events
-// test token minting, transfer and burn
-// test delegate minting and revoking (happy and false paths)
-// test delegate setting metadata (false path)
 contract SBTokenTest is SBFactory, Test {
     SBToken sbt;
     Utils internal utils;
@@ -101,7 +97,7 @@ contract SBTokenTest is SBFactory, Test {
         assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), sina), false);
         assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), alice), false);
     }
-
+    
     function testAdminMintSBToken() public {
         vm.startPrank(admin);
 
@@ -171,6 +167,31 @@ contract SBTokenTest is SBFactory, Test {
         assertEq(sbt.tokenToMinter(2), address(0));
     }
 
+    function testCannotMintSBToken() public {
+        vm.startPrank(sina);
+        
+         vm.expectRevert(
+            "AccessControl: account 0x075edf3ae919fbef9933f666bb0a95c6b80b04ed is missing role 0x663244bfd3de81cc055674c09ade24d4646b75863d5d9dd77d1544f2eb5acc26"
+        );
+        sbt.mint(alice);
+
+        vm.stopPrank();(sina);
+    }
+    function testCannotRevokeSBToken() public {
+        vm.startPrank(admin);
+        sbt.mint(alice);
+        vm.stopPrank();(admin);
+
+        vm.startPrank(sina);
+
+         vm.expectRevert(
+            "AccessControl: account 0x075edf3ae919fbef9933f666bb0a95c6b80b04ed is missing role 0x663244bfd3de81cc055674c09ade24d4646b75863d5d9dd77d1544f2eb5acc26"
+        );
+        sbt.revoke(2);
+
+        vm.stopPrank();(sina);
+    }
+
     function testSetTokenMetadata() public {
         vm.startPrank(admin);
 
@@ -198,8 +219,7 @@ contract SBTokenTest is SBFactory, Test {
 
         sbt.setTokenMetadata(2, meta);
 
-        vm.stopPrank();
-        (alice);
+        vm.stopPrank();(alice);
     }
 
     function testSetSBTMetadata() public {
