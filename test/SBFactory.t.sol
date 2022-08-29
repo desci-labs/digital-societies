@@ -30,8 +30,8 @@ contract SBFactoryTest is SBFactory, Test {
         address[] memory initials = new address[](1);
         initials[0] = admin;
         
-        address sbtAddress = this.deployToken(name, symbol, initials);
-        sbt = SBToken(sbtAddress);
+        address deployed = this.deployToken(name, symbol, initials);
+        sbt = SBToken(deployed);
         vm.stopPrank();(admin);
         
         assertEq(sbt.name(), name);
@@ -40,10 +40,8 @@ contract SBFactoryTest is SBFactory, Test {
 
     function testDeployedSBT() public {
         deploySBT();
-        assertTrue(this.isValidToken(address(sbt)) == true);
         assertEq(sbt.totalSupply(), 1);
         assertEq(sbt.balanceOf(admin), 1);
-        // assertEq(sbt.admin(), admin);
     }
 
 }

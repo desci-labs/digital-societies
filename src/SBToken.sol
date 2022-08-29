@@ -5,16 +5,17 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 import "./base64-sol/base64.sol";
 
-interface ISBT {
-    function initialize(
-        string memory name_,
-        string memory symbol_,
-        address[] memory _initial,
-        address admin_
-    ) external;
-}
-
-// implement admin delegation using oz access control
+/**
+  TODO: version 2
+  1. map tokenType => CID
+  2. map tokenId => tokenType
+  3. gated setter for tokenType => CID
+  4. accept tokenType in mint function to set tokenId type
+  5. reset tokenId's type after a burn or revoke
+  
+  Concerns:
+  ** How do we reuse revoked/burned token IDs and should it be possible to reuse a burned tokenID
+ */
 contract SBToken is ERC721, AccessControlEnumerable {
     uint256 public totalSupply;
 
@@ -26,7 +27,7 @@ contract SBToken is ERC721, AccessControlEnumerable {
 
     bytes32 public constant DELEGATE_ROLE = keccak256("DELEGATES");
 
-    event Mint(address to, uint256 tokenId, address mintedBy);
+    event Mint(uint256 tokenId, address to, address mintedBy);
     event MetadataAdded(string metadata);
     event Revoked(address revokedBy, uint256 tokenId);
 
@@ -62,15 +63,10 @@ contract SBToken is ERC721, AccessControlEnumerable {
 
     //@notice Mints a new token to the given address, can only be called by admins of this SBT or the admin of the contract
     function mint(address _to) public onlyRole(DELEGATE_ROLE) {
-        // why is this so? shouldn't this be restricted to admins/delegate
-        // require(
-        //     balanceOf(msg.sender) > 0,
-        //     "Only admins of an SBT can mint tokens."
-        // );
         totalSupply++;
         _mint(_to, totalSupply);
         tokenToMinter[totalSupply] = msg.sender;
-        emit Mint(_to, totalSupply, msg.sender);
+        emit Mint(totalSupply, _to, msg.sender);
     }
 
     function burn(uint256 _tokenId) public {
