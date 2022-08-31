@@ -29,19 +29,18 @@ contract SBTokenTest is SBFactory, Test {
         vm.label(sina, "Sina");
         vm.label(bob, "Bob");
 
+        vm.startPrank(admin);
         deploySBT();
     }
 
     function deploySBT() internal {
-        vm.startPrank(admin);
+        // vm.startPrank(admin);
         string memory name = "Desci Labs";
         string memory symbol = "DSI";
-        address[] memory initials = new address[](1);
-        initials[0] = admin;
 
-        address sbtAddress = this.deployToken(name, symbol, initials);
-        sbt = SBToken(sbtAddress);
-        vm.stopPrank();(admin);
+        address deployed = this.deployToken(name, symbol);
+        sbt = SBToken(deployed);
+        // vm.stopPrank();(admin);
 
         assertEq(sbt.name(), name);
         assertEq(sbt.symbol(), symbol);
@@ -60,189 +59,195 @@ contract SBTokenTest is SBFactory, Test {
     }
 
     function testAddDelegates() public {
-        vm.startPrank(admin);
+        // vm.startPrank(admin);
         sbt.grantRole(sbt.DELEGATE_ROLE(), alice);
         sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
-        vm.stopPrank();(admin);
+        // vm.stopPrank();(admin);
 
         uint256 delegateRoleCount = sbt.getRoleMemberCount(sbt.DELEGATE_ROLE());
         
-        console.log("delegate count: ", delegateRoleCount);
         assertEq(delegateRoleCount, 3);
         assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), sina), true);
         assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), alice), true);
     }
+    
     function testRemoveDelegates() public {
-        vm.startPrank(admin);
+        // vm.startPrank(admin);
         sbt.grantRole(sbt.DELEGATE_ROLE(), alice);
         sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
-        vm.stopPrank();(admin);
+        // vm.stopPrank();(admin);
 
         uint256 delegateRoleCount = sbt.getRoleMemberCount(sbt.DELEGATE_ROLE());
         
-        console.log("delegate count: ", delegateRoleCount);
         assertEq(delegateRoleCount, 3);
         assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), sina), true);
         assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), alice), true);
 
-        vm.startPrank(admin);
+        // vm.startPrank(admin);
         sbt.revokeRole(sbt.DELEGATE_ROLE(), alice);
         sbt.revokeRole(sbt.DELEGATE_ROLE(), sina);
-        vm.stopPrank();(admin);
+        // vm.stopPrank();(admin);
 
         delegateRoleCount = sbt.getRoleMemberCount(sbt.DELEGATE_ROLE());
         
-        console.log("delegate count: ", delegateRoleCount);
         assertEq(delegateRoleCount, 1);
         assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), sina), false);
         assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), alice), false);
     }
-    
+
+    function testTokenUriIsTypeURI() public {
+        // vm.startPrank(admin);
+        string memory _type = _addTokenType("type1");
+        sbt.mint(alice, _type);
+        // vm.stopPrank();(admin);
+        string memory tokenUri = sbt.tokenURI(1);
+        string memory typeUri = sbt.typeURI(_type);
+        emit log_named_string("token", tokenUri);
+        emit log_named_string("type", typeUri);
+        console.log("isEqual", keccak256(abi.encodePacked(tokenUri)) == keccak256(abi.encodePacked(typeUri)));
+        assertTrue(keccak256(abi.encodePacked(tokenUri)) == keccak256(abi.encodePacked(typeUri)));
+    }
+
     function testAdminMintSBToken() public {
-        vm.startPrank(admin);
-
-        sbt.mint(alice);
-
-        vm.stopPrank();(admin);
+        string memory _type = _addTokenType("type1");
+        sbt.mint(alice, _type);
 
         assertEq(sbt.balanceOf(alice), 1);
-        assertEq(sbt.ownerOf(2), alice);
-        assertEq(sbt.tokenToMinter(2), admin);
+        assertEq(sbt.ownerOf(1), alice);
+        assertEq(sbt.tokenToMinter(1), admin);
     }
     function testAdminRevokeSBToken() public {
-        vm.startPrank(admin);
-
-        sbt.mint(alice);
-
-        vm.stopPrank();(admin);
+        string memory _type = _addTokenType("type1");
+        sbt.mint(alice, _type);
 
         assertEq(sbt.balanceOf(alice), 1);
-        assertEq(sbt.ownerOf(2), alice);
-        assertEq(sbt.tokenToMinter(2), admin);
+        assertEq(sbt.ownerOf(1), alice);
+        assertEq(sbt.tokenToMinter(1), admin);
 
-        vm.startPrank(admin);
-
-        sbt.revoke(2);
-
-        vm.stopPrank();(admin);
+        sbt.revoke(1);
 
         assertEq(sbt.balanceOf(alice), 0);
-        assertEq(sbt.tokenToMinter(2), address(0));
+        assertEq(sbt.tokenToMinter(1), address(0));
     }
 
     function testDelegateMintSBToken() public {
-        vm.startPrank(admin);
         sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
-        vm.stopPrank();(admin);
         
-        vm.startPrank(sina);
-        sbt.mint(alice);
-        vm.stopPrank();(sina);
+        changePrank(sina);
+
+        string memory _type = _addTokenType("type1");
+        sbt.mint(alice, _type);
 
         assertEq(sbt.balanceOf(alice), 1);
-        assertEq(sbt.ownerOf(2), alice);
-        assertEq(sbt.tokenToMinter(2), sina);
+        assertEq(sbt.ownerOf(1), alice);
+        assertEq(sbt.tokenToMinter(1), sina);
     }
 
     function testDelegateRevokeSBToken() public {
-        vm.startPrank(admin);
         sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
-        vm.stopPrank();(admin);
         
-        vm.startPrank(sina);
-        sbt.mint(alice);
-        vm.stopPrank();(sina);
+        changePrank(sina);
+        string memory _type = _addTokenType("type1");
+        sbt.mint(alice, _type);
 
         assertEq(sbt.balanceOf(alice), 1);
-        assertEq(sbt.ownerOf(2), alice);
-        assertEq(sbt.tokenToMinter(2), sina);
+        assertEq(sbt.ownerOf(1), alice);
+        assertEq(sbt.tokenToMinter(1), sina);
 
-        vm.startPrank(sina);
-
-        sbt.revoke(2);
-
-        vm.stopPrank();(sina);
+        sbt.revoke(1);
 
         assertEq(sbt.balanceOf(alice), 0);
         assertEq(sbt.tokenToMinter(2), address(0));
     }
 
     function testCannotMintSBToken() public {
-        vm.startPrank(sina);
-        
-         vm.expectRevert(
-            "AccessControl: account 0x075edf3ae919fbef9933f666bb0a95c6b80b04ed is missing role 0x663244bfd3de81cc055674c09ade24d4646b75863d5d9dd77d1544f2eb5acc26"
+        string memory _type = _addTokenType("type1");
+        vm.stopPrank();(admin);
+        vm.expectRevert(
+            bytes(string(abi.encodePacked("AccessControl: account 0xb4c79dab8f259c7aee6e5b2aa729821864227e84 is missing role 0x663244bfd3de81cc055674c09ade24d4646b75863d5d9dd77d1544f2eb5acc26")))
         );
-        sbt.mint(alice);
-
-        vm.stopPrank();(sina);
+        
+        sbt.mint(alice, _type);
     }
     function testCannotRevokeSBToken() public {
-        vm.startPrank(admin);
-        sbt.mint(alice);
-        vm.stopPrank();(admin);
+        string memory _type = _addTokenType("type1");
+        sbt.mint(alice, _type);
 
-        vm.startPrank(sina);
+        changePrank(sina);
 
-         vm.expectRevert(
+        vm.expectRevert(
             "AccessControl: account 0x075edf3ae919fbef9933f666bb0a95c6b80b04ed is missing role 0x663244bfd3de81cc055674c09ade24d4646b75863d5d9dd77d1544f2eb5acc26"
         );
-        sbt.revoke(2);
+        sbt.revoke(1);
 
-        vm.stopPrank();(sina);
     }
 
-    function testSetTokenMetadata() public {
-        vm.startPrank(admin);
-
-        sbt.mint(alice);
+    function testUpdateTokenIdType() public {
+        string memory _type = _addTokenType("type1");
+        string memory _type2 = _addTokenType("type2");
+        
         string memory meta = string(
-            abi.encodePacked("QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw")
+            abi.encodePacked("UpdatedURI")
         );
-        sbt.setTokenMetadata(2, meta);
-        assertEq(sbt.getMetadata(2), meta);
+        sbt.updateTypeURI(_type2, meta);
+        
+        sbt.mint(alice, _type);
 
+        sbt.updateTokenIdType(1, _type2);
+
+        assertEq(sbt.tokenURI(1), meta);
+    }
+
+    function testCannotUpdateTypeURI() public {
+        string memory _type = _addTokenType("type1");
+        sbt.mint(alice, _type);
+        
         vm.stopPrank();(admin);
+
+        string memory meta = string(
+            abi.encodePacked("updatedtypeuri")
+        );
+        vm.expectRevert("AccessControl: account 0xb4c79dab8f259c7aee6e5b2aa729821864227e84 is missing role 0x0000000000000000000000000000000000000000000000000000000000000000");
+
+        sbt.updateTypeURI(_type, meta);
     }
 
-    function testCannotSetTokenMetadata() public {
-        vm.startPrank(admin);
-        sbt.mint(alice);
-        vm.stopPrank();(admin);
-
-        vm.startPrank(alice);
-
+    function testSetContractURI() public {
         string memory meta = string(
             abi.encodePacked("QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw")
         );
-        vm.expectRevert("Only the minter of a token can set their metadata.");
 
-        sbt.setTokenMetadata(2, meta);
+        sbt.setContractURI(meta);
 
-        vm.stopPrank();(alice);
+        assertEq(sbt.contractURI(), meta);
     }
 
-    function testSetSBTMetadata() public {
-        vm.startPrank(admin);
-
-        string memory meta = string(
-            abi.encodePacked("QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw")
-        );
-        sbt.setSBTMetadata(meta);
-
-        assertEq(sbt.getSBTMetadata(), meta);
-
-        vm.stopPrank();(admin);
-    }
-
-    function testCannotSetSBTMetadata() public {
-        string memory meta = string(
-            abi.encodePacked("QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw")
-        );
+    function testCannotSetContractURI() public {
+        changePrank(sina);
+        string memory meta = string("QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw");
         vm.expectRevert(
-            "AccessControl: account 0xb4c79dab8f259c7aee6e5b2aa729821864227e84 is missing role 0x0000000000000000000000000000000000000000000000000000000000000000"
+            "AccessControl: account 0x075edf3ae919fbef9933f666bb0a95c6b80b04ed is missing role 0x0000000000000000000000000000000000000000000000000000000000000000"
         );
 
-        sbt.setSBTMetadata(meta);
+        sbt.setContractURI(meta);
+    }
+
+    function testUpdateTokenType() public {
+        string memory _type = "type1";
+        sbt.createTokenType(_type, "QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw");
+
+        assertTrue(sbt.tokenTypes(_type) == true);
+        assertTrue(keccak256(abi.encodePacked((sbt.typeURI(_type)))) == keccak256(abi.encodePacked("QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw")));
+
+        sbt.updateTypeURI(_type, "qmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw");
+        assertTrue(keccak256(abi.encodePacked(sbt.typeURI(_type))) == keccak256(abi.encodePacked("qmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw")));
+    }
+
+    function _addTokenType(string memory _type) internal returns(string memory) {
+        sbt.createTokenType(_type, "QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw");
+        assertTrue(sbt.tokenTypes(_type) == true);
+        assertTrue(keccak256(abi.encodePacked((sbt.typeURI(_type)))) == keccak256(abi.encodePacked("QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw")));
+
+        return _type;
     }
 }

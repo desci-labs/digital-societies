@@ -28,9 +28,8 @@ contract SBFactoryTest is SBFactory, Test {
         string memory name = "Desci Labs";
         string memory symbol = "DSI";
         address[] memory initials = new address[](1);
-        initials[0] = admin;
         
-        address deployed = this.deployToken(name, symbol, initials);
+        address deployed = this.deployToken(name, symbol);
         sbt = SBToken(deployed);
         vm.stopPrank();(admin);
         
@@ -40,8 +39,9 @@ contract SBFactoryTest is SBFactory, Test {
 
     function testDeployedSBT() public {
         deploySBT();
-        assertEq(sbt.totalSupply(), 1);
-        assertEq(sbt.balanceOf(admin), 1);
+        assertEq(sbt.totalSupply(), 0);
+        assertEq(sbt.balanceOf(admin), 0);
+        assertEq(sbt.hasRole(sbt.DEFAULT_ADMIN_ROLE(), admin), true);
     }
 
 }

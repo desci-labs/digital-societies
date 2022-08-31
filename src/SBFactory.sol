@@ -10,12 +10,11 @@ contract SBFactory {
 
     function deployToken(
         string memory _name,
-        string memory _symbol,
-        address[] memory _initial
+        string memory _symbol
     ) external returns (address token) {
         bytes memory code = abi.encodePacked(
             type(SBToken).creationCode,
-            abi.encode(_name, _symbol, _initial, msg.sender)
+            abi.encode(_name, _symbol, msg.sender)
         );
         bytes32 salt = keccak256(abi.encodePacked(msg.sender));
         assembly {
