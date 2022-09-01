@@ -6,8 +6,6 @@ import { console } from "forge-std/console.sol";
 import "src/SBFactory.sol";
 import { Utils } from "./Utils/Utils.sol";
 
-// test emiited events
-// test token minting, transfer and burn
 contract SBFactoryTest is SBFactory, Test {
     SBToken sbt;
     Utils internal utils;
@@ -16,7 +14,7 @@ contract SBFactoryTest is SBFactory, Test {
     
     function setUp() public {
         utils = new Utils();
-        address payable[] memory users = new address payable[](1);
+        address[] memory users = new address[](1);
         users = utils.createUsers(1);
 
         admin = users[0];

@@ -17,7 +17,7 @@ contract SBTokenTest is SBFactory, Test {
 
     function setUp() public {
         utils = new Utils();
-        address payable[] memory users = new address payable[](4);
+        address[] memory users = new address[](4);
         users = utils.createUsers(4);
 
         admin = users[0];
@@ -34,13 +34,11 @@ contract SBTokenTest is SBFactory, Test {
     }
 
     function deploySBT() internal {
-        // vm.startPrank(admin);
         string memory name = "Desci Labs";
         string memory symbol = "DSI";
 
         address deployed = this.deployToken(name, symbol);
         sbt = SBToken(deployed);
-        // vm.stopPrank();(admin);
 
         assertEq(sbt.name(), name);
         assertEq(sbt.symbol(), symbol);
@@ -96,20 +94,16 @@ contract SBTokenTest is SBFactory, Test {
     }
 
     function testTokenUriIsTypeURI() public {
-        // vm.startPrank(admin);
-        string memory _type = _addTokenType("type1");
+        uint16 _type = _mintTokenType();
+        console.log("type", _type);
         sbt.mint(alice, _type);
-        // vm.stopPrank();(admin);
         string memory tokenUri = sbt.tokenURI(1);
         string memory typeUri = sbt.typeURI(_type);
-        emit log_named_string("token", tokenUri);
-        emit log_named_string("type", typeUri);
-        console.log("isEqual", keccak256(abi.encodePacked(tokenUri)) == keccak256(abi.encodePacked(typeUri)));
         assertTrue(keccak256(abi.encodePacked(tokenUri)) == keccak256(abi.encodePacked(typeUri)));
     }
 
-    function testAdminMintSBToken() public {
-        string memory _type = _addTokenType("type1");
+    function testMint() public {
+        uint16 _type = _mintTokenType();
         sbt.mint(alice, _type);
 
         assertEq(sbt.balanceOf(alice), 1);
@@ -117,7 +111,7 @@ contract SBTokenTest is SBFactory, Test {
         assertEq(sbt.tokenToMinter(1), admin);
     }
     function testAdminRevokeSBToken() public {
-        string memory _type = _addTokenType("type1");
+        uint16 _type = _mintTokenType();
         sbt.mint(alice, _type);
 
         assertEq(sbt.balanceOf(alice), 1);
@@ -130,12 +124,51 @@ contract SBTokenTest is SBFactory, Test {
         assertEq(sbt.tokenToMinter(1), address(0));
     }
 
+    function testBatchMint() public {
+        uint16 _tokenType = _mintTokenType();
+        address[] memory users = new address[](10);
+        users = utils.createUsers(10);
+
+        sbt.batchMint(users, _tokenType);
+
+        assertEq(sbt.totalSupply(), 10);
+
+        for (uint i = 0; i < users.length; i++) {
+            assertEq(sbt.balanceOf(users[i]), 1);
+            assertEq(sbt.ownerOf(i + 1), users[i]);
+            assertEq(sbt.tokenToMinter(i + 1), admin);
+        }
+    }
+
+    function testBatchRevoke() public {
+        uint16 _tokenType = _mintTokenType();
+        address[] memory users = new address[](10);
+        users = utils.createUsers(10);
+
+        sbt.batchMint(users, _tokenType);
+        uint len = sbt.totalSupply();
+
+        assertEq(users.length, len);
+        
+        uint[] memory tokens = new uint[](len);
+        for (uint i = 0; i < len; i++) {
+            tokens[i] = i + 1;
+        }
+        emit log_named_array("tokens: ", tokens);
+        sbt.batchRevoke(tokens);
+
+        for (uint i = 0; i < users.length; i++) {
+            assertEq(sbt.balanceOf(users[i]), 0);
+            assertEq(sbt.tokenToMinter(i + 1), address(0));
+        }
+    }
+
     function testDelegateMintSBToken() public {
         sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
         
         changePrank(sina);
 
-        string memory _type = _addTokenType("type1");
+        uint16 _type = _mintTokenType();
         sbt.mint(alice, _type);
 
         assertEq(sbt.balanceOf(alice), 1);
@@ -147,7 +180,7 @@ contract SBTokenTest is SBFactory, Test {
         sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
         
         changePrank(sina);
-        string memory _type = _addTokenType("type1");
+        uint16 _type = _mintTokenType();
         sbt.mint(alice, _type);
 
         assertEq(sbt.balanceOf(alice), 1);
@@ -161,7 +194,7 @@ contract SBTokenTest is SBFactory, Test {
     }
 
     function testCannotMintSBToken() public {
-        string memory _type = _addTokenType("type1");
+        uint16 _type = _mintTokenType();
         vm.stopPrank();(admin);
         vm.expectRevert(
             bytes(string(abi.encodePacked("AccessControl: account 0xb4c79dab8f259c7aee6e5b2aa729821864227e84 is missing role 0x663244bfd3de81cc055674c09ade24d4646b75863d5d9dd77d1544f2eb5acc26")))
@@ -170,7 +203,7 @@ contract SBTokenTest is SBFactory, Test {
         sbt.mint(alice, _type);
     }
     function testCannotRevokeSBToken() public {
-        string memory _type = _addTokenType("type1");
+        uint16 _type = _mintTokenType();
         sbt.mint(alice, _type);
 
         changePrank(sina);
@@ -183,8 +216,8 @@ contract SBTokenTest is SBFactory, Test {
     }
 
     function testUpdateTokenIdType() public {
-        string memory _type = _addTokenType("type1");
-        string memory _type2 = _addTokenType("type2");
+        uint16 _type = _mintTokenType();
+        uint16 _type2 = _mintTokenType();
         
         string memory meta = string(
             abi.encodePacked("UpdatedURI")
@@ -199,7 +232,7 @@ contract SBTokenTest is SBFactory, Test {
     }
 
     function testCannotUpdateTypeURI() public {
-        string memory _type = _addTokenType("type1");
+        uint16 _type = _mintTokenType();
         sbt.mint(alice, _type);
         
         vm.stopPrank();(admin);
@@ -233,21 +266,20 @@ contract SBTokenTest is SBFactory, Test {
     }
 
     function testUpdateTokenType() public {
-        string memory _type = "type1";
-        sbt.createTokenType(_type, "QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw");
-
-        assertTrue(sbt.tokenTypes(_type) == true);
-        assertTrue(keccak256(abi.encodePacked((sbt.typeURI(_type)))) == keccak256(abi.encodePacked("QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw")));
-
-        sbt.updateTypeURI(_type, "qmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw");
-        assertTrue(keccak256(abi.encodePacked(sbt.typeURI(_type))) == keccak256(abi.encodePacked("qmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw")));
+        uint16 _tokenType = _mintTokenType();
+        uint16 _tokenType2 = _mintTokenType();
+        sbt.updateTypeURI(_tokenType, "qmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw");
+        sbt.updateTypeURI(_tokenType2, "ipfshash2");
+        assertTrue(keccak256(abi.encodePacked(sbt.typeURI(_tokenType))) == keccak256(abi.encodePacked("qmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw")));
+        assertTrue(keccak256(abi.encodePacked(sbt.typeURI(_tokenType2))) == keccak256(abi.encodePacked("ipfshash2")));
     }
 
-    function _addTokenType(string memory _type) internal returns(string memory) {
-        sbt.createTokenType(_type, "QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw");
-        assertTrue(sbt.tokenTypes(_type) == true);
-        assertTrue(keccak256(abi.encodePacked((sbt.typeURI(_type)))) == keccak256(abi.encodePacked("QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw")));
+    function _mintTokenType() internal returns(uint16 _tokenType) {
+        sbt.mintTokenType("QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw");
+        _tokenType = sbt.totalTypes();
+        assertTrue(_tokenType > 0);
+        assertTrue(keccak256(abi.encodePacked((sbt.typeURI(_tokenType)))) == keccak256(abi.encodePacked("QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw")));
 
-        return _type;
+        _tokenType;
     }
 }

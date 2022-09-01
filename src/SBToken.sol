@@ -6,13 +6,10 @@ import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 import "./base64-sol/base64.sol";
 
 /**
-  TODO: version 2
-  1. map tokenType => CID
-  2. map tokenId => tokenType
-  3. gated setter for tokenType => CID
-  4. accept tokenType in mint function to set tokenId type
-  6. Gasless nft mint
- */
+  TODO: - Measure gas cost for all operations
+    **    - Optimize contract for efficiency (BatchMint & BatchRevoke?)
+    **    - 
+*/
 
 /** TOPICS FOR DISCUSSION
     - What format to use for tokenType [id -> number] | [name -> string]
@@ -20,21 +17,22 @@ import "./base64-sol/base64.sol";
 
 contract SBToken is ERC721, AccessControlEnumerable {
     uint256 public totalSupply;
+    uint16 public totalTypes;
     address private factory;
 
     string private _contractURI;
     bytes32 public constant DELEGATE_ROLE = keccak256("DELEGATES");
 
-    mapping(string => bool) public tokenTypes;
-    mapping(string => string) private typeToURI;
+    mapping(uint16 => string) private typeToURI;
     mapping(uint256 => address) public tokenToMinter;
-    mapping(uint256 => string) public tokenIdToType;
+    mapping(uint256 => uint16) public tokenIdToType;
 
     event Revoked(address revokedBy, uint256 tokenId);
-    event Mint(uint256 tokenId, string tokenType, address to, address mintedBy);
-    event TypeCreated(string name, address indexed createdBy, string uri);
-    event TypeUpdated(string name, string uri);
-    event TokenIdTypeUpdated(uint256 tokenId, string _type);
+    event BatchRevoked(address revokedBy, uint256[] tokenIds);
+    event Mint(address indexed mintedBy, address indexed to, uint256 tokenId, uint16 tokenType);
+    event TypeCreated(uint16 tokenType, address indexed createdBy, string uri);
+    event TypeUpdated(uint16 tokenType, string uri);
+    event TokenIdTypeUpdated(uint256 tokenId, uint16 _tokenType);
 
     constructor(
         string memory _name,
@@ -59,53 +57,40 @@ contract SBToken is ERC721, AccessControlEnumerable {
             super.supportsInterface(interfaceId);
     }
 
-    function createTokenType(string memory _type, string memory typeURI_)
+    function mintTokenType(string memory typeURI_)
         external
         onlyRole(DELEGATE_ROLE)
     {
-        require(tokenTypes[_type] == false, "Type already exisits");
-        require(bytes(_type).length % 4 != 0, "Invalid data");
-        require(
-            keccak256(abi.encodePacked(typeURI_)) != keccak256(""),
-            "Empty metadata URI"
-        );
-        require(
-            keccak256(abi.encodePacked(_type)) != keccak256(""),
-            "Invalid Type"
-        );
-        tokenTypes[_type] = true;
-        typeToURI[_type] = string(abi.encodePacked(typeURI_));
-        emit TypeCreated(_type, msg.sender, typeURI_);
+        totalTypes++;
+        typeToURI[totalTypes] = string(abi.encodePacked(typeURI_));
+        emit TypeCreated(totalTypes, msg.sender, typeURI_);
     }
 
     //@notice Mints a new token to the given address,
     // can only be called by admins of this SBT or the admin of the contract
-    function mint(address _to, string memory _tokenType)
+    function mint(address _to, uint16 _tokenType)
         public
         onlyRole(DELEGATE_ROLE)
     {
-        require(tokenTypes[_tokenType] == true);
-
+        require(_typeExists(_tokenType), "Invalid SB type");
         totalSupply++;
         _safeMint(_to, totalSupply);
         tokenToMinter[totalSupply] = msg.sender;
         tokenIdToType[totalSupply] = _tokenType;
-        emit Mint(totalSupply, _tokenType, _to, msg.sender);
+        emit Mint(msg.sender, _to, totalSupply, _tokenType);
     }
 
-    function batchMint(address[] memory _to, string[] memory _tokenTypes)
+    function batchMint(address[] memory _to, uint16 _tokenType)
         public
         onlyRole(DELEGATE_ROLE)
     {
-        require(_to.length == _tokenTypes.length);
-
+        require(_typeExists(_tokenType), "Invalid SB type");
         for (uint256 i = 0; i < _to.length; ) {
-            require(tokenTypes[_tokenTypes[i]] == true);
             totalSupply++;
             _safeMint(_to[i], totalSupply);
             tokenToMinter[totalSupply] = msg.sender;
-            tokenIdToType[totalSupply] = _tokenTypes[i];
-            emit Mint(totalSupply, _tokenTypes[i], _to[i], msg.sender);
+            tokenIdToType[totalSupply] = _tokenType;
+            emit Mint(msg.sender, _to[i], totalSupply, _tokenType);
 
             unchecked {
                 i++;
@@ -119,15 +104,15 @@ contract SBToken is ERC721, AccessControlEnumerable {
             "Only the owner can burn their token"
         );
         _burn(_tokenId);
-        tokenToMinter[totalSupply] = address(0);
-        tokenIdToType[_tokenId] = string("");
+        tokenToMinter[_tokenId] = address(0);
+        tokenIdToType[_tokenId] = 0;
         emit Revoked(msg.sender, _tokenId);
     }
 
     function revoke(uint256 _tokenId) external onlyRole(DELEGATE_ROLE) {
         _burn(_tokenId);
-        tokenToMinter[totalSupply] = address(0);
-        tokenIdToType[_tokenId] = "";
+        tokenToMinter[_tokenId] = address(0);
+        tokenIdToType[_tokenId] = 0;
         emit Revoked(msg.sender, _tokenId);
     }
 
@@ -137,8 +122,8 @@ contract SBToken is ERC721, AccessControlEnumerable {
     {
         for (uint256 i = 0; i < _tokenIds.length; ) {
             _burn(_tokenIds[i]);
-            tokenToMinter[totalSupply] = address(0);
-            tokenIdToType[_tokenIds[i]] = "";
+            tokenToMinter[_tokenIds[i]] = address(0);
+            tokenIdToType[_tokenIds[i]] = 0;
             emit Revoked(msg.sender, _tokenIds[i]);
 
             unchecked {
@@ -160,7 +145,7 @@ contract SBToken is ERC721, AccessControlEnumerable {
     }
 
     //@notice Function to fetch the metadata of a token
-    function typeURI(string memory _type)
+    function typeURI(uint16 _type)
         public
         view
         returns (string memory _typeURI)
@@ -169,19 +154,19 @@ contract SBToken is ERC721, AccessControlEnumerable {
     }
 
     //@notice Function to add or update metadata of a token
-    function updateTokenIdType(uint256 _tokenId, string memory _type)
-        public
+    function updateTokenIdType(uint256 _tokenId, uint16 _tokenType)
+        external
         onlyRole(DELEGATE_ROLE)
     {
+        require(_typeExists(_tokenType), "Invalid SB type");
         require(_exists(_tokenId), "FORBIDDEN: Invalid tokenId");
         // This restricts the operation to the issuer of this tokenID
         require(
             tokenToMinter[_tokenId] == msg.sender,
             "Only the minter of a token can set their metadata."
         );
-        require(tokenTypes[_type] == true, "Invalid Token type");
-        tokenIdToType[_tokenId] = _type;
-        emit TokenIdTypeUpdated(_tokenId, _type);
+        tokenIdToType[_tokenId] = _tokenType;
+        emit TokenIdTypeUpdated(_tokenId, _tokenType);
     }
 
     //@notice Function to fetch the metadata of a token
@@ -198,17 +183,17 @@ contract SBToken is ERC721, AccessControlEnumerable {
     }
 
     //@notice Function to add or update metadata of a SBT type
-    function updateTypeURI(string memory _tokenType, string memory typeURI_)
-        public
+    function updateTypeURI(uint16 _tokenType, string memory _typeURI_)
+        external
         onlyRole(DEFAULT_ADMIN_ROLE)
     {
-        require(tokenTypes[_tokenType] == true, "Invalid type");
+        require(_typeExists(_tokenType), "Invalid SB type");
         require(
-            keccak256(abi.encodePacked(typeURI_)) != keccak256(""),
+            keccak256(abi.encodePacked(_typeURI_)) != keccak256(""),
             "Empty metadata URI"
         );
-        typeToURI[_tokenType] = string(abi.encodePacked(typeURI_));
-        emit TypeUpdated(_tokenType, typeURI_);
+        typeToURI[_tokenType] = string(abi.encodePacked(_typeURI_));
+        emit TypeUpdated(_tokenType, _typeURI_);
     }
 
     //@notice a function that gets called before any token is transferred. Forces the owner to only be able to revoke the token.
@@ -221,5 +206,9 @@ contract SBToken is ERC721, AccessControlEnumerable {
             to == address(0) || from == address(0),
             "This token can only be burned"
         );
+    }
+
+    function _typeExists(uint16 _type) internal view returns(bool exists) {
+        exists = _type > 0 && _type < totalTypes + 1;
     }
 }
