@@ -5,5 +5,9 @@
   "private": true,
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "scripts": {
+    "remapping-transform": "./remap.sh",
+    "build": "npm run remapping-transform && forge build"
+  }
 }

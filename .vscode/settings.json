@@ -3,9 +3,4 @@
     "solidity.defaultCompiler": "remote",
     "solidity.packageDefaultDependenciesContractsDirectory": "apps/contracts/src",
     "solidity.packageDefaultDependenciesDirectory": "apps/contracts/lib",
-    "solidity.remappings": [
-        "forge-std/=apps/contracts/lib/forge-std/src/",
-        "@openzeppelin/=apps/contracts/lib/openzeppelin-contracts/",
-        "src/=apps/contracts/src/",
-    ]
 }
