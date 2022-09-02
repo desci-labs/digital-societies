@@ -23,3 +23,5 @@ forge test
 # run specific test (match pattern)
 forge test -m testMint
 ```
+
+Foundry Docs: https://book.getfoundry.sh/forge/writing-tests
