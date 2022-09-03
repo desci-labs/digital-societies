@@ -20,7 +20,7 @@ module.exports = {
         150: '150ms',
       },
       backgroundSize: {
-        '400p': '400%'
+        '400p': '400%',
       },
       boxShadow: {
         'dark-inset':
@@ -113,5 +113,5 @@ module.exports = {
       transform: ['hover', 'active'],
     },
   },
-  plugins: [],
+  plugins: ['tailwindcss', 'postcss-flexbugs-fixes'],
 };
