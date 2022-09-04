@@ -7,7 +7,12 @@
   "author": "",
   "license": "ISC",
   "scripts": {
+<<<<<<< HEAD
     "test": "forge test -vvvv",
     "build": "forge build"
+=======
+    "remapping-transform": "./remap.sh",
+    "build": "npm run remapping-transform && forge build"
+>>>>>>> 26caf3a4f458ef148879daa9b48015c575e3fa89
   }
 }
