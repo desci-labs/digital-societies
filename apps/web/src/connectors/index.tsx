@@ -3,7 +3,7 @@ import { configureChains } from 'wagmi';
 import { chain } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
 import { getDefaultWallets } from '@rainbow-me/rainbowkit';
-import AvaxLogo from '../avax.svg';
+import AvaxLogo from '../assets/avax.svg';
 
 const avalancheChain = {
   id: 43_114,
