@@ -1,0 +1,15 @@
+{
+  "name": "contracts",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "test": "forge test -vvvv",
+    "remapping-transform": "./remap.sh",
+    "build": "npm run remapping-transform && forge build",
+    "deploy": "./deploy.sh"
+  }
+}
