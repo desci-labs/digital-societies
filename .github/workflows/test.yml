@@ -1,7 +1,10 @@
 name: test
 
-on: workflow_dispatch
-
+on:
+  push:
+  pull_request:
+    branches:
+    - main
 env:
   FOUNDRY_PROFILE: ci
 
@@ -32,3 +35,23 @@ jobs:
         run: |
           forge test -vvv
         id: test
+
+  lint:
+    name: "Lint codebase"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Lint codebase
+        run: npm run lint
