@@ -5,5 +5,9 @@
   "private": true,
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "scripts": {
+    "test": "forge test -vvvv",
+    "build": "forge build"
+  }
 }
