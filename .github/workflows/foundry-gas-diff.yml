@@ -5,8 +5,8 @@ on:
   pull_request:
     branches:
     - main
-    # paths:
-    #   - "apps/contracts/**"
+    paths:
+      - "apps/contracts/**"
 
     # Optionally configure to run only for specific files. For example:
     # paths:
