@@ -6,14 +6,10 @@ import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 import "./base64-sol/base64.sol";
 
 /**
-  TODO: - Measure gas cost for all operations
+  TODO:
     **    - Optimize contract for efficiency (BatchMint & BatchRevoke?)
-    **    - 
 */
 
-/** TOPICS FOR DISCUSSION
-    - What format to use for tokenType [id -> number] | [name -> string]
-*/
 
 contract SBToken is ERC721, AccessControlEnumerable {
     uint256 public totalSupply;
