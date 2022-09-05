@@ -2,11 +2,12 @@ name: Report gas diff
 
 on:
   push:
+  pull_request:
     branches:
-      - main
+    - main
     # paths:
     #   - "apps/contracts/**"
-  pull_request:
+
     # Optionally configure to run only for specific files. For example:
     # paths:
     # - src/**
