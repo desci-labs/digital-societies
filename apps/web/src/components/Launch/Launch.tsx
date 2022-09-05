@@ -1,3 +1,4 @@
+import FileDropzone from 'components/FileDropzone';
 import type { NextPage } from 'next';
 import { forwardRef, HTMLProps } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -5,10 +6,12 @@ import { MetadataValues } from './types';
 
 export default function LaunchForm() {
   const { register, formState: { isSubmitting, isValid, errors } } = useFormContext<MetadataValues>();
-  console.log(errors);
+  
+  // console.log(errors);
+
   return (
     <div className="container mx-auto flex flex-col gap-5">
-      <h1 className="text-3xl font-bold mt-5 text-center">Launch org Demo</h1>
+      <h1 className="text-3xl font-bold mt-5 text-center">Launch Demo</h1>
       <div className='mx-auto flex justify-center w-400'>
         <form className='w-full'>
           <label className="block flex flex-col gap-2 items-start mt-10" htmlFor="issuer">
@@ -44,18 +47,7 @@ export default function LaunchForm() {
             />
           </label>
           <label className="block flex flex-col gap-2 items-start mt-5" htmlFor="image">
-            <LabelText text='Image:' />
-            <Input
-              id="image"
-              type='file'
-              className='appearance-none opacity-0 h-0 w-0 group'
-              {...register('image')}
-            />
-            <div className='py-1.5 px-4 w-full flex flex-col items-center rounded-xl border-2 border-cornflower-blue'>
-              <span className='block text-center my-2'>Drag and drop file</span>
-              <span className='block text-center my-2'>OR</span>
-              <span className='block text-center my-2 border-2 cursor-pointer w-72 rounded-lg hover:border-cornflower-blue'>Choose file</span>
-            </div>
+            <FileDropzone<MetadataValues> name='image' className='h-10' disabled={isSubmitting} />
           </label>
           <Button disabled={isSubmitting || !isValid} className='mt-4 w-full bg-black disabled:bg-regent-gray'>Deploy</Button>
         </form>

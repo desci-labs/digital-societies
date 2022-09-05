@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^2.9.7",
+    "react-dropzone": "^14.2.2",
     "react-hook-form": "^7.34.2",
     "yup": "^0.32.11"
   }
