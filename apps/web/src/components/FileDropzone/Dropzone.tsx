@@ -19,7 +19,9 @@ export default function Dropzone<T extends FieldValues>(props: Props<T>) {
 
   const className = `py-1.5 px-4 w-full flex flex-col items-center rounded-xl border-2  ${
     isDragActive ? "border-cornflower-blue" : ""
-    } ${props.value ? "border-cornflower-blue" : "border-regent-gray"}`;
+    } ${props.value ? "border-cornflower-blue" : "border-regent-gray"}
+      ${props.hasError ? "border-red-400" : "border-turquoise"}
+    `;
 
   return (
     <div {...getRootProps({ className })}>

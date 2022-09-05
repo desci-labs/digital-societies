@@ -4,6 +4,7 @@ export type BaseProps<T extends FieldValues> = {
   name: Path<T>;
   className?: string;
   disabled?: boolean;
+  hasError?: boolean;
 }
 
 export type FileObject = { file: File };

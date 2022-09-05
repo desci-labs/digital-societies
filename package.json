@@ -26,6 +26,7 @@
     "turbo": "^1.4.3"
   },
   "dependencies": {
+    "@hookform/error-message": "^2.0.0",
     "@hookform/resolvers": "^2.9.7",
     "react-dropzone": "^14.2.2",
     "react-hook-form": "^7.34.2",
