@@ -1,7 +1,7 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { metadataSchema, MetadataValues } from "./types";
 import { yupResolver } from "@hookform/resolvers/yup";
-import LaunchForm from "./Launch";
+import LaunchForm from "./LaunchForm";
 
 export default function Launcher() {
   const methods = useForm<MetadataValues>({
