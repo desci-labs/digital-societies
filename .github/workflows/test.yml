@@ -27,12 +27,14 @@ jobs:
 
       - name: Run Forge build
         run: |
+          cd apps/contracts
           forge --version
           forge build --sizes
         id: build
 
       - name: Run Forge tests
         run: |
+          cd apps/contracts
           forge test -vvv
         id: test
 
