@@ -1,7 +1,9 @@
-name: test
+name: main
 
 on:
   push:
+   paths:
+        - "apps/web/**"
   pull_request:
     branches:
     - main
@@ -27,14 +29,16 @@ jobs:
 
       - name: Run Forge build
         run: |
+          cd apps/contracts
           forge --version
           forge build --sizes
         id: build
 
       - name: Run Forge tests
         run: |
+          cd apps/contracts
           forge test -vvv
-        id: test
+        id: main
 
   lint:
     name: "Lint codebase"

@@ -25,7 +25,6 @@ contract SBFactoryTest is SBFactory, Test {
         vm.startPrank(admin);
         string memory name = "Desci Labs";
         string memory symbol = "DSI";
-        address[] memory initials = new address[](1);
         
         address deployed = this.deployToken(name, symbol);
         sbt = SBToken(deployed);
