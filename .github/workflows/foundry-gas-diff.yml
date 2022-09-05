@@ -2,6 +2,8 @@ name: Report gas diff
 
 on:
   push:
+    paths:
+        - "apps/contracts/**"
   pull_request:
     branches:
     - main
