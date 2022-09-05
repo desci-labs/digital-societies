@@ -1,4 +1,4 @@
-name: test
+name: main
 
 on:
   push:
@@ -36,7 +36,7 @@ jobs:
         run: |
           cd apps/contracts
           forge test -vvv
-        id: test
+        id: main
 
   lint:
     name: "Lint codebase"
