@@ -49,7 +49,7 @@ jobs:
         id: gas_diff
 
       - name: Add gas diff to sticky comment
-        if: github.event_name == 'pull_request' || github.event_name == 'pull_request_target' || github.event_name == 'push'
+        if: github.event_name == 'pull_request' || github.event_name == 'pull_request_target || github.event_name == 'push''
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           # delete the comment in case changes no longer impact gas costs
