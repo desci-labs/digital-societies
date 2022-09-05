@@ -8,8 +8,8 @@ export default function Header() {
         <Link href="/">
           <a className="font-semibold text-regent-gray text-lg hover:text-dark">Home</a>
         </Link>
-        <Link href="/profile">
-          <a className="font-semibold text-regent-gray text-lg hover:text-dark">Profile</a>
+        <Link href="/orgs/launch">
+          <a className="font-semibold text-regent-gray text-lg hover:text-dark">Launch new org</a>
         </Link>
       </div>
       <div>
