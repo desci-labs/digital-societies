@@ -6,8 +6,6 @@ import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 import "./base64-sol/base64.sol";
 
 /**
-  TODO:
-    ** Optimize contract for efficiency (BatchMint & BatchRevoke?)
 */
 
 
