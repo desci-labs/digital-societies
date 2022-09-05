@@ -7,7 +7,7 @@ import "./base64-sol/base64.sol";
 
 /**
   TODO:
-    ** - Optimize contract for efficiency (BatchMint & BatchRevoke?)
+    ** Optimize contract for efficiency (BatchMint & BatchRevoke?)
 */
 
 
