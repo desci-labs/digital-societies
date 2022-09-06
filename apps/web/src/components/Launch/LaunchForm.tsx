@@ -4,7 +4,6 @@ import { useFormContext } from "react-hook-form";
 import { MetadataValues } from "./types";
 import { ErrorMessage } from "@hookform/error-message";
 import useLaunch from "./useLaunch";
-import Image from "next/image";
 
 export default function LaunchForm() {
   const {
@@ -19,7 +18,6 @@ export default function LaunchForm() {
       <h1 className="text-3xl font-bold mt-5 text-center">Launch Demo</h1>
       <div className="mx-auto flex justify-center w-400">
         <form className="w-full" onSubmit={handleSubmit(launch)}>
-        <Image src="https://ipfs.io/ipfs/QmYvJrkZxQjfxgVbkPtAep1whTMrM2nVhW6VAaBLQ2qvoZ" width={100} height={100} />
           <InputRow
             htmlFor="issuer"
             label="Issuer:"

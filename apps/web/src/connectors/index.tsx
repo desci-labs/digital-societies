@@ -3,31 +3,31 @@ import { configureChains } from 'wagmi';
 import { chain } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
 import { getDefaultWallets } from '@rainbow-me/rainbowkit';
-import AvaxLogo from '../assets/avax.svg';
+import AvaxLogo from 'pages/../assets/avax.svg';
 
-const avalancheChain = {
-  id: 43_114,
-  name: 'Avalanche',
-  network: 'avalanche',
+const gorliChain = {
+  id: 5,
+  name: 'Görli',
+  network: 'görli',
   iconUrl: AvaxLogo,
   iconBackground: '#fff',
   nativeCurrency: {
     decimals: 18,
-    name: 'Avalanche',
-    symbol: 'AVAX'
+    name: 'Ether',
+    symbol: 'ETH'
   },
   rpcUrls: {
-    default: 'https://api.avax.network/ext/bc/C/rpc'
+    default: 'https://rpc.ankr.com/eth_goerli	'
   },
   blockExplorers: {
-    default: { name: 'SnowTrace', url: 'https://snowtrace.io' },
-    etherscan: { name: 'SnowTrace', url: 'https://snowtrace.io' }
+    default: { name: 'Etherscan', url: 'https://goerli.etherscan.io/' },
+    etherscan: { name: 'Etherscan', url: 'https://goerli.etherscan.io/' }
   },
-  testnet: false
+  testnet: true
 };
 
 export const { chains, provider } = configureChains(
-  [avalancheChain, chain.mainnet, chain.arbitrum, chain.polygon, chain.rinkeby],
+  [gorliChain, chain.mainnet, chain.arbitrum, chain.polygon, chain.rinkeby],
   [publicProvider()]
 );
 

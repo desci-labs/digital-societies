@@ -1,13 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import formidable, { Fields, File, Files } from "formidable";
 import pinataSDK, { PinataPinResponse } from "@pinata/sdk";
-import fs from 'fs';
+import fs from "fs";
 
-const pinata = pinataSDK(process.env.PINATA_API_KEY!, process.env.PINATA_SECRET_KEY!);
+const pinata = pinataSDK(
+  process.env.PINATA_API_KEY!,
+  process.env.PINATA_SECRET_KEY!
+);
 
-type IResponse =
-  | PinataPinResponse
-  | { status: string; message: string };
+type IResponse = PinataPinResponse | { status: string; message: string };
 
 export const config = {
   api: {
@@ -19,16 +20,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse<IResponse>) {
   let responseBody: IResponse = { IpfsHash: "", PinSize: 0, Timestamp: "" },
     status = 200;
 
-  const result = await new Promise<{files: Files, fields: Fields } | undefined>((resolve, reject) => {
+  const result = await new Promise<
+    { files: Files; fields: Fields } | undefined
+  >((resolve, reject) => {
     const form = new formidable.IncomingForm({
       multiples: false,
-      uploadDir: './',
+      uploadDir: "./",
       keepExtensions: true,
     });
 
     form.parse(req, (err, fields, files) => {
       if (err) reject(err);
-      if (files) resolve({ fields, files});
+      if (files) resolve({ fields, files });
     });
   }).catch((e) => {
     status = 500;
@@ -39,12 +42,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse<IResponse>) {
   });
 
   let filepath: string = "";
-  
+
   try {
     const filename = result?.fields.name;
     filepath = (result?.files?.[`${filename}`] as File).filepath;
     const readableStreamForFile = fs.createReadStream(filepath!);
-    const pinned = await pinata.pinFileToIPFS(readableStreamForFile, { });
+    const pinned = await pinata.pinFileToIPFS(readableStreamForFile, {});
     return res.status(status).json(pinned);
   } catch (e) {
     status = 500;
@@ -56,7 +59,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<IResponse>) {
   } finally {
     await fs.unlinkSync(filepath);
   }
-
 }
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
