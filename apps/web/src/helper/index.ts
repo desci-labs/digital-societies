@@ -1,0 +1,1 @@
+export const resolveIpfsURL = (hash: string) => `https://gateway.pinata.cloud/ipfs/${hash}`

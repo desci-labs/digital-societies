@@ -51,7 +51,7 @@ function DropzoneInner({
           </span>
         </div>
       ) : (
-        <span className="block text-center my-3">{value.file.name}</span>
+        <span className="block text-center my-3">{value.name}</span>
       )}
     </label>
   );

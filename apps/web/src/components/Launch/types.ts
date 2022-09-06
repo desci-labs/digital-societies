@@ -5,8 +5,15 @@ export interface MetadataValues {
   name: string;
   description: string;
   external_link: string;
-  image: string;
+  image: FileObject;
 }
+
+export type Metadata = MetadataValues & { image: string }
+export type IResponse = {
+  IpfsHash: string;
+  PinSize: number;
+  Timestamp: string;
+};
 
 const VALID_MIME_TYPES = ["image/jpeg", "image/png", "image/webp"];
 

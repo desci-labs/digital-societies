@@ -21,6 +21,7 @@
     "deploy": "turbo run deploy"
   },
   "devDependencies": {
+    "@types/formidable": "^2.0.5",
     "eslint": "^8.4.1",
     "prettier": "^2.5.1",
     "turbo": "^1.4.3"
@@ -28,6 +29,8 @@
   "dependencies": {
     "@hookform/error-message": "^2.0.0",
     "@hookform/resolvers": "^2.9.7",
+    "@pinata/sdk": "^1.1.26",
+    "formidable": "^2.0.1",
     "react-dropzone": "^14.2.2",
     "react-hook-form": "^7.34.2",
     "yup": "^0.32.11"

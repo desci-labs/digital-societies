@@ -10,7 +10,7 @@ export default function Launcher() {
     defaultValues: {
       name: "Ethereum foundation",
       description: "2022 Merge Contributor",
-      image: "",
+      image: {},
       external_link: "https://ethereum.org",
     },
     resolver: yupResolver(metadataSchema),

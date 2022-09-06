@@ -7,4 +7,4 @@ export type BaseProps<T extends FieldValues> = {
   hasError?: boolean;
 }
 
-export type FileObject = { file: File };
+export type FileObject = { file: File, name: string } & { ipfsHash: string };
