@@ -1,13 +1,13 @@
 import '@rainbow-me/rainbowkit/styles.css';
 import { WagmiConfig } from 'wagmi';
-import { darkTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { chains, client } from '../connectors';
 import { PropsWithChildren } from 'react';
 
 function AppProviders({ children }: PropsWithChildren<unknown>) {
   return (
     <WagmiConfig client={client}>
-      <RainbowKitProvider chains={chains} theme={darkTheme()}>
+      <RainbowKitProvider chains={chains}>
         {children}
       </RainbowKitProvider>
     </WagmiConfig>
