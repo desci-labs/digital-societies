@@ -35,6 +35,16 @@ export default function LaunchForm() {
             />
           </InputRow>
           <InputRow
+            htmlFor="symbol"
+            label="symbol:"
+          >
+            <Input
+              id="symbol"
+              placeholder="Organisation symbol (e.g ETF)"
+              {...register("symbol")}
+            />
+          </InputRow>
+          <InputRow
             htmlFor="description"
             label="Description:"
           >
@@ -123,5 +133,5 @@ const Input = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>(
 );
 
 function LabelText({ text }: { text: string }) {
-  return <span className="text-lg cursor-pointer font-semibold">{text}</span>;
+  return <span className="text-lg cursor-pointer font-semibold capitalize">{text}</span>;
 }

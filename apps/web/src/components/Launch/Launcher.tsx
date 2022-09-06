@@ -9,6 +9,7 @@ export default function Launcher() {
     mode: "onChange",
     defaultValues: {
       name: "Ethereum foundation",
+      symbol: 'ETF',
       description: "2022 Merge Contributor",
       image: {},
       external_link: "https://ethereum.org",

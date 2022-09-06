@@ -1,3 +1,4 @@
+import Launcher from 'components/Launch/Launcher';
 import Header from 'layout/Header';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -14,7 +15,7 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Signature />
+      <Launcher />
     </div>
   );
 };
