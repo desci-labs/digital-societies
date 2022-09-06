@@ -16,6 +16,7 @@ contract SBFactory {
             type(SBToken).creationCode,
             abi.encode(_name, _symbol, msg.sender)
         );
+        // NOTE: this prevents same address from deploying same contract(name,symbol)
         bytes32 salt = keccak256(abi.encodePacked(msg.sender));
         assembly {
             token := create2(0, add(code, 0x20), mload(code), salt)

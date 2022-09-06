@@ -3,8 +3,8 @@ import { createContext, useContext, useState } from "react";
 export type ActionTypes = "DeploySBT" | "UpdateSBT" | "IssueSBT";
 
 export interface Tx {
-  txInfo: any;
-  type: ActionTypes | "none";
+  txInfo?: any;
+  type?: ActionTypes | "none";
   message?: string;
 }
 const initialState: Tx = { txInfo: null, type: 'none' };

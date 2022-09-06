@@ -11,7 +11,7 @@ export default function LaunchForm() {
     handleSubmit,
     formState: { isSubmitting, isValid, errors },
   } = useFormContext<MetadataValues>();
-  const launch = useLaunch();
+  const {launch} = useLaunch();
   
   return (
     <div className="container mx-auto flex flex-col gap-5">
