@@ -1,28 +1,37 @@
 import FileDropzone from "components/FileDropzone";
-import { forwardRef, HTMLProps, PropsWithChildren } from "react";
+import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { MetadataValues } from "./types";
 import { ErrorMessage } from "@hookform/error-message";
 import useLaunch from "./useLaunch";
+import { Button, Input, InputRow } from "components/Form/Index";
 
 export default function LaunchForm() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { isSubmitting, isValid, errors },
   } = useFormContext<MetadataValues>();
-  const {launch} = useLaunch();
-  
+  const { launch, isLoading, isSuccess } = useLaunch();
+
+  const canDisable = useMemo(() => isSubmitting || isLoading, [isSubmitting, isLoading])
+
+  useEffect(() => {
+    if (isSuccess) reset();
+  }, [isSuccess]);
+
+
   return (
-    <div className="container mx-auto flex flex-col gap-5">
-      <h1 className="text-3xl font-bold mt-5 text-center">Launch Demo</h1>
+    <div className="container mx-auto flex flex-col gap-5 border border-black py-8 max-w-500">
+      <h1 className="text-3xl font-bold mt-5 text-center">Launch Organisation</h1>
       <div className="mx-auto flex justify-center w-400">
         <form className="w-full" onSubmit={handleSubmit(launch)}>
           <InputRow
             htmlFor="issuer"
             label="Issuer:"
           >
-            <Input id="issuer" value="descilabs.eth" disabled />
+            <Input id="issuer" disabled {...register('issuer')} />
           </InputRow>
           <InputRow
             htmlFor="name"
@@ -73,12 +82,12 @@ export default function LaunchForm() {
             <FileDropzone<MetadataValues>
               name="image"
               className="h-10"
-              disabled={isSubmitting}
+              disabled={canDisable}
               hasError={!!errors.image}
             />
           </InputRow>
           <Button
-            disabled={isSubmitting || !isValid}
+            disabled={canDisable || !isValid}
             className="mt-4 w-full bg-black disabled:bg-regent-gray"
           >
             Deploy
@@ -87,51 +96,4 @@ export default function LaunchForm() {
       </div>
     </div>
   );
-}
-
-type InputRowProps = PropsWithChildren<{ htmlFor: string; label?: string; className?: string }>;
-
-function InputRow(props: InputRowProps) {
-  return (
-    <label
-      className={`block flex flex-col gap-2 items-start mt-5 ${
-        props.className ?? ""
-      }`}
-      htmlFor={props.htmlFor}
-    >
-      {props.label && <LabelText text={props.label} />}
-      {props.children}
-    </label>
-  );
-}
-
-function Button(props: HTMLProps<HTMLButtonElement>) {
-  return (
-    <button
-      onClick={props.onClick}
-      disabled={props.disabled}
-      className={`tracking-wide text-lg text-white rounded-lg w-32 py-1.5 px-4 enabled:bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 outline-none hover:bg-400p hover:animate-gradient ${
-        props.className ?? props.className
-      } `}
-    >
-      {props.children}
-    </button>
-  );
-}
-
-const Input = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>(
-  (props, ref) => {
-    return (
-      <input
-        ref={ref}
-        type="text"
-        className="py-1.5 px-4 w-full rounded-xl border-2 focus:border-cornflower-blue my-1 outline-none"
-        {...props}
-      />
-    );
-  }
-);
-
-function LabelText({ text }: { text: string }) {
-  return <span className="text-lg cursor-pointer font-semibold capitalize">{text}</span>;
 }

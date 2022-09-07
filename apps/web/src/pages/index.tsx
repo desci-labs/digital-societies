@@ -1,8 +1,5 @@
-import Launcher from 'components/Launch/Launcher';
-import Header from 'layout/Header';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Signature from './Signature';
 
 const Home: NextPage = () => {
   return (
@@ -15,7 +12,7 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Launcher />
+      <h1 className='text-center text-3xl'>View list of SBTs</h1>
     </div>
   );
 };

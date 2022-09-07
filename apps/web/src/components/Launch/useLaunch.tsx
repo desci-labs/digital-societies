@@ -56,6 +56,5 @@ export default function useLaunch() {
     }
 
   }
-  console.log(data, isLoading, isSuccess);
   return { launch, isLoading, isSuccess };
 }

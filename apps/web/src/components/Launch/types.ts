@@ -3,6 +3,7 @@ import * as Yup from "yup";
 
 export interface MetadataValues {
   name: string;
+  issuer: string;
   symbol: string;
   description: string;
   external_link: string;
