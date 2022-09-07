@@ -20,7 +20,7 @@ export function Button(props: HTMLProps<HTMLButtonElement>) {
     <button
       onClick={props.onClick}
       disabled={props.disabled}
-      className={`tracking-wide text-lg text-white rounded-lg w-32 py-1.5 px-4 enabled:bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 outline-none hover:bg-400p hover:animate-gradient ${props.className ?? props.className
+      className={`tracking-wide text-lg text-white rounded-lg py-1.5 px-4 enabled:bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 outline-none hover:bg-400p hover:animate-gradient ${props.className ?? props.className
         } `}
     >
       {props.children}

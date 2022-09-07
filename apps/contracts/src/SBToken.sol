@@ -3,10 +3,6 @@ pragma solidity >=0.8.0 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
-import "./base64-sol/base64.sol";
-
-/**
- */
 
 contract SBToken is ERC721, AccessControlEnumerable {
     uint256 public totalSupply;
@@ -56,7 +52,7 @@ contract SBToken is ERC721, AccessControlEnumerable {
             super.supportsInterface(interfaceId);
     }
 
-    function mintTokenType(bytes memory typeURI_)
+    function mintTokenType(bytes calldata typeURI_)
         external
         onlyRole(DELEGATE_ROLE)
     {
@@ -160,7 +156,7 @@ contract SBToken is ERC721, AccessControlEnumerable {
     }
 
     //@notice Function to add or update contract metadata
-    function setContractURI(bytes memory contractURI_)
+    function setContractURI(bytes calldata contractURI_)
         public
         onlyRole(DEFAULT_ADMIN_ROLE)
     {
@@ -168,7 +164,7 @@ contract SBToken is ERC721, AccessControlEnumerable {
     }
 
     //@notice Function to add or update metadata of a SBT type
-    function updateTypeURI(uint16 _tokenType, bytes memory _typeURI_)
+    function updateTypeURI(uint16 _tokenType, bytes calldata _typeURI_)
         external
         onlyRole(DEFAULT_ADMIN_ROLE)
     {

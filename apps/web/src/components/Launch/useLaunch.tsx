@@ -4,6 +4,7 @@ import Error from "components/ModalViews/Error";
 import Processing from "components/ModalViews/Processing";
 import Success from "components/ModalViews/Success";
 import { useSetTx } from "context/useTx";
+import { getBytesFromCIDString } from "helper";
 import { useFactoryContract } from "hooks/useContract";
 import { useContractWrite } from "wagmi";
 import { MetadataValues } from "./types";
@@ -12,7 +13,7 @@ export default function useLaunch() {
   const { showModal } = useSetModal();
   const { setTx, reset } = useSetTx();
   const factoryContract = useFactoryContract();
-  const { data, isLoading, isSuccess, writeAsync } = useContractWrite({
+  const { isLoading, isSuccess, writeAsync } = useContractWrite({
     mode: "recklesslyUnprepared",
     addressOrName: factoryContract.address!,
     contractInterface: factoryContract.interface!,
@@ -33,19 +34,18 @@ export default function useLaunch() {
         body: formdata,
       });
       const pinnedImageResponse = (await res.json()) as PinataPinResponse;
-      // console.log(pinnedImageResponse);
-
+      
       const meta = { ...metadata, image: pinnedImageResponse.IpfsHash };
       const metaRes = await fetch("/api/pinJsonToIpfs", {
         method: "POST",
         body: JSON.stringify(meta),
       });
       const pinnedMetadataRes = (await metaRes.json()) as PinataPinResponse;
-      // console.log(pinnedMetadataRes);
+      const metadataHex = getBytesFromCIDString(pinnedMetadataRes.IpfsHash)
 
       showModal(Processing, { message: 'Confirming transaction...' })
       const tx = await writeAsync({
-        recklesslySetUnpreparedArgs: [metadata.name, metadata.symbol],
+        recklesslySetUnpreparedArgs: [metadata.name, metadata.symbol, metadataHex],
       });
       setTx({ txInfo: tx, message: 'Processing transaction' })
       await tx.wait();
