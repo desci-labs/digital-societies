@@ -15,6 +15,8 @@ contract SBTokenTest is SBFactory, Test {
     address internal sina;
     address internal bob;
 
+    bytes public ipfsHash = bytes("QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw");
+
     function setUp() public {
         utils = new Utils();
         address[] memory users = new address[](4);
@@ -37,7 +39,7 @@ contract SBTokenTest is SBFactory, Test {
         string memory name = "Desci Labs";
         string memory symbol = "DSI";
 
-        address deployed = this.deployToken(name, symbol);
+        address deployed = this.deployToken(name, symbol, ipfsHash);
         sbt = SBToken(deployed);
 
         assertEq(sbt.name(), name);
@@ -97,8 +99,8 @@ contract SBTokenTest is SBFactory, Test {
         uint16 _type = _mintTokenType();
         console.log("type", _type);
         sbt.mint(alice, _type);
-        string memory tokenUri = sbt.tokenURI(1);
-        string memory typeUri = sbt.typeURI(_type);
+        bytes memory tokenUri = sbt.tokenCID(1);
+        bytes memory typeUri = sbt.typeURI(_type);
         assertTrue(keccak256(abi.encodePacked(tokenUri)) == keccak256(abi.encodePacked(typeUri)));
     }
 
@@ -218,17 +220,29 @@ contract SBTokenTest is SBFactory, Test {
     function testUpdateTokenIdType() public {
         uint16 _type = _mintTokenType();
         uint16 _type2 = _mintTokenType();
-        
-        string memory meta = string(
-            abi.encodePacked("UpdatedURI")
-        );
+        assertEq(keccak256(abi.encodePacked(sbt.typeURI(_type))), keccak256(abi.encodePacked(ipfsHash)));
+
+        bytes memory meta = bytes("UpdatedURI");
         sbt.updateTypeURI(_type2, meta);
         
-        sbt.mint(alice, _type);
-
+        sbt.mint(alice, _type2);
         sbt.updateTokenIdType(1, _type2);
 
-        assertEq(sbt.tokenURI(1), meta);
+        assertEq(keccak256(abi.encodePacked(sbt.tokenCID(1))) , keccak256(abi.encodePacked(meta)));
+    }
+    function testCannotUpdateInvalidTokenType() public {
+        // _mintTokenType();
+        
+        // Try to update a non-existent type
+        vm.expectRevert("Invalid SB type");
+        sbt.updateTokenIdType(1, 2);
+    }
+    function testCannotUpdateInvalidTokenIdType() public {
+        uint16 _type = _mintTokenType();
+        
+        // Try to update a non-existent type
+        vm.expectRevert("FORBIDDEN: Invalid tokenId");
+        sbt.updateTokenIdType(2, _type);
     }
 
     function testCannotUpdateTypeURI() public {
@@ -237,48 +251,48 @@ contract SBTokenTest is SBFactory, Test {
         
         vm.stopPrank();(admin);
 
-        string memory meta = string(
-            abi.encodePacked("updatedtypeuri")
-        );
         vm.expectRevert("AccessControl: account 0xb4c79dab8f259c7aee6e5b2aa729821864227e84 is missing role 0x0000000000000000000000000000000000000000000000000000000000000000");
 
-        sbt.updateTypeURI(_type, meta);
+        sbt.updateTypeURI(_type, ipfsHash);
+    }
+    function testCannotSetInvalidTypeURI() public {
+        uint16 _type = _mintTokenType();
+        sbt.mint(alice, _type);
+        
+        vm.expectRevert("Invalid typeURI");
+        sbt.updateTypeURI(_type, bytes(""));
     }
 
     function testSetContractURI() public {
-        string memory meta = string(
-            abi.encodePacked("QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw")
-        );
+        // bytes memory meta = bytes("QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw");
 
-        sbt.setContractURI(meta);
+        sbt.setContractURI(ipfsHash);
 
-        assertEq(sbt.contractURI(), meta);
+        assertEq(sbt.contractURI(), ipfsHash);
     }
 
     function testCannotSetContractURI() public {
         changePrank(sina);
-        string memory meta = string("QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw");
         vm.expectRevert(
             "AccessControl: account 0x075edf3ae919fbef9933f666bb0a95c6b80b04ed is missing role 0x0000000000000000000000000000000000000000000000000000000000000000"
         );
 
-        sbt.setContractURI(meta);
+        sbt.setContractURI(ipfsHash);
     }
 
     function testUpdateTokenType() public {
         uint16 _tokenType = _mintTokenType();
         uint16 _tokenType2 = _mintTokenType();
-        sbt.updateTypeURI(_tokenType, "qmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw");
         sbt.updateTypeURI(_tokenType2, "ipfshash2");
-        assertTrue(keccak256(abi.encodePacked(sbt.typeURI(_tokenType))) == keccak256(abi.encodePacked("qmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw")));
+        assertTrue(keccak256(abi.encodePacked(sbt.typeURI(_tokenType))) == keccak256(abi.encodePacked(ipfsHash)));
         assertTrue(keccak256(abi.encodePacked(sbt.typeURI(_tokenType2))) == keccak256(abi.encodePacked("ipfshash2")));
     }
 
     function _mintTokenType() internal returns(uint16 _tokenType) {
-        sbt.mintTokenType("QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw");
+        sbt.mintTokenType(ipfsHash);
         _tokenType = sbt.totalTypes();
         assertTrue(_tokenType > 0);
-        assertTrue(keccak256(abi.encodePacked((sbt.typeURI(_tokenType)))) == keccak256(abi.encodePacked("QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw")));
+        assertTrue(keccak256(abi.encodePacked((sbt.typeURI(_tokenType)))) == keccak256(abi.encodePacked(ipfsHash)));
 
         _tokenType;
     }

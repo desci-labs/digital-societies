@@ -2,16 +2,16 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
-import { console } from "forge-std/console.sol";
+import {console} from "forge-std/console.sol";
 import "src/SBFactory.sol";
-import { Utils } from "./Utils/Utils.sol";
+import {Utils} from "./Utils/Utils.sol";
 
 contract SBFactoryTest is SBFactory, Test {
     SBToken sbt;
     Utils internal utils;
-    
+
     address internal admin;
-    
+
     function setUp() public {
         utils = new Utils();
         address[] memory users = new address[](1);
@@ -19,17 +19,20 @@ contract SBFactoryTest is SBFactory, Test {
 
         admin = users[0];
         vm.label(admin, "Admin");
+        vm.startPrank(admin);
     }
 
     function deploySBT() internal {
-        vm.startPrank(admin);
         string memory name = "Desci Labs";
         string memory symbol = "DSI";
-        
-        address deployed = this.deployToken(name, symbol);
+
+        address deployed = this.deployToken(
+            name,
+            symbol,
+            bytes("qmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw")
+        );
         sbt = SBToken(deployed);
-        vm.stopPrank();(admin);
-        
+
         assertEq(sbt.name(), name);
         assertEq(sbt.symbol(), symbol);
     }
@@ -39,6 +42,6 @@ contract SBFactoryTest is SBFactory, Test {
         assertEq(sbt.totalSupply(), 0);
         assertEq(sbt.balanceOf(admin), 0);
         assertEq(sbt.hasRole(sbt.DEFAULT_ADMIN_ROLE(), admin), true);
+        assertEq(sbt.contractURI(), bytes("qmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw"));
     }
-
 }

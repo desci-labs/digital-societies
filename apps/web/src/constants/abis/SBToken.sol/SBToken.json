@@ -13,6 +13,11 @@
           "type": "string"
         },
         {
+          "internalType": "bytes",
+          "name": "_metadata",
+          "type": "bytes"
+        },
+        {
           "internalType": "address",
           "name": "_admin",
           "type": "address"
@@ -276,9 +281,9 @@
         },
         {
           "indexed": false,
-          "internalType": "string",
+          "internalType": "bytes",
           "name": "uri",
-          "type": "string"
+          "type": "bytes"
         }
       ],
       "name": "TypeCreated",
@@ -295,9 +300,9 @@
         },
         {
           "indexed": false,
-          "internalType": "string",
+          "internalType": "bytes",
           "name": "uri",
-          "type": "string"
+          "type": "bytes"
         }
       ],
       "name": "TypeUpdated",
@@ -415,9 +420,9 @@
       "name": "contractURI",
       "outputs": [
         {
-          "internalType": "string",
-          "name": "metadata",
-          "type": "string"
+          "internalType": "bytes",
+          "name": "",
+          "type": "bytes"
         }
       ],
       "stateMutability": "view",
@@ -591,9 +596,9 @@
     {
       "inputs": [
         {
-          "internalType": "string",
+          "internalType": "bytes",
           "name": "typeURI_",
-          "type": "string"
+          "type": "bytes"
         }
       ],
       "name": "mintTokenType",
@@ -754,9 +759,9 @@
     {
       "inputs": [
         {
-          "internalType": "string",
+          "internalType": "bytes",
           "name": "contractURI_",
-          "type": "string"
+          "type": "bytes"
         }
       ],
       "name": "setContractURI",
@@ -791,6 +796,25 @@
           "internalType": "string",
           "name": "",
           "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "tokenCID",
+      "outputs": [
+        {
+          "internalType": "bytes",
+          "name": "",
+          "type": "bytes"
         }
       ],
       "stateMutability": "view",
@@ -838,7 +862,7 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "_tokenId",
+          "name": "tokenId",
           "type": "uint256"
         }
       ],
@@ -846,7 +870,7 @@
       "outputs": [
         {
           "internalType": "string",
-          "name": "_tokenURI",
+          "name": "",
           "type": "string"
         }
       ],
@@ -913,9 +937,9 @@
       "name": "typeURI",
       "outputs": [
         {
-          "internalType": "string",
-          "name": "_typeURI",
-          "type": "string"
+          "internalType": "bytes",
+          "name": "",
+          "type": "bytes"
         }
       ],
       "stateMutability": "view",
@@ -947,9 +971,9 @@
           "type": "uint16"
         },
         {
-          "internalType": "string",
+          "internalType": "bytes",
           "name": "_typeURI_",
-          "type": "string"
+          "type": "bytes"
         }
       ],
       "name": "updateTypeURI",

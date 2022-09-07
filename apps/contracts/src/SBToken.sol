@@ -6,35 +6,40 @@ import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 import "./base64-sol/base64.sol";
 
 /**
-*/
-
+ */
 
 contract SBToken is ERC721, AccessControlEnumerable {
     uint256 public totalSupply;
     uint16 public totalTypes;
     address private factory;
 
-    string private _contractURI;
+    bytes private _contractURI;
     bytes32 public constant DELEGATE_ROLE = keccak256("DELEGATES");
 
-    mapping(uint16 => string) private typeToURI;
+    mapping(uint16 => bytes) private typeToURI;
     mapping(uint256 => address) public tokenToMinter;
     mapping(uint256 => uint16) public tokenIdToType;
 
     event Revoked(address revokedBy, uint256 tokenId);
     event BatchRevoked(address revokedBy, uint256[] tokenIds);
-    event Mint(address indexed mintedBy, address indexed to, uint256 tokenId, uint16 tokenType);
-    event TypeCreated(uint16 tokenType, address indexed createdBy, string uri);
-    event TypeUpdated(uint16 tokenType, string uri);
+    event Mint(
+        address indexed mintedBy,
+        address indexed to,
+        uint256 tokenId,
+        uint16 tokenType
+    );
+    event TypeCreated(uint16 tokenType, address indexed createdBy, bytes uri);
+    event TypeUpdated(uint16 tokenType, bytes uri);
     event TokenIdTypeUpdated(uint256 tokenId, uint16 _tokenType);
 
     constructor(
         string memory _name,
         string memory _symbol,
+        bytes memory _metadata,
         address _admin
     ) ERC721(_name, _symbol) {
         factory = msg.sender;
-
+        _contractURI = _metadata;
         _setRoleAdmin(DELEGATE_ROLE, DEFAULT_ADMIN_ROLE);
         _grantRole(DELEGATE_ROLE, _admin);
         _grantRole(DEFAULT_ADMIN_ROLE, _admin);
@@ -51,12 +56,13 @@ contract SBToken is ERC721, AccessControlEnumerable {
             super.supportsInterface(interfaceId);
     }
 
-    function mintTokenType(string memory typeURI_)
+    function mintTokenType(bytes memory typeURI_)
         external
         onlyRole(DELEGATE_ROLE)
     {
+        require(typeURI_.length > 0, "Invalid typeURI");
         totalTypes++;
-        typeToURI[totalTypes] = string(abi.encodePacked(typeURI_));
+        typeToURI[totalTypes] = typeURI_;
         emit TypeCreated(totalTypes, msg.sender, typeURI_);
     }
 
@@ -127,24 +133,13 @@ contract SBToken is ERC721, AccessControlEnumerable {
     }
 
     //@notice Function to fetch the metadata of a token
-    function tokenURI(uint256 _tokenId)
-        public
-        view
-        override
-        returns (string memory _tokenURI)
-    {
-        _tokenURI = string(
-            abi.encodePacked(typeToURI[tokenIdToType[_tokenId]])
-        );
+    function tokenCID(uint256 _tokenId) public view returns (bytes memory) {
+        return typeToURI[tokenIdToType[_tokenId]];
     }
 
     //@notice Function to fetch the metadata of a token
-    function typeURI(uint16 _type)
-        public
-        view
-        returns (string memory _typeURI)
-    {
-        _typeURI = string(abi.encodePacked(typeToURI[_type]));
+    function typeURI(uint16 _type) public view returns (bytes memory) {
+        return typeToURI[_type];
     }
 
     //@notice Function to add or update metadata of a token
@@ -154,39 +149,32 @@ contract SBToken is ERC721, AccessControlEnumerable {
     {
         require(_typeExists(_tokenType), "Invalid SB type");
         require(_exists(_tokenId), "FORBIDDEN: Invalid tokenId");
-        // This restricts the operation to the issuer of this tokenID
-        require(
-            tokenToMinter[_tokenId] == msg.sender,
-            "Only the minter of a token can set their metadata."
-        );
+        
         tokenIdToType[_tokenId] = _tokenType;
         emit TokenIdTypeUpdated(_tokenId, _tokenType);
     }
 
     //@notice Function to fetch the metadata of a token
-    function contractURI() public view returns (string memory metadata) {
-        metadata = string(abi.encodePacked(_contractURI));
+    function contractURI() public view returns (bytes memory) {
+        return _contractURI;
     }
 
     //@notice Function to add or update contract metadata
-    function setContractURI(string memory contractURI_)
+    function setContractURI(bytes memory contractURI_)
         public
         onlyRole(DEFAULT_ADMIN_ROLE)
     {
-        _contractURI = string(abi.encodePacked(contractURI_));
+        _contractURI = contractURI_; //  string(abi.encodePacked(contractURI_));
     }
 
     //@notice Function to add or update metadata of a SBT type
-    function updateTypeURI(uint16 _tokenType, string memory _typeURI_)
+    function updateTypeURI(uint16 _tokenType, bytes memory _typeURI_)
         external
         onlyRole(DEFAULT_ADMIN_ROLE)
     {
         require(_typeExists(_tokenType), "Invalid SB type");
-        require(
-            keccak256(abi.encodePacked(_typeURI_)) != keccak256(""),
-            "Empty metadata URI"
-        );
-        typeToURI[_tokenType] = string(abi.encodePacked(_typeURI_));
+        require(_typeURI_.length > 0, "Invalid typeURI");
+        typeToURI[_tokenType] = _typeURI_;
         emit TypeUpdated(_tokenType, _typeURI_);
     }
 
@@ -202,7 +190,7 @@ contract SBToken is ERC721, AccessControlEnumerable {
         );
     }
 
-    function _typeExists(uint16 _type) internal view returns(bool exists) {
+    function _typeExists(uint16 _type) internal view returns (bool exists) {
         exists = _type > 0 && _type < totalTypes + 1;
     }
 }

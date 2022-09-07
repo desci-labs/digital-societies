@@ -30,6 +30,11 @@
           "internalType": "string",
           "name": "_symbol",
           "type": "string"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_metadata",
+          "type": "bytes"
         }
       ],
       "name": "deployToken",

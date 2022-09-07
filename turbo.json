@@ -25,6 +25,9 @@
     "deploy": {
       "cache": false
     },
+    "verify": {
+      "cache": false
+    },
     "clean": {
       "cache": false
     }
