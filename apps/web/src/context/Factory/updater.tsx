@@ -1,20 +1,20 @@
 import { queryIpfsHash } from "api";
 import { ethers } from "ethers";
 import { getCIDStringFromBytes } from "helper";
+import useBlockNumber from "hooks/useBlockNumber";
 import { useFactoryContract, useSBTContractFactory } from "hooks/useContract";
-import useDebouncer from "hooks/useDebouncer";
-import { useCallback, useEffect, useRef } from "react";
-import { useBlockNumber, useProvider } from "wagmi";
-import { useSetOrgs } from "./FactoryContext";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useProvider } from "wagmi";
+import { useGetOrgs, useSetOrgs } from "./FactoryContext";
 
 export default function FactoryUpdater() {
   const { setOrgs } = useSetOrgs();
+  const { data: orgs } = useGetOrgs();
   const contract = useFactoryContract();
-  const { data: blockNumber } = useBlockNumber();
+  const block = useBlockNumber();
   const provider = useProvider();
-  const lastFetchedBlockRef = useRef<number>(0);
-  const [block] = useDebouncer(blockNumber ?? 0, 1000);
   const getContract = useSBTContractFactory();
+  const [lastUpdated, setLastUpdated] = useState(0);
 
   async function getContractInfofromEvent(event: ethers.Event) {
     const block = await provider.getBlock(event.blockNumber);
@@ -29,25 +29,28 @@ export default function FactoryUpdater() {
   const getFactoryTokens = useCallback(
     async () => {
       if (!block || !contract) return;
-      if (block - lastFetchedBlockRef.current < 10) return;
+
+      if (block - lastUpdated < 20) return;
       const filter = contract.filters.TokenCreated();
       const events = await contract.queryFilter(filter);
       const results = await Promise.all(events.map(getContractInfofromEvent));
+      if (results.length === orgs.length)  {
+        return setLastUpdated(block);
+      };
       setOrgs(results);
-
+      setLastUpdated(block);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [block, setOrgs, contract]
+    [block, setOrgs, contract, lastUpdated]
   );
 
   useEffect(() => {
     if (
       contract &&
-      block &&
-      (!lastFetchedBlockRef.current || block - lastFetchedBlockRef.current > 10)
+      block && (lastUpdated === 0 || block - lastUpdated > 20)
     ) {
       getFactoryTokens();
     }
-  }, [block, contract, getFactoryTokens]);
+  }, [block, lastUpdated, contract, getFactoryTokens]);
   return null;
 }

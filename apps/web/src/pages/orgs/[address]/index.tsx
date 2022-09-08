@@ -22,8 +22,6 @@ export default function ListOrgs() {
             layout="fill"
             objectFit="cover"
             objectPosition="center"
-            width="100"
-            height="100"
             alt={org.metadata.name}
           />
         </div>

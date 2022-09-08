@@ -1,18 +1,20 @@
 import Loader from 'components/Loader';
-import Launcher from 'components/Transactors/Launcher/Launcher';
 import TokenTypeTransactor from 'components/Transactors/TypeLauncher';
 import { useGetOrg } from 'context/Factory/FactoryContext';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useAccount } from 'wagmi';
 
 const CreateType: NextPage = () => {
   const router = useRouter();
   const { address } = router.query;
+  const {isConnected} = useAccount()
   const org = useGetOrg(address as string);
   
+
   if (!org) return <Loader />;
-  
+
   return (
     <div className="py-0 px-10">
       <Head>
@@ -23,7 +25,7 @@ const CreateType: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {org && <TokenTypeTransactor org={org} />}
+      {isConnected && org && <TokenTypeTransactor org={org} />}
     </div>
   );
 };

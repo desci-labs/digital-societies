@@ -19,13 +19,13 @@ export default function LaunchForm() {
     handleSubmit,
     formState: { isSubmitting, isValid, errors },
   } = useFormContext<MetadataValues>();
-  const { launch, isLoading, isSuccess } = useCreateType();
   const router = useRouter();
   const { address } = router.query;
   const org = useGetOrg(address as string);
+  const { launch, isLoading, isSuccess } = useCreateType(org?.address!);
   const imageVal = watch('image');
   
-  const canDisable = useMemo(() => isSubmitting || isLoading, [isSubmitting, isLoading])
+  const canDisable = useMemo(() => isSubmitting || isLoading || isSuccess, [isSubmitting, isLoading])
 
   useEffect(() => {
     if (isSuccess) reset();
