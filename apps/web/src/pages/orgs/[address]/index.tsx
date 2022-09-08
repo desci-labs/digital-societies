@@ -47,10 +47,10 @@ function ActionButtons({ address}: {address: string}) {
   return (
     <div className="absolute top-0 right-0 bg-black bg-opacity-20 opacity-0 group-hover:opacity-100 h-300 w-full z-10 p-5 flex gap-5 items-start justify-end">
       <div>
-        <Link href={`create-type/${address}`}>
+        <Link href={`${address}/create-type`}>
           <a
-            href={`create-type/${address}`}
-            className="text-white text-md border border-cornflower-blue hover:text-cornflower-blue mt-16 text-center rounded-3xl px-3 py-1.5"
+            href={`${address}/create-type`}
+            className="text-md border border-cornflower-blue hover:text-white text-cornflower-blue mt-16 text-center rounded-3xl px-3 py-1.5"
           >
             Add new type
           </a>
@@ -60,7 +60,7 @@ function ActionButtons({ address}: {address: string}) {
         <Link href={`edit/${address}`}>
           <a
             href={`edit/${address}`}
-            className="text-white text-md border border-cornflower-blue hover:text-cornflower-blue mt-16 text-center rounded-3xl px-3 py-1.5"
+            className="text-md border border-cornflower-blue hover:text-white text-cornflower-blue mt-16 text-center rounded-3xl px-3 py-1.5"
           >
             Edit
           </a>

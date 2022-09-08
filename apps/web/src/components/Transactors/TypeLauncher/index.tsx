@@ -1,20 +1,24 @@
 import { FormProvider, useForm } from "react-hook-form";
-import { metadataSchema, MetadataValues } from "./types";
 import { yupResolver } from "@hookform/resolvers/yup";
-import LaunchForm from "./LaunchForm";
+import Form from "./Form";
 import { useAccount } from "wagmi";
+import { MetadataValues } from "../types";
+import { metadataSchema } from "../schema";
+import { Org } from "context/Factory/FactoryContext";
 
-export default function Launcher() {
+export default function TokenTypeTransactor({ org }: { org: Org }) {
+  if (!org) throw Error("Organisation data is required");
+
   const { address } = useAccount();
 
   const methods = useForm<MetadataValues>({
     reValidateMode: "onChange",
     mode: "onChange",
     defaultValues: {
-      name: "Ethereum foundation",
+      name: org.metadata.name,
       issuer: address,
-      symbol: 'ETF',
-      description: "2022 Merge Contributor",
+      symbol: org.metadata.symbol,
+      description: org.metadata.description,
       image: {},
       external_link: "https://ethereum.org",
     },
@@ -23,7 +27,7 @@ export default function Launcher() {
 
   return (
     <FormProvider {...methods}>
-      <LaunchForm />
+      <Form />
     </FormProvider>
   );
 }

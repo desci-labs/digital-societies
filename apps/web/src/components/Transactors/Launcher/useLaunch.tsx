@@ -7,7 +7,7 @@ import { useSetTx } from "context/useTx";
 import { getBytesFromCIDString } from "helper";
 import { useFactoryContract } from "hooks/useContract";
 import { useContractWrite } from "wagmi";
-import { MetadataValues } from "./types";
+import { MetadataValues } from "../types";
 
 export default function useLaunch() {
   const { showModal } = useSetModal();

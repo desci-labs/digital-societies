@@ -35,9 +35,7 @@ export default function FactoryUpdater() {
       const results = await Promise.all(events.map(getContractInfofromEvent));
       setOrgs(results);
 
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [block]
   );
 
@@ -49,7 +47,6 @@ export default function FactoryUpdater() {
     ) {
       getFactoryTokens();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [block, contract]);
   return null;
 }

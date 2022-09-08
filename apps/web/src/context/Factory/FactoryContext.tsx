@@ -1,4 +1,4 @@
-import { Metadata } from "components/Launch/types";
+import { Metadata } from "components/Transactors/types";
 import useLocalStorageState from "hooks/useLocalstorage";
 import { createContext, useContext } from "react";
 import FactoryUpdater from "./updater";

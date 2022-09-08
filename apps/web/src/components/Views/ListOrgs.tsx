@@ -1,18 +1,14 @@
+import Loader from "components/Loader";
 import { Org, useGetOrgs } from "context/Factory/FactoryContext";
 import { resolveIpfsURL } from "helper";
 import Image from "next/image";
 import Link from "next/link";
-import { RotatingLines } from "react-loader-spinner";
 
 export default function ListOrgs() {
   const { data, isLoading } = useGetOrgs();
 
   if (isLoading) {
-    return (
-      <div className="h-screen w-full flex justify-center">
-        <RotatingLines strokeColor="#7B61FF" width="100" strokeWidth="2" />
-      </div>
-    );
+    return <Loader />;
   }
 
   return (

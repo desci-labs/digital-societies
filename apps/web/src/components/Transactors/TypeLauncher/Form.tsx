@@ -1,10 +1,10 @@
 import FileDropzone from "components/FileDropzone";
 import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
-import { MetadataValues } from "./types";
 import { ErrorMessage } from "@hookform/error-message";
-import useLaunch from "./useLaunch";
+import useCreateType from "./useCreateType";
 import { Button, Input, InputRow } from "components/Form/Index";
+import { MetadataValues } from "../types";
 
 export default function LaunchForm() {
   const {
@@ -13,7 +13,7 @@ export default function LaunchForm() {
     reset,
     formState: { isSubmitting, isValid, errors },
   } = useFormContext<MetadataValues>();
-  const { launch, isLoading, isSuccess } = useLaunch();
+  const { launch, isLoading, isSuccess } = useCreateType();
 
   const canDisable = useMemo(() => isSubmitting || isLoading, [isSubmitting, isLoading])
 

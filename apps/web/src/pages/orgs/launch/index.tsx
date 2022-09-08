@@ -1,7 +1,6 @@
 import Launcher from 'components/Launch/Launcher';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { HTMLProps } from 'react';
 
 const Launch: NextPage = () => {
   return (

@@ -1,22 +1,6 @@
 import { FileObject } from "components/FileDropzone/types";
 import * as Yup from "yup";
 
-export interface MetadataValues {
-  name: string;
-  issuer: string;
-  symbol: string;
-  description: string;
-  external_link: string;
-  image: FileObject;
-}
-
-export type Metadata = MetadataValues & { image: string }
-export type IResponse = {
-  IpfsHash: string;
-  PinSize: number;
-  Timestamp: string;
-};
-
 const VALID_MIME_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 const uriPattern =

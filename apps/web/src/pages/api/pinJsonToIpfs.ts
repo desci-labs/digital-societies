@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import pinataSDK, { PinataPinResponse } from "@pinata/sdk";
-import { Metadata } from "components/Launch/types";
+import { Metadata } from "components/Transactors/types";
 
 const pinata = pinataSDK(
   process.env.PINATA_API_KEY!,
