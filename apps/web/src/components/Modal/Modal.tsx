@@ -52,6 +52,7 @@ export default function ModalProvider(props: Props) {
         ref.current?.addEventListener("click", dismissModal);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [backdropDismiss]
   );
 

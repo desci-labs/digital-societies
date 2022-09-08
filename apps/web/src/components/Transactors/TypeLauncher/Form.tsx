@@ -29,7 +29,7 @@ export default function LaunchForm() {
 
   useEffect(() => {
     if (isSuccess) reset();
-  }, [isSuccess]);
+  }, [isSuccess, reset]);
 
 
   return (
@@ -126,6 +126,7 @@ function ImagePreview({ image }: { image: FileObject }) {
   return (
     <div className="w-full h-100 relative">
       <Image
+        alt="preview"
         src={url}
         layout="fill"
         objectFit="cover"

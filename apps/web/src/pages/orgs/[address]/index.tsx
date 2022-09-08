@@ -24,6 +24,7 @@ export default function ListOrgs() {
             objectPosition="center"
             width="100"
             height="100"
+            alt={org.metadata.name}
           />
         </div>
       </div>

@@ -28,7 +28,7 @@ export default function FactoryUpdater() {
 
   const getFactoryTokens = useCallback(
     async () => {
-      if (!block) return;
+      if (!block || !contract) return;
       if (block - lastFetchedBlockRef.current < 10) return;
       const filter = contract.filters.TokenCreated();
       const events = await contract.queryFilter(filter);
@@ -36,7 +36,8 @@ export default function FactoryUpdater() {
       setOrgs(results);
 
     },
-    [block]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [block, setOrgs, contract]
   );
 
   useEffect(() => {
@@ -47,6 +48,6 @@ export default function FactoryUpdater() {
     ) {
       getFactoryTokens();
     }
-  }, [block, contract]);
+  }, [block, contract, getFactoryTokens]);
   return null;
 }

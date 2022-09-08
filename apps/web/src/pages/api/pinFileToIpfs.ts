@@ -61,6 +61,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<IResponse>) {
   }
 }
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
-  req.method === "POST" ? handler(req, res) : res.status(404).send("");
+export default function pinFileToIPFS (req: NextApiRequest, res: NextApiResponse) {
+  return req.method === "POST" ? handler(req, res) : res.status(404).send("");
 };

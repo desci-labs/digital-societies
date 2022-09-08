@@ -19,7 +19,7 @@ export default function LaunchForm() {
 
   useEffect(() => {
     if (isSuccess) reset();
-  }, [isSuccess]);
+  }, [isSuccess, reset]);
 
 
   return (

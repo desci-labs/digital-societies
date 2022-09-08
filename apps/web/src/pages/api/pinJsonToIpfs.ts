@@ -35,6 +35,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<IResponse>) {
   }
 }
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
-  req.method === "POST" ? handler(req, res) : res.status(404).send("");
+export default function pinJSONToIPFS (req: NextApiRequest, res: NextApiResponse) {
+  return req.method === "POST" ? handler(req, res) : res.status(404).send("");
 };

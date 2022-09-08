@@ -13,7 +13,7 @@ export default function ListOrgs() {
 
   return (
     <div className="container mx-auto py-10 grid grid-cols-1 lg:grid-cols-3 content-start gap-y-10 place-items-center mt-10">
-      {data.length && data.map((org) => <SBCard org={org} />)}
+      {data.length && data.map((org, idx) => <SBCard key={idx} org={org} />)}
     </div>
   );
 }
@@ -28,8 +28,7 @@ export function SBCard({ org }: { org: Org }) {
           layout="fill"
           objectFit="cover"
           objectPosition="center"
-          width="100"
-          height="100"
+          alt={`${org.metadata.name} image`}
           className="rounded-lg rounded-bl-none rounded-br-none"
         />
       </div>
@@ -45,7 +44,7 @@ export function SBCard({ org }: { org: Org }) {
             <a
               href={org.metadata.external_link}
               target="_blank"
-              rel="noopener"
+              rel="noreferrer"
               className="inline-block text-md border border-cornflower-blue hover:text-cornflower-blue mt-16 text-center rounded-3xl px-3 py-1.5"
             >
               Visit website
