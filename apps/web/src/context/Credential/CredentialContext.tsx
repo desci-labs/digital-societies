@@ -37,7 +37,7 @@ export default function CredentialProvider({ children }: any) {
 export const useGetCredentials = () => useContext(getContext);
 export const useSetCredentials = () => useContext(setContext);
 
-export function useGetCredential(address: string) {
+export function useGetCredential(address: string, id: number) {
   const { data } = useGetCredentials();
-  return data[address];
+  return data[address]?.find(credential => credential.id === id);
 }

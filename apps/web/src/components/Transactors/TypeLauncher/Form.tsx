@@ -25,7 +25,7 @@ export default function LaunchForm() {
   const { launch, isLoading, isSuccess } = useCreateType(org?.address!);
   const imageVal = watch('image');
   
-  const canDisable = useMemo(() => isSubmitting || isLoading || isSuccess, [isSubmitting, isLoading])
+  const canDisable = useMemo(() => isSubmitting || isLoading || isSuccess, [isSubmitting, isLoading, isSuccess])
 
   useEffect(() => {
     if (isSuccess) reset();

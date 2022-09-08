@@ -1,7 +1,7 @@
+import { ActionButtonLink, ActionButtons } from "components/ActionButtons/Index";
 import Loader from "components/Loader";
 import {
   Credential,
-  useGetCredential,
   useGetCredentials,
 } from "context/Credential/CredentialContext";
 import { useGetOrg } from "context/Factory/FactoryContext";
@@ -20,7 +20,10 @@ export default function ViewOrgs() {
   return (
     <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center">
       <div className="w-full h-300 relative group">
-        <ActionButtons address={org.address} />
+        <ActionButtons>
+          <ActionButtonLink title="Create Credential" href={`${address}/create-credential`}></ActionButtonLink>
+          <ActionButtonLink title="Edit Metadata" href={`edit/${address}`}></ActionButtonLink>
+        </ActionButtons>
         <div className="w-full h-300 relative">
           <Image
             src={resolveIpfsURL(org.metadata.image)}
@@ -44,36 +47,9 @@ export default function ViewOrgs() {
   );
 }
 
-function ActionButtons({ address }: { address: string }) {
-  return (
-    <div className="absolute top-0 right-0 bg-black bg-opacity-20 opacity-0 group-hover:opacity-100 h-300 w-full z-10 p-5 flex gap-5 items-start justify-end">
-      <div>
-        <Link href={`${address}/create-type`}>
-          <a
-            href={`${address}/create-type`}
-            className="text-md border border-cornflower-blue hover:text-white text-cornflower-blue mt-16 text-center rounded-3xl px-3 py-1.5"
-          >
-            Add new type
-          </a>
-        </Link>
-      </div>
-      <div>
-        <Link href={`edit/${address}`}>
-          <a
-            href={`edit/${address}`}
-            className="text-md border border-cornflower-blue hover:text-white text-cornflower-blue mt-16 text-center rounded-3xl px-3 py-1.5"
-          >
-            Edit
-          </a>
-        </Link>
-      </div>
-    </div>
-  );
-}
-
 function CredentialGridView({ address }: { address: string }) {
-  const { isLoading } = useGetCredentials();
-  const credentials = useGetCredential(address);
+  const { isLoading, data } = useGetCredentials();
+  const credentials = data[address];
 
   if (isLoading) return <Loader />;
 
@@ -104,9 +80,11 @@ export function CredentialCard({ credential }: { credential: Credential }) {
         />
       </div>
       <div className="p-2">
-        <span className="text-xl block font-bold mb-2">
-          {credential.metadata.name}
-        </span>
+        <Link href={`${credential.address}/credentials/${credential.id}`}>
+          <a href={`${credential.address}/credentials/${credential.id}`} className="text-xl block font-bold mb-2">
+            {credential.metadata.name}
+          </a>
+        </Link>
         <span className="text-md block truncate">
           {credential.metadata.description}
         </span>
