@@ -1,4 +1,4 @@
-import Launcher from 'components/Launch/Launcher';
+import Launcher from 'components/Transactors/Launcher/Launcher';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 

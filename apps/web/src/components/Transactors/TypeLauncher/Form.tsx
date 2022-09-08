@@ -1,20 +1,30 @@
-import FileDropzone from "components/FileDropzone";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import useCreateType from "./useCreateType";
+import FileDropzone from "components/FileDropzone";
 import { Button, Input, InputRow } from "components/Form/Index";
+import { useGetOrg } from "context/Factory/FactoryContext";
+import { FileObject } from "components/FileDropzone/types";
+import { resolveIpfsURL } from "helper";
+import useCreateType from "./useCreateType";
 import { MetadataValues } from "../types";
 
 export default function LaunchForm() {
   const {
+    reset,
+    watch,
     register,
     handleSubmit,
-    reset,
     formState: { isSubmitting, isValid, errors },
   } = useFormContext<MetadataValues>();
   const { launch, isLoading, isSuccess } = useCreateType();
-
+  const router = useRouter();
+  const { address } = router.query;
+  const org = useGetOrg(address as string);
+  const imageVal = watch('image');
+  
   const canDisable = useMemo(() => isSubmitting || isLoading, [isSubmitting, isLoading])
 
   useEffect(() => {
@@ -24,7 +34,8 @@ export default function LaunchForm() {
 
   return (
     <div className="container mx-auto flex flex-col gap-5 border border-black py-8 max-w-500">
-      <h1 className="text-3xl font-bold mt-5 text-center">Launch Organisation</h1>
+      <h1 className="text-3xl font-bold mt-5 text-center">{org?.metadata.name}</h1>
+      <span className="text-lg text-center font-semibold">Add new token type to be issued</span>
       <div className="mx-auto flex justify-center w-400">
         <form className="w-full" onSubmit={handleSubmit(launch)}>
           <InputRow
@@ -57,9 +68,9 @@ export default function LaunchForm() {
             htmlFor="description"
             label="Description:"
           >
-            <Input
+            <textarea
               id="description"
-              placeholder="About org"
+              className="w-full border p-2 rounded-xl"
               {...register("description")}
             />
           </InputRow>
@@ -79,6 +90,7 @@ export default function LaunchForm() {
             label="Image"
           >
             <ErrorMessage errors={errors} name="image" as="span" className="text-xs text-left text-red-400 font-semibold m-0" />
+            <ImagePreview image={imageVal} />
             <FileDropzone<MetadataValues>
               name="image"
               className="h-10"
@@ -94,6 +106,31 @@ export default function LaunchForm() {
           </Button>
         </form>
       </div>
+    </div>
+  );
+}
+
+function ImagePreview({ image }: { image: FileObject }) {
+  const url = image.ipfsHash ? resolveIpfsURL(image.ipfsHash) : image.file ? window.URL.createObjectURL(image.file) : "";
+  
+  useEffect(() => {
+    return () => {
+      if (url.includes(window.location.origin)) {
+        window.URL.revokeObjectURL(url)
+      }
+    }
+  }, [url]);
+  
+  if (!url) return null;
+
+  return (
+    <div className="w-full h-100 relative">
+      <Image
+        src={url}
+        layout="fill"
+        objectFit="cover"
+        objectPosition="center"
+      />
     </div>
   );
 }

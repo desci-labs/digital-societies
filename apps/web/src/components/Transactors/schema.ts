@@ -8,9 +8,14 @@ const uriPattern =
 
 const FILE_SCHEMA = Yup.mixed<FileObject>()
   .test({
+    name: "Ipfs hash",
+    message: "Invalid ipfs hash",
+    test: (data) => (data?.ipfsHash ? data.ipfsHash.length > 20 : true),
+  })
+  .test({
     name: "size",
     message: "File size must be smaller than 2MB",
-    test: (data) => (data?.file?.size || 0) <= 1e6,
+    test: (data) => (data?.file ? (data?.file?.size || 0) <= 1e6 : true),
   })
   .test({
     name: "fileType",
@@ -23,7 +28,11 @@ const FILE_SCHEMA = Yup.mixed<FileObject>()
     message: "Invalid state",
     // check file is valid, has name and size is greater than zero
     test: (data) =>
-      !!data && !!data?.file && !!data?.file?.name && !!data?.file?.size,
+      data?.file
+        ? !!data && !!data?.file && !!data?.file?.name && !!data?.file?.size
+        : data?.ipfsHash
+          ? true
+          : false,
   });
 
 export const metadataSchema = Yup.object().shape({

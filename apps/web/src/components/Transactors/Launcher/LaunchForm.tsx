@@ -57,11 +57,10 @@ export default function LaunchForm() {
             htmlFor="description"
             label="Description:"
           >
-            <Input
+            <textarea
               id="description"
-              placeholder="About org"
-              {...register("description")}
-            />
+              className="w-full border p-2 rounded-xl"
+              {...register("description")} />
           </InputRow>
           <InputRow
             htmlFor="external_link"

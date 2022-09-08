@@ -19,8 +19,8 @@ export default function TokenTypeTransactor({ org }: { org: Org }) {
       issuer: address,
       symbol: org.metadata.symbol,
       description: org.metadata.description,
-      image: {},
-      external_link: "https://ethereum.org",
+      image: { ipfsHash: org.metadata.image },
+      external_link: org.metadata.external_link,
     },
     resolver: yupResolver(metadataSchema),
   });
