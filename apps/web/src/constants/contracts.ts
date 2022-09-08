@@ -1,5 +1,6 @@
 import { ChainIDs, SupportedChainId } from "./chains";
 import Factory from "./abis/SBFactory.sol/SBFactory.json";
+import SBToken from "./abis/SBToken.sol/SBToken.json";
 
 export interface Contract {
   address: string;
@@ -11,6 +12,7 @@ export interface Contract {
 
 export enum Contracts {
   Factory = "Factory",
+  SBToken = "SBToken",
 }
 
 export const contracts = [
@@ -19,6 +21,13 @@ export const contracts = [
     name: "Factory",
     id: Contracts.Factory,
     artifact: Factory.abi,
+    chainId: ChainIDs.GOERLI,
+  },
+  {
+    address: "",
+    name: "SBToken",
+    id: Contracts.SBToken,
+    artifact: SBToken.abi,
     chainId: ChainIDs.GOERLI,
   },
 ];

@@ -1,3 +1,4 @@
+import ListOrgs from 'components/Views/ListOrgs';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 
@@ -12,7 +13,7 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1 className='text-center text-3xl'>View list of SBTs</h1>
+      <ListOrgs />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { Contracts, contracts } from "constants/contracts";
-import { Contract } from "ethers";
+import { Contract, ethers } from "ethers";
 import { useContract, useSigner } from "wagmi";
 
 export function getContract(type: Contracts) {
@@ -14,4 +14,11 @@ export const useFactoryContract = (): Contract => {
     contractInterface: contract?.artifact!,
     signerOrProvider: signer,
   });
+};
+
+export const useSBTContractFactory = () => {
+  const { data: signer } = useSigner();
+  const contract = getContract(Contracts.SBToken);
+
+  return (address: string): Contract => new ethers.Contract(address, contract?.artifact!, signer!)
 };

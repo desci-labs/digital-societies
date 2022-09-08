@@ -9,7 +9,7 @@ export default function Header() {
           <a className="font-semibold text-regent-gray text-lg hover:text-dark">Home</a>
         </Link>
         <Link href="/orgs/launch">
-          <a className="font-semibold text-regent-gray text-lg hover:text-dark">Deploy new org</a>
+          <a className="font-semibold text-regent-gray text-lg hover:text-dark">Launch your organisation</a>
         </Link>
       </div>
       <div>
