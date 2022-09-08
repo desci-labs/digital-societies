@@ -8,7 +8,7 @@ export default function ListOrgs() {
   const { data, isLoading } = useGetOrgs();
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader className="h-screen" />;
   }
 
   return (
@@ -19,7 +19,6 @@ export default function ListOrgs() {
 }
 
 export function SBCard({ org }: { org: Org }) {
-
   return (
     <div className="min-w-80 w-80 h-96 rounded-lg shadow-lg cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden">
       <div className="w-80 h-200 relative rounded-lg">

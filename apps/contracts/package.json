@@ -7,7 +7,7 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "test": "forge test -vvvv",
+    "test": "forge test -vvvv --gas-report",
     "remapping-transform": "./remap.sh",
     "build": "npm run remapping-transform && forge build",
     "deploy": "./deploy.sh",

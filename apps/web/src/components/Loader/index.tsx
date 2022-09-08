@@ -1,8 +1,9 @@
 import { RotatingLines } from "react-loader-spinner";
 
-export default function Loader() {
+type Props = { className?: string }
+export default function Loader(props: Props) {
   return (
-    <div className="h-screen w-full flex justify-center" >
+    <div className={`w-full flex justify-center ${props.className ?? ''}`} >
       <RotatingLines strokeColor="#7B61FF" width="100" strokeWidth="2" />
     </div>
   )

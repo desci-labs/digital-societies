@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { getCIDStringFromBytes } from "helper";
 import useBlockNumber from "hooks/useBlockNumber";
 import { useFactoryContract, useSBTContractFactory } from "hooks/useContract";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useProvider } from "wagmi";
 import { useGetOrgs, useSetOrgs } from "./FactoryContext";
 

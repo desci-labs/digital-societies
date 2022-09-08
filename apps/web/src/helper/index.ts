@@ -1,8 +1,10 @@
 import { CID } from "multiformats/cid";
 import { base16 } from "multiformats/bases/base16";
 
+const IPFS_GATEWAY = 'https://ipfs.io/ipfs/';
+const PINATA_GATEWAY = 'https://gateway.pinata.cloud/ipfs/';
 
-export const resolveIpfsURL = (hash: string) => `https://gateway.pinata.cloud/ipfs/${hash}`
+export const resolveIpfsURL = (hash: string) => `${PINATA_GATEWAY}${hash}`
 
 export const getBytesFromCIDString = (input: string) => {
   const cid = CID.parse(input);
@@ -19,4 +21,10 @@ export const getCIDStringFromBytes = async (hex: string) => {
   const bytes = base16.decode(hex);
   const cid = CID.decode(bytes);
   return cid.toString();
+}
+
+export async function asyncMap<T, E>(arr: E[], predicate: any): Promise<T[]> {
+  const results = await Promise.all(arr.map(predicate));
+
+  return results as T[];
 }
