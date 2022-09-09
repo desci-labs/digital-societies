@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 
-export function ActionButtonLink<T>(props: { href: string, title: string }) {
+export function ActionButtonLink(props: { href: string, title: string }) {
   return (<div>
     <Link href={props.href}>
       <a href={props.href} className="text-md border border-cornflower-blue group-hover:border-white group-hover:text-white text-cornflower-blue mt-16 text-center rounded-3xl px-3 py-1.5">

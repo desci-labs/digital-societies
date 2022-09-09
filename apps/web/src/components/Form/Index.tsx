@@ -1,6 +1,16 @@
-import { forwardRef, HTMLProps, PropsWithChildren } from "react";
+import React, { forwardRef, HTMLProps, PropsWithChildren } from "react";
 
-export type InputRowProps = PropsWithChildren<{ htmlFor: string; label?: string; className?: string }>;
+declare module "react" {
+  function forwardRef<T, P = {}>(
+    render: (props: P, ref: React.Ref<T>) => React.ReactElement | null
+  ): (props: P & React.RefAttributes<T>) => React.ReactElement | null;
+}
+
+export type InputRowProps = PropsWithChildren<{
+  htmlFor: string;
+  label?: string;
+  className?: string;
+}>;
 
 export function InputRow(props: InputRowProps) {
   return (
@@ -42,5 +52,36 @@ export const Input = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>(
 );
 
 export function LabelText({ text }: { text: string }) {
-  return <span className="text-lg cursor-pointer font-semibold capitalize">{text}</span>;
+  return (
+    <span className="text-lg cursor-pointer font-semibold capitalize">
+      {text}
+    </span>
+  );
 }
+
+type SelectInputProps<T> = {
+  options: T[];
+  getOptionLabel: (option: T) => string | number;
+  getOptionValue: (option: T) => string | number;
+}
+
+function Select<T>(
+  props: SelectInputProps<T>,
+  ref: React.ForwardedRef<HTMLSelectElement>
+) {
+  return (
+    <select
+      ref={ref}
+      id="default"
+      className="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+    >
+      {props.options.map((data, i) => (
+        <option key={i} value={props.getOptionValue(data)}>
+          {props.getOptionLabel(data)}
+        </option>
+      ))}
+    </select>
+  );
+}
+
+export const SelectInput = React.forwardRef(Select);

@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 export default function CredentialDetails() {
   const router = useRouter();
   const { id, address } = router.query;
+
   const credential = useGetCredential(address as string, parseInt(id as string));
 
   if (!credential) return <Loader className="h-screen" />;
@@ -18,8 +19,8 @@ export default function CredentialDetails() {
     <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center">
       <div className="w-full h-300 relative group">
         <ActionButtons>
-          <ActionButtonLink title="Issue Credential" href={`${id}/issue-token`}></ActionButtonLink>
-          <ActionButtonLink title="Edit Metadata" href={`${id}/edit`}></ActionButtonLink>
+          <ActionButtonLink title="Issue Credential" href={`${id}/mint?address=${credential.address}`}></ActionButtonLink>
+          <ActionButtonLink title="Edit Metadata" href={`${id}/edit?address=${credential.address}`}></ActionButtonLink>
         </ActionButtons>
         <div className="w-full h-300 relative">
           <Image

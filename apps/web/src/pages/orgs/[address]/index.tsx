@@ -80,8 +80,8 @@ export function CredentialCard({ credential }: { credential: Credential }) {
         />
       </div>
       <div className="p-2">
-        <Link href={`${credential.address}/credentials/${credential.id}`}>
-          <a href={`${credential.address}/credentials/${credential.id}`} className="text-xl block font-bold mb-2">
+        <Link href={`/credentials/${credential.id}?address=${credential.address}`}>
+          <a href={`/credentials/${credential.id}?address=${credential.address}`} className="text-xl block font-bold mb-2">
             {credential.metadata.name}
           </a>
         </Link>

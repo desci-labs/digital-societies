@@ -9,6 +9,11 @@ export interface MetadataValues {
   image: FileObject;
 }
 
+export interface IssuerValues {
+  addresses: string;
+  credential: number;
+}
+
 export type Metadata = MetadataValues & { image: string }
 export type IResponse = {
   IpfsHash: string;

@@ -60,7 +60,6 @@ export default function CredentialUpdater() {
   );
 
   useEffect(() => {
-    console.log('attempt')
     if (
       block && (lastUpdated === 0 || block - lastUpdated > 30)
     ) {
