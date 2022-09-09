@@ -24,7 +24,7 @@ export default function CredentialUpdater() {
     let cid = await contract.typeURI(id);
     cid = await getCIDStringFromBytes(cid);
     const metadata = await queryIpfsHash(cid)
-    return { id, metadata, mintedBy, cid, dateCreated: block.timestamp * 1000, address: contract.address }
+    return { id, metadata, mintedBy, cid, dateCreated: block.timestamp * 1000, address: contract.address, pending: !metadata }
   }
 
   async function transformEventsToCrendentials(events: ethers.Event[]) {
