@@ -9,7 +9,7 @@
   "scripts": {
     "test": "forge test -vvvv --gas-report",
     "remapping-transform": "./remap.sh",
-    "build": "npm run remapping-transform && forge build",
+    "build": "./build.sh",
     "deploy": "./deploy.sh",
     "verify": "./verify.sh"
   }

@@ -10,6 +10,12 @@
         "^build"
       ]
     },
+    "web#build": {
+      "dependsOn": [
+        "contracts#build"
+      ],
+      "outputs": []
+    },
     "test": {
       "outputs": [
         "coverage/**"
