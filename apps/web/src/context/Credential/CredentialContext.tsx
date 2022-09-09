@@ -3,7 +3,7 @@ import useLocalStorageState from "hooks/useLocalstorage";
 import { createContext, useContext } from "react";
 import CredentialUpdater from "./updater";
 
-export type Credential = { id: number; mintedBy: string; cid: string; metadata: Metadata; address: string, dateCreated: number }
+export type Credential = { id: number; mintedBy: string; cid: string; metadata: Metadata; address: string, dateCreated: number, pending?: boolean }
 export type CredentialMap = Record<string, Credential[]>;
 export type CredentialState = { data: CredentialMap, isLoading: boolean };
 

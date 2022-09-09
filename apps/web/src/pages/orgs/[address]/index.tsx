@@ -9,6 +9,7 @@ import { resolveIpfsURL } from "helper";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useMemo } from "react";
 
 export default function ViewOrgs() {
   const router = useRouter();
@@ -66,32 +67,34 @@ function CredentialGridView({ address }: { address: string }) {
 }
 
 export function CredentialCard({ credential }: { credential: Credential }) {
+  const org = useGetOrg(credential.address);
+  const metadata = useMemo(() => credential?.metadata ?? org?.metadata, [credential, org]);
 
   return (
     <div className="min-w-80 w-80 rounded-lg shadow-lg cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden">
       <div className="w-80 h-200 relative rounded-lg">
         <Image
-          src={resolveIpfsURL(credential.metadata.image)}
+          src={resolveIpfsURL(metadata?.image)}
           layout="fill"
           objectFit="cover"
           objectPosition="center"
-          alt={`${credential.metadata.name} image`}
+          alt={`${metadata.name} image`}
           className="rounded-lg rounded-bl-none rounded-br-none"
         />
       </div>
       <div className="p-2">
         <Link href={`/credentials/${credential.id}?address=${credential.address}`}>
           <a href={`/credentials/${credential.id}?address=${credential.address}`} className="text-xl block font-bold mb-2">
-            {credential.metadata.name}
+            {metadata.name}
           </a>
         </Link>
         <span className="text-md block truncate">
-          {credential.metadata.description}
+          {metadata.description}
         </span>
-        {credential.metadata.external_link && (
+        {metadata.external_link && (
           <div className="flex justify-center">
             <a
-              href={credential.metadata.external_link}
+              href={metadata.external_link}
               target="_blank"
               rel="noreferrer"
               className="inline-block text-md border border-cornflower-blue hover:text-cornflower-blue mt-16 text-center rounded-3xl px-3 py-1.5"
