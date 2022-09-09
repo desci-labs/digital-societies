@@ -6,10 +6,22 @@ import { asyncMap, getCIDStringFromBytes } from "helper";
 import useBlockNumber from "hooks/useBlockNumber";
 import { useSBTContractFactory } from "hooks/useContract";
 import { useProvider } from "wagmi";
-import { Credential, CredentialMap, useSetCredentials } from "./CredentialContext";
+import { Credential, CredentialMap, useGetCredentials, useSetCredentials } from "./CredentialContext";
+import { Metadata } from "components/Transactors/types";
+
+// { organisation: -> { issuedCredentials: [{}], credentialTypes: [{}], revocations: [{}]} }
+
+interface CredentialValues {
+  issuedCredentials: { tokenId: number; tokenType: number; dateIssued: number; owner: string; issuer: string}[],
+  credentialTypes: {}[],
+  revocations: {}[],
+}
+
+type CredentialData = Record<string, CredentialValues>;
 
 export default function CredentialUpdater() {
   const { setCredentials } = useSetCredentials();
+  const {data, isLoading } = useGetCredentials();
   const { data: orgs } = useGetOrgs();
   const block = useBlockNumber();
   const provider = useProvider();
@@ -46,13 +58,12 @@ export default function CredentialUpdater() {
       const filters = contracts.map(contract => contract.filters.TypeCreated());
       const events = await Promise.all(filters.map((filter, i) => contracts[i].queryFilter(filter)));
       const results = await Promise.all(events.map(transformEventsToCrendentials));
-
       const credentials = results.filter(Boolean).reduce((all, credential) => {
         if (!credential) return all;
         all[credential.address] = credential.data;
         return all;
       },{} as CredentialMap)
-      
+     
       setCredentials(credentials);
       setLastUpdated(block);
     },
@@ -62,7 +73,7 @@ export default function CredentialUpdater() {
 
   useEffect(() => {
     if (
-      block && (lastUpdated === 0 || block - lastUpdated > 10)
+      block && (lastUpdated === 0 || block - lastUpdated > 30)
     ) {
       getFactoryTokens();
     }

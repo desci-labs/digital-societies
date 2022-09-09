@@ -66,7 +66,6 @@ function CredentialGridView({ address }: { address: string }) {
 }
 
 export function CredentialCard({ credential }: { credential: Credential }) {
-
   return (
     <div className="min-w-80 w-80 rounded-lg shadow-lg cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden">
       <div className="w-80 h-200 relative rounded-lg">

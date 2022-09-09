@@ -6,7 +6,7 @@ export default function Header() {
     <div className="container mx-auto flex items-center justify-start p-4">
       <div className="grow flex justify-start gap-10">
         <Link href="/">
-          <a className="font-semibold text-regent-gray text-lg hover:text-dark">Home</a>
+          <a className="font-semibold text-regent-gray text-lg hover:text-dark">Explore</a>
         </Link>
         <Link href="/orgs/launch">
           <a className="font-semibold text-regent-gray text-lg hover:text-dark">Launch your organisation</a>
