@@ -6,7 +6,7 @@ import {
   useGetCredentials,
 } from "context/Credential/CredentialContext";
 import { useGetOrg } from "context/Factory/FactoryContext";
-import { resolveIpfsURL } from "helper";
+import { resolveIpfsURL, shortenText } from "helper";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -91,7 +91,7 @@ export function CredentialCard({ credential }: { credential: Credential }) {
         </Link>
         <div className="flex flex-col justify-between h-32 gap-1">
           <span className="text-sm block">
-            {metadata.description.substring(0, 100)}...
+            {shortenText(metadata.description)}
           </span>
           {metadata.external_link && (
             <div className="flex justify-center">

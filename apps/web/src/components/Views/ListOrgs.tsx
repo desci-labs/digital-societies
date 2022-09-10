@@ -1,7 +1,7 @@
 import Loader from "components/Loader";
 import { ExternalLink } from "components/UI/Index";
 import { Org, useGetOrgs } from "context/Factory/FactoryContext";
-import { resolveIpfsURL } from "helper";
+import { resolveIpfsURL, shortenText } from "helper";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -38,7 +38,7 @@ export function SBCard({ org }: { org: Org }) {
         </Link>
         <div className="flex flex-col justify-between h-32 gap-1">
           <span className="text-sm block">
-            {org.metadata.description.substring(0, 100)}...
+            {shortenText(org.metadata.description)}
           </span>
           {org.metadata.external_link && (
             <div className="flex justify-center">

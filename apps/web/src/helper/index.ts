@@ -28,3 +28,5 @@ export async function asyncMap<T, E>(arr: E[], predicate: any): Promise<T[]> {
 
   return results as T[];
 }
+
+export const shortenText = (text: string, charCount: number = 100) => text.length > (charCount) ? `${text.substring(0, charCount)}...` : text;
