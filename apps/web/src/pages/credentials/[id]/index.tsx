@@ -17,12 +17,12 @@ export default function CredentialDetails() {
 
   return (
     <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center">
-      <div className="w-full h-300 relative group">
+      <div className="w-full h-104 relative group">
         <ActionButtons>
           <ActionButtonLink title="Issue Credential" href={`${id}/mint?address=${credential.address}`}></ActionButtonLink>
           <ActionButtonLink title="Edit Metadata" href={`${id}/edit?address=${credential.address}`}></ActionButtonLink>
         </ActionButtons>
-        <div className="w-full h-300 relative">
+        <div className="w-full h-full relative">
           <Image
             src={resolveIpfsURL(credential.metadata.image)}
             layout="fill"

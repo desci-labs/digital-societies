@@ -20,12 +20,12 @@ export default function ViewOrgs() {
 
   return (
     <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center">
-      <div className="w-full h-300 relative group">
+      <div className="w-full h-104 relative group">
         <ActionButtons>
           <ActionButtonLink title="Create Credential" href={`${address}/create-credential`}></ActionButtonLink>
           <ActionButtonLink title="Edit Metadata" href={`edit/${address}`}></ActionButtonLink>
         </ActionButtons>
-        <div className="w-full h-300 relative">
+        <div className="w-full h-full relative">
           <Image
             src={resolveIpfsURL(org.metadata.image)}
             layout="fill"
@@ -71,8 +71,8 @@ export function CredentialCard({ credential }: { credential: Credential }) {
   const metadata = useMemo(() => credential?.metadata ?? org?.metadata, [credential, org]);
 
   return (
-    <div className="min-w-80 w-80 rounded-lg shadow-lg cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden">
-      <div className="w-80 h-200 relative rounded-lg">
+    <div className="min-w-80 w-80 h-96 rounded-lg shadow-lg cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden">
+      <div className="w-80 h-48 relative rounded-lg">
         <Image
           src={resolveIpfsURL(metadata?.image)}
           layout="fill"
@@ -84,25 +84,28 @@ export function CredentialCard({ credential }: { credential: Credential }) {
       </div>
       <div className="p-2">
         <Link href={`/credentials/${credential.id}?address=${credential.address}`}>
-          <a href={`/credentials/${credential.id}?address=${credential.address}`} className="text-xl block font-bold mb-2">
+          <a href={`/credentials/${credential.id}?address=${credential.address}`} className="text-xl block font-bold mb-1">
             {metadata.name}
           </a>
         </Link>
-        <span className="text-md block truncate">
-          {metadata.description}
-        </span>
-        {metadata.external_link && (
-          <div className="flex justify-center">
-            <a
-              href={metadata.external_link}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-block text-md border border-cornflower-blue hover:text-cornflower-blue mt-16 text-center rounded-3xl px-3 py-1.5"
-            >
-              Visit website
-            </a>
-          </div>
-        )}
+        <div className="flex flex-col justify-between h-32 gap-2">
+          <span className="text-md block">
+            {metadata.description.substring(0, 150)}...
+          </span>
+          {metadata.external_link && (
+            <div className="flex justify-center">
+              <a
+                href={metadata.external_link}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-block text-md border border-cornflower-blue hover:text-cornflower-blue text-center rounded-3xl px-3 py-1.5"
+              >
+                Visit website
+              </a>
+            </div>
+          )}
+        </div>
+       
       </div>
     </div>
   );

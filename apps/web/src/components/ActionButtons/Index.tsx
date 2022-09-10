@@ -14,7 +14,7 @@ export function ActionButtonLink(props: { href: string, title: string }) {
 
 export function ActionButtons(props: PropsWithChildren<{}>) {
   return (
-    <div className="absolute top-0 right-0 bg-black bg-opacity-20 group-hover:opacity-100 group-hover:bg-opacity-50 h-300 w-full z-10 p-5 flex gap-5 items-start justify-end">
+    <div className="absolute top-0 right-0 bg-black bg-opacity-20 group-hover:opacity-100 group-hover:bg-opacity-50 h-full w-full z-10 p-5 flex gap-5 items-start justify-end">
       {props.children}
     </div>
   );

@@ -30,7 +30,7 @@ export default function FactoryUpdater() {
     async () => {
       if (!block || !contract) return;
 
-      if (block - lastUpdated < 20) return;
+      if (block - lastUpdated < 10) return;
       const filter = contract.filters.TokenCreated();
       const events = await contract.queryFilter(filter);
       const results = await Promise.all(events.map(getContractInfofromEvent));
@@ -47,7 +47,7 @@ export default function FactoryUpdater() {
   useEffect(() => {
     if (
       contract &&
-      block && (lastUpdated === 0 || block - lastUpdated > 20)
+      block && (lastUpdated === 0 || block - lastUpdated > 10)
     ) {
       getFactoryTokens();
     }

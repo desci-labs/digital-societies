@@ -21,6 +21,7 @@ export default function useLocalStorageState<TValue>(
   useDebugValue(`${key}: ${JSON.stringify(state)}`);
 
   const prevKeyRef = useRef(key);
+  const countKeyRef = useRef(0);
 
   useEffect(() => {
     if (typeof window === undefined) return;
@@ -33,14 +34,17 @@ export default function useLocalStorageState<TValue>(
 
     const valueInLocalStorage = window.localStorage.getItem(key);
     if (valueInLocalStorage) {
-       setState(JSON.parse(valueInLocalStorage) as TValue);
+       setState(() => JSON.parse(valueInLocalStorage) as TValue);
     }
   }, [key]);
 
   useEffect(() => {
-    if (typeof window !== undefined) {
-      window.localStorage.setItem(key, JSON.stringify(state));
+    if (countKeyRef.current > 0) {
+      if (typeof window !== undefined) {
+        window.localStorage.setItem(key, JSON.stringify(state));
+      }
     }
+    countKeyRef.current += 1;
   }, [key, state]);
 
   return [state, setState] as [TValue, Dispatch<SetStateAction<TValue>>];

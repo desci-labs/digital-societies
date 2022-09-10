@@ -25,7 +25,7 @@ export default function LaunchForm() {
   return (
     <div className="container mx-auto flex flex-col gap-5 border border-black py-8 max-w-500">
       <h1 className="text-3xl font-bold mt-5 text-center">Launch Organisation</h1>
-      <div className="mx-auto flex justify-center w-400">
+      <div className="mx-auto flex justify-center w-120">
         <form className="w-full" onSubmit={handleSubmit(launch)}>
           <InputRow
             htmlFor="issuer"

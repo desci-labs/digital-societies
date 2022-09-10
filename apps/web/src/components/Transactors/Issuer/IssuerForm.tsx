@@ -45,10 +45,10 @@ export default function LaunchForm() {
       <span className="text-lg text-center font-semibold">
         Issue a Credential
       </span>
-      <div className="mx-auto flex justify-center w-400">
+      <div className="mx-auto flex justify-center w-120">
         <form className="w-full" onSubmit={handleSubmit(issueCredential)}>
           <InputRow
-            htmlFor="addresses"
+            htmlFor="credential"
             label="Select credential"
             className="text-sm"
           >
