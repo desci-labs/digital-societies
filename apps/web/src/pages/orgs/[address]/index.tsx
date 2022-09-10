@@ -1,5 +1,6 @@
 import { ActionButtonLink, ActionButtons } from "components/ActionButtons/Index";
 import Loader from "components/Loader";
+import { ExternalLink } from "components/UI/Index";
 import {
   Credential,
   useGetCredentials,
@@ -71,7 +72,7 @@ export function CredentialCard({ credential }: { credential: Credential }) {
   const metadata = useMemo(() => credential?.metadata ?? org?.metadata, [credential, org]);
 
   return (
-    <div className="min-w-80 w-80 h-96 rounded-lg shadow-lg cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden">
+    <div className="min-w-80 w-80 h-96 rounded-lg shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden">
       <div className="w-80 h-48 relative rounded-lg">
         <Image
           src={resolveIpfsURL(metadata?.image)}
@@ -84,24 +85,17 @@ export function CredentialCard({ credential }: { credential: Credential }) {
       </div>
       <div className="p-2">
         <Link href={`/credentials/${credential.id}?address=${credential.address}`}>
-          <a href={`/credentials/${credential.id}?address=${credential.address}`} className="text-xl block font-bold mb-1">
+          <a href={`/credentials/${credential.id}?address=${credential.address}`} className="text-xl block font-bold mb-1 truncate">
             {metadata.name}
           </a>
         </Link>
-        <div className="flex flex-col justify-between h-32 gap-2">
-          <span className="text-md block">
-            {metadata.description.substring(0, 150)}...
+        <div className="flex flex-col justify-between h-32 gap-1">
+          <span className="text-sm block">
+            {metadata.description.substring(0, 100)}...
           </span>
           {metadata.external_link && (
             <div className="flex justify-center">
-              <a
-                href={metadata.external_link}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-block text-md border border-cornflower-blue hover:text-cornflower-blue text-center rounded-3xl px-3 py-1.5"
-              >
-                Visit website
-              </a>
+              <ExternalLink href={metadata.external_link} />
             </div>
           )}
         </div>

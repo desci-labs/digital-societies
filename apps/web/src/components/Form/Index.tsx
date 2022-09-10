@@ -85,3 +85,20 @@ function Select<T>(
 }
 
 export const SelectInput = React.forwardRef(Select);
+
+export type FormProps = { title?: string, description?: string };
+
+export function Form(props: HTMLProps<HTMLFormElement> & FormProps) {
+
+  return (
+    <div className="container mx-auto flex flex-col gap-5 border border-turquoise py-8 max-w-500">
+      {props.title && <h1 className="text-3xl font-bold mt-5 text-center">{props.title}</h1>}
+      {props.description && <span className="text-lg text-center font-semibold">{props.description}</span>}
+      <div className="mx-auto flex justify-center w-120">
+        <form className="w-full" onSubmit={props.onSubmit}>
+          {props.children}
+        </form>
+      </div>
+    </div>
+  )
+}

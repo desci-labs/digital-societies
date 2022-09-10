@@ -1,5 +1,5 @@
 import { Metadata } from "components/Transactors/types";
-import useLocalStorageState from "hooks/useLocalstorage";
+import useLocalStorageState from "hooks/useLocalStorageState";
 import { createContext, useContext, useState } from "react";
 import CredentialUpdater from "./updater";
 

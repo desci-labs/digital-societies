@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { Button, InputRow, SelectInput } from "components/Form/Index";
+import { Button, Form, InputRow, SelectInput } from "components/Form/Index";
 import { useGetOrg } from "context/Factory/FactoryContext";
 import { IssuerValues } from "../types";
 import {
@@ -38,52 +38,43 @@ export default function LaunchForm() {
   }, [isSuccess, reset]);
 
   return (
-    <div className="container mx-auto flex flex-col gap-5 border border-black py-8 max-w-500">
-      <h1 className="text-3xl font-bold mt-5 text-center">
-        {org?.metadata.name}
-      </h1>
-      <span className="text-lg text-center font-semibold">
-        Issue a Credential
-      </span>
-      <div className="mx-auto flex justify-center w-120">
-        <form className="w-full" onSubmit={handleSubmit(issueCredential)}>
-          <InputRow
-            htmlFor="credential"
-            label="Select credential"
-            className="text-sm"
-          >
-            <SelectInput<Credential>
-              options={credentialOptions}
-              getOptionLabel={(data) => data.metadata.name}
-              getOptionValue={(data) => data.id}
-              {...register("credential")}
-            />
-          </InputRow>
-          <InputRow
-            htmlFor="addresses"
-            label="address: (comma separated list)"
-            className="text-sm"
-          >
-            <ErrorMessage
-              errors={errors}
-              name="addresses"
-              as="span"
-              className="text-xs text-left text-red-400 font-semibold m-0"
-            />
-            <textarea
-              id="addresses"
-              className="w-full border p-2 rounded-xl appearance-none resize-none h-20"
-              {...register("addresses")}
-            />
-          </InputRow>
-          <Button
-            disabled={canDisable || !isValid}
-            className="mt-10 w-full bg-black disabled:bg-regent-gray"
-          >
-            Deploy
-          </Button>
-        </form>
-      </div>
-    </div>
+
+    <Form onSubmit={handleSubmit(issueCredential)} title={org?.metadata.name} description="Issue a Credential">
+      <InputRow
+        htmlFor="credential"
+        label="Select credential"
+        className="text-sm"
+      >
+        <SelectInput<Credential>
+          options={credentialOptions}
+          getOptionLabel={(data) => data.metadata.name}
+          getOptionValue={(data) => data.id}
+          {...register("credential")}
+        />
+      </InputRow>
+      <InputRow
+        htmlFor="addresses"
+        label="address: (comma separated list)"
+        className="text-sm"
+      >
+        <ErrorMessage
+          errors={errors}
+          name="addresses"
+          as="span"
+          className="text-xs text-left text-red-400 font-semibold m-0"
+        />
+        <textarea
+          id="addresses"
+          className="w-full border p-2 rounded-xl appearance-none resize-none h-20"
+          {...register("addresses")}
+        />
+      </InputRow>
+      <Button
+        disabled={canDisable || !isValid}
+        className="mt-10 w-full bg-black disabled:bg-regent-gray"
+      >
+        Deploy
+      </Button>
+    </Form>
   );
 }
