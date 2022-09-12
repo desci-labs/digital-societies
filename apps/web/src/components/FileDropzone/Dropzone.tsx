@@ -17,10 +17,11 @@ export default function Dropzone<T extends FieldValues>(props: Props<T>) {
     disabled: props.disabled,
   } as any);
 
-  const className = `py-1.5 px-4 w-full flex flex-col items-center rounded-xl border-2  ${
-    isDragActive ? "border-cornflower-blue" : ""
-    } ${props.value ? "border-cornflower-blue" : "border-regent-gray"}
-      ${props.hasError ? "border-red-400" : "border-turquoise"}
+  const className = `
+    py-1.5 px-4 w-full flex flex-col items-center rounded-xl border-2  
+    ${isDragActive ? "border-cornflower-blue" : ""} 
+    ${props.value ? "border-cornflower-blue" : "border-regent-gray"}
+    ${props.hasError ? "border-red-400" : ""}
     `;
 
   return (
@@ -42,17 +43,14 @@ function DropzoneInner({
       className="block flex flex-col gap-2 items-start"
       htmlFor="image"
     >
-      {!value?.file ? (
-        <div>
-          <span className="block text-center my-2">Drag and drop file</span>
-          <span className="block text-center my-2">OR</span>
-          <span className="block text-center my-2 border-2 cursor-pointer w-72 rounded-lg hover:border-cornflower-blue">
-            Choose file
-          </span>
-        </div>
-      ) : (
-        <span className="block text-center my-3">{value.name}</span>
-      )}
-    </label>
+      <div className="text-regent-gray">
+        {value?.file && <span className="block text-center my-1 font-bold capitalize text-black">{value.name}</span>}
+        <span className="block text-center my-2">Drag and drop file</span>
+        <span className="block text-center my-2">OR</span>
+        <span className="block text-center my-2 border-2 cursor-pointer w-72 rounded-lg hover:border-regent-gray">
+          Choose file
+        </span>
+      </div>
+    </label >
   );
 }

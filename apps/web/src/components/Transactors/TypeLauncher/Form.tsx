@@ -6,10 +6,9 @@ import { ErrorMessage } from "@hookform/error-message";
 import FileDropzone from "components/FileDropzone";
 import { Button, Form, Input, InputRow } from "components/Form/Index";
 import { useGetOrg } from "context/Factory/FactoryContext";
-import { FileObject } from "components/FileDropzone/types";
-import { resolveIpfsURL } from "helper";
 import useCreateType from "./useCreateType";
 import { MetadataValues } from "../types";
+import ImagePreview from "components/UI/ImagePreview";
 
 export default function LaunchForm() {
   const {
@@ -101,31 +100,5 @@ export default function LaunchForm() {
         Create Credential
       </Button>
     </Form>
-  );
-}
-
-function ImagePreview({ image }: { image: FileObject }) {
-  const url = image.ipfsHash ? resolveIpfsURL(image.ipfsHash) : image.file ? window.URL.createObjectURL(image.file) : "";
-
-  useEffect(() => {
-    return () => {
-      if (url.includes(window.location.origin)) {
-        window.URL.revokeObjectURL(url)
-      }
-    }
-  }, [url]);
-
-  if (!url) return null;
-
-  return (
-    <div className="w-full h-100 relative">
-      <Image
-        alt="preview"
-        src={url}
-        layout="fill"
-        objectFit="cover"
-        objectPosition="center"
-      />
-    </div>
   );
 }

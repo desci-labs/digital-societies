@@ -11,7 +11,6 @@ export default function ListOrgs() {
   if (isLoading) {
     return <Loader className="h-screen" />;
   }
-  console.log('filtered ', data);
   return (
     <div className="container mx-auto py-10 grid grid-cols-1 lg:grid-cols-3 content-start gap-y-10 place-items-center mt-10">
       {data.length && data.filter(org => !!org.metadata).map((org, idx) => <SBCard key={idx} org={org} />)}

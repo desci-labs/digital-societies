@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { queryIpfsHash } from "api";
 import { useGetOrgs } from "context/Factory/FactoryContext";
 import { asyncMap } from "helper";
 import useBlockNumber from "hooks/useBlockNumber";

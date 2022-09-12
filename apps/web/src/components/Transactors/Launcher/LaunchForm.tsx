@@ -5,16 +5,19 @@ import { ErrorMessage } from "@hookform/error-message";
 import useLaunch from "./useLaunch";
 import { Button, Form, Input, InputRow } from "components/Form/Index";
 import { MetadataValues } from "../types";
+import ImagePreview from "components/UI/ImagePreview";
 
 export default function LaunchForm() {
   const {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { isSubmitting, isValid, errors },
   } = useFormContext<MetadataValues>();
   const { launch, isLoading, isSuccess } = useLaunch();
 
+  const image = watch('image');
   const canDisable = useMemo(() => isSubmitting || isLoading, [isSubmitting, isLoading])
 
   useEffect(() => {
@@ -75,6 +78,7 @@ export default function LaunchForm() {
         label="Image"
       >
         <ErrorMessage errors={errors} name="image" as="span" className="text-xs text-left text-red-400 font-semibold m-0" />
+        <ImagePreview image={image} />
         <FileDropzone<MetadataValues>
           name="image"
           className="h-10"
