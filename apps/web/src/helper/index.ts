@@ -4,7 +4,7 @@ import { base16 } from "multiformats/bases/base16";
 const IPFS_GATEWAY = 'https://ipfs.io/ipfs/';
 const PINATA_GATEWAY = 'https://gateway.pinata.cloud/ipfs/';
 
-export const resolveIpfsURL = (hash: string) => `${PINATA_GATEWAY}${hash}`
+export const resolveIpfsURL = (hash: string) => `${IPFS_GATEWAY}${hash}`
 
 export const getBytesFromCIDString = (input: string) => {
   const cid = CID.parse(input);
