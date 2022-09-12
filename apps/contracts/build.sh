@@ -6,6 +6,10 @@ if [[ $forge_out == "" ]]; then
     echo "installing forge"
     curl -L https://foundry.paradigm.xyz | bash
 
+    if [[ -f "$HOME/.bash_profile" ]]; then
+        echo "sourcing bash_profile"
+        source ~/.bash_profile
+    fi
     if [[ -f "$HOME/.zshrc" ]]; then
         echo "sourcing zshrc"
         source ~/.zshrc
