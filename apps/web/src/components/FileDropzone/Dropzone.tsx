@@ -15,7 +15,7 @@ export default function Dropzone<T extends FieldValues>(props: Props<T>) {
   const { getInputProps, getRootProps, isDragActive } = useDropzone({
     onDrop: props.onDrop,
     disabled: props.disabled,
-  });
+  } as any);
 
   const className = `py-1.5 px-4 w-full flex flex-col items-center rounded-xl border-2  ${
     isDragActive ? "border-cornflower-blue" : ""
