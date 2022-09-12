@@ -67,5 +67,6 @@ export default function CredentialUpdater() {
       getFactoryTokens();
     }
   }, [block, lastUpdated, getFactoryTokens]);
+  
   return null;
 }

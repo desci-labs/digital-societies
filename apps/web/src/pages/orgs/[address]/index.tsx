@@ -36,11 +36,11 @@ export default function ViewOrgs() {
           />
         </div>
       </div>
-      <div className="container mx-auto">
+      <div className="container mx-auto ">
         <span className="text-3xl block font-bold mb-2 text-left">
           {org.metadata.name} ({org.metadata.symbol})
         </span>
-        <span className="text-lg block mb-2 text-left">
+        <span className="text-lg block mb-2 text-left text-regent-gray">
           {org.metadata.description}
         </span>
       </div>
@@ -50,7 +50,7 @@ export default function ViewOrgs() {
 }
 
 function CredentialGridView({ address }: { address: string }) {
-  const { isLoading, data } = useGetCredentials();
+  const { isLoading, credentials: data } = useGetCredentials();
   const credentials = data[address];
 
   if (isLoading) return <Loader />;
@@ -58,11 +58,14 @@ function CredentialGridView({ address }: { address: string }) {
   if (!credentials || credentials.length === 0) return null;
 
   return (
-    <div className="container mx-auto py-10 grid grid-cols-1 lg:grid-cols-3 content-start gap-y-10 place-items-center mt-10">
-      {credentials.length &&
-        credentials.map((credential, idx) => (
-          <CredentialCard key={idx} credential={credential} />
-        ))}
+    <div className="container mx-auto w-full">
+      <h1 className="text-left text-2xl text-dark font-bold">Credentials</h1>
+      <div className="grid grid-cols-1 lg:grid-cols-3 content-start gap-y-10 place-items-center mt-5 mb-10">
+        {credentials.length &&
+          credentials.map((credential, idx) => (
+            <CredentialCard key={idx} credential={credential} />
+          ))}
+      </div>
     </div>
   );
 }
@@ -99,7 +102,6 @@ export function CredentialCard({ credential }: { credential: Credential }) {
             </div>
           )}
         </div>
-       
       </div>
     </div>
   );

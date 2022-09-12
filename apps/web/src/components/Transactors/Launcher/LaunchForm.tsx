@@ -23,7 +23,7 @@ export default function LaunchForm() {
 
 
   return (
-    <Form onSubmit={handleSubmit(launch)} title="Launch Organisation">
+    <Form onSubmit={handleSubmit(launch)} title="Launch Organisation" className="mb-10">
       <InputRow
         htmlFor="issuer"
         label="Issuer:"
@@ -86,7 +86,7 @@ export default function LaunchForm() {
         disabled={canDisable || !isValid}
         className="mt-4 w-full bg-black disabled:bg-regent-gray"
       >
-        Deploy
+        Deploy organisation
       </Button>
     </Form>
   );

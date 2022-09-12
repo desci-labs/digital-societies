@@ -98,7 +98,7 @@ export default function LaunchForm() {
         disabled={canDisable || !isValid}
         className="mt-4 w-full bg-black disabled:bg-regent-gray"
       >
-        Deploy
+        Create Credential
       </Button>
     </Form>
   );

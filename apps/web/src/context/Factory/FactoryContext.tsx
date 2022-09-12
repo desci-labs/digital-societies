@@ -1,4 +1,5 @@
 import { Metadata } from "components/Transactors/types";
+import { Credential } from "context/Credential/CredentialContext";
 import useLocalStorageState from "hooks/useLocalStorageState";
 import { createContext, useContext } from "react";
 import FactoryUpdater from "./updater";

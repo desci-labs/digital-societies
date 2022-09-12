@@ -1,10 +1,10 @@
+import { useCallback, useEffect, useState } from "react";
+import { useProvider } from "wagmi";
 import { queryIpfsHash } from "api";
 import { ethers } from "ethers";
 import { getCIDStringFromBytes } from "helper";
 import useBlockNumber from "hooks/useBlockNumber";
 import { useFactoryContract, useSBTContractFactory } from "hooks/useContract";
-import { useCallback, useEffect, useState } from "react";
-import { useProvider } from "wagmi";
 import { useGetOrgs, useSetOrgs } from "./FactoryContext";
 
 export default function FactoryUpdater() {
@@ -47,7 +47,7 @@ export default function FactoryUpdater() {
   useEffect(() => {
     if (
       contract &&
-      block && (lastUpdated === 0 || block - lastUpdated > 10)
+      block && (lastUpdated === 0 || block - lastUpdated > 5)
     ) {
       getFactoryTokens();
     }

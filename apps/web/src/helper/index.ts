@@ -30,3 +30,14 @@ export async function asyncMap<T, E>(arr: E[], predicate: any): Promise<T[]> {
 }
 
 export const shortenText = (text: string, charCount: number = 100) => text.length > (charCount) ? `${text.substring(0, charCount)}...` : text;
+
+export default function maskAddress(addr?: string) {
+  const nChars = 6;
+  if (!addr) {
+    return "";
+  } else {
+    const len = addr.length;
+    const middle = addr.substring(nChars, len - nChars);
+    return addr.replace(middle, "...");
+  }
+}

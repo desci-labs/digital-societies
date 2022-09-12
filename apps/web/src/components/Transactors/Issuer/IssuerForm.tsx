@@ -21,7 +21,7 @@ export default function LaunchForm() {
   const router = useRouter();
   const { address } = router.query;
   const org = useGetOrg(address as string);
-  const { data } = useGetCredentials();
+  const { credentials: data } = useGetCredentials();
   const { issueCredential, isLoading, isSuccess } = useIssueCredential(org?.address!);
   const canDisable = useMemo(
     () => isSubmitting || isLoading || isSuccess,
@@ -73,7 +73,7 @@ export default function LaunchForm() {
         disabled={canDisable || !isValid}
         className="mt-10 w-full bg-black disabled:bg-regent-gray"
       >
-        Deploy
+        Issue Credential
       </Button>
     </Form>
   );
