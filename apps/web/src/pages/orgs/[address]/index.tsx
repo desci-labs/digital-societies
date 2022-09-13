@@ -5,7 +5,7 @@ import {
   Credential,
   useGetCredentials,
 } from "context/Credential/CredentialContext";
-import { useGetOrg } from "context/Factory/FactoryContext";
+import { useCanMutateOrg, useGetOrg } from "context/Factory/FactoryContext";
 import { resolveIpfsURL, shortenText } from "helper";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,16 +16,17 @@ export default function ViewOrgs() {
   const router = useRouter();
   const { address } = router.query;
   const org = useGetOrg(address as string);
+  const hasAccess = useCanMutateOrg(org?.address!);
 
   if (!org) return <Loader className="h-screen" />;
 
   return (
     <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center">
       <div className="w-full h-104 relative group">
-        <ActionButtons>
+        {hasAccess && <ActionButtons>
           <ActionButtonLink title="Create Credential" href={`${address}/create-credential`}></ActionButtonLink>
           <ActionButtonLink title="Edit Metadata" href={`edit/${address}`}></ActionButtonLink>
-        </ActionButtons>
+        </ActionButtons>}
         <div className="w-full h-full relative">
           <Image
             src={resolveIpfsURL(org.metadata.image)}

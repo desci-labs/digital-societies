@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { Button, Form, InputRow, SelectInput } from "components/Form/Index";
+import { GradientButton, Form, InputRow, SelectInput } from "components/Form/Index";
 import { useGetOrg } from "context/Factory/FactoryContext";
 import { IssuerValues } from "../types";
 import {
@@ -69,12 +69,12 @@ export default function LaunchForm() {
           {...register("addresses")}
         />
       </InputRow>
-      <Button
+      <GradientButton
         disabled={canDisable || !isValid}
         className="mt-10 w-full bg-black disabled:bg-regent-gray"
       >
         Issue Credential
-      </Button>
+      </GradientButton>
     </Form>
   );
 }

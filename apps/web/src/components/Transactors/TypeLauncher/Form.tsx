@@ -4,7 +4,7 @@ import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import FileDropzone from "components/FileDropzone";
-import { Button, Form, Input, InputRow } from "components/Form/Index";
+import { Form, GradientButton, Input, InputRow } from "components/Form/Index";
 import { useGetOrg } from "context/Factory/FactoryContext";
 import useCreateType from "./useCreateType";
 import { MetadataValues } from "../types";
@@ -93,12 +93,12 @@ export default function LaunchForm() {
           hasError={!!errors.image}
         />
       </InputRow>
-      <Button
+      <GradientButton
         disabled={canDisable || !isValid}
         className="mt-4 w-full bg-black disabled:bg-regent-gray"
       >
         Create Credential
-      </Button>
+      </GradientButton>
     </Form>
   );
 }

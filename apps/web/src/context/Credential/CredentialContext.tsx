@@ -24,6 +24,8 @@ export const getContext = createContext<CredentialState>(initialState);
 export const setContext = createContext({
   setCredentials: (_value: CredentialMap) => {},
   setTokens: (_value: CredentialToTokenMap) => {},
+  addToken: (_value: { token: CredentialToken; address: string }) => {},
+  removeToken: (_value: { tokenId: number; address: string }) => {},
 });
 
 export default function CredentialProvider({ children }: any) {
@@ -31,6 +33,7 @@ export default function CredentialProvider({ children }: any) {
     `DESCILabs_Credentials`,
     initialState
   );
+  
   const setCredentials = (payload: CredentialMap) => {
     setState((prevState) => ({
       ...prevState,
@@ -45,10 +48,32 @@ export default function CredentialProvider({ children }: any) {
       tokens: { ...prevState.tokens, ...payload },
     }));
   }
+  
+  const addToken = (payload: { token: CredentialToken; address: string }) => {
+    // remove duplicate
+    const update = state.tokens[payload.address].filter(token => token.tokenId != payload.token.tokenId)
+    setState((prevState) => ({
+      ...prevState,
+      tokens: {
+        ...prevState.tokens,
+        [payload.address]: update.concat([payload.token]),
+      }
+    }))
+  }
+  const removeToken = (payload: { tokenId: number; address: string }) => {
+    const update = state.tokens[payload.address].filter(token => token.tokenId != payload.tokenId)
+    setState((prevState) => ({
+      ...prevState,
+      tokens: {
+        ...prevState.tokens,
+        [payload.address]: update,
+      }
+    }))
+  }
 
   return (
     <getContext.Provider value={state}>
-      <setContext.Provider value={{ setCredentials, setTokens }}>
+      <setContext.Provider value={{ setCredentials, setTokens, addToken, removeToken }}>
         <CredentialUpdater />
         <TokenUpdater />
         {children}

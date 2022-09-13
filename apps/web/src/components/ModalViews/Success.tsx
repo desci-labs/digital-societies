@@ -5,10 +5,11 @@ import { IoMdClose } from "react-icons/io";
 import { useNetwork } from "wagmi";
 import TransactionLink from "./TransactionLink";
 
-export default function Success() {
+export default function Success({ message: text } : {message?: string }) {
   const { chain } = useNetwork();
   const { hideModal } = useSetModal();
   const { txInfo, message } = useGetTx();
+  const feedback = text || message;
 
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-xl transform transition-all sm:max-w-md sm:w-full">
@@ -26,11 +27,11 @@ export default function Success() {
           <p className="font-semibold capitalize text-lg">
             Transaction Successfull
           </p>
-          {/* {message && (
+          {feedback && (
             <p className="font-semibold text-regent-gray capitalize text-lg">
-              {message}
+              {feedback}
             </p>
-          )} */}
+          )}
           {txInfo && txInfo.hash && chain?.id && (
             <TransactionLink
               name={chain.name}

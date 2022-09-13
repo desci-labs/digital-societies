@@ -82,6 +82,7 @@ contract SBToken is ERC721, AccessControlEnumerable {
     {
         require(_typeExists(_tokenType), "Invalid SB type");
         for (uint256 i = 0; i < _to.length; ) {
+            // TODO:  mint(_to[i], _tokenType); 
             totalSupply++;
             _safeMint(_to[i], totalSupply);
             tokenToMinter[totalSupply] = msg.sender;

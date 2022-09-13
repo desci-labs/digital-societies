@@ -1,6 +1,7 @@
 import { Metadata } from "components/Transactors/types";
 import useLocalStorageState from "hooks/useLocalStorageState";
 import { createContext, useContext } from "react";
+import { useAccount } from "wagmi";
 import FactoryUpdater from "./updater";
 
 // type RoleData = { admin: string; members: string[] }
@@ -43,12 +44,19 @@ export function useGetOrg(address: string) {
   return data.find(org => org.address === address);
 }
 
-export function useIsAdmin(address: string) {
+export function useIsAdmin(address: string, user: string) {
   const org = useGetOrg(address);
-  return org?.admin === address
+  return org?.admin === user
 }
 
-export function useIsDelegate(address: string) {
+export function useIsDelegate(address: string, user: string) {
   const org = useGetOrg(address);
-  return !!org?.delegates.some(member => member === address);
+  return !!org?.delegates.some(member => member === user);
+}
+
+export function useCanMutateOrg(address: string) {
+  const account = useAccount();
+  const isAdmin = useIsAdmin(address, account.address ?? '');
+  const isDelegate = useIsDelegate(address, account.address ?? '');
+  return isAdmin || isDelegate;
 }
