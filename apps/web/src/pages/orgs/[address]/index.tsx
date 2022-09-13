@@ -9,7 +9,7 @@ import { useCanMutateOrg, useGetOrg } from "context/Factory/FactoryContext";
 import { resolveIpfsURL, shortenText } from "helper";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter }  from "next/router";
 import { useMemo } from "react";
 
 export default function ViewOrgs() {

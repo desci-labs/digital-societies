@@ -13,7 +13,7 @@ import {
 import { useCanMutateOrg } from "context/Factory/FactoryContext";
 import maskAddress, { resolveIpfsURL } from "helper";
 import Image from "next/image";
-import { useRouter } from "next/router";
+import { useRouter }  from "next/router";
 import { useEnsName } from "wagmi";
 import { RiCloseLine } from 'react-icons/ri'
 
