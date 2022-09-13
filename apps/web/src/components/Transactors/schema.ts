@@ -58,6 +58,7 @@ export const metadataSchema = Yup.object().shape({
   description: Yup.string().required(),
   external_link: Yup.string().matches(uriPattern, "Invalid url"),
   image: FILE_SCHEMA.required(),
+  logo: FILE_SCHEMA.required(),
 });
 
 export const issuerSchema = Yup.object().shape({

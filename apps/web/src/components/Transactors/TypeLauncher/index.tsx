@@ -20,6 +20,7 @@ export default function TokenTypeTransactor({ org }: { org: Org }) {
       symbol: org.metadata.symbol,
       description: org.metadata.description,
       image: { ipfsHash: org.metadata.image },
+      logo: { ipfsHash: org.metadata.logo },
       external_link: org.metadata.external_link,
     },
     resolver: yupResolver(metadataSchema),

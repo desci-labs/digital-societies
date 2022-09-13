@@ -18,6 +18,7 @@ export default function LaunchForm() {
   const { launch, isLoading, isSuccess } = useLaunch();
 
   const image = watch('image');
+  const logo = watch('logo');
   const canDisable = useMemo(() => isSubmitting || isLoading, [isSubmitting, isLoading])
 
   useEffect(() => {
@@ -75,7 +76,7 @@ export default function LaunchForm() {
       </InputRow>
       <InputRow
         htmlFor="image"
-        label="Image"
+        label="Banner"
       >
         <ErrorMessage errors={errors} name="image" as="span" className="text-xs text-left text-red-400 font-semibold m-0" />
         <ImagePreview image={image} />
@@ -84,6 +85,19 @@ export default function LaunchForm() {
           className="h-10"
           disabled={canDisable}
           hasError={!!errors.image}
+        />
+      </InputRow>
+      <InputRow
+        htmlFor="logo"
+        label="logo"
+      >
+        <ErrorMessage errors={errors} name="logo" as="span" className="text-xs text-left text-red-400 font-semibold m-0" />
+        <ImagePreview image={logo} className="rounded-full" wrapperClassName="w-20 h-20" />
+        <FileDropzone<MetadataValues>
+          name="logo"
+          className="h-10"
+          disabled={canDisable}
+          hasError={!!errors.logo}
         />
       </InputRow>
       <GradientButton

@@ -25,36 +25,46 @@ export default function useLaunch() {
       reset();
 
       const formdata = new FormData();
-      formdata.append("name", metadata.image.name);
+      formdata.append("image", metadata.image.name);
+      formdata.append("logo", metadata.logo.name);
       formdata.append(metadata.image.name, metadata.image.file);
-      
-      showModal(Processing, { message: 'Pining Metadata to ipfs...' })
+      formdata.append(metadata.logo.name, metadata.logo.file);
+
+      showModal(Processing, { message: "Pining Metadata to ipfs..." });
       const res = await fetch("/api/pinFileToIpfs", {
         method: "POST",
         body: formdata,
       });
-      const pinnedImageResponse = (await res.json()) as PinataPinResponse;
-      
-      const meta = { ...metadata, image: pinnedImageResponse.IpfsHash };
+      const [pinnedImageResponse, pinnedLogoResponse] =
+        (await res.json()) as PinataPinResponse[];
+
+      const meta = {
+        ...metadata,
+        image: pinnedImageResponse.IpfsHash,
+        logo: pinnedLogoResponse.IpfsHash,
+      };
       const metaRes = await fetch("/api/pinJsonToIpfs", {
         method: "POST",
         body: JSON.stringify(meta),
       });
       const pinnedMetadataRes = (await metaRes.json()) as PinataPinResponse;
-      const metadataHex = getBytesFromCIDString(pinnedMetadataRes.IpfsHash)
+      const metadataHex = getBytesFromCIDString(pinnedMetadataRes.IpfsHash);
 
-      showModal(Processing, { message: 'Confirming transaction...' })
+      showModal(Processing, { message: "Confirming transaction..." });
       const tx = await writeAsync({
-        recklesslySetUnpreparedArgs: [metadata.name, metadata.symbol, metadataHex],
+        recklesslySetUnpreparedArgs: [
+          metadata.name,
+          metadata.symbol,
+          metadataHex,
+        ],
       });
-      setTx({ txInfo: tx, message: 'Processing transaction' })
+      setTx({ txInfo: tx, message: "Processing transaction" });
       await tx.wait();
       showModal(Success, {});
     } catch (e: any) {
-      console.log('Error ', e?.data?.message, e?.message);
-      showModal(Error, { message: "Error processing transaction", })
+      console.log("Error ", e?.data?.message, e?.message);
+      showModal(Error, { message: "Error processing transaction" });
     }
-
   }
   return { launch, isLoading, isSuccess };
 }

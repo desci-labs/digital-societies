@@ -7,6 +7,7 @@ export interface MetadataValues {
   description: string;
   external_link: string;
   image: FileObject;
+  logo: FileObject
 }
 
 export interface IssuerValues {
@@ -14,7 +15,7 @@ export interface IssuerValues {
   credential: number;
 }
 
-export type Metadata = MetadataValues & { image: string }
+export type Metadata = MetadataValues & { image: string, logo: string }
 export type IResponse = {
   IpfsHash: string;
   PinSize: number;

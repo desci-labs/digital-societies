@@ -3,7 +3,7 @@ import { resolveIpfsURL } from "helper";
 import Image from "next/image";
 import { useEffect } from "react";
 
-export default function ImagePreview({ image }: { image: FileObject }) {
+export default function ImagePreview({ image, className, wrapperClassName }: { image: FileObject, className?: string, wrapperClassName?: string }) {
   const url = image.ipfsHash ? resolveIpfsURL(image.ipfsHash) : image.file ? window.URL.createObjectURL(image.file) : "";
   
   useEffect(() => {
@@ -17,14 +17,14 @@ export default function ImagePreview({ image }: { image: FileObject }) {
   if (!url) return null;
   
   return (
-    <div className="w-full h-32 relative rounded-lg">
+    <div className={`w-full h-32 relative ${wrapperClassName}`}>
       <Image
         alt="preview"
         src={url}
         layout="fill"
         objectFit="cover"
         objectPosition="center"
-        className="rounded-xl"
+        className={`rounded-xl ${className}`}
       />
     </div>
   );

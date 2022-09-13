@@ -51,7 +51,7 @@ export default function CredentialUpdater() {
         if (!credential) return all;
         all[credential.address] = credential.data;
         return all;
-      },{} as CredentialMap)
+      }, {} as CredentialMap)
       
       setCredentials(credentials);
       setLastUpdated(block);
@@ -62,11 +62,11 @@ export default function CredentialUpdater() {
 
   useEffect(() => {
     if (
-      block && (lastUpdated === 0 || block - lastUpdated > 10)
+      block && (lastUpdated === 0 || block - lastUpdated > 5)
     ) {
       getFactoryTokens();
     }
   }, [block, lastUpdated, getFactoryTokens]);
-  
+
   return null;
 }

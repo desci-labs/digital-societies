@@ -17,6 +17,7 @@ export default function Launcher() {
       symbol: 'ETF',
       description: "2022 Merge Contributor",
       image: {},
+      logo: {},
       external_link: "https://ethereum.org",
     },
     resolver: yupResolver(metadataSchema),
