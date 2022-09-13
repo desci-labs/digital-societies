@@ -53,6 +53,6 @@
     "typescript": "^4.7.2"
   },
   "resolutions": {
-    "ethereumjs-abi": "https://git@github.com/ethereumjs/ethereumjs-abi.git"
+    "ethereumjs-abi": "git+https://github.com/ethereumjs/ethereumjs-abi.git"
   }
 }
