@@ -13,7 +13,7 @@ export default function Header() {
         </Link>
       </div>
       <div>
-        <ConnectButton chainStatus="none" showBalance={false} />
+        <ConnectButton showBalance={false} />
       </div>
     </div>
   );

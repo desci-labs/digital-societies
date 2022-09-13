@@ -44,6 +44,7 @@ export default function FactoryUpdater() {
       if (!block || !contract) return;
 
       if (block - lastUpdated < 10) return;
+
       const filter = contract.filters.TokenCreated();
       const events = await contract.queryFilter(filter);
       const results = await Promise.all(events.map(getContractInfofromEvent));
