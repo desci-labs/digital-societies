@@ -1,4 +1,4 @@
-import { useSetModal } from "components/Modal/Modal";
+import { useModalContext } from "components/Modal/Modal";
 import { useGetTx } from "context/useTx";
 import { getTransactionUrl } from "helper/web3";
 import { IoMdClose } from "react-icons/io";
@@ -7,7 +7,7 @@ import { useNetwork } from "wagmi";
 import TransactionLink from "./TransactionLink";
 
 export default function Processing({ message }: { message: string }) {
-  const { hideModal } = useSetModal();
+  const { hideModal } = useModalContext();
   const { chain } = useNetwork();
   const { txInfo, message: text } = useGetTx();
 

@@ -33,10 +33,13 @@ module.exports = {
         body: ["Space Grotesk", "sans-serif"],
       },
       spacing: {
+        12: '5rem',
         32: '8rem',
         48: '12rem',
         104: '26rem',
-        120: '30rem'
+        120: '30rem',
+        160: '40rem',
+        180: '45rem',
       },
       maxWidth: {
         500: "630px",

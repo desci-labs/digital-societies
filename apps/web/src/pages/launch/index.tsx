@@ -1,4 +1,5 @@
 import Launcher from 'components/Transactors/Launcher/Launcher';
+import LaunchForm from 'components/Transactors/Launcher/LaunchForm';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 
@@ -13,7 +14,7 @@ const Launch: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Launcher />
+      <Launcher Form={LaunchForm} />
     </div>
   );
 };

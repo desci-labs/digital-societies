@@ -11,7 +11,7 @@ import {
 } from "context/Credential/CredentialContext";
 import useIssueCredential from "./useIssueCredential";
 
-export default function LaunchForm() {
+export default function IssuerForm() {
   const {
     reset,
     register,

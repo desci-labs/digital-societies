@@ -1,5 +1,6 @@
 import Loader from 'components/Loader';
 import Issuer from 'components/Transactors/Issuer';
+import IssuerForm from 'components/Transactors/Issuer/IssuerForm';
 import { useGetCredential } from 'context/Credential/CredentialContext';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -25,7 +26,7 @@ const CreateType: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {isConnected && credential && <Issuer credential={credential} />}
+      {isConnected && credential && <Issuer Form={IssuerForm} credential={credential} />}
     </div>
   );
 };

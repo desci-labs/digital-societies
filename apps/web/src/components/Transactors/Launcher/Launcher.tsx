@@ -1,11 +1,13 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import LaunchForm from "./LaunchForm";
 import { useAccount } from "wagmi";
 import { MetadataValues } from "../types";
 import { metadataSchema } from "../schema";
+import { FC } from "react";
 
-export default function Launcher() {
+export type Props = { Form: FC }
+
+export default function Launcher(props: Props) {
   const { address } = useAccount();
 
   const methods = useForm<MetadataValues>({
@@ -25,7 +27,7 @@ export default function Launcher() {
 
   return (
     <FormProvider {...methods}>
-      <LaunchForm />
+      <props.Form />
     </FormProvider>
   );
 }

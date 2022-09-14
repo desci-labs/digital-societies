@@ -1,12 +1,14 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Form from "./Form";
 import { useAccount } from "wagmi";
 import { MetadataValues } from "../types";
 import { metadataSchema } from "../schema";
 import { Org } from "context/Factory/FactoryContext";
+import { FC } from "react";
 
-export default function TokenTypeTransactor({ org }: { org: Org }) {
+export type Props = { org: Org, Form: FC };
+
+export default function CredentialLauncher({ org, Form }: Props) {
   if (!org) throw Error("Organisation data is required");
 
   const { address } = useAccount();

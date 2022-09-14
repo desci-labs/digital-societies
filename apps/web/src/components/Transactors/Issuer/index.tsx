@@ -1,11 +1,13 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Form from "./IssuerForm";
 import { IssuerValues } from "../types";
 import { issuerSchema } from "../schema";
 import { Credential } from "context/Credential/CredentialContext";
+import { FC } from "react";
 
-export default function Issuer({ credential }: { credential: Credential }) {
+export type Props = { credential: Credential; Form: FC };
+
+export default function Issuer({ credential, Form }: Props) {
   if (!credential) throw Error("Credential data is required");
 
   const methods = useForm<IssuerValues>({

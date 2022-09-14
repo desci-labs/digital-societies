@@ -1,5 +1,6 @@
 import Loader from 'components/Loader';
-import TokenTypeTransactor from 'components/Transactors/TypeLauncher';
+import Credenter from 'components/Transactors/Credential';
+import CredentialForm from 'components/Transactors/Credential/Form';
 import { useGetOrg } from 'context/Factory/FactoryContext';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -25,7 +26,7 @@ const CreateType: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {isConnected && org && <TokenTypeTransactor org={org} />}
+      {isConnected && org && <Credenter Form={CredentialForm} org={org}  />}
     </div>
   );
 };

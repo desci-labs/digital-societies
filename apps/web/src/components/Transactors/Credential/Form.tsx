@@ -9,7 +9,7 @@ import useCreateType from "./useCreateType";
 import { MetadataValues } from "../types";
 import ImagePreview from "components/UI/ImagePreview";
 
-export default function LaunchForm() {
+export default function CredentialForm() {
   const {
     reset,
     watch,

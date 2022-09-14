@@ -1,4 +1,4 @@
-import { useSetModal } from "components/Modal/Modal";
+import { useModalContext } from "components/Modal/Modal";
 import { useGetTx } from "context/useTx";
 import { getTransactionUrl } from "helper/web3";
 import { IoMdClose } from "react-icons/io";
@@ -7,7 +7,7 @@ import TransactionLink from "./TransactionLink";
 
 export default function Success({ message: text } : {message?: string }) {
   const { chain } = useNetwork();
-  const { hideModal } = useSetModal();
+  const { hideModal } = useModalContext();
   const { txInfo, message } = useGetTx();
   const feedback = text || message;
 

@@ -1,4 +1,4 @@
-import { useSetModal } from "components/Modal/Modal";
+import { useModalContext } from "components/Modal/Modal";
 import ErrorView from "components/ModalViews/Error";
 import Processing from "components/ModalViews/Processing";
 import Success from "components/ModalViews/Success";
@@ -8,7 +8,7 @@ import { useContractWrite } from "wagmi";
 import { IssuerValues } from "../types";
 
 export default function useIssueCredential(address: string) {
-  const { showModal } = useSetModal();
+  const { showModal } = useModalContext();
   const { setTx, reset } = useSetTx();
   const getContract = useSBTContractFactory();
   const tokenContract = getContract(address);

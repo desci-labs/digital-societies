@@ -1,8 +1,8 @@
-import { useSetModal } from "components/Modal/Modal";
+import { useModalContext } from "components/Modal/Modal";
 import { IoMdClose } from "react-icons/io";
 
 export default function Error({ message }: { message: string }) {
-  const { hideModal } = useSetModal();
+  const { hideModal } = useModalContext();
 
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-xl transform transition-all sm:max-w-md sm:w-full">

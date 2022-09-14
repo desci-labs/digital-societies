@@ -27,7 +27,7 @@ export default function LaunchForm() {
 
 
   return (
-    <Form onSubmit={handleSubmit(launch)} title="Launch Organisation" className="mb-10">
+    <Form onSubmit={handleSubmit(launch)} title="Launch Organisation" className="mb-10 bg-white">
       <InputRow
         htmlFor="issuer"
         label="Issuer:"

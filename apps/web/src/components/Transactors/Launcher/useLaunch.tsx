@@ -1,5 +1,5 @@
 import { PinataPinResponse } from "@pinata/sdk";
-import { useSetModal } from "components/Modal/Modal";
+import { useModalContext } from "components/Modal/Modal";
 import Error from "components/ModalViews/Error";
 import Processing from "components/ModalViews/Processing";
 import Success from "components/ModalViews/Success";
@@ -10,7 +10,7 @@ import { useContractWrite } from "wagmi";
 import { MetadataValues } from "../types";
 
 export default function useLaunch() {
-  const { showModal } = useSetModal();
+  const { showModal } = useModalContext();
   const { setTx, reset } = useSetTx();
   const factoryContract = useFactoryContract();
   const { isLoading, isSuccess, writeAsync } = useContractWrite({

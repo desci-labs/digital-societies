@@ -80,4 +80,4 @@ const setContext = createContext<Handlers>({
   hideModal: () => {},
 });
 
-export const useSetModal = () => useContext(setContext);
+export const useModalContext = () => useContext(setContext);
