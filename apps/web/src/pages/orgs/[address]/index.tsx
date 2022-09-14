@@ -1,16 +1,22 @@
 import { ActionButtonLink, ActionButtons } from "components/ActionButtons/Index";
+import AddressOrEns from "components/AddressOrEns/Index";
+import { Button } from "components/Form/Index";
 import Loader from "components/Loader";
+import useRemoveDelegate from "components/Transactors/Delegation/useRemoveDelegate";
 import { ExternalLink } from "components/UI/Index";
+import { Cell, Row, Table, TBody, THead } from "components/UI/Table";
 import {
   Credential,
   useGetCredentials,
 } from "context/Credential/CredentialContext";
-import { useCanMutateOrg, useGetOrg } from "context/Factory/FactoryContext";
+import { useCanMutateOrg, useGetOrg, useIsAdmin } from "context/Factory/FactoryContext";
 import { resolveIpfsURL, shortenText } from "helper";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter }  from "next/router";
 import { useMemo } from "react";
+import { RiCloseLine } from "react-icons/ri";
+import { useAccount } from "wagmi";
 
 export default function ViewOrgs() {
   const router = useRouter();
@@ -21,7 +27,7 @@ export default function ViewOrgs() {
   if (!org) return <Loader className="h-screen" />;
 
   return (
-    <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center">
+    <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center mb-10">
       <div className="w-full h-104 relative group">
         {hasAccess && <ActionButtons>
           <ActionButtonLink title="Create Credential" href={`${address}/create-credential`}></ActionButtonLink>
@@ -46,6 +52,61 @@ export default function ViewOrgs() {
         </span>
       </div>
       <CredentialGridView address={org.address} />
+      <Delegates address={org.address} />
+    </div>
+  );
+}
+
+function Delegates({ address }:{ address: string }) {
+  const org = useGetOrg(address);
+  const { address: user } = useAccount();
+  const { revoke, isLoading} = useRemoveDelegate(address);
+  
+  const hasAccess = useIsAdmin(address, user ?? '');
+  if (!org?.delegates || org.delegates.length === 0) return null;
+
+  const getRows = () => {
+    const rows = ["", "delegates"];
+    return hasAccess ? rows.concat(["Revoke"]) : rows;
+  };
+
+  return (
+    <div className="container mx-auto py-10 mt-10 shadow-xl">
+      <Table>
+        <THead rows={getRows()} />
+        <TBody className="">
+          {org.delegates.map((delegate, idx) => (
+            <Row key={idx} className="border-none">
+              <Cell className="flex justify-start p-2">
+                <div className="w-10 h-10 relative">
+                  <Image
+                    src={resolveIpfsURL(org?.metadata?.image ?? "")}
+                    layout="fill"
+                    objectFit="cover"
+                    objectPosition="center"
+                    alt={`${org?.metadata.name} image`}
+                    className="rounded-full block"
+                  />
+                </div>
+              </Cell>
+              <Cell>
+                <AddressOrEns address={delegate} />
+              </Cell>
+              {hasAccess && (
+                <Cell className="p-0">
+                  <Button
+                    onClick={() => revoke(delegate)}
+                    disabled={isLoading}
+                    className={`bg-transparent bg-white bg-opacity-0`}
+                  >
+                    <RiCloseLine className="hover:scale-150 duration-100" color={isLoading ? "#8793A6" : '#f15156'} />
+                  </Button>
+                </Cell>
+              )}
+            </Row>
+          ))}
+        </TBody>
+      </Table>
     </div>
   );
 }

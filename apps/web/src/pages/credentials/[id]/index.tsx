@@ -11,11 +11,11 @@ import {
   useGetCredentialTokens,
 } from "context/Credential/CredentialContext";
 import { useCanMutateOrg } from "context/Factory/FactoryContext";
-import maskAddress, { resolveIpfsURL } from "helper";
+import { resolveIpfsURL } from "helper";
 import Image from "next/image";
 import { useRouter }  from "next/router";
-import { useEnsName } from "wagmi";
 import { RiCloseLine } from 'react-icons/ri'
+import AddressOrEns from "components/AddressOrEns/Index";
 
 export default function CredentialDetails() {
   const router = useRouter();
@@ -79,10 +79,10 @@ function TokenTableView({ address, id }: { id: number; address: string }) {
   };
 
   return (
-    <div className="container mx-auto py-10 mt-10">
+    <div className="container mx-auto py-10 mt-10 shadow-xl">
       <Table>
         <THead rows={getRows()} />
-        <TBody className="border">
+        <TBody>
           {tokens.map((token, idx) => (
             <Row key={idx}>
               <Cell className="flex justify-start p-2">
@@ -123,20 +123,3 @@ function TokenTableView({ address, id }: { id: number; address: string }) {
     </div>
   );
 }
-
-function AddressOrEns(props: { address: string }) {
-  const { data } = useEnsName({ address: props.address, chainId: 1 });
-  return <>{data ?? maskAddress(props.address)}</>;
-}
-
-{/* <Vortex
-  wrapperClass="w-10 h-10"
-  colors={[
-    "#7B61FF",
-    "#42E2B8",
-    "#7B61FF",
-    "#42E2B8",
-    "#7B61FF",
-    "#42E2B8",
-  ]}
-/> */}
