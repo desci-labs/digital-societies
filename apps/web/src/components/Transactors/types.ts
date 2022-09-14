@@ -14,6 +14,10 @@ export interface IssuerValues {
   addresses: string;
   credential: number;
 }
+export interface DelegaterValues {
+  delegate: string;
+  org: string;
+}
 
 export type Metadata = MetadataValues & { image: string, logo: string }
 export type IResponse = {

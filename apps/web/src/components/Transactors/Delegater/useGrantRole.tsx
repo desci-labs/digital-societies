@@ -2,12 +2,13 @@ import { useModalContext } from "components/Modal/Modal";
 import ErrorView from "components/ModalViews/Error";
 import Processing from "components/ModalViews/Processing";
 import Success from "components/ModalViews/Success";
+import { DELEGATE_ROLE } from "constants/roles";
 import { useSetTx } from "context/useTx";
 import { useSBTContractFactory } from "hooks/useContract";
 import { useContractWrite } from "wagmi";
-import { IssuerValues } from "../types";
+import { DelegaterValues } from "../types";
 
-export default function useIssueCredential(address: string) {
+export default function useGrantRole(address: string) {
   const { showModal } = useModalContext();
   const { setTx, reset } = useSetTx();
   const getContract = useSBTContractFactory();
@@ -17,26 +18,26 @@ export default function useIssueCredential(address: string) {
     mode: "recklesslyUnprepared",
     addressOrName: tokenContract.address!,
     contractInterface: tokenContract.interface!,
-    functionName: "batchMint",
+    functionName: "grantRole",
   });
 
-  async function issueCredential(metadata: IssuerValues) {
+  async function grantRole(metadata: DelegaterValues) {
     try {
       reset();
       
       showModal(Processing, { message: 'Confirming transaction...' })
-      const args = [metadata.addresses.split(',').map(v => v.trim()), metadata.credential]
+      const args = [DELEGATE_ROLE, metadata.delegate]
       const tx = await writeAsync({
         recklesslySetUnpreparedArgs: args,
       });
-      setTx({ txInfo: tx, message: 'Issuing Credential...' })
+      setTx({ txInfo: tx, message: 'Delegate role granted' })
       await tx.wait();
-      showModal(Success, { message: `Credential issued`});
+      showModal(Success, {});
     } catch (e: any) {
       console.log('Error ', e?.data?.message, e?.message);
       showModal(ErrorView, { message: "Error processing transaction", })
     }
 
   }
-  return { issueCredential, isLoading, isSuccess };
+  return { grantRole, isLoading, isSuccess };
 }

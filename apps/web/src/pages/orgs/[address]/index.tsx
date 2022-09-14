@@ -1,50 +1,32 @@
-import {
-  ActionButtonLink,
-  ActionButtons,
-} from "components/ActionButtons/Index";
 import AddressOrEns from "components/AddressOrEns/Index";
 import { Button } from "components/Form/Index";
 import Loader from "components/Loader";
-import useRemoveDelegate from "components/Transactors/Delegation/useRemoveDelegate";
+import useRemoveDelegate from "components/Transactors/Delegater/useRemoveDelegate";
 import { Cell, Row, Table, TBody, THead } from "components/UI/Table";
 import {
-  useCanMutateOrg,
   useGetOrg,
   useIsAdmin,
 } from "context/Factory/FactoryContext";
 import { resolveIpfsURL } from "helper";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useMemo } from "react";
 import { RiCloseLine } from "react-icons/ri";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useAccount } from "wagmi";
-import useLauncher from "components/Transactors/Launcher/useLauncher";
 import { CredentialGridView } from "components/UI/Credential/Index";
+import useDelegater from "components/Transactors/Delegater/useDelegater";
 
 export default function ViewOrgs() {
   const router = useRouter();
   const { address } = router.query;
   const org = useGetOrg(address as string);
-  const hasAccess = useCanMutateOrg(org?.address!);
+  // const hasAccess = useCanMutateOrg(org?.address!);
 
   if (!org) return <Loader className="h-screen" />;
 
   return (
     <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center mb-10">
       <div className="w-full h-104 relative group">
-        {hasAccess && (
-          <ActionButtons>
-            <ActionButtonLink
-              title="Create Credential"
-              href={`${address}/create-credential`}
-            ></ActionButtonLink>
-            <ActionButtonLink
-              title="Edit Metadata"
-              href={`edit/${address}`}
-            ></ActionButtonLink>
-          </ActionButtons>
-        )}
         <div className="w-full h-full relative">
           <Image
             src={resolveIpfsURL(org.metadata.image)}
@@ -73,7 +55,7 @@ function Delegates({ address }: { address: string }) {
   const org = useGetOrg(address);
   const { address: user } = useAccount();
   const { revoke, isLoading } = useRemoveDelegate(address);
-  const showLauncher = useLauncher();
+  const showDelegate = useDelegater(address);
 
   const hasAccess = useIsAdmin(address, user ?? "");
   if (!org?.delegates || org.delegates.length === 0) return null;
@@ -85,11 +67,17 @@ function Delegates({ address }: { address: string }) {
 
   return (
     <div className="container mx-auto pb-5 pt-2 mt-10 shadow-2xl">
-      <div className="flex justify-end px-5">
-        <button onClick={showLauncher} className="flex items-center justify-evenly outline-none border rounded-3xl w-12 p-1 border-curious-blue">
-          <span className="block">Add</span> <AiOutlinePlus className="block" />{" "}
-        </button>
-      </div>
+      {hasAccess && (
+        <div className="flex justify-end px-5">
+          <button
+            onClick={showDelegate}
+            className="flex items-center justify-evenly outline-none border rounded-3xl w-12 px-2 p-1 border-curious-blue"
+          >
+            <span className="block capitalize text-sm">new</span>{" "}
+            <AiOutlinePlus className="block" />{" "}
+          </button>
+        </div>
+      )}
       <Table>
         <THead rows={getRows()} />
         <TBody className="">
@@ -110,7 +98,7 @@ function Delegates({ address }: { address: string }) {
               <Cell>
                 <AddressOrEns address={delegate} />
               </Cell>
-              {hasAccess && (
+              {hasAccess && delegate !== org.admin && (
                 <Cell className="p-0">
                   <Button
                     onClick={() => revoke(delegate)}
@@ -131,4 +119,3 @@ function Delegates({ address }: { address: string }) {
     </div>
   );
 }
-

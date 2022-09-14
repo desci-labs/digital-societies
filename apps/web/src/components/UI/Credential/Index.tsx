@@ -1,23 +1,38 @@
 import Loader from "components/Loader";
+import useLaunchCredential from "components/Transactors/Credential/useLaunchCredential";
 import { Credential, useGetCredentials } from "context/Credential/CredentialContext";
-import { useGetOrg } from "context/Factory/FactoryContext";
+import { useCanMutateOrg, useGetOrg } from "context/Factory/FactoryContext";
 import { resolveIpfsURL, shortenText } from "helper";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
+import { AiOutlinePlus } from "react-icons/ai";
+import { useAccount } from "wagmi";
 import { ExternalLink } from "../Index";
 
 export function CredentialGridView({ address }: { address: string }) {
+  const { address: user } = useAccount();
+  const hasAccess = useCanMutateOrg(address);
+  const org = useGetOrg(address);
   const { isLoading, credentials: data } = useGetCredentials();
   const credentials = data[address];
-
+  const showCredenter = useLaunchCredential(org!);
   if (isLoading) return <Loader />;
 
   if (!credentials || credentials.length === 0) return null;
 
   return (
     <div className="container mx-auto pb-5 pt-2 mt-10">
-      <h1 className="text-left text-2xl text-dark font-bold">Credentials</h1>
+      <div className="flex w-full justify-between">
+        <h1 className="text-left text-2xl text-dark font-bold">Credentials</h1>
+        {hasAccess && <button
+          onClick={showCredenter}
+          className="flex items-center justify-evenly outline-none border rounded-3xl w-12 px-2 p-1 border-curious-blue"
+        >
+          <span className="block capitalize text-sm">new</span>{" "}
+          <AiOutlinePlus className="block" />{" "}
+        </button>}
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 content-start gap-y-10 place-items-start mt-5 mb-10">
         {credentials.length &&
           credentials.map((credential, idx) => (
