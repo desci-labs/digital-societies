@@ -16,8 +16,8 @@ contract SBToken is ERC721, AccessControlEnumerable {
     mapping(uint256 => address) public tokenToMinter;
     mapping(uint256 => uint16) public tokenIdToType;
 
-    event Revoked(address revokedBy, uint256 tokenId);
-    event BatchRevoked(address revokedBy, uint256[] tokenIds);
+    event Revoked(address indexed revokedBy, address indexed owner, uint256 tokenId);
+    event BatchRevoked(address indexed revokedBy, address[] owners, uint256[] tokenIds);
     event Mint(
         address indexed mintedBy,
         address indexed to,
@@ -103,30 +103,35 @@ contract SBToken is ERC721, AccessControlEnumerable {
         _burn(_tokenId);
         tokenToMinter[_tokenId] = address(0);
         tokenIdToType[_tokenId] = 0;
-        emit Revoked(msg.sender, _tokenId);
+        emit Revoked(msg.sender, address(0), _tokenId);
     }
 
     function revoke(uint256 _tokenId) external onlyRole(DELEGATE_ROLE) {
+        address owner = ownerOf(_tokenId);
         _burn(_tokenId);
         tokenToMinter[_tokenId] = address(0);
         tokenIdToType[_tokenId] = 0;
-        emit Revoked(msg.sender, _tokenId);
+        emit Revoked(owner, msg.sender, _tokenId);
     }
 
     function batchRevoke(uint256[] memory _tokenIds)
         external
         onlyRole(DELEGATE_ROLE)
     {
+        address[] memory owners = new address[](_tokenIds.length);
         for (uint256 i = 0; i < _tokenIds.length; ) {
+            // address owner = ownerOf(_tokenIds[i]);
+            owners[i] = ownerOf(_tokenIds[i]);
             _burn(_tokenIds[i]);
             tokenToMinter[_tokenIds[i]] = address(0);
             tokenIdToType[_tokenIds[i]] = 0;
-            emit Revoked(msg.sender, _tokenIds[i]);
+            // emit Revoked(owner, msg.sender, _tokenIds[i]);
 
             unchecked {
                 i++;
             }
         }
+        emit BatchRevoked(msg.sender, owners, _tokenIds);
     }
 
     //@notice Function to fetch the metadata of a token

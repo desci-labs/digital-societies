@@ -5,12 +5,11 @@ import { Contract, ethers } from "ethers";
 import { asyncMap, getCIDStringFromBytes } from "helper";
 import useBlockNumber from "hooks/useBlockNumber";
 import { useFactoryContract, useSBTContractFactory } from "hooks/useContract";
-import { useGetOrgs, useSetOrgs } from "./FactoryContext";
+import { Revoked, useSetOrgs } from "./FactoryContext";
 import { DEFAULT_ADMIN_ROLE, DELEGATE_ROLE } from "constants/roles";
 
 export default function FactoryUpdater() {
   const { setOrgs } = useSetOrgs();
-  const { data: orgs } = useGetOrgs();
   const contract = useFactoryContract();
   const block = useBlockNumber();
   const provider = useProvider();
@@ -22,9 +21,27 @@ export default function FactoryUpdater() {
     const members = [];
     for (let i = 0; i < roleCount; i++) {
       const member = await contract.getRoleMember(DELEGATE_ROLE, i);
-      members.push(member)
+      members.push(member);
     }
     return members;
+  }
+
+  async function getRevocationHistory(contract: Contract): Promise<Revoked[]> {
+    const filter = contract.filters.Revoked();
+    const events = await contract.queryFilter(filter);
+    const revocations = await asyncMap<Revoked, ethers.Event>(
+      events,
+      async (event: ethers.Event) => {
+        const block = await provider.getBlock(event.blockNumber);
+        return {
+          tokenId: event.args?.[2],
+          owner: event.args?.[1],
+          revokedBy: event.args?.[0],
+          timestamp: block.timestamp,
+        };
+      }
+    );
+    return revocations;
   }
 
   async function getContractInfofromEvent(event: ethers.Event) {
@@ -35,8 +52,18 @@ export default function FactoryUpdater() {
     const delegates = await getDelegates(contract);
     let cid = await contract.contractURI();
     cid = await getCIDStringFromBytes(cid);
-    const metadata = await queryIpfsHash(cid)
-    return { metadata, owner, cid, dateCreated: block.timestamp * 1000, address: contract.address, admin, delegates }
+    const metadata = await queryIpfsHash(cid);
+    const revocations = await getRevocationHistory(contract);
+    return {
+      metadata,
+      owner,
+      cid,
+      dateCreated: block.timestamp * 1000,
+      address: contract.address,
+      admin,
+      delegates,
+      revocations
+    };
   }
 
   const getFactoryTokens = useCallback(
@@ -59,10 +86,7 @@ export default function FactoryUpdater() {
   );
 
   useEffect(() => {
-    if (
-      contract &&
-      block && (lastUpdated === 0 || block - lastUpdated > 5)
-    ) {
+    if (contract && block && (lastUpdated === 0 || block - lastUpdated > 5)) {
       getFactoryTokens();
     }
   }, [block, lastUpdated, contract, getFactoryTokens]);

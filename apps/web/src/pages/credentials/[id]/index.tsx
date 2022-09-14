@@ -1,7 +1,3 @@
-import {
-  ActionButtonLink,
-  ActionButtons,
-} from "components/ActionButtons/Index";
 import { Button } from "components/Form/Index";
 import Loader from "components/Loader";
 import useRevokeCredential from "components/Transactors/Issuer/useRevokeCredential";
@@ -27,7 +23,7 @@ export default function CredentialDetails() {
     address as string,
     parseInt(id as string)
   );  
-  const hasAccess = useCanMutateOrg(credential?.address!);
+  // const hasAccess = useCanMutateOrg(credential?.address!);
   const org = useGetOrg(credential?.address ?? '');
   const metadata = useMemo(
     () => credential?.metadata ?? org?.metadata,
@@ -36,19 +32,10 @@ export default function CredentialDetails() {
 
   if (!credential) return <Loader className="h-screen" />;
   if (!metadata) return null;
-  
-  console.log('credential ', credential);
+
   return (
-    <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center">
+    <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center mb-10">
       <div className="w-full h-104 relative group">
-        {/* {hasAccess && (
-          <ActionButtons>
-            <ActionButtonLink
-              title="Edit Credential"
-              href={`${id}/edit?address=${credential.address}`}
-            ></ActionButtonLink>
-          </ActionButtons>
-        )} */}
         <div className="w-full h-full relative">
           <Image
             src={resolveIpfsURL(metadata.image)}

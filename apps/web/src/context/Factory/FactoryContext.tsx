@@ -4,9 +4,8 @@ import { createContext, useContext } from "react";
 import { useAccount } from "wagmi";
 import FactoryUpdater from "./updater";
 
-// type RoleData = { admin: string; members: string[] }
-// export type Roles = Record<string, string[]>;
-export type Org = { cid: string; metadata: Metadata; address: string, owner: string, dateCreated: number, delegates: string[], admin: string };
+export type Revoked = { tokenId: string; revokedBy: string; owner: string; timestamp: number }
+export type Org = { cid: string; metadata: Metadata; address: string, owner: string, dateCreated: number, delegates: string[], revocations: Revoked[], admin: string };
 export type FactoryState = { data: Org[], isLoading: boolean };
 
 const initialState: FactoryState = { data: [], isLoading: true };
