@@ -15,6 +15,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { useAccount } from "wagmi";
 import { CredentialGridView } from "components/UI/Credential/Index";
 import useDelegater from "components/Transactors/Delegater/useDelegater";
+import { ImageBanner, RoundedLogo } from "components/UI/Index";
 
 export default function ViewOrgs() {
   const router = useRouter();
@@ -27,17 +28,10 @@ export default function ViewOrgs() {
   return (
     <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center mb-10">
       <div className="w-full h-104 relative group">
-        <div className="w-full h-full relative">
-          <Image
-            src={resolveIpfsURL(org.metadata.image)}
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
-            alt={org.metadata.name}
-          />
-        </div>
+        <ImageBanner ipfsHash={org.metadata.image} alt={org.metadata.name} />
+        <RoundedLogo ipfsHash={org.metadata.logo} alt={org.metadata.name} />
       </div>
-      <div className="container mx-auto">
+      <div className="container mx-auto mt-10">
         <span className="text-3xl block font-bold mb-2 text-left">
           {org.metadata.name} ({org.metadata.symbol})
         </span>
@@ -61,17 +55,18 @@ function Delegates({ address }: { address: string }) {
   if (!org?.delegates || org.delegates.length === 0) return null;
 
   const getRows = () => {
-    const rows = ["", "delegates"];
+    const rows = ["", "delegate"];
     return hasAccess ? rows.concat(["Revoke"]) : rows;
   };
 
   return (
     <div className="container mx-auto pb-5 pt-2 mt-10 shadow-2xl">
       {hasAccess && (
-        <div className="flex justify-end px-5">
+        <div className="flex justify-between items-center px-5">
+          <h1 className="text-xl font-semibold">Delegates</h1>
           <button
             onClick={showDelegate}
-            className="flex items-center justify-evenly outline-none border rounded-3xl w-12 px-2 p-1 border-curious-blue"
+            className="flex items-center justify-evenly outline-none border rounded-3xl w-20 px-2 p-1 border-curious-blue"
           >
             <span className="block capitalize text-sm">new</span>{" "}
             <AiOutlinePlus className="block" />{" "}
@@ -86,7 +81,7 @@ function Delegates({ address }: { address: string }) {
               <Cell className="flex justify-start p-2">
                 <div className="w-10 h-10 relative">
                   <Image
-                    src={resolveIpfsURL(org?.metadata?.image ?? "")}
+                    src={resolveIpfsURL(org?.metadata?.logo ?? "")}
                     layout="fill"
                     objectFit="cover"
                     objectPosition="center"

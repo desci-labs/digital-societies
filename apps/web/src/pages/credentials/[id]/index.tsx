@@ -15,6 +15,7 @@ import AddressOrEns from "components/AddressOrEns/Index";
 import useIssuer from "components/Transactors/Issuer/useIssuer";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useMemo } from "react";
+import { ImageBanner, RoundedLogo } from "components/UI/Index";
 
 export default function CredentialDetails() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export default function CredentialDetails() {
   return (
     <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center mb-10">
       <div className="w-full h-104 relative group">
-        <div className="w-full h-full relative">
+        {/* <div className="w-full h-full relative">
           <Image
             src={resolveIpfsURL(metadata.image)}
             layout="fill"
@@ -44,9 +45,11 @@ export default function CredentialDetails() {
             objectPosition="center"
             alt={metadata.name}
           />
-        </div>
+        </div> */}
+        <ImageBanner ipfsHash={metadata?.image ?? ''} />
+        <RoundedLogo ipfsHash={metadata?.logo ?? ''} />
       </div>
-      <div className="container mx-auto">
+      <div className="container mx-auto mt-5">
         <span className="text-3xl block font-bold mb-2 text-left">
           {metadata.name} ({metadata.symbol})
         </span>
@@ -74,7 +77,7 @@ function TokenTableView({ address, id }: { id: number; address: string }) {
   return (
     <div className="container mx-auto pb-5 pt-2 mt-10 shadow-2xl">
       {hasAccess && <div className="flex justify-end px-5">
-        <button onClick={showIssuer} className="flex items-center justify-evenly outline-none border rounded-3xl w-12 px-2 p-1 border-curious-blue">
+        <button onClick={showIssuer} className="flex items-center justify-evenly outline-none border rounded-3xl w-20 px-2 p-1 border-curious-blue">
           <span className="block capitalize text-sm">new</span> <AiOutlinePlus className="block" />{" "}
         </button>
       </div>}

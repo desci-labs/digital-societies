@@ -71,15 +71,18 @@ export default function FactoryUpdater() {
       if (!block || !contract) return;
 
       if (block - lastUpdated < 5) return;
-
-      const filter = contract.filters.TokenCreated();
-      const events = await contract.queryFilter(filter);
-      const results = await Promise.all(events.map(getContractInfofromEvent));
-      // if (results.length === orgs.length)  {
-      //   return setLastUpdated(block);
-      // };
-      setOrgs(results);
-      setLastUpdated(block);
+      try {
+        const filter = contract.filters.TokenCreated();
+        const events = await contract.queryFilter(filter);
+        const results = await Promise.all(events.map(getContractInfofromEvent));
+        // if (results.length === orgs.length)  {
+        //   return setLastUpdated(block);
+        // };
+        setOrgs(results);
+        setLastUpdated(block);
+      } catch (e) {
+        console.log('Error: ', e)
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [block, setOrgs, contract, lastUpdated]

@@ -32,7 +32,7 @@ export default function CredentialForm() {
 
 
   return (
-    <Form onSubmit={handleSubmit(launch)} title={org?.metadata.name} description="Add a new credential type">
+    <Form onSubmit={handleSubmit(launch)} title={org?.metadata.name} description="Add new credential">
       <InputRow
         htmlFor="issuer"
         label="Issuer:"

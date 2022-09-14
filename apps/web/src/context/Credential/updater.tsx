@@ -42,19 +42,22 @@ export default function CredentialUpdater() {
       const contracts = orgs.map(org => {
         return getContract(org.address);
       })
-
-      const filters = contracts.map(contract => contract.filters.TypeCreated());
-      const events = await Promise.all(filters.map((filter, i) => contracts[i].queryFilter(filter)));
-      const results = await Promise.all(events.map(transformEventsToCrendentials));
-
-      const credentials = results.filter(Boolean).reduce((all, credential) => {
-        if (!credential) return all;
-        all[credential.address] = credential.data;
-        return all;
-      }, {} as CredentialMap)
-      
-      setCredentials(credentials);
-      setLastUpdated(block);
+      try {
+        const filters = contracts.map(contract => contract.filters.TypeCreated());
+        const events = await Promise.all(filters.map((filter, i) => contracts[i].queryFilter(filter)));
+        const results = await Promise.all(events.map(transformEventsToCrendentials));
+  
+        const credentials = results.filter(Boolean).reduce((all, credential) => {
+          if (!credential) return all;
+          all[credential.address] = credential.data;
+          return all;
+        }, {} as CredentialMap)
+        
+        setCredentials(credentials);
+        setLastUpdated(block);
+      } catch (e) {
+        console.log("Error: ", e);
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [block, setCredentials, lastUpdated]

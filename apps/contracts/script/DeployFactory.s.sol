@@ -9,7 +9,7 @@ contract FactoryScript is Script {
 
     function run() public {
         vm.broadcast();
-        SBFactory factory = new SBFactory();
+        new SBFactory();
         vm.stopBroadcast();
     }
 }

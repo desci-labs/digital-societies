@@ -49,9 +49,8 @@ export default function DelegaterForm() {
           as="span"
           className="text-xs text-left text-red-400 font-semibold m-0"
         />
-        <textarea
+        <Input
           id="delegate"
-          className="w-full border p-2 rounded-xl appearance-none resize-none h-20"
           {...register("delegate")}
         />
       </InputRow>

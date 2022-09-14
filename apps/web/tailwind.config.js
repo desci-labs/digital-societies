@@ -33,7 +33,8 @@ module.exports = {
         body: ["Space Grotesk", "sans-serif"],
       },
       spacing: {
-        12: '5rem',
+        12: '3rem',
+        20: '5rem',
         32: '8rem',
         48: '12rem',
         104: '26rem',

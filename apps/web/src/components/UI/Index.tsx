@@ -1,3 +1,5 @@
+import { resolveIpfsURL } from "helper";
+import Image from "next/image";
 import { HTMLProps } from "react";
 
 export function ExternalLink(props: HTMLProps<HTMLAnchorElement>) {
@@ -11,4 +13,33 @@ export function ExternalLink(props: HTMLProps<HTMLAnchorElement>) {
       Visit website
     </a>
   );
+}
+
+export function ImageBanner(props: HTMLProps<HTMLImageElement> & { ipfsHash: string }) {
+  return (
+    <div className={`w-full h-full relative ${props.className ?? ''}`}>
+      <Image
+        src={resolveIpfsURL(props.ipfsHash)}
+        layout="fill"
+        objectFit="cover"
+        objectPosition="center"
+        alt={props.alt}
+      />
+    </div>
+  )
+}
+
+export function RoundedLogo(props: HTMLProps<HTMLImageElement> & { ipfsHash: string }) {
+  return (
+    <div className={`w-32 h-32 absolute left-10 -bottom-11 rounded-full border-2 border-white ${props.className ?? ''}`}>
+      <Image
+        src={resolveIpfsURL(props.ipfsHash)}
+        layout="fill"
+        objectFit="cover"
+        objectPosition="center"
+        alt={props.alt}
+        className="rounded-full"
+      />
+    </div>
+  )
 }

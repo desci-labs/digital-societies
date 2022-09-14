@@ -60,6 +60,7 @@ export default function useLaunch() {
       });
       setTx({ txInfo: tx, message: "Processing transaction" });
       await tx.wait();
+      setTx({ txInfo: tx, message: "" });
       showModal(Success, {});
     } catch (e: any) {
       console.log("Error ", e?.data?.message, e?.message);

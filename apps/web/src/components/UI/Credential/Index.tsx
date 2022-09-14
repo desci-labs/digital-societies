@@ -1,17 +1,18 @@
 import Loader from "components/Loader";
 import useLaunchCredential from "components/Transactors/Credential/useLaunchCredential";
-import { Credential, useGetCredentials } from "context/Credential/CredentialContext";
+import { Metadata } from "components/Transactors/types";
+import {
+  Credential,
+  useGetCredentials,
+} from "context/Credential/CredentialContext";
 import { useCanMutateOrg, useGetOrg } from "context/Factory/FactoryContext";
-import { resolveIpfsURL, shortenText } from "helper";
-import Image from "next/image";
+import { shortenText } from "helper";
 import Link from "next/link";
 import { useMemo } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { useAccount } from "wagmi";
-import { ExternalLink } from "../Index";
+import { ExternalLink, ImageBanner, RoundedLogo } from "../Index";
 
 export function CredentialGridView({ address }: { address: string }) {
-  const { address: user } = useAccount();
   const hasAccess = useCanMutateOrg(address);
   const org = useGetOrg(address);
   const { isLoading, credentials: data } = useGetCredentials();
@@ -19,26 +20,27 @@ export function CredentialGridView({ address }: { address: string }) {
   const showCredenter = useLaunchCredential(org!);
   if (isLoading) return <Loader />;
 
-  if (!credentials || credentials.length === 0) return null;
-
   return (
     <div className="container mx-auto pb-5 pt-2 mt-10">
       <div className="flex w-full justify-between">
         <h1 className="text-left text-2xl text-dark font-bold">Credentials</h1>
-        {hasAccess && <button
-          onClick={showCredenter}
-          className="flex items-center justify-evenly outline-none border rounded-3xl w-12 px-2 p-1 border-curious-blue"
-        >
-          <span className="block capitalize text-sm">new</span>{" "}
-          <AiOutlinePlus className="block" />{" "}
-        </button>}
+        {hasAccess && (
+          <button
+            onClick={showCredenter}
+            className="flex items-center justify-evenly outline-none border rounded-3xl px-2 p-1 border-curious-blue"
+          >
+            <span className="block capitalize text-sm">Add Credential</span>{" "}
+            <AiOutlinePlus className="block" />{" "}
+          </button>
+        )}
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 content-start gap-y-10 place-items-start mt-5 mb-10">
-        {credentials.length &&
-          credentials.map((credential, idx) => (
+      {credentials && (
+        <div className="grid grid-cols-1 lg:grid-cols-3 content-start gap-y-10 place-items-start mt-5 mb-10">
+          {credentials.map((credential, idx) => (
             <CredentialCard key={idx} credential={credential} />
           ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -51,25 +53,32 @@ export function CredentialCard({ credential }: { credential: Credential }) {
   );
 
   return (
+    <MetadataCard
+      link={`/credentials/${credential.id}?address=${credential.address}`}
+      metadata={metadata}
+    />
+  );
+}
+
+export function MetadataCard({
+  metadata,
+  link,
+}: {
+  link: string;
+  metadata: Metadata;
+}) {
+  return (
     <div className="min-w-80 w-80 h-96 rounded-lg shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden">
       <div className="w-80 h-48 relative rounded-lg">
-        <Image
-          src={resolveIpfsURL(metadata?.image)}
-          layout="fill"
-          objectFit="cover"
-          objectPosition="center"
-          alt={`${metadata.name} image`}
-          className="rounded-lg rounded-bl-none rounded-br-none"
+        <ImageBanner ipfsHash={metadata?.image ?? ""} />
+        <RoundedLogo
+          ipfsHash={metadata?.logo ?? ""}
+          className="w-12 h-12 left-3 -bottom-5"
         />
       </div>
-      <div className="p-2">
-        <Link
-          href={`/credentials/${credential.id}?address=${credential.address}`}
-        >
-          <a
-            href={`/credentials/${credential.id}?address=${credential.address}`}
-            className="text-xl block font-bold mb-1 truncate"
-          >
+      <div className="p-2 mt-3">
+        <Link href={link}>
+          <a href={link} className="text-xl block font-bold mb-1 truncate">
             {metadata.name}
           </a>
         </Link>
