@@ -1,6 +1,6 @@
 import { resolveIpfsURL } from "helper";
 import Image from "next/image";
-import { HTMLProps } from "react";
+import { HTMLProps, PropsWithChildren } from "react";
 
 export function ExternalLink(props: HTMLProps<HTMLAnchorElement>) {
   return (
@@ -41,5 +41,11 @@ export function RoundedLogo(props: HTMLProps<HTMLImageElement> & { ipfsHash: str
         className="rounded-full"
       />
     </div>
+  )
+}
+
+export function CardContainer(props: PropsWithChildren<{ className?: string }>) {
+  return (
+    <div className={`container mx-auto pb-5 pt-2 mt-10 shadow-lg hover:shadow-2xl duration-100 ${props.className}`}>{props.children}</div>
   )
 }

@@ -34,10 +34,10 @@ export default function FactoryUpdater() {
       async (event: ethers.Event) => {
         const block = await provider.getBlock(event.blockNumber);
         return {
-          tokenId: event.args?.[2],
+          tokenId: event.args?.[2].toNumber(),
           owner: event.args?.[1],
           revokedBy: event.args?.[0],
-          timestamp: block.timestamp,
+          timestamp: block.timestamp * 1000,
         };
       }
     );
@@ -75,9 +75,6 @@ export default function FactoryUpdater() {
         const filter = contract.filters.TokenCreated();
         const events = await contract.queryFilter(filter);
         const results = await Promise.all(events.map(getContractInfofromEvent));
-        // if (results.length === orgs.length)  {
-        //   return setLastUpdated(block);
-        // };
         setOrgs(results);
         setLastUpdated(block);
       } catch (e) {

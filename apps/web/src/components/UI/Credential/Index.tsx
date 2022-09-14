@@ -1,16 +1,28 @@
+import AddressOrEns from "components/AddressOrEns/Index";
+import { Button } from "components/Form/Index";
 import Loader from "components/Loader";
 import useLaunchCredential from "components/Transactors/Credential/useLaunchCredential";
+import useDelegater from "components/Transactors/Delegater/useDelegater";
+import useRemoveDelegate from "components/Transactors/Delegater/useRemoveDelegate";
+import useIssuer from "components/Transactors/Issuer/useIssuer";
+import useRevokeCredential from "components/Transactors/Issuer/useRevokeCredential";
 import { Metadata } from "components/Transactors/types";
 import {
   Credential,
+  useGetCredential,
   useGetCredentials,
+  useGetCredentialTokens,
 } from "context/Credential/CredentialContext";
-import { useCanMutateOrg, useGetOrg } from "context/Factory/FactoryContext";
-import { shortenText } from "helper";
+import { useCanMutateOrg, useGetOrg, useIsAdmin } from "context/Factory/FactoryContext";
+import { resolveIpfsURL, shortenText } from "helper";
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { ExternalLink, ImageBanner, RoundedLogo } from "../Index";
+import { RiCloseLine } from "react-icons/ri";
+import { useAccount } from "wagmi";
+import { CardContainer, ExternalLink, ImageBanner, RoundedLogo } from "../Index";
+import { Cell, Row, Table, TBody, THead } from "../Table";
 
 export function CredentialGridView({ address }: { address: string }) {
   const hasAccess = useCanMutateOrg(address);
@@ -21,7 +33,7 @@ export function CredentialGridView({ address }: { address: string }) {
   if (isLoading) return <Loader />;
 
   return (
-    <div className="container mx-auto pb-5 pt-2 mt-10">
+    <div className="container mx-auto pt-2 mt-10">
       <div className="flex w-full justify-between">
         <h1 className="text-left text-2xl text-dark font-bold">Credentials</h1>
         {hasAccess && (
@@ -94,5 +106,196 @@ export function MetadataCard({
         </div>
       </div>
     </div>
+  );
+}
+
+export function Delegates({ address }: { address: string }) {
+  const org = useGetOrg(address);
+  const { address: user } = useAccount();
+  const { revoke, isLoading } = useRemoveDelegate(address);
+  const showDelegate = useDelegater(address);
+
+  const hasAccess = useIsAdmin(address, user ?? "");
+  if (!org?.delegates || org.delegates.length === 0) return null;
+
+  const getRows = () => {
+    const rows = ["", "delegate"];
+    return hasAccess ? rows.concat(["Revoke"]) : rows;
+  };
+
+  return (
+    <CardContainer>
+      <div className="flex justify-between items-center px-5">
+        <h1 className="text-xl font-semibold">Delegates</h1>
+        {hasAccess && (
+          <button
+            onClick={showDelegate}
+            className="flex items-center justify-evenly outline-none border rounded-3xl px-2 p-1 border-curious-blue"
+          >
+            <span className="block capitalize text-sm">Add delegate</span>{" "}
+            <AiOutlinePlus className="block" />{" "}
+          </button>
+        )}
+      </div>
+      <Table>
+        <THead rows={getRows()} />
+        <TBody className="">
+          {org.delegates.map((delegate, idx) => (
+            <Row key={idx} className="border-none">
+              <Cell className="flex justify-start p-2">
+                <div className="w-10 h-10 relative">
+                  <Image
+                    src={resolveIpfsURL(org?.metadata?.logo ?? "")}
+                    layout="fill"
+                    objectFit="cover"
+                    objectPosition="center"
+                    alt={`${org?.metadata.name} image`}
+                    className="rounded-full block"
+                  />
+                </div>
+              </Cell>
+              <Cell>
+                <AddressOrEns address={delegate} />
+              </Cell>
+              {hasAccess && delegate !== org.admin && (
+                <Cell className="p-0">
+                  <Button
+                    onClick={() => revoke(delegate)}
+                    disabled={isLoading}
+                    className={`bg-transparent bg-white bg-opacity-0`}
+                  >
+                    <RiCloseLine
+                      className="hover:scale-150 duration-100"
+                      color={isLoading ? "#8793A6" : "#f15156"}
+                    />
+                  </Button>
+                </Cell>
+              )}
+            </Row>
+          ))}
+        </TBody>
+      </Table>
+    </CardContainer>
+  );
+}
+
+export function RevocationHistory({ address }: { address: string }) {
+  const org = useGetOrg(address);
+  if (!org?.delegates || org.delegates.length === 0) return null;
+
+  const getRows = () => {
+    return ["", "TokenId", "recipient", "revoked by", "date revoked"];
+  };
+
+  return (
+    <CardContainer>
+      <div className="flex justify-between items-center px-5 mb-5">
+        <h1 className="text-xl font-semibold">Revocation History</h1>
+      </div>
+      <Table>
+        <THead rows={getRows()} />
+        <TBody className="">
+          {org.revocations.map((revoked, idx) => (
+            <Row key={idx} className="border-none">
+              <Cell className="flex justify-start p-2">
+                <div className="w-10 h-10 relative">
+                  <Image
+                    src={resolveIpfsURL(org?.metadata?.logo ?? "")}
+                    layout="fill"
+                    objectFit="cover"
+                    objectPosition="center"
+                    alt={`${org?.metadata.name} image`}
+                    className="rounded-full block"
+                  />
+                </div>
+              </Cell>
+              <Cell>{revoked.tokenId}</Cell>
+              <Cell>
+                <AddressOrEns address={revoked.owner} />
+              </Cell>
+              <Cell>
+                <AddressOrEns address={revoked.revokedBy} />
+              </Cell>
+              <Cell>{new Date(revoked.timestamp).toDateString()}</Cell>
+            </Row>
+          ))}
+        </TBody>
+      </Table>
+    </CardContainer>
+  );
+}
+
+
+export function TokenTableView({ address, id }: { id: number; address: string }) {
+  const tokens = useGetCredentialTokens(address, id);
+  const credential = useGetCredential(address, id);
+  const showIssuer = useIssuer(credential!);
+  const { revoke, isLoading } = useRevokeCredential(credential?.address!);
+  const hasAccess = useCanMutateOrg(credential?.address ?? "");
+
+  const getRows = () => {
+    const rows = ["", "TokenId", "receipient", "issuer", "date Issued"];
+    return hasAccess ? rows.concat(["Revoke"]) : rows;
+  };
+
+  return (
+    <CardContainer>
+      {hasAccess && (
+        <div className="flex justify-between items-center px-5 mb-5">
+          <h1 className="text-xl font-semibold">Recipients</h1>
+          <button
+            onClick={showIssuer}
+            className="flex items-center justify-evenly outline-none border rounded-3xl px-2 p-1 border-curious-blue"
+          >
+            <span className="block capitalize text-sm">Issue credential</span>{" "}
+            <AiOutlinePlus className="block" />{" "}
+          </button>
+        </div>
+      )}
+      <Table>
+        <THead rows={getRows()} />
+        <TBody>
+          {tokens &&
+            tokens.map((token, idx) => (
+              <Row key={idx}>
+                <Cell className="flex justify-start p-2">
+                  <div className="w-10 h-10 relative">
+                    <Image
+                      src={resolveIpfsURL(credential?.metadata?.image ?? "")} //TODO: add a fall back image as placeholder
+                      layout="fill"
+                      objectFit="cover"
+                      objectPosition="center"
+                      alt={`${credential?.metadata.name} image`}
+                      className="rounded-full block"
+                    />
+                  </div>
+                </Cell>
+                <Cell>{token.tokenId}</Cell>
+                <Cell>
+                  <AddressOrEns address={token.owner} />
+                </Cell>
+                <Cell>
+                  <AddressOrEns address={token.issuer} />
+                </Cell>
+                <Cell>{new Date(token.dateIssued).toDateString()}</Cell>
+                {hasAccess && (
+                  <Cell className="p-0">
+                    <Button
+                      onClick={() => revoke(token.tokenId)}
+                      disabled={isLoading}
+                      className={`bg-transparent bg-white bg-opacity-0`}
+                    >
+                      <RiCloseLine
+                        className="hover:scale-150 duration-100"
+                        color={isLoading ? "#8793A6" : "#f15156"}
+                      />
+                    </Button>
+                  </Cell>
+                )}
+              </Row>
+            ))}
+        </TBody>
+      </Table>
+    </CardContainer>
   );
 }

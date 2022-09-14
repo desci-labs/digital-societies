@@ -110,7 +110,7 @@ contract SBToken is ERC721, AccessControlEnumerable {
         address owner = ownerOf(_tokenId);
         _burn(_tokenId);
         tokenToMinter[_tokenId] = address(0);
-        tokenIdToType[_tokenId] = 0;
+        // tokenIdToType[_tokenId] = 0;
         emit Revoked(owner, msg.sender, _tokenId);
     }
 
@@ -124,7 +124,7 @@ contract SBToken is ERC721, AccessControlEnumerable {
             owners[i] = ownerOf(_tokenIds[i]);
             _burn(_tokenIds[i]);
             tokenToMinter[_tokenIds[i]] = address(0);
-            tokenIdToType[_tokenIds[i]] = 0;
+            // tokenIdToType[_tokenIds[i]] = 0;
             // emit Revoked(owner, msg.sender, _tokenIds[i]);
 
             unchecked {
