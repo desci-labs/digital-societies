@@ -23,8 +23,5 @@
   },
   "devDependencies": {
     "turbo": "^1.4.3"
-  },
-  "dependencies": {
-    "react-dom": "^18.2.0"
   }
 }
