@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { queryIpfsHash } from "api";
-import { useGetOrgs } from "context/Factory/FactoryContext";
 import { asyncMap, getCIDStringFromBytes } from "helper";
 import useBlockNumber from "hooks/useBlockNumber";
 import { useSBTContractFactory } from "hooks/useContract";
 import { useProvider } from "wagmi";
 import { Credential, CredentialMap, useSetCredentials } from "./CredentialContext";
+import { useGetOrgs } from "services/orgs/hooks";
 
 export default function CredentialUpdater() {
   const { setCredentials } = useSetCredentials();
-  const { data: orgs } = useGetOrgs();
+  const orgs = useGetOrgs();
   const block = useBlockNumber();
   const provider = useProvider();
   const getContract = useSBTContractFactory();

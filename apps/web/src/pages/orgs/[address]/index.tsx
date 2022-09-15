@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import Loader from "components/Loader";
-import { useGetOrg } from "context/Factory/FactoryContext";
+import { useGetOrg } from "services/orgs/hooks";
 import { CredentialGridView, Delegates, RevocationHistory } from "components/UI/Credential/Index";
 import { ImageBanner, RoundedLogo } from "components/UI/Index";
 

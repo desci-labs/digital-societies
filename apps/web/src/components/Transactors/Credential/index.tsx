@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useAccount } from "wagmi";
 import { MetadataValues } from "../types";
 import { metadataSchema } from "../schema";
-import { Org } from "context/Factory/FactoryContext";
+import { Org } from "services/orgs/types";
 import { FC } from "react";
 
 export type Props = { org: Org, Form: FC };

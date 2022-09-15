@@ -6,7 +6,7 @@ import {
   useGetCredential,
   useGetCredentialTokens,
 } from "context/Credential/CredentialContext";
-import { useCanMutateOrg, useGetOrg } from "context/Factory/FactoryContext";
+import { useCanMutateOrg, useGetOrg } from "services/orgs/hooks";
 import { resolveIpfsURL } from "helper";
 import Image from "next/image";
 import { useRouter } from "next/router";

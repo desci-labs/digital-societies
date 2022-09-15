@@ -5,11 +5,14 @@ import { Contract, ethers } from "ethers";
 import { asyncMap, getCIDStringFromBytes } from "helper";
 import useBlockNumber from "hooks/useBlockNumber";
 import { useFactoryContract, useSBTContractFactory } from "hooks/useContract";
-import { Revoked, useSetOrgs } from "./FactoryContext";
 import { DEFAULT_ADMIN_ROLE, DELEGATE_ROLE } from "constants/roles";
+import { useDispatch } from "react-redux";
+import { setIsLoading, setOrgs } from "./orgSlice";
+import { Revoked } from "./types";
 
 export default function FactoryUpdater() {
-  const { setOrgs } = useSetOrgs();
+  const dispatch = useDispatch();
+
   const contract = useFactoryContract();
   const block = useBlockNumber();
   
@@ -72,18 +75,20 @@ export default function FactoryUpdater() {
       if (!block || !contract) return;
 
       if (block - lastUpdated < 5) return;
+
       try {
         const filter = contract.filters.TokenCreated();
         const events = await contract.queryFilter(filter);
         const results = await Promise.all(events.map(getContractInfofromEvent));
-        setOrgs(results);
+        dispatch(setOrgs(results))
+        dispatch(setIsLoading(false))
         setLastUpdated(block);
       } catch (e) {
         console.log('Error: ', e)
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [block, setOrgs, contract, lastUpdated]
+    [block, contract, dispatch, lastUpdated]
   );
 
   useEffect(() => {

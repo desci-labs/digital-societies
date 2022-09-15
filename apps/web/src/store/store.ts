@@ -1,7 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
+import orgSlice from "services/orgs/orgSlice";
 
 const store = configureStore({
   reducer: {
+    org: orgSlice
   },
   middleware: (_getDefaultMiddleware) => [],
 });

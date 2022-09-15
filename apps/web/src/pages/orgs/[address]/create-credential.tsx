@@ -1,7 +1,7 @@
 import Loader from 'components/Loader';
 import Credenter from 'components/Transactors/Credential';
 import CredentialForm from 'components/Transactors/Credential/Form';
-import { useGetOrg } from 'context/Factory/FactoryContext';
+import { useGetOrg } from 'services/orgs/hooks';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';

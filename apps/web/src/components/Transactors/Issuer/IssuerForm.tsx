@@ -3,7 +3,7 @@ import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { GradientButton, Form, InputRow, SelectInput } from "components/Form/Index";
-import { useGetOrg } from "context/Factory/FactoryContext";
+import { useGetOrg } from "services/orgs/hooks";
 import { IssuerValues } from "../types";
 import {
   Credential,

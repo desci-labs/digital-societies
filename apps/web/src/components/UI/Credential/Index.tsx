@@ -13,7 +13,7 @@ import {
   useGetCredentials,
   useGetCredentialTokens,
 } from "context/Credential/CredentialContext";
-import { useCanMutateOrg, useGetOrg, useIsAdmin } from "context/Factory/FactoryContext";
+import { useCanMutateOrg, useGetOrg, useIsAdmin } from "services/orgs/hooks";
 import { resolveIpfsURL, shortenText } from "helper";
 import Image from "next/image";
 import Link from "next/link";

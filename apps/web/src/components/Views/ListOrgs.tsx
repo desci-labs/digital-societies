@@ -1,10 +1,10 @@
 import Loader from "components/Loader";
 import { MetadataCard } from "components/UI/Credential/Index";
-import { useGetOrgs } from "context/Factory/FactoryContext";
+import { useGetOrgState } from "services/orgs/hooks";
 import Link from "next/link";
 
 export default function ListOrgs() {
-  const { data, isLoading } = useGetOrgs();
+  const { data, isLoading } = useGetOrgState();
 
   if (isLoading) {
     return <Loader className="h-screen" />;

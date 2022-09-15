@@ -4,7 +4,7 @@ import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import FileDropzone from "components/FileDropzone";
 import { Form, GradientButton, Input, InputRow } from "components/Form/Index";
-import { useGetOrg } from "context/Factory/FactoryContext";
+import { useGetOrg } from "services/orgs/hooks";
 import useCreateType from "./useCreateType";
 import { MetadataValues } from "../types";
 import ImagePreview from "components/UI/ImagePreview";

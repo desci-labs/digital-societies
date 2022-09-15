@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { useGetOrgs } from "context/Factory/FactoryContext";
 import { asyncMap } from "helper";
 import useBlockNumber from "hooks/useBlockNumber";
 import { useSBTContractFactory } from "hooks/useContract";
 import { useProvider } from "wagmi";
 import { useSetCredentials } from "./CredentialContext";
+import { useGetOrg, useGetOrgs } from "services/orgs/hooks";
 
 export type CredentialToken = {
   org: string;
@@ -19,7 +19,7 @@ export type CredentialToTokenMap = Record<string, CredentialToken[]>;
 
 export default function TokenUpdater() {
   const { setTokens } = useSetCredentials();
-  const { data: orgs } = useGetOrgs();
+  const orgs = useGetOrgs();
   const block = useBlockNumber();
   const provider = useProvider();
   const getContract = useSBTContractFactory();
