@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
+import credentialSlice from "services/credentials/credentialSlice";
 import orgSlice from "services/orgs/orgSlice";
 
 const store = configureStore({
   reducer: {
-    org: orgSlice
+    org: orgSlice,
+    credential: credentialSlice
   },
   middleware: (_getDefaultMiddleware) => [],
 });

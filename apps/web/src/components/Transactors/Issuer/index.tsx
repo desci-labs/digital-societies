@@ -2,8 +2,8 @@ import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { IssuerValues } from "../types";
 import { issuerSchema } from "../schema";
-import { Credential } from "context/Credential/CredentialContext";
 import { FC } from "react";
+import { Credential } from "services/credentials/types";
 
 export type Props = { credential: Credential; Form: FC };
 

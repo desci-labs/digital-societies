@@ -5,11 +5,13 @@ import { asyncMap, getCIDStringFromBytes } from "helper";
 import useBlockNumber from "hooks/useBlockNumber";
 import { useSBTContractFactory } from "hooks/useContract";
 import { useProvider } from "wagmi";
-import { Credential, CredentialMap, useSetCredentials } from "./CredentialContext";
 import { useGetOrgs } from "services/orgs/hooks";
+import { Credential, CredentialMap } from "./types";
+import { useDispatch } from 'react-redux'
+import { setCredentials, setIsLoading } from "./credentialSlice";
 
 export default function CredentialUpdater() {
-  const { setCredentials } = useSetCredentials();
+  const dispatch = useDispatch();
   const orgs = useGetOrgs();
   const block = useBlockNumber();
   const provider = useProvider();
@@ -44,23 +46,24 @@ export default function CredentialUpdater() {
       })
       try {
         const filters = contracts.map(contract => contract.filters.TypeCreated());
-        const events = await Promise.all(filters.map((filter, i) => contracts[i].queryFilter(filter)));
+        const events = await Promise.all(filters.map((filter, i) => contracts[i].queryFilter(filter, 7491226)));
         const results = await Promise.all(events.map(transformEventsToCrendentials));
-  
+
         const credentials = results.filter(Boolean).reduce((all, credential) => {
           if (!credential) return all;
           all[credential.address] = credential.data;
           return all;
         }, {} as CredentialMap)
-        
-        setCredentials(credentials);
+
+        dispatch(setCredentials(credentials));
+        dispatch(setIsLoading(false))
         setLastUpdated(block);
       } catch (e) {
         console.log("Error: ", e);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [block, setCredentials, lastUpdated]
+    [block, lastUpdated]
   );
 
   useEffect(() => {

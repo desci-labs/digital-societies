@@ -32,7 +32,7 @@ export default function FactoryUpdater() {
 
   async function getRevocationHistory(contract: Contract): Promise<Revoked[]> {
     const filter = contract.filters.Revoked();
-    const events = await contract.queryFilter(filter);
+    const events = await contract.queryFilter(filter, 7491226);
     const revocations = await asyncMap<Revoked, ethers.Event>(
       events,
       async (event: ethers.Event) => {
@@ -78,7 +78,7 @@ export default function FactoryUpdater() {
 
       try {
         const filter = contract.filters.TokenCreated();
-        const events = await contract.queryFilter(filter);
+        const events = await contract.queryFilter(filter, 7491226);
         const results = await Promise.all(events.map(getContractInfofromEvent));
         dispatch(setOrgs(results))
         dispatch(setIsLoading(false))

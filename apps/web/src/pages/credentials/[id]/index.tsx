@@ -5,7 +5,7 @@ import { Cell, Row, Table, TBody, THead } from "components/UI/Table";
 import {
   useGetCredential,
   useGetCredentialTokens,
-} from "context/Credential/CredentialContext";
+} from "services/credentials/hooks";
 import { useCanMutateOrg, useGetOrg } from "services/orgs/hooks";
 import { resolveIpfsURL } from "helper";
 import Image from "next/image";

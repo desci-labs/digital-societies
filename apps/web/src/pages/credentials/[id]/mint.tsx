@@ -1,7 +1,7 @@
 import Loader from 'components/Loader';
 import Issuer from 'components/Transactors/Issuer';
 import IssuerForm from 'components/Transactors/Issuer/IssuerForm';
-import { useGetCredential } from 'context/Credential/CredentialContext';
+import { useGetCredential } from 'services/credentials/hooks';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';

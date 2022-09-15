@@ -1,6 +1,6 @@
 import { useModalContext } from "components/Modal/Modal";
-import { Credential } from "context/Credential/CredentialContext";
 import { useCallback } from "react";
+import { Credential } from "services/credentials/types";
 import Issuer, { Props } from ".";
 import Transactor, { TxProps } from "../Transactor";
 import IssuerForm from "./IssuerForm";

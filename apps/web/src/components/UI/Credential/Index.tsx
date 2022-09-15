@@ -8,11 +8,10 @@ import useIssuer from "components/Transactors/Issuer/useIssuer";
 import useRevokeCredential from "components/Transactors/Issuer/useRevokeCredential";
 import { Metadata } from "components/Transactors/types";
 import {
-  Credential,
   useGetCredential,
-  useGetCredentials,
+  useGetCredentialState,
   useGetCredentialTokens,
-} from "context/Credential/CredentialContext";
+} from "services/credentials/hooks";
 import { useCanMutateOrg, useGetOrg, useIsAdmin } from "services/orgs/hooks";
 import { resolveIpfsURL, shortenText } from "helper";
 import Image from "next/image";
@@ -23,11 +22,12 @@ import { RiCloseLine } from "react-icons/ri";
 import { useAccount } from "wagmi";
 import { CardContainer, ExternalLink, ImageBanner, RoundedLogo } from "../Index";
 import { Cell, Row, Table, TBody, THead } from "../Table";
+import { Credential } from "services/credentials/types";
 
 export function CredentialGridView({ address }: { address: string }) {
   const hasAccess = useCanMutateOrg(address);
   const org = useGetOrg(address);
-  const { isLoading, credentials: data } = useGetCredentials();
+  const { isLoading, credentials: data } = useGetCredentialState();
   const credentials = data[address];
   const showCredenter = useLaunchCredential(org!);
   if (isLoading) return <Loader />;

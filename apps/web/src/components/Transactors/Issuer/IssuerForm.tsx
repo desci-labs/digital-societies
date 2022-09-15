@@ -6,10 +6,10 @@ import { GradientButton, Form, InputRow, SelectInput } from "components/Form/Ind
 import { useGetOrg } from "services/orgs/hooks";
 import { IssuerValues } from "../types";
 import {
-  Credential,
   useGetCredentials,
-} from "context/Credential/CredentialContext";
+} from "services/credentials/hooks";
 import useIssueCredential from "./useIssueCredential";
+import { Credential } from "services/credentials/types";
 
 export default function IssuerForm() {
   const {
@@ -21,16 +21,11 @@ export default function IssuerForm() {
   const router = useRouter();
   const { address } = router.query;
   const org = useGetOrg(address as string);
-  const { credentials: data } = useGetCredentials();
+  const credentials = useGetCredentials(org?.address ?? '');
   const { issueCredential, isLoading, isSuccess } = useIssueCredential(org?.address!);
   const canDisable = useMemo(
     () => isSubmitting || isLoading || isSuccess,
     [isSubmitting, isLoading, isSuccess]
-  );
-
-  const credentialOptions = useMemo(
-    () => data[org?.address!] ?? [],
-    [data, org]
   );
 
   useEffect(() => {
@@ -46,7 +41,7 @@ export default function IssuerForm() {
         className="text-sm"
       >
         <SelectInput<Credential>
-          options={credentialOptions}
+          options={credentials}
           getOptionLabel={(data) => data.metadata.name}
           getOptionValue={(data) => data.id}
           {...register("credential")}

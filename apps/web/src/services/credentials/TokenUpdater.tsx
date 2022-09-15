@@ -1,24 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
+import { useDispatch } from 'react-redux'
 import { ethers } from "ethers";
 import { asyncMap } from "helper";
 import useBlockNumber from "hooks/useBlockNumber";
 import { useSBTContractFactory } from "hooks/useContract";
 import { useProvider } from "wagmi";
-import { useSetCredentials } from "./CredentialContext";
 import { useGetOrg, useGetOrgs } from "services/orgs/hooks";
-
-export type CredentialToken = {
-  org: string;
-  tokenId: number;
-  credential: number;
-  dateIssued: number;
-  issuer: string;
-  owner: string;
-};
-export type CredentialToTokenMap = Record<string, CredentialToken[]>;
+import { CredentialToken, CredentialToTokenMap } from "./types";
+import { setTokens } from "./credentialSlice";
 
 export default function TokenUpdater() {
-  const { setTokens } = useSetCredentials();
+  const dispatch = useDispatch();
   const orgs = useGetOrgs();
   const block = useBlockNumber();
   const provider = useProvider();
@@ -74,7 +66,7 @@ export default function TokenUpdater() {
 
       const filters = contracts.map((contract) => contract.filters.Mint());
       const events = await Promise.all(
-        filters.map((filter, i) => contracts[i].queryFilter(filter))
+        filters.map((filter, i) => contracts[i].queryFilter(filter, 7491226))
       );
       const results = await Promise.all(events.map(transformEventsToTokens));
       const tokens = results.filter(Boolean).reduce((all, token) => {
@@ -83,11 +75,11 @@ export default function TokenUpdater() {
         return all;
       }, {} as CredentialToTokenMap);
 
-      setTokens(tokens);
+      dispatch(setTokens(tokens));
       setLastUpdated(block);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [block, setTokens, lastUpdated]
+    [block, lastUpdated]
   );
 
   useEffect(() => {
