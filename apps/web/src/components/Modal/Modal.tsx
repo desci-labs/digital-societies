@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import useKeyPress from "hooks/useKeyPress";
 import {
   createContext,
@@ -16,15 +17,6 @@ export default function ModalProvider(props: Props) {
   const [backdropDismiss, setBackdropDismiss] = useState(true);
   const escKeyPressed = useKeyPress("Escape");
 
-  const showModal: Opener = (Content, props) => {
-    setBackdropDismiss(props.isDismissDisabled ?? true);
-    setContent(<Content {...props} />);
-  };
-
-  function closeModal() {
-    setContent(undefined);
-    setBackdropDismiss(true);
-  }
 
   const dismissModal = (event: any) => {
     const path = event.path || (event.composedPath && event.composedPath());
@@ -42,7 +34,6 @@ export default function ModalProvider(props: Props) {
 
   useEffect(() => {
     return () => ref.current?.removeEventListener("click", dismissModal);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleRef = useCallback(
@@ -52,9 +43,30 @@ export default function ModalProvider(props: Props) {
         ref.current?.addEventListener("click", dismissModal);
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [backdropDismiss]
   );
+
+
+  const showModal: Opener = (Content, props) => {
+    setBackdropDismiss(props.isDismissDisabled ?? true);
+    setContent(<Content {...props} />);
+    toggleBodyScroll();
+  };
+
+  const toggleBodyScroll = () => {
+    const body = document.body;
+    if (body.classList.contains('modal-open')) {
+      body.classList.remove('modal-open')
+    } else {
+      body.classList.add('modal-open')
+    }
+  }
+
+  function closeModal() {
+    setContent(undefined);
+    setBackdropDismiss(true);
+    toggleBodyScroll();
+  }
 
   return (
     <setContext.Provider
