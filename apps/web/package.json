@@ -27,6 +27,7 @@
     "@hookform/resolvers": "^2.9.7",
     "@pinata/sdk": "^1.1.26",
     "@rainbow-me/rainbowkit": "^0.5.1",
+    "@reduxjs/toolkit": "^1.8.5",
     "ethers": "^5.0.0",
     "formidable": "^2.0.1",
     "multiformats": "^9.8.1",
@@ -37,6 +38,7 @@
     "react-hook-form": "^7.34.2",
     "react-icons": "^4.4.0",
     "react-loader-spinner": "^5.3.3",
+    "react-redux": "^8.0.2",
     "wagmi": "^0.6.0",
     "yup": "^0.32.11"
   },
