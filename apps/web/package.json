@@ -11,6 +11,10 @@
     "type-check": "tsc --pretty --noEmit",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
+  "engines": {
+    "node": ">=12.x.x <=16.x.x",
+    "npm": ">=6.0.0"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
