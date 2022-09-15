@@ -12,6 +12,7 @@ export default function FactoryUpdater() {
   const { setOrgs } = useSetOrgs();
   const contract = useFactoryContract();
   const block = useBlockNumber();
+  
   const provider = useProvider();
   const getContract = useSBTContractFactory();
   const [lastUpdated, setLastUpdated] = useState(0);
@@ -89,6 +90,6 @@ export default function FactoryUpdater() {
     if (contract && block && (lastUpdated === 0 || block - lastUpdated > 5)) {
       getFactoryTokens();
     }
-  }, [block, lastUpdated, contract, getFactoryTokens]);
+  }, [block, lastUpdated, contract, getFactoryTokens, provider]);
   return null;
 }
