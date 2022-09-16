@@ -1,7 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { IPFS_GATEWAY } from "./constants";
 
-const PINATA_GATEWAY = 'https://gateway.pinata.cloud/ipfs/';
-const IPFS_GATEWAY = 'https://ipfs.io/ipfs/';
+// const PINATA_GATEWAY = 'https://gateway.pinata.cloud/ipfs/';
+// const IPFS_GATEWAY = 'https://ipfs.io/ipfs/';
+// const W3SLINK = 'https://w3s.link/ipfs/'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   let status = 200;

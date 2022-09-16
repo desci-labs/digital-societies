@@ -1,8 +1,10 @@
 import { CID } from "multiformats/cid";
 import { base16 } from "multiformats/bases/base16";
+import { IPFS_GATEWAY } from "pages/api/constants";
 
-const IPFS_GATEWAY = 'https://ipfs.io/ipfs/';
-const PINATA_GATEWAY = 'https://gateway.pinata.cloud/ipfs/';
+// const IPFS_GATEWAY = 'https://ipfs.io/ipfs/';
+// const PINATA_GATEWAY = 'https://gateway.pinata.cloud/ipfs/';
+// const W3SLINK = 'https://w3s.link/ipfs/'
 
 export const resolveIpfsURL = (hash: string) => `${IPFS_GATEWAY}${hash}`
 
