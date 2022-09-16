@@ -4,16 +4,19 @@ import type { AppProps } from 'next/app';
 import AppProviders from 'providers/AppProviders';
 import Layout from 'layout';
 import { Provider } from 'react-redux';
-import store from 'store/store';
+import { store, persistor } from 'store/store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
-      <AppProviders>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </AppProviders>
+      <PersistGate loading={null} persistor={persistor}>
+        <AppProviders>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </AppProviders>
+      </PersistGate>
     </Provider>
   );
 }
