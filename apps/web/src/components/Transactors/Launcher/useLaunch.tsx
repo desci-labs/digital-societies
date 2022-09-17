@@ -63,6 +63,7 @@ export default function useLaunch() {
       
       const receipt = await tx.wait();
       const address = "0x" + receipt.logs[3].topics?.[1].slice(26);
+      const block = await factoryContract.provider.getBlock(receipt.blockNumber)
       const preview: PendingOrg = {
         cid,
         metadata,
@@ -70,7 +71,7 @@ export default function useLaunch() {
         admin: metadata.issuer,
         revocations: [],
         delegates: [metadata.issuer],
-        dateCreated: 0,
+        dateCreated: block.timestamp * 1000,
         pending: true,
       };
       

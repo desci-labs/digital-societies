@@ -22,7 +22,7 @@ import { RiCloseLine } from "react-icons/ri";
 import { useAccount } from "wagmi";
 import { CardContainer, ExternalLink, ImageBanner, RoundedLogo } from "../Index";
 import { Cell, Row, Table, TBody, THead } from "../Table";
-import { Credential } from "services/credentials/types";
+import { Credential, PendingCredential } from "services/credentials/types";
 import { useRouter } from "next/router";
 
 export function CredentialGridView({ address }: { address: string }) {
@@ -58,7 +58,7 @@ export function CredentialGridView({ address }: { address: string }) {
   );
 }
 
-export function CredentialCard({ credential }: { credential: Credential }) {
+export function CredentialCard({ credential }: { credential: Credential | PendingCredential }) {
   const org = useGetOrg(credential.address);
   const metadata = useMemo(
     () => credential?.metadata ?? org?.metadata,

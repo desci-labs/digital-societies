@@ -3,9 +3,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { IssuerValues } from "../types";
 import { issuerSchema } from "../schema";
 import { FC } from "react";
-import { Credential } from "services/credentials/types";
+import { Credential, PendingCredential } from "services/credentials/types";
 
-export type Props = { credential: Credential; Form: FC };
+export type Props = { credential: Credential | PendingCredential; Form: FC };
 
 export default function Issuer({ credential, Form }: Props) {
   if (!credential) throw Error("Credential data is required");

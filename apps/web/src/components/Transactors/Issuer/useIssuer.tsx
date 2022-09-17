@@ -1,11 +1,11 @@
 import { useModalContext } from "components/Modal/Modal";
 import { useCallback } from "react";
-import { Credential } from "services/credentials/types";
+import { Credential, PendingCredential } from "services/credentials/types";
 import Issuer, { Props } from ".";
 import Transactor, { TxProps } from "../Transactor";
 import IssuerForm from "./IssuerForm";
 
-export default function useIssuer(credential: Credential) {
+export default function useIssuer(credential: Credential | PendingCredential) {
   const { showModal } = useModalContext();
 
   const showIssuer = useCallback(() => {

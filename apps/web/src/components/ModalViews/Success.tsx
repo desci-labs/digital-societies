@@ -20,8 +20,8 @@ export default function Success({
   const router = useRouter();
 
   const preview = (path: string) => {
-    router.push(path)
     hideModal();
+    router.push(path)
   };
 
   return (
@@ -60,7 +60,7 @@ export default function Success({
             </button>
             {previewLink ? (
               <button
-                className="tracking-wide text-lg text-white rounded-lg w-32 py-1.5 px-4 outline-none"
+                className="tracking-wide text-lg text-white rounded-lg w-32 py-1.5 px-4 outline-none bg-regent-gray"
                 onClick={() => preview(previewLink)}
               >
                 Preview
