@@ -71,7 +71,6 @@ export default function FactoryUpdater() {
       admin,
       delegates,
       revocations,
-      pending: false
     };
   }
 

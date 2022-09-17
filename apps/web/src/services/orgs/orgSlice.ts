@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { FactoryState, Org } from "./types";
+import { FactoryState, Org, PendingOrg } from "./types";
 
 const initialState: FactoryState = { data: [], isLoading: true };
 
@@ -17,7 +17,7 @@ const slice = createSlice({
     },
     setOrg: (
       state,
-      { payload }: PayloadAction<Org>
+      { payload }: PayloadAction<Org | PendingOrg>
     ) => {
       const prev = state.data.find(org => org.address  === payload.address)
       if (!prev)  {

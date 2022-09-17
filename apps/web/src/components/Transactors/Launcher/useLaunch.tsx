@@ -9,7 +9,7 @@ import { getBytesFromCIDString } from "helper";
 import { useFactoryContract } from "hooks/useContract";
 import { useDispatch } from "react-redux";
 import { setOrg } from "services/orgs/orgSlice";
-import { Org } from "services/orgs/types";
+import { Org, PendingOrg } from "services/orgs/types";
 import { useContractWrite } from "wagmi";
 
 export default function useLaunch() {
@@ -63,7 +63,7 @@ export default function useLaunch() {
       
       const receipt = await tx.wait();
       const address = "0x" + receipt.logs[3].topics?.[1].slice(26);
-      const preview: Org = {
+      const preview: PendingOrg = {
         cid,
         metadata,
         address,

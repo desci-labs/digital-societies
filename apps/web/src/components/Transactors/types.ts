@@ -22,13 +22,10 @@ export interface DelegaterValues {
 }
 
 
-export type FinalizedMetadata = Meta & {
+export type Metadata = Meta & {
   image: string;
-  logo: string
+  logo: string;
 }
-
-export type Metadata = MetadataValues | FinalizedMetadata;
-
 
 export type IResponse = {
   IpfsHash: string;

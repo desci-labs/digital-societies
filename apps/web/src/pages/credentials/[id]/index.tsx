@@ -7,7 +7,7 @@ import {
   useGetCredentialTokens,
 } from "services/credentials/hooks";
 import { useCanMutateOrg, useGetOrg } from "services/orgs/hooks";
-import { resolveIpfsURL } from "helper";
+import { getImageURL, resolveIpfsURL } from "helper";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { RiCloseLine } from "react-icons/ri";
@@ -38,8 +38,8 @@ export default function CredentialDetails() {
   return (
     <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center mb-10">
       <div className="w-full h-104 relative group">
-        <ImageBanner ipfsHash={metadata?.image ?? ""} />
-        <RoundedLogo ipfsHash={metadata?.logo ?? ""} />
+        <ImageBanner src={getImageURL(metadata?.image ?? "")} />
+        <RoundedLogo src={getImageURL(metadata?.logo ?? "")} />
       </div>
       <div className="container mx-auto mt-5">
         <span className="text-3xl block font-bold mb-2 text-left">

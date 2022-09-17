@@ -6,14 +6,14 @@ import useDelegater from "components/Transactors/Delegater/useDelegater";
 import useRemoveDelegate from "components/Transactors/Delegater/useRemoveDelegate";
 import useIssuer from "components/Transactors/Issuer/useIssuer";
 import useRevokeCredential from "components/Transactors/Issuer/useRevokeCredential";
-import { Metadata } from "components/Transactors/types";
+import { Metadata, MetadataValues } from "components/Transactors/types";
 import {
   useGetCredential,
   useGetCredentialState,
   useGetCredentialTokens,
 } from "services/credentials/hooks";
 import { useCanMutateOrg, useGetOrg, useIsAdmin } from "services/orgs/hooks";
-import { getImageURL, resolveIpfsURL, shortenText } from "helper";
+import { getImageURL, shortenText } from "helper";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
@@ -77,7 +77,7 @@ export function MetadataCard({
   link,
 }: {
   link: string;
-  metadata: Metadata;
+  metadata: Metadata | MetadataValues;
 }) {
   return (
     <div className="min-w-80 w-80 h-96 rounded-lg shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden">
