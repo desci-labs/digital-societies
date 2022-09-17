@@ -80,32 +80,34 @@ export function MetadataCard({
   metadata: Metadata | MetadataValues;
 }) {
   return (
-    <div className="min-w-80 w-80 h-96 rounded-lg shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden">
-      <div className="w-80 h-48 relative rounded-lg">
-        <ImageBanner src={getImageURL(metadata?.image)} />
-        <RoundedLogo
-          src={getImageURL(metadata?.logo)}
-          className="w-12 h-12 left-3 -bottom-5"
-        />
-      </div>
-      <div className="p-2 mt-3">
-        <Link href={link}>
-          <a href={link} className="text-xl block font-bold mb-1 truncate">
-            {metadata.name}
-          </a>
-        </Link>
-        <div className="flex flex-col justify-between h-32 gap-1">
-          <span className="text-sm block">
-            {shortenText(metadata.description)}
-          </span>
-          {metadata.external_link && (
-            <div className="flex justify-center">
-              <ExternalLink href={metadata.external_link} />
-            </div>
-          )}
+    <Link href={link}>
+      <a href={link} className="min-w-80 w-80 h-96 rounded-lg shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden">
+        <div className="w-80 h-48 relative rounded-lg">
+          <ImageBanner src={getImageURL(metadata?.image)} />
+          <RoundedLogo
+            src={getImageURL(metadata?.logo)}
+            className="w-12 h-12 left-3 -bottom-5"
+          />
         </div>
-      </div>
-    </div>
+        <div className="p-2 mt-3">
+          <Link href={link}>
+            <a href={link} className="text-xl block font-bold mb-1 truncate">
+              {metadata.name}
+            </a>
+          </Link>
+          <div className="flex flex-col justify-between h-32 gap-1">
+            <span className="text-sm block">
+              {shortenText(metadata.description)}
+            </span>
+            {metadata.external_link && (
+              <div className="flex justify-center">
+                <ExternalLink href={metadata.external_link} />
+              </div>
+            )}
+          </div>
+        </div>
+      </a>
+    </Link>
   );
 }
 
