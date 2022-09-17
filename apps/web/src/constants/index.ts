@@ -1,1 +1,0 @@
-export const IPFS_GATEWAY = process.env.NEXT_PUBLIC_IPFS_GATEWAY;

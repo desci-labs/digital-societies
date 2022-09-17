@@ -6,14 +6,14 @@ import useDelegater from "components/Transactors/Delegater/useDelegater";
 import useRemoveDelegate from "components/Transactors/Delegater/useRemoveDelegate";
 import useIssuer from "components/Transactors/Issuer/useIssuer";
 import useRevokeCredential from "components/Transactors/Issuer/useRevokeCredential";
-import { Metadata } from "components/Transactors/types";
+import { Metadata, MetadataValues } from "components/Transactors/types";
 import {
   useGetCredential,
   useGetCredentialState,
   useGetCredentialTokens,
 } from "services/credentials/hooks";
 import { useCanMutateOrg, useGetOrg, useIsAdmin } from "services/orgs/hooks";
-import { resolveIpfsURL, shortenText } from "helper";
+import { getImageURL, shortenText } from "helper";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
@@ -22,7 +22,8 @@ import { RiCloseLine } from "react-icons/ri";
 import { useAccount } from "wagmi";
 import { CardContainer, ExternalLink, ImageBanner, RoundedLogo } from "../Index";
 import { Cell, Row, Table, TBody, THead } from "../Table";
-import { Credential } from "services/credentials/types";
+import { Credential, PendingCredential } from "services/credentials/types";
+import { useRouter } from "next/router";
 
 export function CredentialGridView({ address }: { address: string }) {
   const hasAccess = useCanMutateOrg(address);
@@ -57,7 +58,7 @@ export function CredentialGridView({ address }: { address: string }) {
   );
 }
 
-export function CredentialCard({ credential }: { credential: Credential }) {
+export function CredentialCard({ credential }: { credential: Credential | PendingCredential }) {
   const org = useGetOrg(credential.address);
   const metadata = useMemo(
     () => credential?.metadata ?? org?.metadata,
@@ -77,35 +78,34 @@ export function MetadataCard({
   link,
 }: {
   link: string;
-  metadata: Metadata;
+  metadata: Metadata | MetadataValues;
 }) {
+  const router = useRouter();
   return (
-    <div className="min-w-80 w-80 h-96 rounded-lg shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden">
-      <div className="w-80 h-48 relative rounded-lg">
-        <ImageBanner ipfsHash={metadata?.image ?? ""} />
-        <RoundedLogo
-          ipfsHash={metadata?.logo ?? ""}
-          className="w-12 h-12 left-3 -bottom-5"
-        />
-      </div>
-      <div className="p-2 mt-3">
-        <Link href={link}>
-          <a href={link} className="text-xl block font-bold mb-1 truncate">
-            {metadata.name}
-          </a>
-        </Link>
-        <div className="flex flex-col justify-between h-32 gap-1">
-          <span className="text-sm block">
-            {shortenText(metadata.description)}
-          </span>
-          {metadata.external_link && (
-            <div className="flex justify-center">
-              <ExternalLink href={metadata.external_link} />
-            </div>
-          )}
+      <div onClick={() => router.push(link)} className="min-w-80 w-80 h-96 rounded-lg shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden">
+        <div className="w-80 h-48 relative rounded-lg">
+          <ImageBanner src={getImageURL(metadata?.image)} />
+          <RoundedLogo
+            src={getImageURL(metadata?.logo)}
+            className="w-12 h-12 left-3 -bottom-5"
+          />
+        </div>
+        <div className="p-2 mt-3">
+            <span className="text-xl block font-bold mb-1 truncate">
+              {metadata.name}
+            </span>
+          <div className="flex flex-col justify-between h-32 gap-1">
+            <span className="text-sm block">
+              {shortenText(metadata.description)}
+            </span>
+            {metadata.external_link && (
+              <div className="flex justify-center">
+                <ExternalLink href={metadata.external_link} />
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
   );
 }
 
@@ -145,7 +145,7 @@ export function Delegates({ address }: { address: string }) {
               <Cell className="flex justify-start p-2">
                 <div className="w-10 h-10 relative">
                   <Image
-                    src={resolveIpfsURL(org?.metadata?.logo ?? "")}
+                    src={getImageURL(org?.metadata?.logo ?? "")}
                     layout="fill"
                     objectFit="cover"
                     objectPosition="center"
@@ -200,7 +200,7 @@ export function RevocationHistory({ address }: { address: string }) {
               <Cell className="flex justify-start p-2">
                 <div className="w-10 h-10 relative">
                   <Image
-                    src={resolveIpfsURL(org?.metadata?.logo ?? "")}
+                    src={getImageURL(org?.metadata?.logo)}
                     layout="fill"
                     objectFit="cover"
                     objectPosition="center"
@@ -224,7 +224,6 @@ export function RevocationHistory({ address }: { address: string }) {
     </CardContainer>
   );
 }
-
 
 export function TokenTableView({ address, id }: { id: number; address: string }) {
   const tokens = useGetCredentialTokens(address, id);
@@ -261,7 +260,7 @@ export function TokenTableView({ address, id }: { id: number; address: string })
                 <Cell className="flex justify-start p-2">
                   <div className="w-10 h-10 relative">
                     <Image
-                      src={resolveIpfsURL(credential?.metadata?.image ?? "")} //TODO: add a fall back image as placeholder
+                      src={getImageURL(credential?.metadata?.image ?? "")} //TODO: add a fall back image as placeholder
                       layout="fill"
                       objectFit="cover"
                       objectPosition="center"

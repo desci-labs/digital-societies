@@ -8,10 +8,16 @@ import { useFactoryContract, useSBTContractFactory } from "hooks/useContract";
 import { DEFAULT_ADMIN_ROLE, DELEGATE_ROLE } from "constants/roles";
 import { useDispatch } from "react-redux";
 import { setIsLoading, setOrgs } from "./orgSlice";
-import { Revoked } from "./types";
+import { Org, Revoked } from "./types";
+import { Metadata } from "components/Transactors/types";
+import { useGetOrgs } from "./hooks";
+import { FACTORY_DEPLOY_BLOCK } from "constants/web3";
+
+// TODO: update fromBlock to latest block after every event query
 
 export default function FactoryUpdater() {
   const dispatch = useDispatch();
+  const orgs = useGetOrgs();
 
   const contract = useFactoryContract();
   const block = useBlockNumber();
@@ -20,7 +26,7 @@ export default function FactoryUpdater() {
   const getContract = useSBTContractFactory();
   const [lastUpdated, setLastUpdated] = useState(0);
 
-  async function getDelegates(contract: Contract) {
+  async function getDelegates(contract: Contract): Promise<string[]> {
     const roleCount = await contract.getRoleMemberCount(DELEGATE_ROLE);
     const members = [];
     for (let i = 0; i < roleCount; i++) {
@@ -48,25 +54,23 @@ export default function FactoryUpdater() {
     return revocations;
   }
 
-  async function getContractInfofromEvent(event: ethers.Event) {
+  async function getContractInfofromEvent(event: ethers.Event): Promise<Org> {
     const block = await provider.getBlock(event.blockNumber);
-    const owner = event.args?.owner ?? event.args?.[0];
     const contract = getContract(event.args?.token ?? event.args?.[1]);
     const admin = await contract.getRoleMember(DEFAULT_ADMIN_ROLE, 0);
     const delegates = await getDelegates(contract);
     let cid = await contract.contractURI();
     cid = await getCIDStringFromBytes(cid);
-    const metadata = await queryIpfsHash(cid);
+    const metadata = (await queryIpfsHash(cid)) as Metadata;
     const revocations = await getRevocationHistory(contract);
     return {
       metadata,
-      owner,
       cid,
       dateCreated: block.timestamp * 1000,
       address: contract.address,
       admin,
       delegates,
-      revocations
+      revocations,
     };
   }
 
@@ -74,11 +78,12 @@ export default function FactoryUpdater() {
     async () => {
       if (!block || !contract) return;
 
-      if (block - lastUpdated < 5) return;
+      if (block - lastUpdated < 5 && orgs.length > 0) return;
 
       try {
+        const lastQuery = await provider.getBlockNumber();
         const filter = contract.filters.TokenCreated();
-        const events = await contract.queryFilter(filter, 7491226);
+        const events = await contract.queryFilter(filter, FACTORY_DEPLOY_BLOCK);
         const results = await Promise.all(events.map(getContractInfofromEvent));
         dispatch(setOrgs(results))
         dispatch(setIsLoading(false))
@@ -92,9 +97,9 @@ export default function FactoryUpdater() {
   );
 
   useEffect(() => {
-    if (contract && block && (lastUpdated === 0 || block - lastUpdated > 5)) {
+    if (contract && block && (orgs.length === 0 || lastUpdated === 0 || block - lastUpdated > 5)) {
       getFactoryTokens();
     }
-  }, [block, lastUpdated, contract, getFactoryTokens, provider]);
+  }, [block, lastUpdated, contract, getFactoryTokens, provider, orgs.length]);
   return null;
 }

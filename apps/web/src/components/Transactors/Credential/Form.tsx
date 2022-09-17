@@ -5,7 +5,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import FileDropzone from "components/FileDropzone";
 import { Form, GradientButton, Input, InputRow } from "components/Form/Index";
 import { useGetOrg } from "services/orgs/hooks";
-import useCreateType from "./useCreateType";
+import useCreateCredential from "./useCreateCredential";
 import { MetadataValues } from "../types";
 import ImagePreview from "components/UI/ImagePreview";
 
@@ -20,7 +20,7 @@ export default function CredentialForm() {
   const router = useRouter();
   const { address } = router.query;
   const org = useGetOrg(address as string);
-  const { launch, isLoading, isSuccess } = useCreateType(org?.address!);
+  const { launch, isLoading, isSuccess } = useCreateCredential(org?.address!);
   const image = watch('image');
   const logo = watch('logo');
 

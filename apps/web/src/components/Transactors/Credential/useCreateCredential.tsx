@@ -4,16 +4,22 @@ import ErrorView from "components/ModalViews/Error";
 import Processing from "components/ModalViews/Processing";
 import Success from "components/ModalViews/Success";
 import { useSetTx } from "context/useTx";
+import { BigNumber } from "ethers";
 import { getBytesFromCIDString } from "helper";
 import { useSBTContractFactory } from "hooks/useContract";
-import { useContractWrite } from "wagmi";
+import { useDispatch } from "react-redux";
+import { setCredential } from "services/credentials/credentialSlice";
+import { PendingCredential } from "services/credentials/types";
+import { useAccount, useContractWrite } from "wagmi";
 import { MetadataValues } from "../types";
 
-export default function useCreateType(address: string) {
+export default function useCreateCredential(address: string) {
   const { showModal } = useModalContext();
   const { setTx, reset } = useSetTx();
   const getContract = useSBTContractFactory();
   const tokenContract = getContract(address);
+  const dispatch = useDispatch();
+  const { address: mintedBy } = useAccount();
 
   const { isLoading, isSuccess, writeAsync } = useContractWrite({
     mode: "recklesslyUnprepared",
@@ -24,6 +30,7 @@ export default function useCreateType(address: string) {
 
   async function launch(metadata: MetadataValues) {
     try {
+      if (!mintedBy) throw Error("Check wallet connection and try again!!!");
       reset();
 
       showModal(Processing, { message: 'Pining Metadata to ipfs...' });
@@ -64,15 +71,23 @@ export default function useCreateType(address: string) {
         body: JSON.stringify(meta),
       });
       const pinnedMetadataRes = (await metaRes.json()) as PinataPinResponse;
-      const metadataHex = getBytesFromCIDString(pinnedMetadataRes.IpfsHash)
+      const cid = getBytesFromCIDString(pinnedMetadataRes.IpfsHash)
 
       showModal(Processing, { message: 'Confirming transaction...' })
       const tx = await writeAsync({
-        recklesslySetUnpreparedArgs: metadataHex,
+        recklesslySetUnpreparedArgs: cid,
       });
       setTx({ txInfo: tx, message: 'Minting new type...' })
-      await tx.wait();
-      showModal(Success, { message: 'Credential minted'});
+      
+      const receipt = await tx.wait();
+      const block = await tokenContract.provider.getBlock(receipt.blockNumber)
+      console.log('receitp ', receipt);
+      const id = await tokenContract.totalTypes();
+      console.log('receitp ', id);
+      const credential: PendingCredential = { id, cid, address, mintedBy, metadata, pending: true, dateCreated: block.timestamp * 1000 };
+      
+      dispatch(setCredential({ address, credential }))
+      showModal(Success, { previewLink: `/credentials/${id}?address=${address}` });
     } catch (e: any) {
       console.log('Error ', e?.data?.message, e?.message);
       showModal(ErrorView, { message: "Error processing transaction", })

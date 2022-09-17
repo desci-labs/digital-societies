@@ -1,4 +1,4 @@
-import { Metadata } from "components/Transactors/types";
+import { Metadata, MetadataValues } from "components/Transactors/types";
 
 export type CredentialToken = {
   org: string;
@@ -8,19 +8,21 @@ export type CredentialToken = {
   issuer: string;
   owner: string;
 };
+
 export type CredentialToTokenMap = Record<string, CredentialToken[]>;
 
-export type Credential = {
+export type CredentialMeta = {
   id: number;
   mintedBy: string;
   cid: string;
-  metadata: Metadata;
   address: string;
   dateCreated: number;
-  pending?: boolean;
-  tokens: CredentialToken;
 };
-export type CredentialMap = Record<string, Credential[]>;
+
+export type Credential = CredentialMeta & { pending?: never, metadata: Metadata }
+export type PendingCredential = CredentialMeta & { pending: boolean, metadata: MetadataValues }
+
+export type CredentialMap = Record<string, (Credential | PendingCredential)[]>;
 
 export type CredentialState = {
   credentials: CredentialMap;

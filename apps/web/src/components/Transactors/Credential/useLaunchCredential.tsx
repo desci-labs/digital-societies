@@ -3,9 +3,9 @@ import { useCallback } from "react";
 import Transactor, { TxProps } from "../Transactor";
 import Launcher, { Props } from "./index";
 import CredentialForm from "./Form";
-import { Org } from "services/orgs/types";
+import { Org, PendingOrg } from "services/orgs/types";
 
-export default function useLaunchCredential(org: Org) {
+export default function useLaunchCredential(org: Org | PendingOrg) {
   const { showModal } = useModalContext();
 
   const showLauncher = useCallback(() => {

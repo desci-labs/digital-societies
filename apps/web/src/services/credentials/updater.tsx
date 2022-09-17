@@ -9,6 +9,8 @@ import { useGetOrgs } from "services/orgs/hooks";
 import { Credential, CredentialMap } from "./types";
 import { useDispatch } from 'react-redux'
 import { setCredentials, setIsLoading } from "./credentialSlice";
+import { Metadata } from "components/Transactors/types";
+import { FACTORY_DEPLOY_BLOCK } from "constants/web3";
 
 export default function CredentialUpdater() {
   const dispatch = useDispatch();
@@ -18,15 +20,15 @@ export default function CredentialUpdater() {
   const getContract = useSBTContractFactory();
   const [lastUpdated, setLastUpdated] = useState(0);
 
-  async function getCrendentialInfofromEvent(event: ethers.Event) {
+  async function getCrendentialInfofromEvent(event: ethers.Event): Promise<Credential> {
     const block = await provider.getBlock(event.blockNumber);
     const mintedBy = event.args?.createdBy ?? event.args?.[1];
     const id = event.args?.tokenType ?? event.args?.[0];
     const contract = getContract(event.address);
     let cid = await contract.typeURI(id);
     cid = await getCIDStringFromBytes(cid);
-    const metadata = await queryIpfsHash(cid)
-    return { id, metadata, mintedBy, cid, dateCreated: block.timestamp * 1000, address: contract.address, pending: !metadata }
+    const metadata = (await queryIpfsHash(cid)) as Metadata
+    return { id, metadata, mintedBy, cid, dateCreated: block.timestamp * 1000, address: contract.address }
   }
 
   async function transformEventsToCrendentials(events: ethers.Event[]) {
@@ -46,7 +48,7 @@ export default function CredentialUpdater() {
       })
       try {
         const filters = contracts.map(contract => contract.filters.TypeCreated());
-        const events = await Promise.all(filters.map((filter, i) => contracts[i].queryFilter(filter, 7491226)));
+        const events = await Promise.all(filters.map((filter, i) => contracts[i].queryFilter(filter, FACTORY_DEPLOY_BLOCK)));
         const results = await Promise.all(events.map(transformEventsToCrendentials));
 
         const credentials = results.filter(Boolean).reduce((all, credential) => {

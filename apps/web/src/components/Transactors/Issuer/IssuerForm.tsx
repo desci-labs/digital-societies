@@ -9,7 +9,7 @@ import {
   useGetCredentials,
 } from "services/credentials/hooks";
 import useIssueCredential from "./useIssueCredential";
-import { Credential } from "services/credentials/types";
+import { Credential, PendingCredential } from "services/credentials/types";
 
 export default function IssuerForm() {
   const {
@@ -40,7 +40,7 @@ export default function IssuerForm() {
         label="Select credential"
         className="text-sm"
       >
-        <SelectInput<Credential>
+        <SelectInput<Credential | PendingCredential>
           options={credentials}
           getOptionLabel={(data) => data.metadata.name}
           getOptionValue={(data) => data.id}
