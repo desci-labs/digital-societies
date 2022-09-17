@@ -8,13 +8,13 @@ export type Revoked = {
 };
 export type Org = {
   cid: string;
-  metadata: Metadata;
   address: string;
-  owner: string;
   dateCreated: number;
   delegates: string[];
   revocations: Revoked[];
   admin: string;
+  pending: boolean;
+  metadata: Metadata;
 };
 
 export type FactoryState = { data: Org[]; isLoading: boolean };

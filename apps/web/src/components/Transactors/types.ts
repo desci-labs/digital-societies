@@ -1,11 +1,13 @@
 import { FileObject } from "components/FileDropzone/types";
 
-export interface MetadataValues {
+type Meta = {
   name: string;
   issuer: string;
   symbol: string;
   description: string;
   external_link: string;
+}
+export type MetadataValues = Meta & {
   image: FileObject;
   logo: FileObject
 }
@@ -19,7 +21,15 @@ export interface DelegaterValues {
   org: string;
 }
 
-export type Metadata = MetadataValues & { image: string, logo: string }
+
+export type FinalizedMetadata = Meta & {
+  image: string;
+  logo: string
+}
+
+export type Metadata = MetadataValues | FinalizedMetadata;
+
+
 export type IResponse = {
   IpfsHash: string;
   PinSize: number;

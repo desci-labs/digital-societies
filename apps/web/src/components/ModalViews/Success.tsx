@@ -1,15 +1,28 @@
 import { useModalContext } from "components/Modal/Modal";
 import { useGetTx } from "context/useTx";
 import { getTransactionUrl } from "helper/web3";
+import { useRouter } from "next/router";
 import { IoMdClose } from "react-icons/io";
 import { useNetwork } from "wagmi";
 import TransactionLink from "./TransactionLink";
 
-export default function Success({ message: text } : {message?: string }) {
+export default function Success({
+  message: text,
+  previewLink,
+}: {
+  message?: string;
+  previewLink?: string;
+}) {
   const { chain } = useNetwork();
   const { hideModal } = useModalContext();
   const { txInfo, message } = useGetTx();
   const feedback = text || message;
+  const router = useRouter();
+
+  const preview = (path: string) => {
+    router.push(path)
+    hideModal();
+  };
 
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-xl transform transition-all sm:max-w-md sm:w-full">
@@ -38,12 +51,24 @@ export default function Success({ message: text } : {message?: string }) {
               url={getTransactionUrl(txInfo.hash, chain)}
             />
           )}
-          <button
-            className="tracking-wide text-lg text-white rounded-lg w-32 py-1.5 px-4 enabled:bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 outline-none hover:bg-400p hover:animate-gradient"
-            onClick={hideModal}
-          >
-            Done
-          </button>
+          <div className="flex justify-evenly items-center gap-x-2">
+            <button
+              className="tracking-wide text-lg text-white rounded-lg w-32 py-1.5 px-4 enabled:bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 outline-none hover:bg-400p hover:animate-gradient"
+              onClick={hideModal}
+            >
+              Close
+            </button>
+            {previewLink ? (
+              <button
+                className="tracking-wide text-lg text-white rounded-lg w-32 py-1.5 px-4 outline-none"
+                onClick={() => preview(previewLink)}
+              >
+                Preview
+              </button>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
       </div>
     </div>

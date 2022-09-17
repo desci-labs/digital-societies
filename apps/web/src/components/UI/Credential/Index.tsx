@@ -13,7 +13,7 @@ import {
   useGetCredentialTokens,
 } from "services/credentials/hooks";
 import { useCanMutateOrg, useGetOrg, useIsAdmin } from "services/orgs/hooks";
-import { resolveIpfsURL, shortenText } from "helper";
+import { getImageURL, resolveIpfsURL, shortenText } from "helper";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
@@ -82,9 +82,9 @@ export function MetadataCard({
   return (
     <div className="min-w-80 w-80 h-96 rounded-lg shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden">
       <div className="w-80 h-48 relative rounded-lg">
-        <ImageBanner ipfsHash={metadata?.image ?? ""} />
+        <ImageBanner src={getImageURL(metadata?.image)} />
         <RoundedLogo
-          ipfsHash={metadata?.logo ?? ""}
+          src={getImageURL(metadata?.logo)}
           className="w-12 h-12 left-3 -bottom-5"
         />
       </div>
@@ -145,7 +145,7 @@ export function Delegates({ address }: { address: string }) {
               <Cell className="flex justify-start p-2">
                 <div className="w-10 h-10 relative">
                   <Image
-                    src={resolveIpfsURL(org?.metadata?.logo ?? "")}
+                    src={getImageURL(org?.metadata?.logo ?? "")}
                     layout="fill"
                     objectFit="cover"
                     objectPosition="center"
@@ -200,7 +200,7 @@ export function RevocationHistory({ address }: { address: string }) {
               <Cell className="flex justify-start p-2">
                 <div className="w-10 h-10 relative">
                   <Image
-                    src={resolveIpfsURL(org?.metadata?.logo ?? "")}
+                    src={getImageURL(org?.metadata?.logo)}
                     layout="fill"
                     objectFit="cover"
                     objectPosition="center"
@@ -224,7 +224,6 @@ export function RevocationHistory({ address }: { address: string }) {
     </CardContainer>
   );
 }
-
 
 export function TokenTableView({ address, id }: { id: number; address: string }) {
   const tokens = useGetCredentialTokens(address, id);
@@ -261,7 +260,7 @@ export function TokenTableView({ address, id }: { id: number; address: string })
                 <Cell className="flex justify-start p-2">
                   <div className="w-10 h-10 relative">
                     <Image
-                      src={resolveIpfsURL(credential?.metadata?.image ?? "")} //TODO: add a fall back image as placeholder
+                      src={getImageURL(credential?.metadata?.image ?? "")} //TODO: add a fall back image as placeholder
                       layout="fill"
                       objectFit="cover"
                       objectPosition="center"

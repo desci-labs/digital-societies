@@ -3,6 +3,7 @@ import Loader from "components/Loader";
 import { useGetOrg } from "services/orgs/hooks";
 import { CredentialGridView, Delegates, RevocationHistory } from "components/UI/Credential/Index";
 import { ImageBanner, RoundedLogo } from "components/UI/Index";
+import { getImageURL } from "helper";
 
 export default function OrganisationDetails() {
   const router = useRouter();
@@ -14,8 +15,8 @@ export default function OrganisationDetails() {
   return (
     <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center mb-10">
       <div className="w-full h-104 relative group">
-        <ImageBanner ipfsHash={org.metadata.image} alt={org.metadata.name} />
-        <RoundedLogo ipfsHash={org.metadata.logo} alt={org.metadata.name} />
+        <ImageBanner src={getImageURL(org.metadata.image)} alt={org.metadata.name} />
+        <RoundedLogo src={getImageURL(org.metadata.logo)} alt={org.metadata.name} />
       </div>
       <div className="container mx-auto mt-10">
         <span className="text-3xl block font-bold mb-2 text-left">

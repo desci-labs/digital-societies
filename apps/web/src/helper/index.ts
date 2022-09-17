@@ -1,12 +1,9 @@
 import { CID } from "multiformats/cid";
 import { base16 } from "multiformats/bases/base16";
-import { IPFS_GATEWAY } from "pages/api/constants";
+import { W3S_IPFS_GATEWAY } from "pages/api/constants";
+import { FileObject } from "components/FileDropzone/types";
 
-// const IPFS_GATEWAY = 'https://ipfs.io/ipfs/';
-// const PINATA_GATEWAY = 'https://gateway.pinata.cloud/ipfs/';
-// const W3SLINK = 'https://w3s.link/ipfs/'
-
-export const resolveIpfsURL = (hash: string) => `${IPFS_GATEWAY}${hash}`
+export const resolveIpfsURL = (hash: string) => `${W3S_IPFS_GATEWAY}${hash}`;
 
 export const getBytesFromCIDString = (input: string) => {
   const cid = CID.parse(input);
@@ -23,7 +20,7 @@ export const getCIDStringFromBytes = async (hex: string) => {
   const bytes = base16.decode(hex);
   const cid = CID.decode(bytes);
   return cid.toString();
-}
+};
 
 export async function asyncMap<T, E>(arr: E[], predicate: any): Promise<T[]> {
   const results = await Promise.all(arr.map(predicate));
@@ -31,9 +28,10 @@ export async function asyncMap<T, E>(arr: E[], predicate: any): Promise<T[]> {
   return results as T[];
 }
 
-export const shortenText = (text: string, charCount: number = 100) => text.length > (charCount) ? `${text.substring(0, charCount)}...` : text;
+export const shortenText = (text: string, charCount: number = 100) =>
+  text.length > charCount ? `${text.substring(0, charCount)}...` : text;
 
-export default function maskAddress(addr?: string) {
+export function maskAddress(addr?: string) {
   const nChars = 6;
   if (!addr) {
     return "";
@@ -43,3 +41,15 @@ export default function maskAddress(addr?: string) {
     return addr.replace(middle, "...");
   }
 }
+
+export const getImageURL = (image: string | FileObject) => {
+  const url =
+    typeof image === "string"
+      ? resolveIpfsURL(image)
+      : image.ipfsHash
+      ? resolveIpfsURL(image.ipfsHash)
+      : image.file
+      ? window.URL.createObjectURL(image.file)
+      : "";
+  return url;
+};

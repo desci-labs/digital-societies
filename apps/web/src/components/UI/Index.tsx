@@ -15,11 +15,11 @@ export function ExternalLink(props: HTMLProps<HTMLAnchorElement>) {
   );
 }
 
-export function ImageBanner(props: HTMLProps<HTMLImageElement> & { ipfsHash: string }) {
+export function ImageBanner(props: HTMLProps<HTMLImageElement> & { src: string }) {
   return (
     <div className={`w-full h-full relative ${props.className ?? ''}`}>
       <Image
-        src={resolveIpfsURL(props.ipfsHash)}
+        src={props.src}
         layout="fill"
         objectFit="cover"
         objectPosition="center"
@@ -29,11 +29,11 @@ export function ImageBanner(props: HTMLProps<HTMLImageElement> & { ipfsHash: str
   )
 }
 
-export function RoundedLogo(props: HTMLProps<HTMLImageElement> & { ipfsHash: string }) {
+export function RoundedLogo(props: HTMLProps<HTMLImageElement> & { src: string }) {
   return (
     <div className={`w-32 h-32 absolute left-10 -bottom-11 rounded-full border-2 border-white ${props.className ?? ''}`}>
       <Image
-        src={resolveIpfsURL(props.ipfsHash)}
+        src={props.src}
         layout="fill"
         objectFit="cover"
         objectPosition="center"
