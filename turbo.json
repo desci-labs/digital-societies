@@ -11,9 +11,7 @@
       ]
     },
     "web#build": {
-      "dependsOn": [
-        "contracts#build"
-      ],
+      "dependsOn": [],
       "outputs": []
     },
     "test": {
