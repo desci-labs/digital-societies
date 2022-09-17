@@ -90,11 +90,9 @@ export function MetadataCard({
           />
         </div>
         <div className="p-2 mt-3">
-          <Link href={link}>
-            <a href={link} className="text-xl block font-bold mb-1 truncate">
+            <span className="text-xl block font-bold mb-1 truncate">
               {metadata.name}
-            </a>
-          </Link>
+            </span>
           <div className="flex flex-col justify-between h-32 gap-1">
             <span className="text-sm block">
               {shortenText(metadata.description)}

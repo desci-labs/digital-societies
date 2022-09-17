@@ -11,6 +11,7 @@ import { setIsLoading, setOrgs } from "./orgSlice";
 import { Org, Revoked } from "./types";
 import { Metadata } from "components/Transactors/types";
 import { useGetOrgs } from "./hooks";
+import { FACTORY_DEPLOY_BLOCK } from "constants/web3";
 
 // TODO: update fromBlock to latest block after every event query
 
@@ -55,7 +56,6 @@ export default function FactoryUpdater() {
 
   async function getContractInfofromEvent(event: ethers.Event): Promise<Org> {
     const block = await provider.getBlock(event.blockNumber);
-    // const owner = event.args?.owner ?? event.args?.[0];
     const contract = getContract(event.args?.token ?? event.args?.[1]);
     const admin = await contract.getRoleMember(DEFAULT_ADMIN_ROLE, 0);
     const delegates = await getDelegates(contract);
@@ -81,8 +81,9 @@ export default function FactoryUpdater() {
       if (block - lastUpdated < 5 && orgs.length > 0) return;
 
       try {
+        const lastQuery = await provider.getBlockNumber();
         const filter = contract.filters.TokenCreated();
-        const events = await contract.queryFilter(filter, 7491226);
+        const events = await contract.queryFilter(filter, FACTORY_DEPLOY_BLOCK);
         const results = await Promise.all(events.map(getContractInfofromEvent));
         dispatch(setOrgs(results))
         dispatch(setIsLoading(false))

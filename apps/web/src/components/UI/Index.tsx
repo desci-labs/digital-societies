@@ -1,4 +1,3 @@
-import { resolveIpfsURL } from "helper";
 import Image from "next/image";
 import { HTMLProps, PropsWithChildren } from "react";
 
