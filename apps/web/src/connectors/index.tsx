@@ -16,7 +16,7 @@ const gorliChain = {
     symbol: 'ETH'
   },
   rpcUrls: {
-    default: 'https://goerli.infura.io/v3/1b91f66482d64c7e900913c7763227f2'
+    default: 'https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'
   },
   blockExplorers: {
     default: { name: 'Etherscan', url: 'https://goerli.etherscan.io/' },
