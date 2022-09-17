@@ -23,6 +23,7 @@ import { useAccount } from "wagmi";
 import { CardContainer, ExternalLink, ImageBanner, RoundedLogo } from "../Index";
 import { Cell, Row, Table, TBody, THead } from "../Table";
 import { Credential } from "services/credentials/types";
+import { useRouter } from "next/router";
 
 export function CredentialGridView({ address }: { address: string }) {
   const hasAccess = useCanMutateOrg(address);
@@ -79,9 +80,9 @@ export function MetadataCard({
   link: string;
   metadata: Metadata | MetadataValues;
 }) {
+  const router = useRouter();
   return (
-    <Link href={link}>
-      <a href={link} className="min-w-80 w-80 h-96 rounded-lg shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden">
+      <div onClick={() => router.push(link)} className="min-w-80 w-80 h-96 rounded-lg shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden">
         <div className="w-80 h-48 relative rounded-lg">
           <ImageBanner src={getImageURL(metadata?.image)} />
           <RoundedLogo
@@ -104,8 +105,7 @@ export function MetadataCard({
             )}
           </div>
         </div>
-      </a>
-    </Link>
+      </div>
   );
 }
 
