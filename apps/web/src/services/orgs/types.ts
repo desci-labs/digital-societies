@@ -1,4 +1,4 @@
-import { Metadata } from "components/Transactors/types";
+import { Metadata, MetadataValues } from "components/Transactors/types";
 
 export type Revoked = {
   tokenId: string;
@@ -6,15 +6,24 @@ export type Revoked = {
   owner: string;
   timestamp: number;
 };
-export type Org = {
+
+export type OrgMeta = {
   cid: string;
-  metadata: Metadata;
   address: string;
-  owner: string;
   dateCreated: number;
   delegates: string[];
   revocations: Revoked[];
   admin: string;
 };
 
-export type FactoryState = { data: Org[]; isLoading: boolean };
+export type PendingOrg = OrgMeta & {
+  pending: boolean;
+  metadata: MetadataValues;
+}
+
+export type Org = OrgMeta & {
+  pending?: never;
+  metadata: Metadata;
+}
+
+export type FactoryState = { data: (Org | PendingOrg)[]; isLoading: boolean };

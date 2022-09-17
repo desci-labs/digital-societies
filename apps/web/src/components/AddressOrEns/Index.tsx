@@ -1,4 +1,4 @@
-import maskAddress from "helper";
+import { maskAddress } from "helper";
 import { useEnsName } from "wagmi";
 
 export default function AddressOrEns(props: { address: string }) {

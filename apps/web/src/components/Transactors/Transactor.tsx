@@ -1,7 +1,6 @@
 import { useModalContext } from "components/Modal/Modal";
 import { FC } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { IoMdClose } from "react-icons/io";
 
 export default function Transactor<C>(props: TxProps<C>) {
   const { hideModal } = useModalContext();

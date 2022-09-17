@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 
+// Todo: implement a ActiveLink component to wrap <Link /> with activeClassName props
+
 export default function Header() {
   const { isConnected } = useAccount();
   const [hide, setHidden] = useState(true);

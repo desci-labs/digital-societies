@@ -5,6 +5,7 @@ import {
   CredentialState,
   CredentialToken,
   CredentialToTokenMap,
+  PendingCredential,
 } from "./types";
 
 const initialState: CredentialState = {
@@ -19,16 +20,24 @@ const slice = createSlice({
   reducers: {
     resetCredentials: (_state) => initialState,
     setCredentials: (state, { payload }: PayloadAction<CredentialMap>) => {
-      state.credentials = payload;
+      Object.keys(payload).forEach(org => {
+        state.credentials[org] = payload[org].filter(cred => !!cred.metadata)
+      })
+      state.isLoading = false;
     },
     setCredential: (
       state,
-      { payload }: PayloadAction<{ address: string; credential: Credential }>
+      { payload }: PayloadAction<{ address: string; credential: Credential | PendingCredential }>
     ) => {
-      const filtered = state.credentials[payload.address].filter(
-        (c) => c.id != payload.credential.id
-      );
-      state.credentials[payload.address] = filtered.concat(payload.credential);
+      const prev = state.credentials[payload.address]?.find(cred => cred.id === payload.credential.id)
+      if (!prev) {
+        state.credentials[payload.address].push(payload.credential);
+      } else if (payload.credential.metadata && prev.pending) {
+        state.credentials[payload.address].map(cred => {
+          if (cred.id === payload.credential.id) return payload.credential;
+          return cred;
+        })
+      }
     },
     setIsLoading: (state, { payload }: PayloadAction<boolean>) => {
       state.isLoading = payload;

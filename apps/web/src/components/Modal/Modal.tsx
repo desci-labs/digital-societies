@@ -50,22 +50,23 @@ export default function ModalProvider(props: Props) {
   const showModal: Opener = (Content, props) => {
     setBackdropDismiss(props.isDismissDisabled ?? true);
     setContent(<Content {...props} />);
-    toggleBodyScroll();
+    toggleBodyScroll(false);
   };
 
-  const toggleBodyScroll = () => {
+  const toggleBodyScroll = (scroll: boolean) => {
     const body = document.body;
-    if (body.classList.contains('modal-open')) {
+    if (scroll && body.classList.contains('modal-open')) {
       body.classList.remove('modal-open')
-    } else {
+    } else if (!scroll) {
       body.classList.add('modal-open')
     }
   }
 
   function closeModal() {
+    console.log('close ',)
+    toggleBodyScroll(true);
     setContent(undefined);
     setBackdropDismiss(true);
-    toggleBodyScroll();
   }
 
   return (
@@ -88,8 +89,8 @@ export default function ModalProvider(props: Props) {
   );
 }
 const setContext = createContext<Handlers>({
-  showModal: () => {},
-  hideModal: () => {},
+  showModal: () => { },
+  hideModal: () => { },
 });
 
 export const useModalContext = () => useContext(setContext);
