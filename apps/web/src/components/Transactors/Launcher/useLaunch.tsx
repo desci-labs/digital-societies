@@ -4,7 +4,7 @@ import Processing from "components/ModalViews/Processing";
 import Success from "components/ModalViews/Success";
 import { MetadataValues } from "components/Transactors/types";
 import { useSetTx } from "context/useTx";
-import { getBytesFromCIDString } from "helper";
+import { flattenMetadata, getBytesFromCIDString } from "helper";
 import { useFactoryContract } from "hooks/useContract";
 import { useDispatch } from "react-redux";
 import { setOrg } from "services/orgs/orgSlice";
@@ -25,8 +25,6 @@ export default function useLaunch() {
 
   async function launch(metadata: MetadataValues) {
     try {
-      reset();
-
       const formdata = new FormData();
       formdata.append("image", metadata.image.name);
       formdata.append("logo", metadata.logo.name);
@@ -65,7 +63,7 @@ export default function useLaunch() {
       const block = await factoryContract.provider.getBlock(receipt.blockNumber)
       const preview: PendingOrg = {
         cid,
-        metadata,
+        metadata: await flattenMetadata(metadata),
         address,
         admin: metadata.issuer,
         revocations: [],
@@ -73,9 +71,10 @@ export default function useLaunch() {
         dateCreated: block.timestamp * 1000,
         pending: true,
       };
-
+      console.log('prevew ', preview);
       dispatch(setOrg(preview))
       setTx({ txInfo: tx, message: "" });
+      reset();
       showModal(Success, { previewLink: `orgs/${address}` });
     } catch (e: any) {
       console.log("Error ", e?.data?.message, e?.message);

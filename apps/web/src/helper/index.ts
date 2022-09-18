@@ -2,8 +2,9 @@ import { CID } from "multiformats/cid";
 import { base16 } from "multiformats/bases/base16";
 import { FileObject } from "components/FileDropzone/types";
 import { PINATA_IPFS_GATEWAY, W3S_IPFS_GATEWAY } from "pages/api/constants";
+import { Metadata, MetadataValues } from "components/Transactors/types";
 
-export const resolveIpfsURL = (hash: string) => `${PINATA_IPFS_GATEWAY}${hash}`;
+export const resolveIpfsURL = (hash: string) => `${W3S_IPFS_GATEWAY}${hash}`;
 
 export const getBytesFromCIDString = (input: string) => {
   const cid = CID.parse(input);
@@ -41,15 +42,45 @@ export function maskAddress(addr?: string) {
   }
 }
 
+// TODO: Handle {base64}
 export const getImageURL = (image: string | FileObject) => {
   console.log('image', image);
   const url =
     typeof image === "string"
       ? resolveIpfsURL(image)
       : image.ipfsHash
-      ? resolveIpfsURL(image.ipfsHash)
-      : image.file && image.file.size
-      ? window.URL.createObjectURL(image.file)
-      : "";
+        ? resolveIpfsURL(image.ipfsHash)
+        : image.file && image.file.size
+          ? window.URL.createObjectURL(image.file)
+          : image.base64 !== undefined
+            ? image.base64
+            : "";
   return url;
 };
+
+export const flattenMetadata = async (metadata: MetadataValues): Promise<MetadataValues> => {
+  const meta = { ...metadata };
+
+  try {
+    if (metadata.image.file) {
+      const image = await toBase64(metadata.image.file)
+      meta.image.base64 = image;
+    }
+
+    if (metadata.logo.file) {
+      const logo = await toBase64(metadata.image.file)
+      meta.logo.base64 = logo;
+    }
+
+    return meta;
+  } catch (e) {
+    return metadata;
+  }
+}
+
+const toBase64 = (file: File): Promise<string> => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => resolve(reader.result as string);
+  reader.onerror = error => reject(error);
+});
