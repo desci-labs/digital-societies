@@ -34,5 +34,3 @@ export default function CredentialLauncher({ org, Form }: Props) {
     </FormProvider>
   );
 }
-
-const isString = (param: string): boolean => typeof param === "string" ? true : false;

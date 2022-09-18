@@ -84,9 +84,9 @@ export function MetadataCard({
   return (
       <div onClick={() => router.push(link)} className="min-w-80 w-80 h-96 rounded-lg shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden">
         <div className="w-80 h-48 relative rounded-lg">
-          <ImageBanner src={getImageURL(metadata?.image)} />
+          <ImageBanner src={getImageURL(metadata?.image ?? '')} />
           <RoundedLogo
-            src={getImageURL(metadata?.logo)}
+            src={getImageURL(metadata?.logo ?? '')}
             className="w-12 h-12 left-3 -bottom-5"
           />
         </div>

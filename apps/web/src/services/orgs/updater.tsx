@@ -81,10 +81,10 @@ export default function FactoryUpdater() {
       if (block - lastUpdated < 5 && orgs.length > 0) return;
 
       try {
-        const lastQuery = await provider.getBlockNumber();
         const filter = contract.filters.TokenCreated();
         const events = await contract.queryFilter(filter, FACTORY_DEPLOY_BLOCK);
         const results = await Promise.all(events.map(getContractInfofromEvent));
+        console.log('orgs ', results);
         dispatch(setOrgs(results))
         dispatch(setIsLoading(false))
         setLastUpdated(block);

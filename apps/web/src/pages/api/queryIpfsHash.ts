@@ -4,10 +4,14 @@ import { W3S_IPFS_GATEWAY } from "./constants";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   let status = 200;
   try {
-    const result = await fetch(`${W3S_IPFS_GATEWAY}${req.query.cid}`);
+    const suffix = (req.query.cid as string).startsWith('bafy') ? '/metadata.json' : ''
+    const result = await fetch(`${W3S_IPFS_GATEWAY}${req.query.cid}${suffix}`);
+    console.log('result ', result);
     const data = await result.json();
+    console.log('data ', req.query.cid);
     return res.status(status).json(data);
   } catch (e) {
+    console.log('queryError: ', req.query.cid, e);
     status = 500;
     res.status(status).json(null);
   }

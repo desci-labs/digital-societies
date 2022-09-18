@@ -1,4 +1,3 @@
-import { PinataPinResponse } from "@pinata/sdk";
 import { useModalContext } from "components/Modal/Modal";
 import Error from "components/ModalViews/Error";
 import Processing from "components/ModalViews/Processing";
@@ -9,7 +8,7 @@ import { getBytesFromCIDString } from "helper";
 import { useFactoryContract } from "hooks/useContract";
 import { useDispatch } from "react-redux";
 import { setOrg } from "services/orgs/orgSlice";
-import { Org, PendingOrg } from "services/orgs/types";
+import { PendingOrg } from "services/orgs/types";
 import { useContractWrite } from "wagmi";
 
 export default function useLaunch() {
@@ -40,19 +39,19 @@ export default function useLaunch() {
         body: formdata,
       });
       const [pinnedImageResponse, pinnedLogoResponse] =
-        (await res.json()) as PinataPinResponse[];
+        (await res.json()) as string[];
 
       const meta = {
         ...metadata,
-        image: pinnedImageResponse.IpfsHash,
-        logo: pinnedLogoResponse.IpfsHash,
+        image: pinnedImageResponse,
+        logo: pinnedLogoResponse,
       };
       const metaRes = await fetch("/api/pinJsonToIpfs", {
         method: "POST",
         body: JSON.stringify(meta),
       });
-      const pinnedMetadataRes = (await metaRes.json()) as PinataPinResponse;
-      const cid = getBytesFromCIDString(pinnedMetadataRes.IpfsHash);
+      const pinnedMetadataRes = await metaRes.json();
+      const cid = getBytesFromCIDString(pinnedMetadataRes);
 
       showModal(Processing, { message: "Confirming transaction..." });
 
@@ -60,7 +59,7 @@ export default function useLaunch() {
         recklesslySetUnpreparedArgs: [metadata.name, metadata.symbol, cid],
       });
       setTx({ txInfo: tx, message: "Processing transaction" });
-      
+
       const receipt = await tx.wait();
       const address = "0x" + receipt.logs[3].topics?.[1].slice(26);
       const block = await factoryContract.provider.getBlock(receipt.blockNumber)
@@ -74,8 +73,8 @@ export default function useLaunch() {
         dateCreated: block.timestamp * 1000,
         pending: true,
       };
-      
-      dispatch(setOrg(preview))    
+
+      dispatch(setOrg(preview))
       setTx({ txInfo: tx, message: "" });
       showModal(Success, { previewLink: `orgs/${address}` });
     } catch (e: any) {

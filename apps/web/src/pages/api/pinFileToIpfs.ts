@@ -1,15 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import formidable, { Fields, File, Files } from "formidable";
-import pinataSDK, { PinataPinResponse } from "@pinata/sdk";
 import fs from "fs";
 import { asyncMap } from "helper";
+import { Web3Storage, getFilesFromPath } from 'web3.storage';
 
-const pinata = pinataSDK(
-  process.env.PINATA_API_KEY!,
-  process.env.PINATA_SECRET_KEY!
-);
+// Construct with token and endpoint
+const client = new Web3Storage({ token: process.env.WEB3_STORAGE_TOKEN! });
 
-type IResponse = PinataPinResponse[] | { status: string; message: string };
+type IResponse = string[] | { status: string; message: string };
 
 export const config = {
   api: {
@@ -46,18 +44,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse<IResponse>) {
     const files = Object.values(result?.fields ?? {}).map(
       (key) => result?.files[key as string]
     );
-
     const uploads = await asyncMap<
-      PinataPinResponse,
+      string,
       File | File[] | undefined
     >(files, async (data: File) => {
       const filepath = data.filepath;
-      const readableStreamForFile = fs.createReadStream(filepath!);
-      const pinned = await pinata.pinFileToIPFS(readableStreamForFile, {});
+      const files = await getFilesFromPath(filepath)
+      const cid = await client.put(files)
       await fs.unlinkSync(filepath);
-      return pinned;
+      return cid
     });
-
     res.status(status).json(uploads);
   } catch (e) {
     console.log('e', e);

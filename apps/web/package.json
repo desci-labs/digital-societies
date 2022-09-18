@@ -45,6 +45,7 @@
     "react-redux": "^8.0.2",
     "redux-persist": "^6.0.0",
     "wagmi": "^0.6.0",
+    "web3.storage": "^4.4.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
