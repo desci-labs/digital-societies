@@ -15,6 +15,7 @@ contract SBToken is ERC721, AccessControlEnumerable {
     mapping(uint16 => bytes) private typeToURI;
     mapping(uint256 => address) public tokenToMinter;
     mapping(uint256 => uint16) public tokenIdToType;
+    mapping(uint16 => mapping(address => bool)) public typeToSoul;
 
     event Revoked(address indexed revokedBy, address indexed owner, uint256 tokenId);
     event BatchRevoked(address indexed revokedBy, address[] owners, uint256[] tokenIds);
@@ -69,10 +70,12 @@ contract SBToken is ERC721, AccessControlEnumerable {
         onlyRole(DELEGATE_ROLE)
     {
         require(_typeExists(_tokenType), "Invalid SB type");
+        require(!_hasType(_to, _tokenType), "Duplicate credential");
         totalSupply++;
         _safeMint(_to, totalSupply);
         tokenToMinter[totalSupply] = msg.sender;
         tokenIdToType[totalSupply] = _tokenType;
+        typeToSoul[_tokenType][_to] = true;
         emit Mint(msg.sender, _to, totalSupply, _tokenType);
     }
 
@@ -82,11 +85,13 @@ contract SBToken is ERC721, AccessControlEnumerable {
     {
         require(_typeExists(_tokenType), "Invalid SB type");
         for (uint256 i = 0; i < _to.length; ) {
-            // TODO:  mint(_to[i], _tokenType); 
+            // TODO:  mint(_to[i], _tokenType);
+            require(!_hasType(_to[i], _tokenType), "Duplicate credential");
             totalSupply++;
             _safeMint(_to[i], totalSupply);
             tokenToMinter[totalSupply] = msg.sender;
             tokenIdToType[totalSupply] = _tokenType;
+            typeToSoul[_tokenType][_to[i]] = true;
             emit Mint(msg.sender, _to[i], totalSupply, _tokenType);
 
             unchecked {
@@ -103,6 +108,7 @@ contract SBToken is ERC721, AccessControlEnumerable {
         );
         _burn(_tokenId);
         tokenToMinter[_tokenId] = address(0);
+        typeToSoul[tokenIdToType[_tokenId]][msg.sender] = false;
         tokenIdToType[_tokenId] = 0;
         emit Revoked(msg.sender, owner, _tokenId);
     }
@@ -110,6 +116,7 @@ contract SBToken is ERC721, AccessControlEnumerable {
     function revoke(uint256 _tokenId) external onlyRole(DELEGATE_ROLE) {
         address owner = ownerOf(_tokenId);
         _burn(_tokenId);
+        typeToSoul[tokenIdToType[_tokenId]][owner] = false;
         tokenToMinter[_tokenId] = address(0);
         // tokenIdToType[_tokenId] = 0;
         emit Revoked(msg.sender, owner, _tokenId);
@@ -195,5 +202,9 @@ contract SBToken is ERC721, AccessControlEnumerable {
 
     function _typeExists(uint16 _type) internal view returns (bool exists) {
         exists = _type > 0 && _type < totalTypes + 1;
+    }
+
+    function _hasType(address owner, uint16 tokenType) internal view returns (bool) {
+        return typeToSoul[tokenType][owner] == true;
     }
 }
