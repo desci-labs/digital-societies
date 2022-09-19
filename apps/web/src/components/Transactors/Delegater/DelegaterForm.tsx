@@ -2,7 +2,7 @@ import { useRouter }  from "next/router";
 import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { GradientButton, Form, InputRow, SelectInput, Input } from "components/Form/Index";
+import { GradientButton, Form, InputRow, Input } from "components/Form/Index";
 import { useGetOrg } from "services/orgs/hooks";
 import { DelegaterValues } from "../types";
 import useGrantRole from "./useGrantRole";
@@ -27,9 +27,7 @@ export default function DelegaterForm() {
     if (isSuccess) reset();
   }, [isSuccess, reset]);
 
-  console.log('err', isValid, errors)
   return (
-    
     <Form onSubmit={handleSubmit(grantRole)} title={org?.metadata.name} description="Grant Delegate role">
       <InputRow
         htmlFor="org"
