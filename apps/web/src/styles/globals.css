@@ -9,3 +9,14 @@ body {
 body.modal-open {
   overflow: hidden;
 }
+
+.scroll-hidden {
+  -ms-overflow-style: none;
+  /* for Internet Explorer, Edge */
+  scrollbar-width: none;
+}
+
+.scroll-hidden::-webkit-scrollbar {
+  display: none;
+  /* for Chrome, Safari, and Opera */
+}

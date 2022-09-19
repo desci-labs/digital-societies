@@ -1,15 +1,22 @@
 import { useModalContext } from "components/Modal/Modal";
 import { useGetTx } from "context/useTx";
 import { getTransactionUrl } from "helper/web3";
+import { useRouter } from "next/router";
 import { IoMdClose } from "react-icons/io";
 import { RotatingLines } from "react-loader-spinner";
 import { useNetwork } from "wagmi";
 import TransactionLink from "./TransactionLink";
 
-export default function Processing({ message }: { message: string }) {
+export default function Processing({ message, previewLink }: { message: string, previewLink?: string; }) {
   const { hideModal } = useModalContext();
   const { chain } = useNetwork();
   const { txInfo, message: text } = useGetTx();
+  const router = useRouter();
+
+  const preview = (path: string) => {
+    hideModal();
+    router.push(path)
+  };
 
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-xl transform transition-all sm:max-w-md sm:w-full">
@@ -34,6 +41,16 @@ export default function Processing({ message }: { message: string }) {
               name={chain.name}
               url={getTransactionUrl(txInfo.hash, chain)}
             />
+          )}
+          {previewLink ? (
+            <button
+              className="tracking-wide text-lg text-white rounded-lg w-full mt-5 py-1.5 px-4 enabled:bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 outline-none hover:bg-400p hover:animate-gradient"
+              onClick={() => preview(previewLink)}
+            >
+              Preview
+            </button>
+          ) : (
+            ""
           )}
         </div>
       </div>

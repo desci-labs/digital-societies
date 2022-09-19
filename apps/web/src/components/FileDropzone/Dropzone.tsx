@@ -1,6 +1,8 @@
 import { FieldValues } from "react-hook-form";
 import { BaseProps, FileObject } from "./types";
 import { FileRejection, DropEvent, useDropzone } from "react-dropzone";
+import Image from "next/image";
+import ImageIcon from "assets/Icons/image-filled.svg";
 
 type Props<T extends FieldValues> = BaseProps<T> & {
   onDrop: <K extends File>(
@@ -45,11 +47,17 @@ function DropzoneInner({
     >
       <div className="text-regent-gray">
         {value?.file && <span className="block text-center my-1 font-bold capitalize text-black">{value.name}</span>}
-        <span className="block text-center my-2">Drag and drop file</span>
-        <span className="block text-center my-2">OR</span>
-        <span className="block text-center my-2 border-2 cursor-pointer w-72 rounded-lg hover:border-regent-gray">
-          Choose file
-        </span>
+        <div className="`w-10 h-10 relative">
+          <Image
+            src={ImageIcon}
+            layout="fill"
+            objectFit="contain"
+            objectPosition="center"
+            alt="Image icon"
+            className="rounded-full"
+          />
+        </div>
+        <span className="block text-center my-2">Choose an image or drag it here.</span>
       </div>
     </label >
   );

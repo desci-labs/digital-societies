@@ -16,7 +16,7 @@ export default function CredentialDetails() {
     address as string,
     parseInt(id as string)
   );
-  // const hasAccess = useCanMutateOrg(credential?.address!);
+
   const org = useGetOrg(credential?.address ?? "");
   const metadata = useMemo(
     () => credential?.metadata ?? org?.metadata,
@@ -28,7 +28,7 @@ export default function CredentialDetails() {
 
   return (
     <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center mb-10">
-      <div className="w-full h-104 relative group">
+      <div className="w-full h-88 relative group">
         <ImageBanner src={getImageURL(metadata?.image ?? "")} />
         <RoundedLogo src={getImageURL(metadata?.logo ?? "")} />
       </div>

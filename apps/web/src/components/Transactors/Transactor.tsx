@@ -12,7 +12,7 @@ export default function Transactor<C>(props: TxProps<C>) {
   return (
     <div
       className={`min-w-45 max-w-104 p-10 ${props.inModal
-        ? "bg-white rounded-md overflow-scroll pt-4 fixed-center z-20 relative min-h-120 max-h-200 "
+        ? "bg-white rounded-md overflow-scroll pt-4 fixed-center z-20 relative min-h-120 max-h-200 scroll-hidden"
         : "relative"
         }`}
     >

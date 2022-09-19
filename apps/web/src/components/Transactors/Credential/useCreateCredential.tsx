@@ -50,10 +50,10 @@ export default function useCreateCredential(address: string) {
       const credential: PendingCredential = { id: typeId + 1, cid, address, mintedBy, metadata, pending: true, dateCreated: Date.now() };
       console.log('credential ', credential);
       dispatch(setCredential({ address, credential }))
-
+      showModal(Processing, { message: 'Confirming transaction...', previewLink: `/credentials/${typeId + 1}?address=${address}` })
       await tx.wait();
       
-      showModal(Success, { previewLink: `/credentials/${typeId + 1}?address=${address}` });
+      showModal(Success, { previewLink: `/credentials/${typeId + 1}?address=${address}`, message: '' });
     } catch (e: any) {
       console.log('Error ', e?.data?.message, e?.message);
       showModal(ErrorView, { message: "Error processing transaction", })
