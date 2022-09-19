@@ -20,10 +20,26 @@ const slice = createSlice({
   reducers: {
     resetCredentials: (_state) => initialState,
     setCredentials: (state, { payload }: PayloadAction<CredentialMap>) => {
-      Object.keys(payload).forEach(org => {
-        state.credentials[org] = payload[org].filter(cred => !!cred.metadata)
+      Object.keys(payload).forEach(address => {
+        if (state.credentials[address].length === 0) {
+          state.credentials[address] = payload[address];
+        }
+        const credentials = state.credentials[address];
+        const updatable = payload[address].filter(data => {
+          if (data.metadata === null) return false;
+          const prev = credentials.find(credential => credential.id === data.id);
+          if (!prev) return true;
+          if (prev?.pending === true && data.metadata !== null) return true;
+          return false;
+        });
+
+        state.credentials[address] = credentials.filter(credential => {
+          if (updatable.find(d => d.id === credential.id)) return false;
+          return true;
+        })
+
+        state.credentials[address].push(...updatable)
       })
-      state.isLoading = false;
     },
     setCredential: (
       state,

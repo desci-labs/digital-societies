@@ -5,7 +5,7 @@ import { asyncMap } from "helper";
 import useBlockNumber from "hooks/useBlockNumber";
 import { useSBTContractFactory } from "hooks/useContract";
 import { useProvider } from "wagmi";
-import { useGetOrg, useGetOrgs } from "services/orgs/hooks";
+import { useGetOrgs } from "services/orgs/hooks";
 import { CredentialToken, CredentialToTokenMap } from "./types";
 import { setTokens } from "./credentialSlice";
 
