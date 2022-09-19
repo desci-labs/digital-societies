@@ -7,7 +7,7 @@ const pinata = pinataSDK(
   process.env.PINATA_SECRET_KEY!
 );
 
-type IResponse = PinataPinResponse | { status: string; message: string };
+type IResponse = PinataPinResponse | { status: string; message: string, error?: string };
 
 export const config = {
   api: {
@@ -25,11 +25,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse<IResponse>) {
       pinataMetadata: { name: body.name },
     });
     return res.status(status).json(pinned);
-  } catch (e) {
+  } catch (e: any) {
+    console.log('error pining metadata: ', e)
     status = 500;
     responseBody = {
       status: "error",
       message: "Error pinning metadata to ipfs",
+      error: e.toString()
     };
     res.status(status).json(responseBody);
   }

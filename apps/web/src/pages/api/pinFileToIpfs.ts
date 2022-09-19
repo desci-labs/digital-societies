@@ -9,7 +9,7 @@ const pinata = pinataSDK(
   process.env.PINATA_SECRET_KEY!
 );
 
-type IResponse = PinataPinResponse[] | { status: string; message: string };
+type IResponse = PinataPinResponse[] | { status: string; message: string, error?: any };
 
 export const config = {
   api: {
@@ -54,17 +54,20 @@ async function handler(req: NextApiRequest, res: NextApiResponse<IResponse>) {
       const filepath = data.filepath;
       const readableStreamForFile = fs.createReadStream(filepath!);
       const pinned = await pinata.pinFileToIPFS(readableStreamForFile, {});
-      fs.unlink(filepath, (err) => {});
+      fs.unlink(filepath, (err) => {
+        console.log('unlink err', err)
+      });
       return pinned;
     });
 
     res.status(status).json(uploads);
-  } catch (e) {
-    console.log('e', e);
+  } catch (e: any) {
+    console.log('pining file Error', e);
     status = 500;
     responseBody = {
       status: "error",
       message: "Error pinning file to ipfs",
+      error: e.toString()
     };
     res.status(status).json(responseBody);
   }

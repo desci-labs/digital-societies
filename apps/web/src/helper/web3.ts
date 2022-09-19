@@ -12,7 +12,7 @@ export async function pinMetadataToIpfs(metadata: MetadataValues) {
   let imageHash: string = metadata.image.ipfsHash,
     logoHash: string = metadata.logo.ipfsHash;
 
-  if (!metadata.image.ipfsHash) {
+  if (metadata.image.file && metadata.image.file.size > 0) {
     const formdata = new FormData();
     formdata.append("image", metadata.image.name);
     formdata.append(metadata.image.name, metadata.image.file);
@@ -21,11 +21,12 @@ export async function pinMetadataToIpfs(metadata: MetadataValues) {
       method: "POST",
       body: formdata,
     });
-    const [pinnedImageResponse] = (await res.json()) as PinataPinResponse[];
-    imageHash = pinnedImageResponse.IpfsHash;
+    const result = (await res.json()) as PinataPinResponse[];
+    console.log('pin result', result);
+    imageHash = result[0].IpfsHash;
   }
 
-  if (!metadata.logo.ipfsHash) {
+  if (metadata.logo?.file && metadata.logo?.file.size > 0) {
     const formdata = new FormData();
     formdata.append("logo", metadata.logo.name);
     formdata.append(metadata.logo.name, metadata.logo.file);
@@ -33,8 +34,9 @@ export async function pinMetadataToIpfs(metadata: MetadataValues) {
       method: "POST",
       body: formdata,
     });
-    const [pinnedImageResponse] = (await res.json()) as PinataPinResponse[];
-    logoHash = pinnedImageResponse.IpfsHash;
+    const result = (await res.json()) as PinataPinResponse[];
+    console.log('pin badge result', result);
+    logoHash = result[0].IpfsHash;
   }
 
   const meta = { ...metadata, image: imageHash, logo: logoHash };
@@ -42,7 +44,8 @@ export async function pinMetadataToIpfs(metadata: MetadataValues) {
     method: "POST",
     body: JSON.stringify(meta),
   });
-  const pinnedMetadataRes = (await metaRes.json()) as PinataPinResponse;
-  const cid = getBytesFromCIDString(pinnedMetadataRes.IpfsHash)
+  const result = (await metaRes.json()) as PinataPinResponse;
+  console.log('pin metadata result ', result);
+  const cid = getBytesFromCIDString(result.IpfsHash)
   return cid;
 }
