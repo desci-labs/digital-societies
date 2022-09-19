@@ -1,13 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import pinataSDK, { PinataPinResponse } from "@pinata/sdk";
+import pinataSDK from "@pinata/sdk";
 import { Metadata } from "components/Transactors/types";
+import { PinDataRes } from "./type";
 
 const pinata = pinataSDK(
   process.env.PINATA_API_KEY!,
   process.env.PINATA_SECRET_KEY!
 );
-
-type IResponse = PinataPinResponse | { status: string; message: string, error?: string };
 
 export const config = {
   api: {
@@ -15,8 +14,8 @@ export const config = {
   },
 };
 
-async function handler(req: NextApiRequest, res: NextApiResponse<IResponse>) {
-  let responseBody: IResponse = { IpfsHash: "", PinSize: 0, Timestamp: "" },
+async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
+  let responseBody: PinDataRes = { IpfsHash: "", PinSize: 0, Timestamp: "" },
     status = 200;
 
   try {

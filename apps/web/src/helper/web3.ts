@@ -7,6 +7,14 @@ export const getTransactionUrl = (hash: string, chain: Chain) => {
   return `${chain.blockExplorers?.default.url}tx/${hash}`;
 };
 
+async function pinFile(form: FormData): Promise<PinataPinResponse[]> {
+  const res = await fetch("/api/pinFileToIpfs", {
+    method: "POST",
+    body: form,
+  });
+  const result = (await res.json()) as PinataPinResponse[];
+  return result;
+}
 
 export async function pinMetadataToIpfs(metadata: MetadataValues) {
   let imageHash: string = metadata.image.ipfsHash,
@@ -17,26 +25,19 @@ export async function pinMetadataToIpfs(metadata: MetadataValues) {
     formdata.append("image", metadata.image.name);
     formdata.append(metadata.image.name, metadata.image.file);
 
-    const res = await fetch("/api/pinFileToIpfs", {
-      method: "POST",
-      body: formdata,
-    });
-    const result = (await res.json()) as PinataPinResponse[];
-    console.log('pin result', result);
-    imageHash = result[0].IpfsHash;
+    const res = await pinFile(formdata);
+    console.log('pin banner', res[0]);
+    imageHash = res[0].IpfsHash;
   }
 
   if (metadata.logo?.file && metadata.logo?.file.size > 0) {
     const formdata = new FormData();
     formdata.append("logo", metadata.logo.name);
     formdata.append(metadata.logo.name, metadata.logo.file);
-    const res = await fetch("/api/pinFileToIpfs", {
-      method: "POST",
-      body: formdata,
-    });
-    const result = (await res.json()) as PinataPinResponse[];
-    console.log('pin badge result', result);
-    logoHash = result[0].IpfsHash;
+   
+    const res = await pinFile(formdata);
+    console.log('pin badge result', res[0]);
+    logoHash = res[0].IpfsHash;
   }
 
   const meta = { ...metadata, image: imageHash, logo: logoHash };

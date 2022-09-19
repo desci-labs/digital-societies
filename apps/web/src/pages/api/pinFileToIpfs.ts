@@ -3,13 +3,12 @@ import formidable, { Fields, File, Files } from "formidable";
 import pinataSDK, { PinataPinResponse } from "@pinata/sdk";
 import fs from "fs";
 import { asyncMap } from "helper";
+import { PinDataRes } from "./type";
 
 const pinata = pinataSDK(
   process.env.PINATA_API_KEY!,
   process.env.PINATA_SECRET_KEY!
 );
-
-type IResponse = PinataPinResponse[] | { status: string; message: string, error?: any };
 
 export const config = {
   api: {
@@ -17,8 +16,8 @@ export const config = {
   },
 };
 
-async function handler(req: NextApiRequest, res: NextApiResponse<IResponse>) {
-  let responseBody: IResponse = [],
+async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
+  let responseBody: PinDataRes = [],
     status = 200;
 
   const result = await new Promise<
@@ -46,14 +45,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse<IResponse>) {
     const files = Object.values(result?.fields ?? {}).map(
       (key) => result?.files[key as string]
     );
-
+      
     const uploads = await asyncMap<
       PinataPinResponse,
       File | File[] | undefined
     >(files, async (data: File) => {
       const filepath = data.filepath;
-      const readableStreamForFile = fs.createReadStream(filepath!);
-      const pinned = await pinata.pinFileToIPFS(readableStreamForFile, {});
+      console.log('path ', filepath);
+      // const readableStreamForFile = fs.createReadStream(filepath!);
+      const pinned = await pinata.pinFromFS(filepath, {});
       fs.unlink(filepath, (err) => {
         console.log('unlink err', err)
       });

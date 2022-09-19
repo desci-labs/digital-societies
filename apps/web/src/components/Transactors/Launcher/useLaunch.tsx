@@ -55,7 +55,7 @@ export default function useLaunch() {
       showModal(Success, { previewLink: `orgs/${address}` });
     } catch (e: any) {
       console.log("Error ", e?.data?.message, e?.message);
-      showModal(Error, { message: e?.data?.message || e?.message || "Error processing transaction" });
+      showModal(Error, { message: "Error processing transaction" });
     }
   }
   return { launch, isLoading, isSuccess };
