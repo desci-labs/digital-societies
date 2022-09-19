@@ -38,15 +38,15 @@ export default function FactoryUpdater() {
 
   async function getRevocationHistory(contract: Contract): Promise<Revoked[]> {
     const filter = contract.filters.Revoked();
-    const events = await contract.queryFilter(filter, 7491226);
+    const events = await contract.queryFilter(filter, FACTORY_DEPLOY_BLOCK);
     const revocations = await asyncMap<Revoked, ethers.Event>(
       events,
       async (event: ethers.Event) => {
         const block = await provider.getBlock(event.blockNumber);
         return {
+          owner: event?.args?.revokedBy ?? event.args?.[0],
+          revokedBy: event?.args?.owner ?? event.args?.[1],
           tokenId: event.args?.[2].toNumber(),
-          owner: event.args?.[1],
-          revokedBy: event.args?.[0],
           timestamp: block.timestamp * 1000,
         };
       }
@@ -78,14 +78,14 @@ export default function FactoryUpdater() {
     async () => {
       if (!block || !contract) return;
 
-      if (block - lastUpdated < 5 && orgs.length > 0) return;
+      if (block - lastUpdated < 10 && orgs.length > 0) return;
 
       try {
         const lastQuery = await provider.getBlockNumber();
         const filter = contract.filters.TokenCreated();
         const events = await contract.queryFilter(filter, FACTORY_DEPLOY_BLOCK);
         const results = await Promise.all(events.map(getContractInfofromEvent));
-        dispatch(setOrgs(results))
+        dispatch(setOrgs(results)) // change b4 push
         dispatch(setIsLoading(false))
         setLastUpdated(block);
       } catch (e) {
@@ -97,7 +97,7 @@ export default function FactoryUpdater() {
   );
 
   useEffect(() => {
-    if (contract && block && (orgs.length === 0 || lastUpdated === 0 || block - lastUpdated > 5)) {
+    if (contract && block && (orgs.length === 0 || lastUpdated === 0 || block - lastUpdated > 10)) {
       getFactoryTokens();
     }
   }, [block, lastUpdated, contract, getFactoryTokens, provider, orgs.length]);

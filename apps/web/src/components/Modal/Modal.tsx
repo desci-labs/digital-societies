@@ -63,7 +63,6 @@ export default function ModalProvider(props: Props) {
   }
 
   function closeModal() {
-    console.log('close ',)
     toggleBodyScroll(true);
     setContent(undefined);
     setBackdropDismiss(true);

@@ -96,14 +96,15 @@ contract SBToken is ERC721, AccessControlEnumerable {
     }
 
     function burn(uint256 _tokenId) public {
+        address owner = ownerOf(_tokenId);
         require(
-            ownerOf(_tokenId) == msg.sender,
+            owner == msg.sender,
             "Only the owner can burn their token"
         );
         _burn(_tokenId);
         tokenToMinter[_tokenId] = address(0);
         tokenIdToType[_tokenId] = 0;
-        emit Revoked(msg.sender, address(0), _tokenId);
+        emit Revoked(msg.sender, owner, _tokenId);
     }
 
     function revoke(uint256 _tokenId) external onlyRole(DELEGATE_ROLE) {
@@ -111,7 +112,7 @@ contract SBToken is ERC721, AccessControlEnumerable {
         _burn(_tokenId);
         tokenToMinter[_tokenId] = address(0);
         // tokenIdToType[_tokenId] = 0;
-        emit Revoked(owner, msg.sender, _tokenId);
+        emit Revoked(msg.sender, owner, _tokenId);
     }
 
     function batchRevoke(uint256[] memory _tokenIds)

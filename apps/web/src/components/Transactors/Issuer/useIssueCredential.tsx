@@ -4,15 +4,19 @@ import Processing from "components/ModalViews/Processing";
 import Success from "components/ModalViews/Success";
 import { useSetTx } from "context/useTx";
 import { useSBTContractFactory } from "hooks/useContract";
-import { useContractWrite } from "wagmi";
+import { useDispatch } from "react-redux";
+import { setToken } from "services/credentials/credentialSlice";
+import { CredentialToken } from "services/credentials/types";
+import { useAccount, useContractWrite } from "wagmi";
 import { IssuerValues } from "../types";
 
 export default function useIssueCredential(address: string) {
   const { showModal } = useModalContext();
   const { setTx, reset } = useSetTx();
   const getContract = useSBTContractFactory();
+  const { address: account } = useAccount();
   const tokenContract = getContract(address);
-
+  const dispatch = useDispatch();
   const { isLoading, isSuccess, writeAsync } = useContractWrite({
     mode: "recklesslyUnprepared",
     addressOrName: tokenContract.address!,
@@ -20,23 +24,47 @@ export default function useIssueCredential(address: string) {
     functionName: "batchMint",
   });
 
+  async function setTokens(addresses: string[], credential: number) {
+    console.log('ADDRESSES ', addresses)
+    try {
+      for (let owner of addresses) {
+        const tokenId = await tokenContract.totalSupply();
+        const token: CredentialToken = {
+          org: address,
+          tokenId: tokenId.toNumber() + 1,
+          credential: credential,
+          dateIssued: Date.now(),
+          issuer: account!,
+          owner: owner,
+        };
+        console.log('dispathc ', token);
+        dispatch(setToken({ token, address }));
+      }
+    } catch (e) {}
+  }
+
   async function issueCredential(metadata: IssuerValues) {
     try {
       reset();
-      
-      showModal(Processing, { message: 'Confirming transaction...' })
-      const args = [metadata.addresses.split(',').map(v => v.trim()), metadata.credential]
+
+      showModal(Processing, { message: "Confirming transaction..." });
+      const args = [
+        metadata.addresses.split(",").map((v) => v.trim()),
+        metadata.credential,
+      ];
       const tx = await writeAsync({
         recklesslySetUnpreparedArgs: args,
       });
-      setTx({ txInfo: tx, message: 'Issuing Credential...' })
-      await tx.wait();
-      showModal(Success, { message: `Credential issued`});
-    } catch (e: any) {
-      console.log('Error ', e?.data?.message, e?.message);
-      showModal(ErrorView, { message: "Error processing transaction", })
-    }
+      setTx({ txInfo: tx, message: "Issuing Credential..." });
 
+      // preset issued tokens
+      setTokens(metadata.addresses.split(",").map((v) => v.trim()), metadata.credential);
+      await tx.wait();
+      showModal(Success, { message: `Credential issued` });
+    } catch (e: any) {
+      console.log("Error ", e?.data?.message, e?.message);
+      showModal(ErrorView, { message: "Error processing transaction" });
+    }
   }
   return { issueCredential, isLoading, isSuccess };
 }

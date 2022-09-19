@@ -5,12 +5,11 @@ import { MetadataValues } from "../types";
 import { metadataSchema } from "../schema";
 import { Org, PendingOrg } from "services/orgs/types";
 import { FC } from "react";
+import Popup from "components/UI/Popup/Index";
 
 export type Props = { org: Org | PendingOrg, Form: FC };
 
 export default function CredentialLauncher({ org, Form }: Props) {
-  if (!org || org.pending === true) throw Error("Organisation data is required");
-
   const { address } = useAccount();
 
   const methods = useForm<MetadataValues>({
@@ -27,6 +26,8 @@ export default function CredentialLauncher({ org, Form }: Props) {
     },
     resolver: yupResolver(metadataSchema),
   });
+
+  if (org.pending) return <Popup message="This deployment of this org is still pending..." />
 
   return (
     <FormProvider {...methods}>

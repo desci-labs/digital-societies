@@ -57,7 +57,7 @@ export default function CredentialUpdater() {
           return all;
         }, {} as CredentialMap)
 
-        dispatch(setCredentials(credentials));
+        dispatch(setCredentials(credentials)); // change b4 push
         dispatch(setIsLoading(false))
         setLastUpdated(block);
       } catch (e) {
@@ -70,7 +70,7 @@ export default function CredentialUpdater() {
 
   useEffect(() => {
     if (
-      block && (lastUpdated === 0 || block - lastUpdated > 5)
+      block && (lastUpdated === 0 || block - lastUpdated > 10)
     ) {
       getFactoryTokens();
     }

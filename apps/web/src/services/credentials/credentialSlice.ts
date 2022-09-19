@@ -29,6 +29,10 @@ const slice = createSlice({
       state,
       { payload }: PayloadAction<{ address: string; credential: Credential | PendingCredential }>
     ) => {
+      if (!state.credentials[payload.address]) {
+        state.credentials[payload.address] = [];
+      }
+
       const prev = state.credentials[payload.address]?.find(cred => cred.id === payload.credential.id)
       if (!prev) {
         state.credentials[payload.address].push(payload.credential);
@@ -49,6 +53,11 @@ const slice = createSlice({
       state,
       { payload }: PayloadAction<{ token: CredentialToken; address: string }>
     ) => {
+      
+      if (!state.tokens[payload.address]) {
+        state.tokens[payload.address] = [];
+      }
+
       const update = state.tokens[payload.address].filter(
         (token) => token.tokenId != payload.token.tokenId
       );

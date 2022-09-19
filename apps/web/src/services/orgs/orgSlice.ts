@@ -31,9 +31,31 @@ const slice = createSlice({
     },
     setIsLoading: (state, { payload }: PayloadAction<boolean>) => {
       state.isLoading = payload;
+    },
+
+    addDelegates(state, { payload }: PayloadAction<{ org: string; delegate: string }> ) {
+      const delegates = state.data.find(item => item.address === payload.org)?.delegates ?? [];
+      state.data.map(org => {
+        if (org.address === payload.org) {
+          return { ...org, delegates: delegates.includes(payload.delegate) ? delegates : delegates.concat([payload.delegate])}
+        }
+        return org;
+      })
+    },
+    removeDelegates(state, { payload }: PayloadAction<{ org: string; delegate: string }> ) {
+      const delegates = state.data.find(item => item.address === payload.org)?.delegates ?? [];
+      
+      if (!delegates.includes(payload.delegate)) return;
+
+      state.data.map(org => {
+        if (org.address === payload.org) {
+          return { ...org, delegates:  delegates.filter(el => el !== payload.delegate)}
+        }
+        return org;
+      })
     }
   },
 });
 
 export default slice.reducer;
-export const { resetOrgs, setOrg, setOrgs, setIsLoading } = slice.actions;
+export const { resetOrgs, setOrg, setOrgs, setIsLoading, addDelegates } = slice.actions;

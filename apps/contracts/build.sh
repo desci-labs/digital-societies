@@ -32,5 +32,5 @@ if [ -f "apps/contracts" ]; then
 fi
 
 # copy the required abis to the web/constants/abis
-# cp -rv ./out/SBFactory.sol ../web/src/constants/abis/
-# cp -rv ./out/SBToken.sol ../web/src/constants/abis/
+cp -rv ./out/SBFactory.sol ../web/src/constants/abis/
+cp -rv ./out/SBToken.sol ../web/src/constants/abis/

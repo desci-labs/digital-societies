@@ -9,7 +9,11 @@ export default function useIssuer(credential: Credential | PendingCredential) {
   const { showModal } = useModalContext();
 
   const showIssuer = useCallback(() => {
-    showModal<TxProps<Props>>(Transactor, { Content: Issuer, contentProps: { credential, Form: IssuerForm }, inModal: true });
+    showModal<TxProps<Props>>(Transactor, {
+      Content: Issuer,
+      contentProps: { credential, Form: IssuerForm },
+      inModal: true,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

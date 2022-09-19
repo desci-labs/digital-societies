@@ -54,7 +54,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<IResponse>) {
       const filepath = data.filepath;
       const readableStreamForFile = fs.createReadStream(filepath!);
       const pinned = await pinata.pinFileToIPFS(readableStreamForFile, {});
-      await fs.unlinkSync(filepath);
+      fs.unlink(filepath, (err) => {});
       return pinned;
     });
 

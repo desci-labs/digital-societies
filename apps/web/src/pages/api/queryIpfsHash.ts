@@ -1,13 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { W3S_IPFS_GATEWAY } from "./constants";
+import { PINATA_IPFS_GATEWAY } from "./constants";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   let status = 200;
   try {
-    const result = await fetch(`${W3S_IPFS_GATEWAY}${req.query.cid}`);
+    const result = await fetch(`${PINATA_IPFS_GATEWAY}${req.query.cid}`);
     const data = await result.json();
     return res.status(status).json(data);
   } catch (e) {
+    console.log('Error: ', e)
     status = 500;
     res.status(status).json(null);
   }
