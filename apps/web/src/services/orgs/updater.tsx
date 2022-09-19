@@ -21,7 +21,7 @@ export default function FactoryUpdater() {
 
   const contract = useFactoryContract();
   const block = useBlockNumber();
-  
+
   const provider = useProvider();
   const getContract = useSBTContractFactory();
   const [lastUpdated, setLastUpdated] = useState(0);
@@ -83,13 +83,16 @@ export default function FactoryUpdater() {
       try {
         const lastQuery = await provider.getBlockNumber();
         const filter = contract.filters.TokenCreated();
-        const events = await contract.queryFilter(filter, FACTORY_DEPLOY_BLOCK);
+        const events = await contract.queryFilter(
+          filter,
+          lastUpdated ? lastUpdated - 10 : FACTORY_DEPLOY_BLOCK
+        );
         const results = await Promise.all(events.map(getContractInfofromEvent));
-        dispatch(setOrgs(results)) // change b4 push
-        dispatch(setIsLoading(false))
-        setLastUpdated(block);
+        dispatch(setOrgs(results));
+        dispatch(setIsLoading(false));
+        setLastUpdated(lastQuery);
       } catch (e) {
-        console.log('Error: ', e)
+        console.log("Error: ", e);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -97,7 +100,11 @@ export default function FactoryUpdater() {
   );
 
   useEffect(() => {
-    if (contract && block && (orgs.length === 0 || lastUpdated === 0 || block - lastUpdated > 10)) {
+    if (
+      contract &&
+      block &&
+      (orgs.length === 0 || lastUpdated === 0 || block - lastUpdated > 10)
+    ) {
       getFactoryTokens();
     }
   }, [block, lastUpdated, contract, getFactoryTokens, provider, orgs.length]);
