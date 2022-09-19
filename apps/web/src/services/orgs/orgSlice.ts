@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { FactoryState, Org, PendingOrg } from "./types";
+import { FactoryState, Org, PendingOrg, Revoked } from "./types";
 
 const initialState: FactoryState = { data: [], isLoading: true };
 
@@ -34,28 +34,25 @@ const slice = createSlice({
     },
 
     addDelegate(state, { payload }: PayloadAction<{ org: string; delegate: string }> ) {
-      const delegates = state.data.find(item => item.address === payload.org)?.delegates ?? [];
-      state.data = state.data.map(org => {
-        if (org.address === payload.org) {
-          return { ...org, delegates: delegates.includes(payload.delegate) ? delegates : delegates.concat([payload.delegate])}
-        }
-        return org;
-      })
+      const org = state.data.find(item => item.address === payload.org);
+      if (org?.delegates.includes(payload.delegate)) return;
+      org?.delegates.push(payload.delegate);
     },
-    removeDelegate(state, { payload }: PayloadAction<{ org: string; delegate: string }> ) {
-      const delegates = state.data.find(item => item.address === payload.org)?.delegates ?? [];
-      
-      if (!delegates.includes(payload.delegate)) return;
 
-      state.data =  state.data.map(org => {
-        if (org.address === payload.org) {
-          return { ...org, delegates:  delegates.filter(el => el !== payload.delegate)}
-        }
-        return org;
-      })
-    }
+    removeDelegate(state, { payload }: PayloadAction<{ org: string; delegate: string }> ) {
+      const org = state.data.find(item => item.address === payload.org);
+      if (!org?.delegates.includes(payload.delegate)) return;
+      org.delegates = org?.delegates.filter(el => el !== payload.delegate)
+    },
+
+    addRevocation(state, { payload }: PayloadAction<{ org: string; token: Revoked }>) {
+      const org = state.data.find(org => org.address === payload.org);
+      const exists = org?.revocations.find(t => t.tokenId);
+      if (exists?.tokenId === payload.token.tokenId) return;
+      org?.revocations.push(payload.token);
+    }, 
   },
 });
 
 export default slice.reducer;
-export const { resetOrgs, setOrg, setOrgs, setIsLoading, addDelegate, removeDelegate } = slice.actions;
+export const { resetOrgs, setOrg, setOrgs, setIsLoading, addDelegate, removeDelegate, addRevocation } = slice.actions;

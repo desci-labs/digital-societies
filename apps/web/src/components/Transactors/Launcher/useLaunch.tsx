@@ -1,4 +1,3 @@
-import { PinataPinResponse } from "@pinata/sdk";
 import { useModalContext } from "components/Modal/Modal";
 import Error from "components/ModalViews/Error";
 import Processing from "components/ModalViews/Processing";

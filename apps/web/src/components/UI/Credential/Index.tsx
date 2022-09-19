@@ -5,7 +5,7 @@ import useLaunchCredential from "components/Transactors/Credential/useLaunchCred
 import useDelegater from "components/Transactors/Delegater/useDelegater";
 import useRemoveDelegate from "components/Transactors/Delegater/useRemoveDelegate";
 import useIssuer from "components/Transactors/Issuer/useIssuer";
-import useRevokeCredential from "components/Transactors/Issuer/useRevokeCredential";
+import useRevokeToken from "components/Transactors/Issuer/useRevokeToken";
 import { Metadata, MetadataValues } from "components/Transactors/types";
 import {
   useGetCredential,
@@ -15,7 +15,6 @@ import {
 import { useCanMutateOrg, useGetOrg, useIsAdmin } from "services/orgs/hooks";
 import { getImageURL, shortenText } from "helper";
 import Image from "next/image";
-import Link from "next/link";
 import { useMemo } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiCloseLine } from "react-icons/ri";
@@ -229,7 +228,7 @@ export function TokenTableView({ address, id }: { id: number; address: string })
   const tokens = useGetCredentialTokens(address, id);
   const credential = useGetCredential(address, id);
   const showIssuer = useIssuer(credential!);
-  const { revoke, isLoading } = useRevokeCredential(credential?.address!);
+  const { revoke, isLoading } = useRevokeToken(credential?.address!);
   const hasAccess = useCanMutateOrg(credential?.address ?? "");
 
   const getRows = () => {
@@ -280,7 +279,7 @@ export function TokenTableView({ address, id }: { id: number; address: string })
                 {hasAccess && (
                   <Cell className="p-0">
                     <Button
-                      onClick={() => revoke(token.tokenId)}
+                      onClick={() => revoke(token)}
                       disabled={isLoading}
                       className={`bg-transparent bg-white bg-opacity-0`}
                     >

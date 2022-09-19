@@ -25,7 +25,6 @@ export default function useIssueCredential(address: string) {
   });
 
   async function setTokens(addresses: string[], credential: number) {
-    console.log('ADDRESSES ', addresses)
     try {
       for (let owner of addresses) {
         const tokenId = await tokenContract.totalSupply();
@@ -37,7 +36,6 @@ export default function useIssueCredential(address: string) {
           issuer: account!,
           owner: owner,
         };
-        console.log('dispathc ', token);
         dispatch(setToken({ token, address }));
       }
     } catch (e) {}
