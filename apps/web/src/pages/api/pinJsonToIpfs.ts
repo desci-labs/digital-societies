@@ -3,6 +3,7 @@ import { Web3Storage, getFilesFromPath } from 'web3.storage';
 import path from "path";
 import fs from "fs";
 import { PinDataRes } from "./type";
+import os from 'os';
 
 export const config = {
   api: {
@@ -13,14 +14,16 @@ export const config = {
 async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
   let responseBody: PinDataRes, status = 200;
 
+  // let tmpDir = os.tmpdir();
   let tmpDir = '/tmp/';
+  console.log('tmp', tmpDir)
   try {
     const client = new Web3Storage({ token: process.env.WEB3_STORAGE_TOKEN! });
     
     const filePath = path.join(tmpDir, 'metadata.json');
     fs.writeFileSync(filePath, req.body);
     const files = await getFilesFromPath(filePath);
-    // console.log('filepath', filePath, files)
+    console.log('filepath', filePath, files)
     const cid = await client.put(files, { wrapWithDirectory: false });
     await fs.unlinkSync(filePath);
     return res.status(status).json(cid);

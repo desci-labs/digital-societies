@@ -11,6 +11,9 @@ async function pinFile(form: FormData): Promise<CIDString[]> {
   const res = await fetch("/api/pinFileToIpfs", {
     method: "POST",
     body: form,
+    // headers: {
+    //   'Content-Type': 'multipart/form-data',
+    // }
   });
   const result = (await res.json()) as CIDString[];
   return result;
