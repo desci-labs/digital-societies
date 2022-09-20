@@ -21,8 +21,8 @@ export default function CredentialForm() {
   const { address } = router.query;
   const org = useGetOrg(address as string);
   const { launch, isLoading, isSuccess } = useCreateCredential(org?.address!);
-  const image = watch('image');
-  const logo = watch('logo');
+  const image = watch('banner');
+  const logo = watch('badge');
 
   const canDisable = useMemo(() => isSubmitting || isLoading || isSuccess, [isSubmitting, isLoading, isSuccess])
 
@@ -81,29 +81,29 @@ export default function CredentialForm() {
         />
       </InputRow>
       <InputRow
-        htmlFor="image"
+        htmlFor="banner"
         label="Banner"
       >
-        <ErrorMessage errors={errors} name="image" as="span" className="text-xs text-left text-red-400 font-semibold m-0" />
+        <ErrorMessage errors={errors} name="banner" as="span" className="text-xs text-left text-red-400 font-semibold m-0" />
         <ImagePreview image={image} />
         <FileDropzone<MetadataValues>
-          name="image"
+          name="banner"
           className="h-10"
           disabled={canDisable}
-          hasError={!!errors.image}
+          hasError={!!errors.banner}
         />
       </InputRow>
       <InputRow
         htmlFor="logo"
         label="logo"
       >
-        <ErrorMessage errors={errors} name="logo" as="span" className="text-xs text-left text-red-400 font-semibold m-0" />
+        <ErrorMessage errors={errors} name="badge" as="span" className="text-xs text-left text-red-400 font-semibold m-0" />
         <ImagePreview image={logo} className="rounded-full" wrapperClassName="w-20 h-20" />
         <FileDropzone<MetadataValues>
-          name="logo"
+          name="badge"
           className="h-10"
           disabled={canDisable}
-          hasError={!!errors.logo}
+          hasError={!!errors.badge}
         />
       </InputRow>
       <GradientButton

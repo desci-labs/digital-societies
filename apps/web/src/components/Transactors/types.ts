@@ -8,8 +8,8 @@ type Meta = {
   external_link: string;
 }
 export type MetadataValues = Meta & {
-  image: FileObject;
-  logo: FileObject
+  banner: FileObject;
+  badge: FileObject
 }
 
 export interface IssuerValues {
@@ -23,8 +23,8 @@ export interface DelegaterValues {
 
 
 export type Metadata = Meta & {
-  image: string;
-  logo: string;
+  banner: string;
+  badge: string;
 }
 
 export type IResponse = {

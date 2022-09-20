@@ -11,37 +11,30 @@ async function pinFile(form: FormData): Promise<CIDString[]> {
   const res = await fetch("/api/pinFileToIpfs", {
     method: "POST",
     body: form,
-    // headers: {
-    //   'Content-Type': 'multipart/form-data',
-    // }
   });
   const result = (await res.json()) as CIDString[];
   return result;
 }
 
 export async function pinMetadataToIpfs(metadata: MetadataValues) {
-  let imageHash: string = metadata.image.ipfsHash,
-    logoHash: string = metadata.logo.ipfsHash;
+  let imageHash: string = metadata.banner.ipfsHash,
+    logoHash: string = metadata.badge.ipfsHash;
 
-  if (metadata.image.file && metadata.image.file.size > 0) {
+  if (metadata.banner.file && metadata.banner.file.size > 0) {
     const formdata = new FormData();
-    formdata.append("image", metadata.image.name);
-    formdata.append(metadata.image.name, metadata.image.file);
+    formdata.append("image", metadata.banner.name);
+    formdata.append(metadata.banner.name, metadata.banner.file);
 
     const res = await pinFile(formdata);
-    console.log('banner pin', res)
-    // console.log('pin banner', res[0]);
     imageHash = res[0];
   }
 
-  if (metadata.logo?.file && metadata.logo?.file.size > 0) {
+  if (metadata.badge?.file && metadata.badge?.file.size > 0) {
     const formdata = new FormData();
-    formdata.append("logo", metadata.logo.name);
-    formdata.append(metadata.logo.name, metadata.logo.file);
+    formdata.append("logo", metadata.badge.name);
+    formdata.append(metadata.badge.name, metadata.badge.file);
    
     const res = await pinFile(formdata);
-    console.log('banner pin', res)
-    console.log('pin badge result', res);
     logoHash = res[0];
   }
 

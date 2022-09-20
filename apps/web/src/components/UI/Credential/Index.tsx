@@ -83,9 +83,9 @@ export function MetadataCard({
   return (
       <div onClick={() => router.push(link)} className="min-w-80 w-80 h-96 rounded-lg shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden">
         <div className="w-80 h-48 relative rounded-lg">
-          <ImageBanner src={getImageURL(metadata?.image ?? '')} />
+          <ImageBanner src={getImageURL(metadata?.banner ?? '')} />
           <RoundedLogo
-            src={getImageURL(metadata?.logo ?? '')}
+            src={getImageURL(metadata?.badge ?? '')}
             className="w-12 h-12 left-3 -bottom-5"
           />
         </div>
@@ -144,7 +144,7 @@ export function Delegates({ address }: { address: string }) {
               <Cell className="flex justify-start p-2">
                 <div className="w-10 h-10 relative">
                   <Image
-                    src={getImageURL(org?.metadata?.logo ?? "")}
+                    src={getImageURL(org?.metadata?.badge ?? "")}
                     layout="fill"
                     objectFit="cover"
                     objectPosition="center"
@@ -199,7 +199,7 @@ export function RevocationHistory({ address }: { address: string }) {
               <Cell className="flex justify-start p-2">
                 <div className="w-10 h-10 relative">
                   <Image
-                    src={getImageURL(org?.metadata?.logo)}
+                    src={getImageURL(org?.metadata?.badge)}
                     layout="fill"
                     objectFit="cover"
                     objectPosition="center"
@@ -259,7 +259,7 @@ export function TokenTableView({ address, id }: { id: number; address: string })
                 <Cell className="flex justify-start p-2">
                   <div className="w-10 h-10 relative">
                     <Image
-                      src={getImageURL(credential?.metadata?.image ?? "")} //TODO: add a fall back image as placeholder
+                      src={getImageURL(credential?.metadata?.banner ?? "")} //TODO: add a fall back image as placeholder
                       layout="fill"
                       objectFit="cover"
                       objectPosition="center"

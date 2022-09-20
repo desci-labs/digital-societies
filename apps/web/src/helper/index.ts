@@ -60,14 +60,14 @@ export const flattenMetadata = async (metadata: MetadataValues): Promise<Metadat
   const meta = { ...metadata };
 
   try {
-    if (metadata.image.file) {
-      const image = await toBase64(metadata.image.file)
-      meta.image.base64 = image;
+    if (metadata.banner.file) {
+      const image = await toBase64(metadata.banner.file)
+      meta.banner.base64 = image;
     }
 
-    if (metadata.logo.file) {
-      const logo = await toBase64(metadata.image.file)
-      meta.logo.base64 = logo;
+    if (metadata.badge.file) {
+      const logo = await toBase64(metadata.banner.file)
+      meta.badge.base64 = logo;
     }
 
     return meta;

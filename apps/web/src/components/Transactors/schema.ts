@@ -1,7 +1,6 @@
 import { FileObject } from "components/FileDropzone/types";
 import { isAddress } from "ethers/lib/utils";
 import * as Yup from "yup";
-import { IssuerValues } from "./types";
 
 const VALID_MIME_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
@@ -66,8 +65,8 @@ export const metadataSchema = Yup.object().shape({
   name: Yup.string().required(),
   description: Yup.string().required(),
   external_link: Yup.string().matches(uriPattern, "Invalid url"),
-  image: FILE_SCHEMA.required(),
-  logo: FILE_SCHEMA.required(),
+  banner: FILE_SCHEMA.required(),
+  badge: FILE_SCHEMA.required(),
 });
 
 export const issuerSchema = Yup.object().shape({

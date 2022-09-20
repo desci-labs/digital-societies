@@ -29,8 +29,8 @@ export default function CredentialDetails() {
   return (
     <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center mb-10">
       <div className="w-full h-88 relative group">
-        <ImageBanner src={getImageURL(metadata?.image ?? "")} />
-        <RoundedLogo src={getImageURL(metadata?.logo ?? "")} />
+        <ImageBanner src={getImageURL(metadata?.banner ?? "")} />
+        <RoundedLogo src={getImageURL(metadata?.badge ?? "")} />
       </div>
       <div className="container mx-auto mt-5">
         <span className="text-3xl block font-bold mb-2 text-left">

@@ -31,8 +31,8 @@ export default function useCreateCredential(address: string) {
       if (!mintedBy) throw Error("Check wallet connection and try again!!!");
       reset();
       
-      if (!metadata.image.ipfsHash && !metadata.image.file) throw new Error("Please select a banner image to upload");
-      if (!metadata.logo.ipfsHash && !metadata.logo.file) throw new Error("Please select a badge icon to upload");
+      if (!metadata.banner.ipfsHash && !metadata.banner.file) throw new Error("Please select a banner image to upload");
+      if (!metadata.badge.ipfsHash && !metadata.badge.file) throw new Error("Please select a badge icon to upload");
       
       showModal(Processing, { message: 'Pining Metadata to ipfs...' });
       const cid = await pinMetadataToIpfs(metadata)

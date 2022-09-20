@@ -4,8 +4,8 @@ import { W3S_IPFS_GATEWAY } from "./constants";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   let status = 200;
   try {
-    const suffix = (req.query.cid as string).startsWith('bafy') ? '/metadata.json' : ''
-    const result = await fetch(`${W3S_IPFS_GATEWAY}${req.query.cid}${suffix}`);
+    // const suffix = (req.query.cid as string).startsWith('bafy') ? '/metadata.json' : ''
+    const result = await fetch(`${W3S_IPFS_GATEWAY}${req.query.cid}`);
     const data = await result.json();
     return res.status(status).json(data);
   } catch (e) {
