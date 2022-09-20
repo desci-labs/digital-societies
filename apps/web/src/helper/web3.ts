@@ -38,6 +38,7 @@ export async function pinMetadataToIpfs(metadata: MetadataValues) {
     logoHash = res[0];
   }
 
+  // TODO: Validate to check valid CIDString
   if (typeof imageHash !== "string" || typeof logoHash !== "string") {
     throw Error("Error pinning uploading files");
   }
@@ -49,6 +50,5 @@ export async function pinMetadataToIpfs(metadata: MetadataValues) {
   });
   const result = (await metaRes.json()) as CIDString;
   const cid = getBytesFromCIDString(result)
-  console.log('pin metadata result ', result, cid);
   return cid;
 }

@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import fs from "fs";
-import { Web3Storage, getFilesFromPath } from 'web3.storage';
 import { PinDataRes } from "./type";
 import busboy from 'busboy';
 import path from "path";
+import pinataSDK from "@pinata/sdk";
 
 export const config = {
   api: {
@@ -16,7 +16,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
     status = 200;
 
   try {
-    const client = new Web3Storage({ token: process.env.WEB3_STORAGE_TOKEN! });
+    const pinata = pinataSDK(
+      process.env.PINATA_API_KEY!,
+      process.env.PINATA_SECRET_KEY!
+    );
 
     const bb = busboy({ headers: req.headers });
     const fileList: string[] = [];
@@ -38,12 +41,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
     bb.on('close', async () => {
       const uploads = [];
       for (let filepath of fileList) {
-        const files = await getFilesFromPath(filepath);
-        const cid = await client.put(files, { wrapWithDirectory: false })
-        console.log('cid', cid);
+        const result = await pinata.pinFromFS(filepath, {});
+        console.log('cid', result);
         fs.unlink(filepath, (err) => {
         });
-        uploads.push(cid);
+        uploads.push(result.IpfsHash);
       }
 
       res.status(200).send(uploads);
