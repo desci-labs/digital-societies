@@ -4,7 +4,6 @@ import fs from "fs";
 import { asyncMap } from "helper";
 import { Web3Storage, getFilesFromPath } from 'web3.storage';
 import { PinDataRes } from "./type";
-import path from "path";
 
 // Construct with token and endpoint
 
@@ -18,16 +17,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
   let responseBody: PinDataRes = [],
     status = 200;
 
-  let tmpDir = '/tmp/';
-
   const client = new Web3Storage({ token: process.env.WEB3_STORAGE_TOKEN! });
-  
+
   const result = await new Promise<
     { files: Files; fields: Fields } | undefined
   >((resolve, reject) => {
     const form = new formidable.IncomingForm({
-      multiples: false,
-      uploadDir: tmpDir,
+      multiples: true,
+      // uploadDir: tmpDir,
       keepExtensions: true,
     });
 
@@ -48,6 +45,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
     const files = Object.values(result?.fields ?? {}).map(
       (key) => result?.files[key as string]
     );
+
     if (files.length === 0) {
       return res.status(404).send({
         status: "error",
@@ -55,6 +53,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
         error: { fields: result?.fields, files: result?.files},
       })
     }
+    
     const uploads = await asyncMap<
       string,
       File | File[] | undefined

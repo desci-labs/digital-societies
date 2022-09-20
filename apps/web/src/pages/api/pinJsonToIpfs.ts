@@ -20,12 +20,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
     const filePath = path.join(tmpDir, 'metadata.json');
     fs.writeFileSync(filePath, req.body);
     const files = await getFilesFromPath(filePath);
-    console.log('filepath', filePath, files)
+    // console.log('filepath', filePath, files)
     const cid = await client.put(files, { wrapWithDirectory: false });
     await fs.unlinkSync(filePath);
     return res.status(status).json(cid);
   } catch (e: any) {
-    console.log('e', e);
+    // console.log('e', e);
     status = 500;
     responseBody = {
       status: "error",

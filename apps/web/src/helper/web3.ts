@@ -1,4 +1,3 @@
-import { PinataPinResponse } from "@pinata/sdk";
 import { MetadataValues } from "components/Transactors/types";
 import { getBytesFromCIDString } from "helper";
 import { Chain } from "wagmi";
@@ -39,8 +38,12 @@ export async function pinMetadataToIpfs(metadata: MetadataValues) {
    
     const res = await pinFile(formdata);
     console.log('banner pin', res)
-    // console.log('pin badge result', res[0]);
+    console.log('pin badge result', res);
     logoHash = res[0];
+  }
+
+  if (typeof imageHash !== "string" || typeof logoHash !== "string") {
+    throw Error("Error pinning uploading files");
   }
 
   const meta = { ...metadata, image: imageHash, logo: logoHash };
