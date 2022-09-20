@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { FactoryState, Org, PendingOrg } from "./types";
+import { FactoryState, Org, PendingOrg, Revoked } from "./types";
 
 const initialState: FactoryState = { data: [], isLoading: true };
 
@@ -12,15 +12,33 @@ const slice = createSlice({
       state,
       { payload }: PayloadAction<Org[]>
     ) => {
-      state.data = payload.filter(org => !!org.metadata);
-      state.isLoading = false;
+      if (state.data.length === 0) {
+        state.data = payload;
+        return;
+      }
+
+      const updatable = payload.filter(data => {
+        if (data.metadata === null) return false;
+        const prev = state.data.find(org => org.address === data.address);
+        if (!prev) return true;
+        if (prev?.pending === true && data.metadata !== null) return true;
+
+        return false;
+      });
+
+      state.data = state.data.filter(org => {
+        if (updatable.find(d => d.address === org.address)) return false;
+        return true;
+      })
+
+      state.data.push(...updatable)
     },
     setOrg: (
       state,
       { payload }: PayloadAction<Org | PendingOrg>
     ) => {
-      const prev = state.data.find(org => org.address  === payload.address)
-      if (!prev)  {
+      const prev = state.data.find(org => org.address === payload.address)
+      if (!prev) {
         state.data.push(payload);
       } else if (prev.pending && payload.metadata) {
         state.data = state.data.map(org => {
@@ -31,9 +49,28 @@ const slice = createSlice({
     },
     setIsLoading: (state, { payload }: PayloadAction<boolean>) => {
       state.isLoading = payload;
-    }
+    },
+
+    addDelegate(state, { payload }: PayloadAction<{ org: string; delegate: string }>) {
+      const org = state.data.find(item => item.address === payload.org);
+      if (org?.delegates.includes(payload.delegate)) return;
+      org?.delegates.push(payload.delegate);
+    },
+
+    removeDelegate(state, { payload }: PayloadAction<{ org: string; delegate: string }>) {
+      const org = state.data.find(item => item.address === payload.org);
+      if (!org?.delegates.includes(payload.delegate)) return;
+      org.delegates = org?.delegates.filter(el => el !== payload.delegate)
+    },
+
+    addRevocation(state, { payload }: PayloadAction<{ org: string; token: Revoked }>) {
+      const org = state.data.find(org => org.address === payload.org);
+      const exists = org?.revocations.find(t => t.tokenId);
+      if (exists?.tokenId === payload.token.tokenId) return;
+      org?.revocations.push(payload.token);
+    },
   },
 });
 
 export default slice.reducer;
-export const { resetOrgs, setOrg, setOrgs, setIsLoading } = slice.actions;
+export const { resetOrgs, setOrg, setOrgs, setIsLoading, addDelegate, removeDelegate, addRevocation } = slice.actions;

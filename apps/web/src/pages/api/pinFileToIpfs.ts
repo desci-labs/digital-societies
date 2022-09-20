@@ -3,11 +3,10 @@ import formidable, { Fields, File, Files } from "formidable";
 import fs from "fs";
 import { asyncMap } from "helper";
 import { Web3Storage, getFilesFromPath } from 'web3.storage';
+import { PinDataRes } from "./type";
 
 // Construct with token and endpoint
 const client = new Web3Storage({ token: process.env.WEB3_STORAGE_TOKEN! });
-
-type IResponse = string[] | { status: string; message: string };
 
 export const config = {
   api: {
@@ -15,8 +14,8 @@ export const config = {
   },
 };
 
-async function handler(req: NextApiRequest, res: NextApiResponse<IResponse>) {
-  let responseBody: IResponse = [],
+async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
+  let responseBody: PinDataRes = [],
     status = 200;
 
   const result = await new Promise<
@@ -37,6 +36,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<IResponse>) {
     responseBody = {
       status: "error",
       message: "Upload error",
+      error: e.toString(),
     };
   });
 
@@ -51,16 +51,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse<IResponse>) {
       const filepath = data.filepath;
       const files = await getFilesFromPath(filepath)
       const cid = await client.put(files)
-      await fs.unlinkSync(filepath);
+      fs.unlink(filepath, (err) => {
+        console.log('unlink err', err)
+      });
       return cid
     });
     res.status(status).json(uploads);
-  } catch (e) {
-    console.log('e', e);
+  } catch (e: any) {
+    console.log('pining file Error', e);
     status = 500;
     responseBody = {
       status: "error",
       message: "Error pinning file to ipfs",
+      error: e.toString()
     };
     res.status(status).json(responseBody);
   }

@@ -9,12 +9,12 @@ export default function OrganisationDetails() {
   const router = useRouter();
   const { address } = router.query;
   const org = useGetOrg(address as string);
-
+  console.log('org', org)
   if (!org) return <Loader className="h-screen" />;
 
   return (
     <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center mb-10">
-      <div className="w-full h-104 relative group">
+      <div className="w-full h-88 relative group">
         <ImageBanner src={getImageURL(org.metadata.image)} alt={org.metadata.name} />
         <RoundedLogo src={getImageURL(org.metadata.logo)} alt={org.metadata.name} />
       </div>

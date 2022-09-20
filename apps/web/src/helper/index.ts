@@ -1,8 +1,9 @@
 import { CID } from "multiformats/cid";
 import { base16 } from "multiformats/bases/base16";
 import { FileObject } from "components/FileDropzone/types";
-import { PINATA_IPFS_GATEWAY, W3S_IPFS_GATEWAY } from "pages/api/constants";
-import { Metadata, MetadataValues } from "components/Transactors/types";
+import { W3S_IPFS_GATEWAY } from "pages/api/constants";
+import { MetadataValues } from "components/Transactors/types";
+import fallbackImg from "assets/fallback.png";
 
 export const resolveIpfsURL = (hash: string) => `${W3S_IPFS_GATEWAY}${hash}`;
 
@@ -44,17 +45,14 @@ export function maskAddress(addr?: string) {
 
 // TODO: Handle {base64}
 export const getImageURL = (image: string | FileObject) => {
-  console.log('image', image);
   const url =
     typeof image === "string"
       ? resolveIpfsURL(image)
       : image.ipfsHash
-        ? resolveIpfsURL(image.ipfsHash)
-        : image.file && image.file.size
-          ? window.URL.createObjectURL(image.file)
-          : image.base64 !== undefined
-            ? image.base64
-            : "";
+      ? resolveIpfsURL(image.ipfsHash)
+      : image.file && image.file.size > 0
+      ? window.URL.createObjectURL(image.file)
+      : fallbackImg;
   return url;
 };
 

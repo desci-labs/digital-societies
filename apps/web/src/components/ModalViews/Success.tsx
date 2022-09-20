@@ -16,7 +16,7 @@ export default function Success({
   const { chain } = useNetwork();
   const { hideModal } = useModalContext();
   const { txInfo, message } = useGetTx();
-  const feedback = text || message;
+  const feedback = text ?? message;
   const router = useRouter();
 
   const preview = (path: string) => {

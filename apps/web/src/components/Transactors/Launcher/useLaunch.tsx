@@ -4,7 +4,8 @@ import Processing from "components/ModalViews/Processing";
 import Success from "components/ModalViews/Success";
 import { MetadataValues } from "components/Transactors/types";
 import { useSetTx } from "context/useTx";
-import { flattenMetadata, getBytesFromCIDString } from "helper";
+import { utils } from "ethers";
+import { pinMetadataToIpfs } from "helper/web3";
 import { useFactoryContract } from "hooks/useContract";
 import { useDispatch } from "react-redux";
 import { setOrg } from "services/orgs/orgSlice";
@@ -25,33 +26,9 @@ export default function useLaunch() {
 
   async function launch(metadata: MetadataValues) {
     try {
-      const formdata = new FormData();
-      formdata.append("image", metadata.image.name);
-      formdata.append("logo", metadata.logo.name);
-      formdata.append(metadata.image.name, metadata.image.file);
-      formdata.append(metadata.logo.name, metadata.logo.file);
-
       showModal(Processing, { message: "Pining Metadata to ipfs..." });
-      const res = await fetch("/api/pinFileToIpfs", {
-        method: "POST",
-        body: formdata,
-      });
-      const [pinnedImageResponse, pinnedLogoResponse] =
-        (await res.json()) as string[];
-
-      const meta = {
-        ...metadata,
-        image: pinnedImageResponse,
-        logo: pinnedLogoResponse,
-      };
-      const metaRes = await fetch("/api/pinJsonToIpfs", {
-        method: "POST",
-        body: JSON.stringify(meta),
-      });
-      const pinnedMetadataRes = await metaRes.json();
-      const cid = getBytesFromCIDString(pinnedMetadataRes);
-
-      showModal(Processing, { message: "Confirming transaction..." });
+      const cid =  await pinMetadataToIpfs(metadata);
+      showModal(Processing, { message: `Deploying ${metadata.name}...` });
 
       const tx = await writeAsync({
         recklesslySetUnpreparedArgs: [metadata.name, metadata.symbol, cid],
@@ -59,11 +36,11 @@ export default function useLaunch() {
       setTx({ txInfo: tx, message: "Processing transaction" });
 
       const receipt = await tx.wait();
-      const address = "0x" + receipt.logs[3].topics?.[1].slice(26);
+      const address = utils.getAddress("0x" + receipt.logs[3].topics?.[1].slice(26));
       const block = await factoryContract.provider.getBlock(receipt.blockNumber)
       const preview: PendingOrg = {
         cid,
-        metadata: await flattenMetadata(metadata),
+        metadata,
         address,
         admin: metadata.issuer,
         revocations: [],
@@ -71,8 +48,8 @@ export default function useLaunch() {
         dateCreated: block.timestamp * 1000,
         pending: true,
       };
-      console.log('prevew ', preview);
-      dispatch(setOrg(preview))
+
+      dispatch(setOrg(preview));
       setTx({ txInfo: tx, message: "" });
       reset();
       showModal(Success, { previewLink: `orgs/${address}` });

@@ -1,5 +1,7 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { HTMLProps, PropsWithChildren } from "react";
+
+export type ImgProps = { alt?: string; className?: string; src: string | StaticImageData };
 
 export function ExternalLink(props: HTMLProps<HTMLAnchorElement>) {
   return (
@@ -15,7 +17,7 @@ export function ExternalLink(props: HTMLProps<HTMLAnchorElement>) {
   );
 }
 
-export function ImageBanner(props: HTMLProps<HTMLImageElement> & { src: string }) {
+export function ImageBanner(props: ImgProps ) {
   return (
     <div className={`w-full h-full relative ${props.className ?? ''}`}>
       <Image
@@ -29,7 +31,7 @@ export function ImageBanner(props: HTMLProps<HTMLImageElement> & { src: string }
   )
 }
 
-export function RoundedLogo(props: HTMLProps<HTMLImageElement> & { src: string }) {
+export function RoundedLogo(props: ImgProps) {
   return (
     <div className={`w-32 h-32 absolute left-10 -bottom-11 rounded-full border-2 border-white ${props.className ?? ''}`}>
       <Image

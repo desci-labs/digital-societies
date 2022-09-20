@@ -5,6 +5,8 @@ import Success from "components/ModalViews/Success";
 import { DELEGATE_ROLE } from "constants/roles";
 import { useSetTx } from "context/useTx";
 import { useSBTContractFactory } from "hooks/useContract";
+import { useDispatch } from "react-redux";
+import { addDelegate } from "services/orgs/orgSlice";
 import { useContractWrite } from "wagmi";
 import { DelegaterValues } from "../types";
 
@@ -13,6 +15,7 @@ export default function useGrantRole(address: string) {
   const { setTx, reset } = useSetTx();
   const getContract = useSBTContractFactory();
   const tokenContract = getContract(address);
+  const dispatch = useDispatch();
 
   const { isLoading, isSuccess, writeAsync } = useContractWrite({
     mode: "recklesslyUnprepared",
@@ -31,6 +34,7 @@ export default function useGrantRole(address: string) {
         recklesslySetUnpreparedArgs: args,
       });
       setTx({ txInfo: tx, message: 'Delegate role granted' })
+      dispatch(addDelegate({ org: address, delegate: metadata.delegate }))
       await tx.wait();
       showModal(Success, {});
     } catch (e: any) {

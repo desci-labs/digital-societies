@@ -21,7 +21,7 @@ export default function FactoryUpdater() {
 
   const contract = useFactoryContract();
   const block = useBlockNumber();
-  
+
   const provider = useProvider();
   const getContract = useSBTContractFactory();
   const [lastUpdated, setLastUpdated] = useState(0);
@@ -38,15 +38,15 @@ export default function FactoryUpdater() {
 
   async function getRevocationHistory(contract: Contract): Promise<Revoked[]> {
     const filter = contract.filters.Revoked();
-    const events = await contract.queryFilter(filter, 7491226);
+    const events = await contract.queryFilter(filter, FACTORY_DEPLOY_BLOCK);
     const revocations = await asyncMap<Revoked, ethers.Event>(
       events,
       async (event: ethers.Event) => {
         const block = await provider.getBlock(event.blockNumber);
         return {
+          owner: event?.args?.revokedBy ?? event.args?.[0],
+          revokedBy: event?.args?.owner ?? event.args?.[1],
           tokenId: event.args?.[2].toNumber(),
-          owner: event.args?.[1],
-          revokedBy: event.args?.[0],
           timestamp: block.timestamp * 1000,
         };
       }
@@ -78,18 +78,21 @@ export default function FactoryUpdater() {
     async () => {
       if (!block || !contract) return;
 
-      if (block - lastUpdated < 5 && orgs.length > 0) return;
+      if (block - lastUpdated < 10 && orgs.length > 0) return;
 
       try {
+        const lastQuery = await provider.getBlockNumber();
         const filter = contract.filters.TokenCreated();
-        const events = await contract.queryFilter(filter, FACTORY_DEPLOY_BLOCK);
+        const events = await contract.queryFilter(
+          filter,
+          lastUpdated ? lastUpdated - 10 : FACTORY_DEPLOY_BLOCK
+        );
         const results = await Promise.all(events.map(getContractInfofromEvent));
-        console.log('orgs ', results);
-        dispatch(setOrgs(results))
-        dispatch(setIsLoading(false))
-        setLastUpdated(block);
+        dispatch(setOrgs(results));
+        dispatch(setIsLoading(false));
+        setLastUpdated(lastQuery);
       } catch (e) {
-        console.log('Error: ', e)
+        console.log("Error: ", e);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -97,7 +100,11 @@ export default function FactoryUpdater() {
   );
 
   useEffect(() => {
-    if (contract && block && (orgs.length === 0 || lastUpdated === 0 || block - lastUpdated > 5)) {
+    if (
+      contract &&
+      block &&
+      (orgs.length === 0 || lastUpdated === 0 || block - lastUpdated > 10)
+    ) {
       getFactoryTokens();
     }
   }, [block, lastUpdated, contract, getFactoryTokens, provider, orgs.length]);

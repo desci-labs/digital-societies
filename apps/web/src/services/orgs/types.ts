@@ -1,7 +1,7 @@
 import { Metadata, MetadataValues } from "components/Transactors/types";
 
 export type Revoked = {
-  tokenId: string;
+  tokenId: number;
   revokedBy: string;
   owner: string;
   timestamp: number;

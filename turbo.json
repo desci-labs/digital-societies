@@ -12,7 +12,8 @@
     },
     "web#build": {
       "dependsOn": [],
-      "outputs": []
+      "outputs": [],
+      "cache": true
     },
     "test": {
       "outputs": [
