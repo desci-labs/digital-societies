@@ -4,6 +4,7 @@ import fs from "fs";
 import { asyncMap } from "helper";
 import { Web3Storage, getFilesFromPath } from 'web3.storage';
 import { PinDataRes } from "./type";
+import path from "path";
 
 // Construct with token and endpoint
 const client = new Web3Storage({ token: process.env.WEB3_STORAGE_TOKEN! });
@@ -18,12 +19,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
   let responseBody: PinDataRes = [],
     status = 200;
 
+  let tmpDir: string;
+  if (process.env.DEV && process.env.DEV === 'Yes') {
+    tmpDir = path.join(__dirname, `../../tmp/`);
+  } else {
+    tmpDir = '/tmp/';
+  }
+
   const result = await new Promise<
     { files: Files; fields: Fields } | undefined
   >((resolve, reject) => {
     const form = new formidable.IncomingForm({
       multiples: false,
-      uploadDir: "./",
+      uploadDir: tmpDir,
       keepExtensions: true,
     });
 
@@ -49,8 +57,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
       File | File[] | undefined
     >(files, async (data: File) => {
       const filepath = data.filepath;
+      console.log('image path', filepath)
       const files = await getFilesFromPath(filepath)
-      const cid = await client.put(files)
+      const cid = await client.put(files, { wrapWithDirectory: false })
       fs.unlink(filepath, (err) => {
         console.log('unlink err', err)
       });

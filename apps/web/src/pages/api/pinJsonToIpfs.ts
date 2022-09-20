@@ -15,11 +15,19 @@ export const config = {
 async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
   let responseBody: PinDataRes, status = 200;
 
+  let tmpDir: string;
+  if (process.env.DEV && process.env.DEV === 'Yes') {
+    tmpDir = path.join(__dirname, `../../tmp/`);
+  } else {
+    tmpDir = '/tmp/';
+  }
+
   try {
-    const filePath = path.join(process.cwd(), 'metadata.json');
+    const filePath = path.join(tmpDir, 'metadata.json');
     fs.writeFileSync(filePath, req.body);
     const files = await getFilesFromPath(filePath);
-    const cid = await client.put(files);
+    console.log('filepath', filePath, files)
+    const cid = await client.put(files, { wrapWithDirectory: false });
     await fs.unlinkSync(filePath);
     return res.status(status).json(cid);
   } catch (e: any) {
