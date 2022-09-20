@@ -94,8 +94,8 @@ export default function CredentialForm() {
         />
       </InputRow>
       <InputRow
-        htmlFor="logo"
-        label="logo"
+        htmlFor="badge"
+        label="badge"
       >
         <ErrorMessage errors={errors} name="badge" as="span" className="text-xs text-left text-red-400 font-semibold m-0" />
         <ImagePreview image={logo} className="rounded-full" wrapperClassName="w-20 h-20" />

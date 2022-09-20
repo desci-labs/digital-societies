@@ -17,7 +17,7 @@ export enum Contracts {
 
 export const contracts = [
   {
-    address: "0xbdd93ddcce4d8b1a56a3e27698a29899dc3d01ca",
+    address: "0x7dd28dae4badd898288ecea5ca2ed5def1ee6b56",
     name: "Factory",
     id: Contracts.Factory,
     artifact: Factory.abi,

@@ -9,7 +9,7 @@ export default function OrganisationDetails() {
   const router = useRouter();
   const { address } = router.query;
   const org = useGetOrg(address as string);
-  console.log('org', org)
+
   if (!org) return <Loader className="h-screen" />;
 
   return (

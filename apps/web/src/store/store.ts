@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { persistReducer, persistStore } from "redux-persist";
+import { persistReducer, persistStore, createMigrate, PersistedState, PersistState } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import credentialSlice from "services/credentials/credentialSlice";
 import orgSlice from "services/orgs/orgSlice";
@@ -10,10 +10,22 @@ const rootReducer = combineReducers({
   credential: credentialSlice
 });
 
+const migrations = {
+  1: (state: PersistedState) => {
+    console.log('migrate, ', state);
+    return {} as PersistedState; // reset all state, except version
+  },
+  3: (state: PersistedState) => {
+    console.log('migrate, ', state);
+    return {} as PersistedState; // reset all state, except version
+  }
+}
+
 const persistConfig = {
-  key: 'root0',
-  version: 0,
-  storage
+  key: 'root',
+  version: 1,
+  storage,
+  migrate: createMigrate(migrations)
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,4 +1,4 @@
-import { MetadataValues } from "components/Transactors/types";
+import { Metadata, MetadataValues } from "components/Transactors/types";
 import { getBytesFromCIDString } from "helper";
 import { Chain } from "wagmi";
 import { CIDString } from "web3.storage";
@@ -42,7 +42,7 @@ export async function pinMetadataToIpfs(metadata: MetadataValues) {
     throw Error("Error pinning uploading files");
   }
 
-  const meta = { ...metadata, image: imageHash, logo: logoHash };
+  const meta: Metadata = { ...metadata, banner: imageHash, badge: logoHash };
   const metaRes = await fetch("/api/pinJsonToIpfs", {
     method: "POST",
     body: JSON.stringify(meta),

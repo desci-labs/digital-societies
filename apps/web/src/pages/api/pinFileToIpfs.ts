@@ -27,6 +27,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
       fileList.push(filepath);
     });
 
+    bb.on("error", (err: any) => {
+      res.status(400).send({
+        status: "error",
+        message: "Error pinning file to ipfs",
+        error: err
+      })
+    })
+    
     bb.on('close', async () => {
       const uploads = [];
       for (let filepath of fileList) {
