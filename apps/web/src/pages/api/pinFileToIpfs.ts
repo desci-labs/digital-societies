@@ -7,7 +7,6 @@ import { PinDataRes } from "./type";
 import path from "path";
 
 // Construct with token and endpoint
-const client = new Web3Storage({ token: process.env.WEB3_STORAGE_TOKEN! });
 
 export const config = {
   api: {
@@ -19,13 +18,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
   let responseBody: PinDataRes = [],
     status = 200;
 
-  let tmpDir: string;
-  if (process.env.DEV && process.env.DEV === 'Yes') {
-    tmpDir = path.join(__dirname, `../../tmp/`);
-  } else {
-    tmpDir = '/tmp/';
-  }
+  let tmpDir = '/tmp/';
 
+  const client = new Web3Storage({ token: process.env.WEB3_STORAGE_TOKEN! });
+  
   const result = await new Promise<
     { files: Files; fields: Fields } | undefined
   >((resolve, reject) => {
@@ -52,6 +48,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
     const files = Object.values(result?.fields ?? {}).map(
       (key) => result?.files[key as string]
     );
+    if (files.length === 0) {
+      return res.status(404).send({
+        status: "error",
+        message: "couldn't find files",
+        error: { fields: result?.fields, files: result?.files},
+      })
+    }
     const uploads = await asyncMap<
       string,
       File | File[] | undefined

@@ -27,7 +27,8 @@ export async function pinMetadataToIpfs(metadata: MetadataValues) {
     formdata.append(metadata.image.name, metadata.image.file);
 
     const res = await pinFile(formdata);
-    console.log('pin banner', res[0]);
+    console.log('banner pin', res)
+    // console.log('pin banner', res[0]);
     imageHash = res[0];
   }
 
@@ -37,7 +38,8 @@ export async function pinMetadataToIpfs(metadata: MetadataValues) {
     formdata.append(metadata.logo.name, metadata.logo.file);
    
     const res = await pinFile(formdata);
-    console.log('pin badge result', res[0]);
+    console.log('banner pin', res)
+    // console.log('pin badge result', res[0]);
     logoHash = res[0];
   }
 
