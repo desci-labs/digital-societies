@@ -10,6 +10,7 @@ import {
 } from "services/credentials/hooks";
 import useIssueCredential from "./useIssueCredential";
 import { Credential, PendingCredential } from "services/credentials/types";
+import { useGetTxStage } from "services/transaction/hooks";
 
 export default function IssuerForm() {
   const {
@@ -20,6 +21,7 @@ export default function IssuerForm() {
   } = useFormContext<IssuerValues>();
   const router = useRouter();
   const { address } = router.query;
+  const stage = useGetTxStage();
   const org = useGetOrg(address as string);
   const credentials = useGetCredentials(org?.address ?? '');
   const { issueCredential, isLoading, isSuccess } = useIssueCredential(org?.address!);
@@ -68,7 +70,7 @@ export default function IssuerForm() {
         disabled={canDisable || !isValid}
         className="mt-10 w-full bg-black disabled:bg-regent-gray"
       >
-        Issue Credential
+        {isLoading ? stage.message || "Loading..." : "Issue Credential"}
       </GradientButton>
     </Form>
   );

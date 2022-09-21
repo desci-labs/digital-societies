@@ -8,7 +8,7 @@ import { useGetOrg } from "services/orgs/hooks";
 import { MetadataValues } from "../types";
 import ImagePreview from "components/UI/ImagePreview";
 import useCreateCredential from "./useCreateCredential";
-import { useGetTxStage, useGetTxState } from "services/transaction/hooks";
+import { useGetTxStage } from "services/transaction/hooks";
 
 export default function CredentialForm() {
   const {

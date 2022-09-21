@@ -34,9 +34,9 @@ export default function TransactionPrompt() {
     if (stage.step === Step.success ||
       stage.step === Step.error) {
       dispatch(setStage({ step: Step.form }))
-    } else {
-      hideModal();
     }
+
+    hideModal();
   }
 
   return (

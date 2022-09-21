@@ -16,10 +16,10 @@ import { useContractWrite } from "wagmi";
 
 export default function useLaunch() {
   const { showModal } = useModalContext();
-  const { updateTx } = useTxUpdator();
-  const factoryContract = useFactoryContract();
   const dispatch = useDispatch();
+  const { updateTx } = useTxUpdator();
   const { form_loading } = useGetTxState();
+  const factoryContract = useFactoryContract();
   const { isLoading, isSuccess, writeAsync } = useContractWrite({
     mode: "recklesslyUnprepared",
     addressOrName: factoryContract.address!,
