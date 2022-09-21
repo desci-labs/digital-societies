@@ -8,6 +8,7 @@ import { useGetOrg } from "services/orgs/hooks";
 import { MetadataValues } from "../types";
 import ImagePreview from "components/UI/ImagePreview";
 import useCreateCredential from "./useCreateCredential";
+import { useGetTxStage, useGetTxState } from "services/transaction/hooks";
 
 export default function CredentialForm() {
   const {
@@ -21,6 +22,7 @@ export default function CredentialForm() {
   const { address } = router.query;
   const org = useGetOrg(address as string);
   const { launch, isLoading, isSuccess } = useCreateCredential(org?.address!);
+  const stage = useGetTxStage();
   const image = watch('banner');
   const logo = watch('badge');
 
@@ -110,7 +112,7 @@ export default function CredentialForm() {
         disabled={canDisable || !isValid}
         className="mt-4 w-full bg-black disabled:bg-regent-gray"
       >
-        Create Credential
+        {isLoading ? stage.message || "submitting..." : "Create Credential"}
       </GradientButton>
     </Form>
   );

@@ -23,7 +23,7 @@ export default function Processing({ message, previewLink, txHash }: BroadcastSt
           <RotatingLines strokeColor="#7B61FF" width="100" strokeWidth="2" />
         </div>
         
-        {txHash && chain?.id && (
+        {chain?.id && (
           <TransactionLink
             name={chain.name}
             url={getTransactionUrl(txHash, chain)}

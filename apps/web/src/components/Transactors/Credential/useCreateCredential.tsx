@@ -1,23 +1,25 @@
 import { useModalContext } from "components/Modal/Modal";
-import ErrorView from "components/ModalViews/Error";
-import Processing from "components/ModalViews/Processing";
-import Success from "components/ModalViews/Success";
-import { useSetTx } from "context/useTx";
+import TransactionPrompt from "components/TransactionStatus/TransactionPrompt";
 import { pinMetadataToIpfs } from "helper/web3";
 import { useSBTContractFactory } from "hooks/useContract";
 import { useDispatch } from "react-redux";
 import { setCredential } from "services/credentials/credentialSlice";
 import { PendingCredential } from "services/credentials/types";
+import { useGetTxState } from "services/transaction/hooks";
+import { setFormError, setFormLoading } from "services/transaction/transactionSlice";
+import { Step } from "services/transaction/types";
+import useTxUpdator from "services/transaction/updators";
 import { useAccount, useContractWrite } from "wagmi";
 import { MetadataValues } from "../types";
 
 export default function useCreateCredential(address: string) {
-  const { showModal } = useModalContext();
-  const { setTx, reset } = useSetTx();
+  const dispatch = useDispatch();
+  const { updateTx } = useTxUpdator();
+  const { form_loading } = useGetTxState();
   const getContract = useSBTContractFactory();
   const tokenContract = getContract(address);
-  const dispatch = useDispatch();
   const { address: mintedBy } = useAccount();
+  const { showModal } = useModalContext();
 
   const { isLoading, isSuccess, writeAsync } = useContractWrite({
     mode: "recklesslyUnprepared",
@@ -28,33 +30,38 @@ export default function useCreateCredential(address: string) {
 
   async function launch(metadata: MetadataValues) {
     try {
+
       if (!mintedBy) throw Error("Check wallet connection and try again!!!");
-      reset();
-      
+
       if (!metadata.banner.ipfsHash && !metadata.banner.file) throw new Error("Please select a banner image to upload");
       if (!metadata.badge.ipfsHash && !metadata.badge.file) throw new Error("Please select a badge icon to upload");
-      
-      showModal(Processing, { message: 'Pining Metadata to ipfs...' });
-      const cid = await pinMetadataToIpfs(metadata)
 
-      showModal(Processing, { message: 'Confirming transaction...' })
+      dispatch(setFormLoading(true));
+      updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
+
+      const cid = await pinMetadataToIpfs(metadata);
+
+      updateTx({ step: Step.submit, message: "Confirming transaction..." });
       const tx = await writeAsync({
         recklesslySetUnpreparedArgs: cid,
       });
-      setTx({ txHash: tx.hash, message: 'Minting new type...' })
+
       const typeId = await tokenContract.totalTypes();
 
       const credential: PendingCredential = { id: typeId + 1, cid, address, mintedBy, metadata, pending: true, dateCreated: Date.now() };
       dispatch(setCredential({ address, credential }))
-      showModal(Processing, { message: 'Confirming transaction...', previewLink: `/credentials/${typeId + 1}?address=${address}` })
+      updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Deploying ${metadata.name} credential`, previewLink: { href: `/credentials/${typeId + 1}?address=${address}`, caption: "Preview" } });
+      showModal(TransactionPrompt, {});
       await tx.wait();
-      
-      showModal(Success, { previewLink: `/credentials/${typeId + 1}?address=${address}`, message: '' });
+
+      dispatch(setFormLoading(false));
+      updateTx({ step: Step.success, message: "", txHash: tx.hash, previewLink: { href: `orgs/${address}`, caption: "View" } });
     } catch (e: any) {
-      console.log('Error ', e?.data?.message, e?.message);
-      showModal(ErrorView, { message: "Error processing transaction", })
+      updateTx({ step: Step.error, message: "Error processing transaction!!!" });
+      dispatch(setFormLoading(false));
+      dispatch(setFormError({ title: `Error deploying ${metadata.name}`, details: "" }));
     }
 
   }
-  return { launch, isLoading, isSuccess };
+  return { launch, isLoading: form_loading || isLoading, isSuccess };
 }
