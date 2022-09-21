@@ -53,7 +53,7 @@ export default function useIssueCredential(address: string) {
       const tx = await writeAsync({
         recklesslySetUnpreparedArgs: args,
       });
-      setTx({ txInfo: tx, message: "Issuing Credential..." });
+      setTx({ txHash: tx.hash, message: "Issuing Credential..." });
 
       // preset issued tokens
       setTokens(metadata.addresses.split(",").map((v) => v.trim()), metadata.credential);

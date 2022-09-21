@@ -13,6 +13,15 @@ const slice = createSlice({
     setFormError: (state, { payload }: PayloadAction<FormError | null>) => {
       console.log('set error payload', payload);
       console.log('set error state', state);
+      if (!payload) {
+        state.form_error = "";
+      } else if (typeof payload === "string") {
+        state.form_error = { title: payload };
+      } else {
+        state.form_error = payload;
+      }
+
+      state.form_loading = false;
     },
     resetTxFormState: (state) => {
       state.form_error = "";

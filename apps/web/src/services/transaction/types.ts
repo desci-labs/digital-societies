@@ -1,3 +1,5 @@
+import { Transaction } from "ethers";
+
 export enum Step {
   form = "form",
   submit = "submit",
@@ -9,7 +11,7 @@ export enum Step {
 export type FormError =
   | {
       title: string;
-      details: string;
+      details?: string;
     }
   | string;
 
@@ -29,7 +31,7 @@ export type InitialStage = {
 
 export type SubmitStage = {
   step: Step.submit;
-  message: never;
+  message: string;
   txHash?: never;
   txInfo?: never;
   details?: never;
@@ -37,8 +39,8 @@ export type SubmitStage = {
 
 export type BroadcastStage = {
   step: Step.broadcast;
-  message: never;
-  txHash: never;
+  message: string;
+  txHash: string;
   txInfo?: never;
   details?: never;
   previewLink?: PreviewLink;
@@ -48,22 +50,19 @@ export type SuccessLink = { url: string; description: string }
 export type PreviewLink = { href: string; caption: string }
 export type SuccessStage = {
   step: Step.success;
-  message: never;
-  txHash: never;
-  txInfo?: never;
-  details?: never;
+  message: string;
+  txHash: string;
+  txInfo?: Transaction;
   successLink?: SuccessLink;
   previewLink?: PreviewLink;
 };
 
 export type ErrorStage = {
   step: Step.error;
-  message: never;
-  txHash?: never;
+  message: string;
+  txHash?: string;
   txInfo?: never;
   details?: never;
-  successLink?: SuccessLink;
-  previewLink?: PreviewLink;
 };
 
 export type Stage = InitialStage | SubmitStage | BroadcastStage | SuccessStage | ErrorStage;

@@ -1,13 +1,14 @@
+import { ethers } from "ethers";
 import { createContext, useContext, useState } from "react";
 
 export type ActionTypes = "DeploySBT" | "UpdateSBT" | "IssueSBT";
 
 export interface Tx {
-  txInfo?: any;
+  txHash? :string;
   type?: ActionTypes | "none";
   message?: string;
 }
-const initialState: Tx = { txInfo: null, type: 'none' };
+const initialState: Tx = { type: 'none' };
 export const getContext = createContext<Tx>(initialState);
 export const setContext = createContext({
   setTx: (tx: Tx) => { },

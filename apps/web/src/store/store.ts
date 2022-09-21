@@ -1,13 +1,15 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { persistReducer, persistStore, createMigrate, PersistedState, PersistState } from "redux-persist";
+import { persistReducer, persistStore, createMigrate, PersistedState } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import credentialSlice from "services/credentials/credentialSlice";
 import orgSlice from "services/orgs/orgSlice";
 import thunk from 'redux-thunk';
+import transactionSlice from "services/transaction/transactionSlice";
 
 const rootReducer = combineReducers({
   org: orgSlice,
-  credential: credentialSlice
+  credential: credentialSlice,
+  transaction: transactionSlice,
 });
 
 const migrations = {

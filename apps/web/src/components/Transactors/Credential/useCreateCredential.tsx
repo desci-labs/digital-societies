@@ -41,7 +41,7 @@ export default function useCreateCredential(address: string) {
       const tx = await writeAsync({
         recklesslySetUnpreparedArgs: cid,
       });
-      setTx({ txInfo: tx, message: 'Minting new type...' })
+      setTx({ txHash: tx.hash, message: 'Minting new type...' })
       const typeId = await tokenContract.totalTypes();
 
       const credential: PendingCredential = { id: typeId + 1, cid, address, mintedBy, metadata, pending: true, dateCreated: Date.now() };

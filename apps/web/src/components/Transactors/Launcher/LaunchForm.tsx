@@ -20,7 +20,7 @@ export default function LaunchForm() {
   const image = watch('banner');
   const badge = watch('badge');
   const canDisable = useMemo(() => isSubmitting || isLoading, [isSubmitting, isLoading])
-
+  console.log('disable ', isSubmitting, isLoading)
   useEffect(() => {
     if (isSuccess) reset();
   }, [isSuccess, reset]);

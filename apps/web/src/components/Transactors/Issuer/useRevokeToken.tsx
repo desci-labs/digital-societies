@@ -38,7 +38,7 @@ export default function useRevokeToken(address: string) {
       dispatch(removeToken({ address, tokenId: token.tokenId }));
       dispatch(addRevocation({ org: address, token: { tokenId: token.tokenId, revokedBy: account!, owner: token.owner, timestamp: Date.now() } }))
       
-      setTx({ txInfo: tx, message: 'Revoking Credential...' })
+      setTx({ txHash: tx.hash, message: 'Revoking Credential...' })
       await tx.wait();
       showModal(Success, { message: `Credential successfully revoked ` });
     } catch (e: any) {

@@ -8,7 +8,7 @@ export default function TransactionLink(props: { name: string; url: string }) {
         href={props.url}
         target="_blank"
       >
-        View transaction on explorer
+        view transaction status
       </a>
     </div>
   );

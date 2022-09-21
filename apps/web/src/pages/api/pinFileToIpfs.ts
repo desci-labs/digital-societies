@@ -42,7 +42,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
       const uploads = [];
       for (let filepath of fileList) {
         const result = await pinata.pinFromFS(filepath, {});
-        console.log('cid', result);
         fs.unlink(filepath, (err) => {
         });
         uploads.push(result.IpfsHash);

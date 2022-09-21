@@ -15,7 +15,7 @@ export default function Success({
 }) {
   const { chain } = useNetwork();
   const { hideModal } = useModalContext();
-  const { txInfo, message } = useGetTx();
+  const { txHash, message } = useGetTx();
   const feedback = text ?? message;
   const router = useRouter();
 
@@ -45,10 +45,10 @@ export default function Success({
               {feedback}
             </p>
           )}
-          {txInfo && txInfo.hash && chain?.id && (
+          {txHash && chain?.id && (
             <TransactionLink
               name={chain.name}
-              url={getTransactionUrl(txInfo.hash, chain)}
+              url={getTransactionUrl(txHash, chain)}
             />
           )}
           <div className="flex justify-evenly items-center gap-x-2">

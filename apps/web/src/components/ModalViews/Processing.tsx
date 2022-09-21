@@ -10,7 +10,7 @@ import TransactionLink from "../TransactionStatus/TransactionLink";
 export default function Processing({ message, previewLink }: { message: string, previewLink?: string; }) {
   const { hideModal } = useModalContext();
   const { chain } = useNetwork();
-  const { txInfo, message: text } = useGetTx();
+  const { txHash, message: text } = useGetTx();
   const router = useRouter();
 
   const preview = (path: string) => {
@@ -36,10 +36,10 @@ export default function Processing({ message, previewLink }: { message: string, 
           <p className="font-semibold text-regent-gray capitalize text-lg">
             {message || text || "Processing your transaction..."}
           </p>
-          {txInfo && txInfo.hash && chain?.id && (
+          {txHash && chain?.id && (
             <TransactionLink
               name={chain.name}
-              url={getTransactionUrl(txInfo.hash, chain)}
+              url={getTransactionUrl(txHash, chain)}
             />
           )}
           {previewLink ? (

@@ -32,7 +32,7 @@ export default function useRemoveDelegate(address: string) {
       const tx = await writeAsync({
         recklesslySetUnpreparedArgs: [DELEGATE_ROLE, delegate],
       });
-      setTx({ txInfo: tx, message: 'Revoking role...' })
+      setTx({ txHash: tx.hash, message: 'Revoking role...' })
       dispatch(removeDelegate({ org: address, delegate: delegate }))
       await tx.wait();
       showModal(Success, { message: `Delegate removed `});

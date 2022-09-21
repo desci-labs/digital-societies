@@ -1,27 +1,32 @@
 import { useModalContext } from "components/Modal/Modal";
-import { IoMdClose } from "react-icons/io";
+import { AiOutlineInfoCircle } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import { setStage } from "services/transaction/transactionSlice";
+import { Step } from "services/transaction/types";
 
-export default function Error({ message }: { message: string }) {
+export default function ErrorPop({ message }: { message: string }) {
   const { hideModal } = useModalContext();
+  const dispatch = useDispatch();
+
+  const close = () => {
+    dispatch(setStage({ step: Step.form }));
+    hideModal();
+  };
 
   return (
-    <div className="bg-white rounded-xl overflow-hidden shadow-xl transform transition-all sm:max-w-md sm:w-full">
-      <div className="bg-white p-4">
-        <div className="cancel flex justify-end">
-          <button
-            onClick={hideModal}
-            className="bg-wild-sand w-8 h-8 hover:bg-regent-gray hover:bg-opacity-50 rounded-full flex items-center justify-center w-full"
-          >
-            <IoMdClose />
-          </button>
-        </div>
-        <div className="flex flex-col items-center justify-center">
-          <p className="text-3xl mb-5">❌</p>
-          <p className="font-semibold text-regent-gray capitalize text-lg">
-            {message}
-          </p>
-        </div>
+    <div className="w-full">
+      <div className="flex flex-col items-center justify-center">
+        <p className="text-3xl mb-5"><AiOutlineInfoCircle size={35} className="text-crimson" /></p>
+        <p className="font-semibold text-md">
+          {message}
+        </p>
       </div>
+      <button
+        className="tracking-wide text-lg text-white rounded-lg w-full mt-5 py-1.5 px-4 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 outline-none"
+        onClick={close}
+      >
+        ok
+      </button>
     </div>
   );
 }

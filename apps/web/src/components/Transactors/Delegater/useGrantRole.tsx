@@ -33,7 +33,7 @@ export default function useGrantRole(address: string) {
       const tx = await writeAsync({
         recklesslySetUnpreparedArgs: args,
       });
-      setTx({ txInfo: tx, message: 'Delegate role granted' })
+      setTx({ txHash: tx.hash, message: 'Delegate role granted' })
       dispatch(addDelegate({ org: address, delegate: metadata.delegate }))
       await tx.wait();
       showModal(Success, {});
