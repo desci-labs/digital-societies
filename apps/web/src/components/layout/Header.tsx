@@ -1,4 +1,5 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import TransactionHint from 'components/TransactionStatus/TransactionHint';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
@@ -23,6 +24,7 @@ export default function Header() {
           <a className="font-semibold text-regent-gray text-lg hover:text-dark capitalize">Launch an organisation</a>
         </Link>}
       </div>
+      <TransactionHint />
       <div>
         <ConnectButton showBalance={false} />
       </div>

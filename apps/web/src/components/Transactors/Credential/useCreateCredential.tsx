@@ -38,9 +38,9 @@ export default function useCreateCredential(address: string) {
 
       dispatch(setFormLoading(true));
       updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
-
+      
       const cid = await pinMetadataToIpfs(metadata);
-
+      
       updateTx({ step: Step.submit, message: "Confirming transaction..." });
       const tx = await writeAsync({
         recklesslySetUnpreparedArgs: cid,

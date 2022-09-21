@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { AiOutlineClose } from "react-icons/ai"
 import { useDispatch } from "react-redux";
 import { useGetTxStage } from "services/transaction/hooks";
-import { setStage } from "services/transaction/transactionSlice";
+import { resetTxFormState, setStage } from "services/transaction/transactionSlice";
 import { Step } from "services/transaction/types";
 import ErrorPop from "./Error";
 import Processing from "./Processing";
@@ -35,13 +35,12 @@ export default function TransactionPrompt() {
       stage.step === Step.error) {
       dispatch(setStage({ step: Step.form }))
     }
-
     hideModal();
   }
 
   return (
     <div
-      className="min-w-45 max-w-104 p-10 pb-5 relative bg-white rounded-md overflow-scroll fixed-center z-20 min-h-120 max-h-200 scroll-hidden"
+      className="min-w-120 p-5 relative bg-white rounded-md overflow-scroll fixed-center z-20 min-h-120 max-h-200 scroll-hidden"
     >
       <div className="flex justify-end absolute right-0 top-0">
         <button

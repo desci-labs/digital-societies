@@ -2,7 +2,7 @@ import '../styles/globals.css';
 import '@rainbow-me/rainbowkit/styles.css';
 import type { AppProps } from 'next/app';
 import AppProviders from 'providers/AppProviders';
-import Layout from 'layout';
+import Layout from 'components/layout';
 import { Provider } from 'react-redux';
 import { store, persistor } from 'store/store';
 import { PersistGate } from 'redux-persist/integration/react';

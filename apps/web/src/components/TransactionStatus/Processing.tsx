@@ -34,7 +34,7 @@ export default function Processing({
           />
         )}
         {message && (
-          <p className="font-semibold text-regent-gray capitalize text-lg">
+          <p className="font-semibold text-regent-gray capitalize text-lg my-2">
             {message}
           </p>
         )}

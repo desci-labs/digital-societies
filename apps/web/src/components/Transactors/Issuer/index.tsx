@@ -8,6 +8,7 @@ import { Credential, PendingCredential } from "services/credentials/types";
 export type Props = { credential: Credential | PendingCredential; Form: FC };
 
 export default function Issuer({ credential, Form }: Props) {
+  
   if (!credential) throw Error("Credential data is required");
 
   const methods = useForm<IssuerValues>({

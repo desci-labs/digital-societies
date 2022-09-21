@@ -7,7 +7,7 @@ export function useGetCredentialState() {
 
 export function useGetCredentials(address: string) {
   const { credentials } = useGetter(state => state.credential);
-  return credentials[address] ?? [];
+  return credentials[address].filter(c => c.metadata !== null) ?? [];
 }
 
 export function useGetCredential(address: string, id: number) {

@@ -25,9 +25,10 @@ const migrations = {
 
 const persistConfig = {
   key: 'root',
-  version: 1,
+  version: 3,
   storage,
-  migrate: createMigrate(migrations)
+  migrate: createMigrate(migrations),
+  blacklist: ['transaction'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

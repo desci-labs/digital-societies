@@ -7,7 +7,6 @@ import IssuerForm from "./IssuerForm";
 
 export default function useIssuer(credential: Credential | PendingCredential) {
   const { showModal } = useModalContext();
-
   const showIssuer = useCallback(() => {
     showModal<TxProps<Props>>(Transactor, {
       Content: Issuer,

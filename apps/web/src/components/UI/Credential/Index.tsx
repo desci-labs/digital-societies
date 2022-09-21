@@ -49,26 +49,11 @@ export function CredentialGridView({ address }: { address: string }) {
       {credentials && (
         <div className="grid grid-cols-1 lg:grid-cols-3 content-start gap-y-10 place-items-start mt-5 mb-10">
           {credentials.map((credential, idx) => (
-            <CredentialCard key={idx} credential={credential} />
+            <MetadataCard key={idx} metadata={credential.metadata} link={`/credentials/${credential.id}?address=${credential.address}`} />
           ))}
         </div>
       )}
     </div>
-  );
-}
-
-export function CredentialCard({ credential }: { credential: Credential | PendingCredential }) {
-  const org = useGetOrg(credential.address);
-  const metadata = useMemo(
-    () => credential?.metadata ?? org?.metadata,
-    [credential, org]
-  );
-
-  return (
-    <MetadataCard
-      link={`/credentials/${credential.id}?address=${credential.address}`}
-      metadata={metadata}
-    />
   );
 }
 
@@ -80,6 +65,9 @@ export function MetadataCard({
   metadata: Metadata | MetadataValues;
 }) {
   const router = useRouter();
+  
+  if (!metadata) return null;
+
   return (
       <div onClick={() => router.push(link)} className="min-w-80 w-80 h-96 rounded-lg shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden">
         <div className="w-80 h-48 relative rounded-lg">
