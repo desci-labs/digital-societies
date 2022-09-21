@@ -23,7 +23,7 @@ export default function Processing({
   return (
     <div className="w-full">
       <div className="flex flex-col items-center justify-center">
-        <div className="flex flex-row justify-center items-center mb-5">
+        <div className="flex flex-row justify-center items-center mb-2">
           <RotatingLines strokeColor="#7B61FF" width="100" strokeWidth="2" />
         </div>
 

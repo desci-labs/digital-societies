@@ -1,21 +1,25 @@
 import { useModalContext } from "components/Modal/Modal";
-import ErrorView from "components/ModalViews/Error";
-import Processing from "components/ModalViews/Processing";
-import Success from "components/ModalViews/Success";
+import TransactionPrompt from "components/TransactionStatus/TransactionPrompt";
 import { DELEGATE_ROLE } from "constants/roles";
-import { useSetTx } from "context/useTx";
 import { useSBTContractFactory } from "hooks/useContract";
 import { useDispatch } from "react-redux";
 import { addDelegate } from "services/orgs/orgSlice";
+import { useGetOrg } from "services/orgs/hooks";
+import { useGetTxState } from "services/transaction/hooks";
+import { setFormError, setFormLoading } from "services/transaction/transactionSlice";
+import { Step } from "services/transaction/types";
+import useTxUpdator from "services/transaction/updators";
 import { useContractWrite } from "wagmi";
 import { DelegaterValues } from "../types";
 
 export default function useGrantRole(address: string) {
   const { showModal } = useModalContext();
-  const { setTx, reset } = useSetTx();
+  const dispatch = useDispatch();
+  const org = useGetOrg(address);
+  const { updateTx } = useTxUpdator();
+  const { form_loading } = useGetTxState();
   const getContract = useSBTContractFactory();
   const tokenContract = getContract(address);
-  const dispatch = useDispatch();
 
   const { isLoading, isSuccess, writeAsync } = useContractWrite({
     mode: "recklesslyUnprepared",
@@ -26,22 +30,31 @@ export default function useGrantRole(address: string) {
 
   async function grantRole(metadata: DelegaterValues) {
     try {
-      reset();
-      
-      showModal(Processing, { message: 'Confirming transaction...' })
+      if (org?.delegates?.includes(metadata.delegate)) return;
+      dispatch(setFormLoading(true));
+      updateTx({ step: Step.submit, message: "Confirm transaction..." })
+
       const args = [DELEGATE_ROLE, metadata.delegate]
       const tx = await writeAsync({
         recklesslySetUnpreparedArgs: args,
       });
-      setTx({ txHash: tx.hash, message: 'Delegate role granted' })
+
+      showModal(TransactionPrompt, {});
       dispatch(addDelegate({ org: address, delegate: metadata.delegate }))
+      updateTx({ step: Step.broadcast, txHash: tx.hash, message: "Adding delegate..." })
+
       await tx.wait();
-      showModal(Success, {});
+
+      dispatch(setFormLoading(false));
+      updateTx({ step: Step.success, txHash: tx.hash, message: "" })
     } catch (e: any) {
+      dispatch(setFormLoading(false));
       console.log('Error ', e?.data?.message, e?.message);
-      showModal(ErrorView, { message: "Error processing transaction", })
+      updateTx({ step: Step.error, message: "An error occured while adding delegate" });
+      dispatch(setFormLoading(false));
+      dispatch(setFormError(e?.data?.message ?? e?.message));
     }
 
   }
-  return { grantRole, isLoading, isSuccess };
+  return { grantRole, isLoading: isLoading || form_loading, isSuccess };
 }

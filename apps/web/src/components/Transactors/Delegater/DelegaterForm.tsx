@@ -1,4 +1,4 @@
-import { useRouter }  from "next/router";
+import { useRouter } from "next/router";
 import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
@@ -6,6 +6,7 @@ import { GradientButton, Form, InputRow, Input } from "components/Form/Index";
 import { useGetOrg } from "services/orgs/hooks";
 import { DelegaterValues } from "../types";
 import useGrantRole from "./useGrantRole";
+import { useGetTxStage } from "services/transaction/hooks";
 
 export default function DelegaterForm() {
   const {
@@ -15,6 +16,7 @@ export default function DelegaterForm() {
     formState: { isSubmitting, isValid, errors },
   } = useFormContext<DelegaterValues>();
   const router = useRouter();
+  const stage = useGetTxStage();
   const { address } = router.query;
   const org = useGetOrg(address as string);
   const { grantRole, isLoading, isSuccess } = useGrantRole(org?.address!);
@@ -34,7 +36,7 @@ export default function DelegaterForm() {
         label="Organisation"
         className="text-sm"
       >
-       <Input {...register('org')} disabled />
+        <Input {...register('org')} disabled />
       </InputRow>
       <InputRow
         htmlFor="delegate"
@@ -56,7 +58,7 @@ export default function DelegaterForm() {
         disabled={canDisable || !isValid}
         className="mt-10 w-full bg-black disabled:bg-regent-gray"
       >
-        Grant role
+        {isLoading ? stage.message || "Loading..." : "Grant role"}
       </GradientButton>
     </Form>
   );

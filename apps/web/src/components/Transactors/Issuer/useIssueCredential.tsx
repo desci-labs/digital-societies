@@ -12,13 +12,13 @@ import { useAccount, useContractWrite } from "wagmi";
 import { IssuerValues } from "../types";
 
 export default function useIssueCredential(address: string) {
-  const { showModal } = useModalContext();
-  const { updateTx } = useTxUpdator();
-  const getContract = useSBTContractFactory();
-  const { address: account } = useAccount();
-  const tokenContract = getContract(address);
   const dispatch = useDispatch();
+  const { updateTx } = useTxUpdator();
+  const { showModal } = useModalContext();
   const { form_loading } = useGetTxState();
+  const { address: account } = useAccount();
+  const getContract = useSBTContractFactory();
+  const tokenContract = getContract(address);
   const { isLoading, isSuccess, writeAsync } = useContractWrite({
     mode: "recklesslyUnprepared",
     addressOrName: tokenContract.address!,

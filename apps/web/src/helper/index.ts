@@ -32,6 +32,8 @@ export async function asyncMap<T, E>(arr: E[], predicate: any): Promise<T[]> {
 export const shortenText = (text: string, charCount: number = 100) =>
   text.length > charCount ? `${text.substring(0, charCount)}...` : text;
 
+export const shortenAddress = (address: string) => shortenText(address, 10)
+
 export function maskAddress(addr?: string) {
   const nChars = 6;
   if (!addr) {

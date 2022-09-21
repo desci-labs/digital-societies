@@ -4,6 +4,7 @@ import Processing from "components/ModalViews/Processing";
 import Success from "components/ModalViews/Success";
 import { DELEGATE_ROLE } from "constants/roles";
 import { useSetTx } from "context/useTx";
+import { maskAddress } from "helper";
 import { useSBTContractFactory } from "hooks/useContract";
 import { useDispatch } from "react-redux";
 import { removeDelegate } from "services/orgs/orgSlice";
@@ -35,10 +36,10 @@ export default function useRemoveDelegate(address: string) {
       setTx({ txHash: tx.hash, message: 'Revoking role...' })
       dispatch(removeDelegate({ org: address, delegate: delegate }))
       await tx.wait();
-      showModal(Success, { message: `Delegate removed `});
+      showModal(Success, { message: `Delegate role revoked for ${maskAddress(delegate.toLowerCase())}`});
     } catch (e: any) {
       console.log('Error ', e?.data?.message, e?.message);
-      showModal(ErrorView, { message: "Error processing transaction", })
+      showModal(ErrorView, { message: `Error revoking role for ${maskAddress(delegate.toLowerCase())}`, })
     }
 
   }
