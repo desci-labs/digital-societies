@@ -4,7 +4,7 @@ import { getTransactionUrl } from "helper/web3";
 import { useRouter } from "next/router";
 import { IoMdClose } from "react-icons/io";
 import { useNetwork } from "wagmi";
-import TransactionLink from "../TransactionStatus/TransactionLink";
+import TransactionLink from "./TransactionLink";
 
 export default function Success({
   message: text,

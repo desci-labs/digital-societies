@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { IoMdClose } from "react-icons/io";
 import { RotatingLines } from "react-loader-spinner";
 import { useNetwork } from "wagmi";
-import TransactionLink from "../TransactionStatus/TransactionLink";
+import TransactionLink from "./TransactionLink";
 
 export default function Processing({ message, previewLink }: { message: string, previewLink?: string; }) {
   const { hideModal } = useModalContext();
