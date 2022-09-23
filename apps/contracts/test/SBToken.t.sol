@@ -112,6 +112,14 @@ contract SBTokenTest is SBFactory, Test {
         assertEq(sbt.ownerOf(1), alice);
         assertEq(sbt.tokenToMinter(1), admin);
     }
+    function tesCannotIssueCredentialTwice() public {
+        uint16 _type = _mintTokenType();
+        sbt.mint(alice, _type);
+        vm.expectRevert(
+            bytes(string(abi.encodePacked("Duplicate credential")))
+        );
+        sbt.mint(alice, _type);
+    }
     function testAdminRevokeSBToken() public {
         uint16 _type = _mintTokenType();
         sbt.mint(alice, _type);
