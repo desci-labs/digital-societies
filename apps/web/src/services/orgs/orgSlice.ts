@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { compareMetadata } from "helper";
 import { FactoryState, Org, PendingOrg, Revoked } from "./types";
 
 const initialState: FactoryState = { data: [], isLoading: true };
@@ -18,12 +19,18 @@ const slice = createSlice({
       }
 
       const updatable = payload.filter(data => {
+        console.log('payload ', data.cid, data.metadata?.name)
         if (data.metadata === null) return false;
         const prev = state.data.find(org => org.address === data.address);
         if (!prev) return true;
         if (prev?.pending === true && data.metadata !== null) return true;
-
-        return false;
+        
+        if (data.cid !== prev.cid) return true;
+      
+        // check diff in metadata
+        const canUpdate = compareMetadata(prev.metadata, data.metadata);
+        console.log('update org', prev.metadata.name, data.metadata.name, canUpdate);
+        return canUpdate;
       });
 
       state.data = state.data.filter(org => {
@@ -45,8 +52,19 @@ const slice = createSlice({
           if (org.address === payload.address) return payload;
           return org;
         })
+      } else {
+        const canUpdate = compareMetadata(prev.metadata, payload.metadata);
+
+        if (canUpdate) {
+          state.data = state.data.map(org => {
+            if (org.address === payload.address) return payload;
+            return org;
+          })
+        }
       }
+      
     },
+
     setIsLoading: (state, { payload }: PayloadAction<boolean>) => {
       state.isLoading = payload;
     },

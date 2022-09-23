@@ -21,5 +21,5 @@ export const useSBTContractFactory = () => {
   const library = useProvider();
   const contract = getContract(Contracts.SBToken);
 
-  return (address: string): Contract => new ethers.Contract(address, contract?.artifact!, library)
+  return (address: string): Contract | undefined => address ? new ethers.Contract(address, contract?.artifact!, library) : undefined;
 };

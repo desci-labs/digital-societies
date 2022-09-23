@@ -14,19 +14,25 @@ export function useGetOrg(address: string) {
   return data.find((org) => org.address === address);
 }
 
-export function useIsAdmin(address: string, user: string) {
+export function useIsAdmin(address: string) {
+  const account = useAccount();
   const org = useGetOrg(address);
-  return org?.admin === user;
+  return org?.admin === account.address;
 }
 
-export function useIsDelegate(address: string, user: string) {
+export function useIsDelegate(address: string) {
+  const { address: user } = useAccount();
   const org = useGetOrg(address);
   return !!org?.delegates.some((member) => member === user);
 }
 
+export function useCanMintCredential(address: string) {
+  const isDelegate = useIsDelegate(address);
+  const isAdmin = useIsAdmin(address,);
+  return isDelegate || isAdmin;
+}
+
 export function useCanMutateOrg(address: string) {
-  const account = useAccount();
-  const isAdmin = useIsAdmin(address, account.address ?? "");
-  const isDelegate = useIsDelegate(address, account.address ?? "");
-  return isAdmin || isDelegate;
+  const isAdmin = useIsAdmin(address);
+  return isAdmin;
 }

@@ -174,7 +174,7 @@ contract SBToken is ERC721, AccessControlEnumerable {
         public
         onlyRole(DEFAULT_ADMIN_ROLE)
     {
-        _contractURI = contractURI_; //  string(abi.encodePacked(contractURI_));
+        _contractURI = contractURI_;
     }
 
     //@notice Function to add or update metadata of a SBT type

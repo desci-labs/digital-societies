@@ -11,8 +11,6 @@ const slice = createSlice({
       state.form_loading = payload;
     },
     setFormError: (state, { payload }: PayloadAction<FormError | null>) => {
-      console.log('set error payload', payload);
-      console.log('set error state', state);
       if (!payload) {
         state.form_error = "";
       } else if (typeof payload === "string") {

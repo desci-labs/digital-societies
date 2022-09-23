@@ -2,7 +2,7 @@ import { CID } from "multiformats/cid";
 import { base16 } from "multiformats/bases/base16";
 import { FileObject } from "components/FileDropzone/types";
 import { W3S_IPFS_GATEWAY } from "pages/api/constants";
-import { MetadataValues } from "components/Transactors/types";
+import { Metadata, MetadataValues } from "components/Transactors/types";
 import fallbackImg from "assets/fallback.png";
 
 export const resolveIpfsURL = (hash: string) => `${W3S_IPFS_GATEWAY}${hash}`;
@@ -32,7 +32,7 @@ export async function asyncMap<T, E>(arr: E[], predicate: any): Promise<T[]> {
 export const shortenText = (text: string, charCount: number = 100) =>
   text.length > charCount ? `${text.substring(0, charCount)}...` : text;
 
-export const shortenAddress = (address: string) => shortenText(address, 10)
+export const shortenAddress = (address: string) => shortenText(address, 10);
 
 export function maskAddress(addr?: string) {
   const nChars = 6;
@@ -58,17 +58,19 @@ export const getImageURL = (image: string | FileObject) => {
   return url;
 };
 
-export const flattenMetadata = async (metadata: MetadataValues): Promise<MetadataValues> => {
+export const flattenMetadata = async (
+  metadata: MetadataValues
+): Promise<MetadataValues> => {
   const meta = { ...metadata };
 
   try {
     if (metadata.banner.file) {
-      const image = await toBase64(metadata.banner.file)
+      const image = await toBase64(metadata.banner.file);
       meta.banner.base64 = image;
     }
 
     if (metadata.badge.file) {
-      const logo = await toBase64(metadata.banner.file)
+      const logo = await toBase64(metadata.banner.file);
       meta.badge.base64 = logo;
     }
 
@@ -76,11 +78,37 @@ export const flattenMetadata = async (metadata: MetadataValues): Promise<Metadat
   } catch (e) {
     return metadata;
   }
-}
+};
 
-const toBase64 = (file: File): Promise<string> => new Promise((resolve, reject) => {
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = () => resolve(reader.result as string);
-  reader.onerror = error => reject(error);
-});
+const toBase64 = (file: File): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
+
+export const compareMetadata = (
+  old: Metadata | MetadataValues,
+  meta: Metadata | MetadataValues
+): boolean => {
+  console.log('compare ', typeof old.badge, typeof meta.badge);
+  if (
+    old.name !== meta.name ||
+    old.symbol !== meta.symbol ||
+    old.description !== meta.description ||
+    old.external_link !== meta.external_link
+  )
+    return true;
+
+  if (typeof old.badge !== typeof meta.badge) return true;
+  if (typeof old.banner !== typeof meta.banner) return true;
+
+  if (typeof old.badge === "string" && old.badge !== meta.badge) return true;
+  if (typeof old.banner === "string" && old.banner !== meta.banner) return true;
+
+  if (typeof old.badge == "object" || typeof meta.badge === "object")
+    return true;
+
+  return false;
+};

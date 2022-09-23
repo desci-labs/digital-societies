@@ -2,12 +2,14 @@ import FileDropzone from "components/FileDropzone";
 import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import useLaunch from "./useLaunch";
 import { GradientButton, Form, Input, InputRow } from "components/Form/Index";
 import { MetadataValues } from "../types";
 import ImagePreview from "components/UI/ImagePreview";
+import useUpdate from "./useUpdate";
+import { useRouter } from "next/router";
+import { useModalContext } from "components/Modal/Modal";
 
-export default function LaunchForm() {
+export default function UpdateForm() {
   const {
     register,
     handleSubmit,
@@ -15,19 +17,30 @@ export default function LaunchForm() {
     watch,
     formState: { isSubmitting, isValid, errors },
   } = useFormContext<MetadataValues>();
-  const { launch, isLoading, isSuccess } = useLaunch();
+  const router = useRouter();
+  const { address } = router.query;
+  const { hideModal } = useModalContext();
+  const { run, isLoading, isSuccess } = useUpdate(address as string);
 
   const image = watch('banner');
   const badge = watch('badge');
+  
   const canDisable = useMemo(() => isSubmitting || isLoading, [isSubmitting, isLoading])
 
   useEffect(() => {
     if (isSuccess) reset();
   }, [isSuccess, reset]);
 
+  useEffect(() => {
+    if (!address) {
+      hideModal();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [address])
+
 
   return (
-    <Form onSubmit={handleSubmit(launch)} title="Launch Organisation" className="mb-10 bg-white">
+    <Form onSubmit={handleSubmit(run)} title="Update Organisation" className="mb-10 bg-white">
       <InputRow
         htmlFor="issuer"
         label="Issuer:"
@@ -104,7 +117,7 @@ export default function LaunchForm() {
         disabled={canDisable || !isValid}
         className="mt-4 w-full bg-black disabled:bg-regent-gray"
       >
-        Deploy organisation
+        Update Organisation
       </GradientButton>
     </Form>
   );

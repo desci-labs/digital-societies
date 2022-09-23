@@ -54,9 +54,10 @@ export default function FactoryUpdater() {
     return revocations;
   }
 
-  async function getContractInfofromEvent(event: ethers.Event): Promise<Org> {
+  async function getContractInfofromEvent(event: ethers.Event): Promise<Org | null> {
     const block = await provider.getBlock(event.blockNumber);
     const contract = getContract(event.args?.token ?? event.args?.[1]);
+    if (!contract) return null;
     const admin = await contract.getRoleMember(DEFAULT_ADMIN_ROLE, 0);
     const delegates = await getDelegates(contract);
     let cid = await contract.contractURI();
@@ -78,8 +79,8 @@ export default function FactoryUpdater() {
     async () => {
       if (!block || !contract) return;
 
-      if (block - lastUpdated < 10 && orgs.length > 0) return;
-
+      if (block - lastUpdated < 10) return;
+      
       try {
         const lastQuery = await provider.getBlockNumber();
         const filter = contract.filters.TokenCreated();
@@ -88,7 +89,10 @@ export default function FactoryUpdater() {
           lastUpdated ? lastUpdated - 10 : FACTORY_DEPLOY_BLOCK
         );
         const results = await Promise.all(events.map(getContractInfofromEvent));
-        dispatch(setOrgs(results));
+        const final = results.filter(Boolean) as Org[];
+        if (results.length > 0) {
+          dispatch(setOrgs(final));
+        }
         dispatch(setIsLoading(false));
         setLastUpdated(lastQuery);
       } catch (e) {

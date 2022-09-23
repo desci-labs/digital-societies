@@ -23,13 +23,15 @@ export default function useGrantRole(address: string) {
 
   const { isLoading, isSuccess, writeAsync } = useContractWrite({
     mode: "recklesslyUnprepared",
-    addressOrName: tokenContract.address!,
-    contractInterface: tokenContract.interface!,
+    addressOrName: tokenContract?.address!,
+    contractInterface: tokenContract?.interface!,
     functionName: "grantRole",
   });
 
   async function grantRole(metadata: DelegaterValues) {
     try {
+      if (!tokenContract) return;
+      
       if (org?.delegates?.includes(metadata.delegate)) return;
       dispatch(setFormLoading(true));
       updateTx({ step: Step.submit, message: "Confirm transaction..." })

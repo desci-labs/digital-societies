@@ -1,11 +1,11 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAccount } from "wagmi";
-import { MetadataValues } from "../types";
+import { Metadata, MetadataValues } from "../types";
 import { metadataSchema } from "../schema";
 import { FC } from "react";
 
-export type Props = { Form: FC }
+export type Props = { Form: FC, metadata?: Metadata | MetadataValues }
 
 export default function Launcher(props: Props) {
   const { address } = useAccount();
@@ -14,13 +14,13 @@ export default function Launcher(props: Props) {
     reValidateMode: "onChange",
     mode: "onChange",
     defaultValues: {
-      name: "Ethereum foundation",
+      name: props?.metadata?.name ?? "",
       issuer: address,
-      symbol: 'ETF',
-      description: "2022 Merge Contributor",
-      banner: {},
-      badge: {},
-      external_link: "https://ethereum.org",
+      symbol: props?.metadata?.symbol ?? "",
+      description: props?.metadata?.description ?? "",
+      banner: typeof props?.metadata?.banner === "string" ? { ipfsHash: props?.metadata.banner } : {},
+      badge: typeof props?.metadata?.badge === "string" ? { ipfsHash: props?.metadata?.badge } : {},
+      external_link: props?.metadata?.external_link,
     },
     resolver: yupResolver(metadataSchema),
   });

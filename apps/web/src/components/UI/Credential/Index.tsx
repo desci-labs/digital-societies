@@ -12,20 +12,17 @@ import {
   useGetCredentialState,
   useGetCredentialTokens,
 } from "services/credentials/hooks";
-import { useCanMutateOrg, useGetOrg, useIsAdmin } from "services/orgs/hooks";
+import { useCanMintCredential, useGetOrg, useIsAdmin, useIsDelegate } from "services/orgs/hooks";
 import { getImageURL, shortenText } from "helper";
 import Image from "next/image";
-import { useMemo } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiCloseLine } from "react-icons/ri";
-import { useAccount } from "wagmi";
 import { CardContainer, ExternalLink, ImageBanner, RoundedLogo } from "../Index";
 import { Cell, Row, Table, TBody, THead } from "../Table";
-import { Credential, PendingCredential } from "services/credentials/types";
 import { useRouter } from "next/router";
 
 export function CredentialGridView({ address }: { address: string }) {
-  const hasAccess = useCanMutateOrg(address);
+  const hasAccess = useCanMintCredential(address);
   const org = useGetOrg(address);
   const { isLoading, credentials: data } = useGetCredentialState();
   const credentials = data[address];
@@ -98,11 +95,10 @@ export function MetadataCard({
 
 export function Delegates({ address }: { address: string }) {
   const org = useGetOrg(address);
-  const { address: user } = useAccount();
   const { revoke, isLoading } = useRemoveDelegate(address);
   const showDelegate = useDelegater(address);
 
-  const hasAccess = useIsAdmin(address, user ?? "");
+  const hasAccess = useIsAdmin(address);
   if (!org?.delegates || org.delegates.length === 0) return null;
 
   const getRows = () => {
@@ -217,7 +213,7 @@ export function TokenTableView({ address, id }: { id: number; address: string })
   const credential = useGetCredential(address, id);
   const showIssuer = useIssuer(credential!);
   const { revoke, isLoading } = useRevokeToken(credential?.address!);
-  const hasAccess = useCanMutateOrg(credential?.address ?? "");
+  const hasAccess = useIsDelegate(credential?.address ?? "");
 
   const getRows = () => {
     const rows = ["", "TokenId", "receipient", "issuer", "date Issued"];

@@ -23,8 +23,8 @@ export default function useCreateCredential(address: string) {
 
   const { isLoading, isSuccess, writeAsync } = useContractWrite({
     mode: "recklesslyUnprepared",
-    addressOrName: tokenContract.address!,
-    contractInterface: tokenContract.interface!,
+    addressOrName: tokenContract?.address!,
+    contractInterface: tokenContract?.interface!,
     functionName: "mintTokenType",
   });
 
@@ -46,7 +46,7 @@ export default function useCreateCredential(address: string) {
         recklesslySetUnpreparedArgs: cid,
       });
 
-      const typeId = await tokenContract.totalTypes();
+      const typeId = await tokenContract?.totalTypes();
 
       const credential: PendingCredential = { id: typeId + 1, cid, address, mintedBy, metadata, pending: true, dateCreated: Date.now() };
       dispatch(setCredential({ address, credential }))

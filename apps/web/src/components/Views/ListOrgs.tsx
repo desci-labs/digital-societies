@@ -13,7 +13,6 @@ export default function ListOrgs() {
   if (data.length === 0) {
     return <NoContent />;
   }
-  console.log('orgs ', data);
   return (
     <div className="container py-10 grid grid-cols-1 lg:grid-cols-3 content-start gap-y-10 place-items-center mt-10">
       {data.map((org, idx) => (
