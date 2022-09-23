@@ -21,15 +21,15 @@ export default function useIssueCredential(address: string) {
   const tokenContract = getContract(address);
   const { isLoading, isSuccess, writeAsync } = useContractWrite({
     mode: "recklesslyUnprepared",
-    addressOrName: tokenContract.address!,
-    contractInterface: tokenContract.interface!,
+    addressOrName: tokenContract?.address!,
+    contractInterface: tokenContract?.interface!,
     functionName: "batchMint",
   });
 
   async function setTokens(addresses: string[], credential: number) {
     try {
       for (let owner of addresses) {
-        const tokenId = await tokenContract.totalSupply();
+        const tokenId = await tokenContract?.totalSupply();
         const token: CredentialToken = {
           org: address,
           tokenId: tokenId.toNumber() + 1,

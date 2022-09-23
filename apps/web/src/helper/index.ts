@@ -92,7 +92,6 @@ export const compareMetadata = (
   old: Metadata | MetadataValues,
   meta: Metadata | MetadataValues
 ): boolean => {
-  console.log('compare ', typeof old.badge, typeof meta.badge);
   if (
     old.name !== meta.name ||
     old.symbol !== meta.symbol ||

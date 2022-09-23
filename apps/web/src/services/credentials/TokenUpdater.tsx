@@ -22,6 +22,7 @@ export default function TokenUpdater() {
     event: ethers.Event
   ): Promise<CredentialToken | null> {
     const contract = getContract(event.address);
+    
     try {
       const block = await provider.getBlock(event.blockNumber);
       const issuer = event.args?.mintedBy ?? event.args?.[0];
@@ -30,7 +31,7 @@ export default function TokenUpdater() {
         event.args?.tokenId.toString() ?? event.args?.[2].toNumber();
 
       // check validity of the token
-      await contract.ownerOf(tokenId);
+      await contract?.ownerOf(tokenId);
 
       const credential = event.args?.tokenType ?? event.args?.[3];
       return {
@@ -63,9 +64,10 @@ export default function TokenUpdater() {
       if (orgs.length === 0) return;
       const contracts = orgs.map((org) => {
         return getContract(org.address);
-      });
+      }) as ethers.Contract[];
+      
       const lastQuery = await provider.getBlockNumber();
-      const filters = contracts.map((contract) => contract.filters.Mint());
+      const filters = contracts.map((contract) => contract?.filters.Mint());
       const events = await Promise.all(
         filters.map((filter, i) =>
           contracts[i].queryFilter(

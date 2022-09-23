@@ -19,7 +19,6 @@ const slice = createSlice({
       }
 
       const updatable = payload.filter(data => {
-        console.log('payload ', data.cid, data.metadata?.name)
         if (data.metadata === null) return false;
         const prev = state.data.find(org => org.address === data.address);
         if (!prev) return true;
@@ -29,7 +28,6 @@ const slice = createSlice({
       
         // check diff in metadata
         const canUpdate = compareMetadata(prev.metadata, data.metadata);
-        console.log('update org', prev.metadata.name, data.metadata.name, canUpdate);
         return canUpdate;
       });
 

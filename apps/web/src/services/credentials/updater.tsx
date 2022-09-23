@@ -26,7 +26,7 @@ export default function CredentialUpdater() {
     const block = await provider.getBlock(event.blockNumber);
     const mintedBy = event.args?.createdBy ?? event.args?.[1];
     const id = event.args?.tokenType ?? event.args?.[0];
-    const contract = getContract(event.address);
+    const contract = getContract(event.address) as ethers.Contract;
     let cid = await contract.typeURI(id);
     cid = await getCIDStringFromBytes(cid);
     const metadata = (await queryIpfsHash(cid)) as Metadata;
@@ -57,7 +57,7 @@ export default function CredentialUpdater() {
       if (orgs.length === 0) return;
       const contracts = orgs.map((org) => {
         return getContract(org.address);
-      });
+      }) as ethers.Contract[];
       try {
         const lastQuery = await provider.getBlockNumber();
         const filters = contracts.map((contract) =>

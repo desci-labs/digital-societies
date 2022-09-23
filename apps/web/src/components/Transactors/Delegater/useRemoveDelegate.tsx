@@ -19,8 +19,8 @@ export default function useRemoveDelegate(address: string) {
 
   const { isLoading, isSuccess, writeAsync } = useContractWrite({
     mode: "recklesslyUnprepared",
-    addressOrName: tokenContract.address!,
-    contractInterface: tokenContract.interface!,
+    addressOrName: tokenContract?.address!,
+    contractInterface: tokenContract?.interface!,
     functionName: "revokeRole",
   });
 
