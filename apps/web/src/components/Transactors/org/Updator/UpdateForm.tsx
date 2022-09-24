@@ -15,7 +15,7 @@ export default function UpdateForm() {
     handleSubmit,
     reset,
     watch,
-    formState: { isSubmitting, isValid, errors },
+    formState: { isDirty, isSubmitting, isValid, errors },
   } = useFormContext<MetadataValues>();
   const router = useRouter();
   const { address } = router.query;
@@ -25,7 +25,7 @@ export default function UpdateForm() {
   const image = watch('banner');
   const badge = watch('badge');
   
-  const canDisable = useMemo(() => isSubmitting || isLoading, [isSubmitting, isLoading])
+  const canDisable = useMemo(() => !isDirty || isSubmitting || isLoading, [isDirty, isSubmitting, isLoading])
 
   useEffect(() => {
     if (isSuccess) reset();
@@ -117,7 +117,7 @@ export default function UpdateForm() {
         disabled={canDisable || !isValid}
         className="mt-4 w-full bg-black disabled:bg-regent-gray"
       >
-        Update Organisation
+        { isLoading ? "submitting..." : "Update Organisation"}
       </GradientButton>
     </Form>
   );

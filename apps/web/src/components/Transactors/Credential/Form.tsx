@@ -17,7 +17,7 @@ export default function CredentialForm() {
     watch,
     register,
     handleSubmit,
-    formState: { isSubmitting, isValid, errors },
+    formState: { isSubmitting, isDirty, isValid, errors },
   } = useFormContext<LauncherFormValues>();
   const router = useRouter();
   const { address, id } = router.query;
@@ -34,8 +34,8 @@ export default function CredentialForm() {
   const isUpdateMode = mode === "update";
 
   const canDisable = useMemo(
-    () => isSubmitting || isLoading || isSuccess,
-    [isSubmitting, isLoading, isSuccess]
+    () => !isDirty || isSubmitting || isLoading || isSuccess,
+    [isDirty, isSubmitting, isLoading, isSuccess]
   );
 
   useEffect(() => {
@@ -49,6 +49,7 @@ export default function CredentialForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, isUpdateMode]);
 
+  
   return (
     <Form
       onSubmit={handleSubmit(launch)}
