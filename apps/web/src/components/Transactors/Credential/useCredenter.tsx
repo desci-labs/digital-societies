@@ -6,7 +6,7 @@ import CredentialForm from "./Form";
 import { Org, PendingOrg } from "services/orgs/types";
 import { LaunchMode } from "../types";
 
-export default function useLaunchCredential(org: Org | PendingOrg, mode: LaunchMode = "create") {
+export default function useCredenter(org: Org | PendingOrg, mode: LaunchMode = "create") {
   const { showModal } = useModalContext();
 
   const showLauncher = useCallback(() => {

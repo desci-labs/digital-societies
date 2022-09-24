@@ -43,12 +43,11 @@ export default function CredentialForm() {
   }, [isSuccess, reset]);
 
   useEffect(() => {
-    console.log("id: ", id, mode);
     if (isUpdateMode && !id) {
       hideModal();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [id, isUpdateMode]);
 
   return (
     <Form

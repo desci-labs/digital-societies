@@ -4,7 +4,7 @@ import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import useLaunch from "./useLaunch";
 import { GradientButton, Form, Input, InputRow } from "components/Form/Index";
-import { MetadataValues } from "../types";
+import { MetadataValues } from "../../types";
 import ImagePreview from "components/UI/ImagePreview";
 
 export default function LaunchForm() {

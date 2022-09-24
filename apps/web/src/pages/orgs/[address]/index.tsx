@@ -5,7 +5,7 @@ import { CredentialGridView, Delegates, RevocationHistory } from "components/UI/
 import { ImageBanner, RoundedLogo } from "components/UI/Index";
 import { getImageURL } from "helper";
 import { ActionButton, ActionButtons } from "components/ActionButtons/Index";
-import useUpdater from "components/Transactors/Launcher/useUpdater";
+import useUpdater from "components/Transactors/org/Updator/useUpdater";
 import { useEffect, useState } from "react";
 
 export default function OrganisationDetails() {

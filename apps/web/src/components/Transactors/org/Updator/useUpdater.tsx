@@ -3,7 +3,7 @@ import Transactor, { TxProps } from "components/Transactors/Transactor";
 import Popup from "components/UI/Popup/Index";
 import { useCallback } from "react";
 import { Org, PendingOrg } from "services/orgs/types";
-import Launcher, { Props } from "./Launcher";
+import Launcher, { Props } from "../Launcher";
 import UpdateForm from "./UpdateForm";
 
 export default function useUpdater(org: Org | PendingOrg) {

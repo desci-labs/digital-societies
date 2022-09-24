@@ -1,7 +1,7 @@
 import AddressOrEns from "components/AddressOrEns/Index";
 import { Button } from "components/Form/Index";
 import Loader from "components/Loader";
-import useLaunchCredential from "components/Transactors/Credential/useLaunchCredential";
+import useCredenter from "components/Transactors/Credential/useCredenter";
 import useDelegater from "components/Transactors/Delegater/useDelegater";
 import useRemoveDelegate from "components/Transactors/Delegater/useRemoveDelegate";
 import useIssuer from "components/Transactors/Issuer/useIssuer";
@@ -26,7 +26,7 @@ export function CredentialGridView({ address }: { address: string }) {
   const org = useGetOrg(address);
   const { isLoading, credentials: data } = useGetCredentialState();
   const credentials = data[address];
-  const showCredenter = useLaunchCredential(org!);
+  const showCredenter = useCredenter(org!);
   if (isLoading) return <Loader />;
 
   return (

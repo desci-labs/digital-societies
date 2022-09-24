@@ -9,7 +9,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ImageBanner, RoundedLogo } from "components/UI/Index";
 import { TokenTableView } from "components/UI/Credential/Index";
 import { ActionButton, ActionButtons } from "components/ActionButtons/Index";
-import useLaunchCredential from "components/Transactors/Credential/useLaunchCredential";
+import useCredenter from "components/Transactors/Credential/useCredenter";
 
 export default function CredentialDetails() {
   const router = useRouter();
@@ -28,7 +28,7 @@ export default function CredentialDetails() {
   );
 
   const org = useGetOrg(address);
-  const showLauncher = useLaunchCredential(org!, "update");
+  const showLauncher = useCredenter(org!, "update");
   const metadata = useMemo(
     () => credential?.metadata ?? org?.metadata,
     [credential, org]

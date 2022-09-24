@@ -1,5 +1,5 @@
-import Launcher from 'components/Transactors/Launcher/Launcher';
-import LaunchForm from 'components/Transactors/Launcher/LaunchForm';
+import Launcher from 'components/Transactors/org/Launcher';
+import LaunchForm from 'components/Transactors/org/Deployer/LaunchForm';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 

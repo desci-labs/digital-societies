@@ -3,7 +3,7 @@ import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { GradientButton, Form, Input, InputRow } from "components/Form/Index";
-import { MetadataValues } from "../types";
+import { MetadataValues } from "../../types";
 import ImagePreview from "components/UI/ImagePreview";
 import useUpdate from "./useUpdate";
 import { useRouter } from "next/router";

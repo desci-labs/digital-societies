@@ -1,7 +1,7 @@
 import { useModalContext } from "components/Modal/Modal";
 import Transactor, { TxProps } from "components/Transactors/Transactor";
 import { useCallback } from "react";
-import Launcher, { Props } from "./Launcher";
+import Launcher, { Props } from "../Launcher";
 import LaunchForm from "./LaunchForm";
 
 export default function useLauncher() {
