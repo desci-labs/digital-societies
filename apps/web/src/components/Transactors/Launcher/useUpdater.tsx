@@ -21,8 +21,7 @@ export default function useUpdater(org: Org | PendingOrg) {
       contentProps: { Form: UpdateForm, metadata: org.metadata },
       inModal: true,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [org, showModal]);
 
   return showLauncher;
 }

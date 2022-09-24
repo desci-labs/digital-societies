@@ -1,18 +1,27 @@
 import { useRouter } from "next/router";
 import Loader from "components/Loader";
-import { useCanMutateOrg, useGetOrg } from "services/orgs/hooks";
+import { useGetOrg, useIsAdmin } from "services/orgs/hooks";
 import { CredentialGridView, Delegates, RevocationHistory } from "components/UI/Credential/Index";
 import { ImageBanner, RoundedLogo } from "components/UI/Index";
 import { getImageURL } from "helper";
 import { ActionButton, ActionButtons } from "components/ActionButtons/Index";
 import useUpdater from "components/Transactors/Launcher/useUpdater";
+import { useEffect, useState } from "react";
 
 export default function OrganisationDetails() {
   const router = useRouter();
-  const { address } = router.query;
+  const [{ address }, setRouterQuery] = useState({ address: '' });
+
   const org = useGetOrg(address as string);
-  const hasAccess = useCanMutateOrg(org?.address!);
+  const hasAccess = useIsAdmin(org?.address!);
   const showUpdater = useUpdater(org!);
+
+  useEffect(() => {
+    if (router.isReady) {
+      const { address } = router.query;
+      setRouterQuery({ address: address as string })
+    }
+  }, [router.isReady, router.query]);
 
   if (!org) return <Loader className="h-screen" />;
 

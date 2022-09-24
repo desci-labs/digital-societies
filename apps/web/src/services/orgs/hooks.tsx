@@ -26,13 +26,9 @@ export function useIsDelegate(address: string) {
   return !!org?.delegates.some((member) => member === user);
 }
 
-export function useCanMintCredential(address: string) {
+export function useIsAdminOrDelegate(address: string) {
   const isDelegate = useIsDelegate(address);
   const isAdmin = useIsAdmin(address,);
   return isDelegate || isAdmin;
 }
 
-export function useCanMutateOrg(address: string) {
-  const isAdmin = useIsAdmin(address);
-  return isAdmin;
-}

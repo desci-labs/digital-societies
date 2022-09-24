@@ -2,26 +2,38 @@ import Loader from "components/Loader";
 import {
   useGetCredential,
 } from "services/credentials/hooks";
-import { useGetOrg } from "services/orgs/hooks";
+import { useGetOrg, useIsAdminOrDelegate } from "services/orgs/hooks";
 import { getImageURL } from "helper";
 import { useRouter } from "next/router";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ImageBanner, RoundedLogo } from "components/UI/Index";
 import { TokenTableView } from "components/UI/Credential/Index";
+import { ActionButton, ActionButtons } from "components/ActionButtons/Index";
+import useLaunchCredential from "components/Transactors/Credential/useLaunchCredential";
 
 export default function CredentialDetails() {
   const router = useRouter();
-  const { id, address } = router.query;
+  const [{ address, id }, setRouterQuery] = useState({ address: '', id: 0 });
+
+  useEffect(() => {
+    if (router.isReady) {
+      const { id, address } = router.query;
+      setRouterQuery({ id: parseInt(id as string), address: address as string })
+    }
+  }, [router.isReady, router.query]);
+
   const credential = useGetCredential(
-    address as string,
-    parseInt(id as string)
+    address,
+    id
   );
 
-  const org = useGetOrg(credential?.address ?? "");
+  const org = useGetOrg(address);
+  const showLauncher = useLaunchCredential(org!, "update");
   const metadata = useMemo(
     () => credential?.metadata ?? org?.metadata,
     [credential, org]
   );
+  const hasAccess = useIsAdminOrDelegate(org?.address!);
 
   if (!credential) return <Loader className="h-screen" />;
   if (!metadata) return null;
@@ -29,6 +41,9 @@ export default function CredentialDetails() {
   return (
     <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center mb-10">
       <div className="w-full h-88 relative group">
+        {hasAccess && <ActionButtons>
+          <ActionButton title="Edit Metadata" onClick={() => showLauncher()}>Edit credential</ActionButton>
+        </ActionButtons>}
         <ImageBanner src={getImageURL(metadata?.banner ?? "")} />
         <RoundedLogo src={getImageURL(metadata?.badge ?? "")} />
       </div>

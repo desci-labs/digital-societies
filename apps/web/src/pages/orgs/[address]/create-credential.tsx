@@ -26,7 +26,7 @@ const CreateType: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {isConnected && org && <Credenter Form={CredentialForm} org={org}  />}
+      {isConnected && org && <Credenter mode="create" Form={CredentialForm} org={org}  />}
     </div>
   );
 };

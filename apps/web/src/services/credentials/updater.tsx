@@ -50,7 +50,7 @@ export default function CredentialUpdater() {
     return { address, data: credentials };
   }
 
-  const getFactoryTokens = useCallback(
+  const getCredentials = useCallback(
     async () => {
       if (!block) return;
 
@@ -63,7 +63,7 @@ export default function CredentialUpdater() {
         const filters = contracts.map((contract) =>
           contract.filters.TypeCreated()
         );
-        
+
         const events = await Promise.all(
           filters.map((filter, i) =>
             contracts[i].queryFilter(
@@ -83,7 +83,7 @@ export default function CredentialUpdater() {
             all[credential.address] = credential.data;
             return all;
           }, {} as CredentialMap);
-        
+
         dispatch(setCredentials(credentials));
         dispatch(setIsLoading(false));
         setLastUpdated(lastQuery);
@@ -97,9 +97,9 @@ export default function CredentialUpdater() {
 
   useEffect(() => {
     if (block && (lastUpdated === 0 || block - lastUpdated > 10)) {
-      getFactoryTokens();
+      getCredentials();
     }
-  }, [block, lastUpdated, getFactoryTokens]);
+  }, [block, lastUpdated, getCredentials]);
 
   return null;
 }

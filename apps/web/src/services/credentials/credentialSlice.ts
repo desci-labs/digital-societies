@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { compareMetadata } from "helper";
 import {
   Credential,
   CredentialMap,
@@ -31,9 +32,15 @@ const slice = createSlice({
           const prev = credentials.find(
             (credential) => credential.id === data.id
           );
+          if (prev?.metadata === null) return true;
+
           if (!prev) return true;
           if (prev?.pending === true && data.metadata !== null) return true;
-          return false;
+
+          if (data.cid !== prev.cid) return true;
+          // check diff in metadata
+          const canUpdate = compareMetadata(prev.metadata, data.metadata);
+          return canUpdate;
         });
 
         state.credentials[address] = credentials.filter((credential) => {
@@ -60,6 +67,7 @@ const slice = createSlice({
       const prev = state.credentials[payload.address]?.find(
         (cred) => cred.id === payload.credential.id
       );
+
       if (!prev) {
         state.credentials[payload.address].push(payload.credential);
       } else if (payload.credential.metadata && prev.pending) {
@@ -67,6 +75,13 @@ const slice = createSlice({
           if (cred.id === payload.credential.id) return payload.credential;
           return cred;
         });
+      } else {
+        const canUpdate = compareMetadata(prev.metadata, payload.credential.metadata);
+        console.log('can update', canUpdate)
+        if (canUpdate) {
+          state.credentials[payload.address] = state.credentials[payload.address].filter(cred => cred.id !== payload.credential.id);
+          state.credentials[payload.address].push(payload.credential)
+        }
       }
     },
     setIsLoading: (state, { payload }: PayloadAction<boolean>) => {
@@ -80,11 +95,11 @@ const slice = createSlice({
         }
 
         state.tokens[org] = state.tokens[org].filter((t) => {
-          if(payload[org].find((data) => t.tokenId == data.tokenId)) {
+          if (payload[org].find((data) => t.tokenId == data.tokenId)) {
             return false;
           }
           return true
-      });
+        });
         state.tokens[org].push(...payload[org]);
       });
     },

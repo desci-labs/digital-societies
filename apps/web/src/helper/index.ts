@@ -92,6 +92,7 @@ export const compareMetadata = (
   old: Metadata | MetadataValues,
   meta: Metadata | MetadataValues
 ): boolean => {
+
   if (
     old.name !== meta.name ||
     old.symbol !== meta.symbol ||

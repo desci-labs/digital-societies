@@ -4,18 +4,18 @@ import Transactor, { TxProps } from "../Transactor";
 import Launcher, { Props } from "./index";
 import CredentialForm from "./Form";
 import { Org, PendingOrg } from "services/orgs/types";
+import { LaunchMode } from "../types";
 
-export default function useLaunchCredential(org: Org | PendingOrg) {
+export default function useLaunchCredential(org: Org | PendingOrg, mode: LaunchMode = "create") {
   const { showModal } = useModalContext();
 
   const showLauncher = useCallback(() => {
     showModal<TxProps<Props>>(Transactor, {
       Content: Launcher,
-      contentProps: { org, Form: CredentialForm },
+      contentProps: { org, mode, Form: CredentialForm },
       inModal: true,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [org, showModal, mode]);
 
   return showLauncher;
 }

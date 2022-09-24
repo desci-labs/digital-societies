@@ -105,8 +105,8 @@ export function Form(props: HTMLProps<HTMLFormElement> & FormProps) {
 
   return (
     <div className={`container mx-auto flex flex-col gap-5 py-8 max-w-500 bg-white ${props.className}`}>
-      {props.title && <h1 className="text-3xl font-bold mt-5 text-center">{props.title}</h1>}
-      {props.description && <span className="text-lg text-center font-normal text-regent-gray">{props.description}</span>}
+      {props.title && <h1 className="text-3xl font-bold mt-5 text-center capitalize">{props.title}</h1>}
+      {props.description && <span className="text-lg text-center font-normal text-regent-gray capitalize">{props.description}</span>}
       <div className="mx-auto flex justify-center w-120">
         <form className="w-full" onSubmit={props.onSubmit}>
           {props.children}

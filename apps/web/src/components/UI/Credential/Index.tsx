@@ -12,7 +12,7 @@ import {
   useGetCredentialState,
   useGetCredentialTokens,
 } from "services/credentials/hooks";
-import { useCanMintCredential, useGetOrg, useIsAdmin, useIsDelegate } from "services/orgs/hooks";
+import { useIsAdminOrDelegate, useGetOrg, useIsAdmin, useIsDelegate } from "services/orgs/hooks";
 import { getImageURL, shortenText } from "helper";
 import Image from "next/image";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -22,7 +22,7 @@ import { Cell, Row, Table, TBody, THead } from "../Table";
 import { useRouter } from "next/router";
 
 export function CredentialGridView({ address }: { address: string }) {
-  const hasAccess = useCanMintCredential(address);
+  const hasAccess = useIsAdminOrDelegate(address);
   const org = useGetOrg(address);
   const { isLoading, credentials: data } = useGetCredentialState();
   const credentials = data[address];

@@ -60,7 +60,7 @@ export default function useUpdate(address: string) {
       dispatch(setOrg(org!));
       updateTx({ step: Step.error, message: "Error updating metadata!!!" });
       dispatch(setFormLoading(false));
-      dispatch(setFormError({ title: `Error updating ${metadata.name}`, details: "" }));
+      dispatch(setFormError({ title: `Error updating ${metadata.name}` }));
     }
   }
   return { run, isLoading: form_loading || isLoading, isSuccess };

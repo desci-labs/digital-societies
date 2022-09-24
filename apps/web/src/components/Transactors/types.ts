@@ -32,3 +32,7 @@ export type IResponse = {
   PinSize: number;
   Timestamp: string;
 };
+
+export type LaunchMode = "create" | "update";
+
+export type LauncherFormValues =  MetadataValues & { mode: LaunchMode }
