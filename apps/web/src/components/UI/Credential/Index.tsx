@@ -243,7 +243,7 @@ export function TokenTableView({ address, id }: { id: number; address: string })
                 <Cell className="flex justify-start p-2">
                   <div className="w-10 h-10 relative">
                     <Image
-                      src={getImageURL(credential?.metadata?.banner ?? "")} //TODO: add a fall back image as placeholder
+                      src={getImageURL(credential?.metadata?.badge ?? credential?.metadata?.banner ?? "")} //TODO: add a fall back image as placeholder
                       layout="fill"
                       objectFit="cover"
                       objectPosition="center"

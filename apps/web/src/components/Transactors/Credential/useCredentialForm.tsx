@@ -55,12 +55,13 @@ export default function useCredentialForm(address: string, tokenType?: number) {
       const typeId = await tokenContract?.totalTypes();
       const credential: PendingCredential = { id: typeId + 1, cid, address, mintedBy, metadata: meta, pending: true, dateCreated: Date.now() };
       dispatch(setCredential({ address, credential }))
-      updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Deploying ${metadata.name} credential`, previewLink: { href: `/credentials/${typeId + 1}?address=${address}`, caption: "Preview" } });
+      const previewLink = `/credentials/${typeId + 1}?address=${address}`;
+      updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Deploying ${metadata.name} credential`, previewLink: { href: previewLink, caption: "Preview" } });
       showModal(TransactionPrompt, {});
       await tx.wait();
 
       dispatch(setFormLoading(false));
-      updateTx({ step: Step.success, message: "", txHash: tx.hash, previewLink: { href: `orgs/${address}`, caption: "View" } });
+      updateTx({ step: Step.success, message: "", txHash: tx.hash, previewLink: { href: previewLink, caption: "View" } });
     } catch (e: any) {
       updateTx({ step: Step.error, message: "Error processing transaction!!!" });
       dispatch(setFormLoading(false));

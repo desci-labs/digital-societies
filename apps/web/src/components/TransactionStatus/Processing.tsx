@@ -17,7 +17,7 @@ export default function Processing({
 
   const preview = (path: string) => {
     hideModal();
-    router.push(path);
+    router.replace(path);
   };
 
   return (

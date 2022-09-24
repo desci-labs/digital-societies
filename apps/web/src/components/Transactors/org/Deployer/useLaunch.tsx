@@ -61,7 +61,7 @@ export default function useLaunch() {
       
       dispatch(setOrg(preview));
       dispatch(setFormLoading(false));
-      updateTx({ step: Step.success, message: "", txHash: tx.hash, previewLink: { href: `orgs/${address}`, caption: "Preview" } });
+      updateTx({ step: Step.success, message: "", txHash: tx.hash, previewLink: { href: `/orgs/${address}`, caption: "Preview" } });
     } catch (e: any) {
       console.log("Error ", e?.data?.message, e?.message);
       updateTx({ step: Step.error, message: "Error processing deployment!!!" });

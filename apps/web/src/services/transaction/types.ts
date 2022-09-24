@@ -47,7 +47,7 @@ export type BroadcastStage = {
 };
 
 export type SuccessLink = { url: string; description: string }
-export type PreviewLink = { href: string; caption: string }
+export type PreviewLink = { href: string; caption: string; }
 export type SuccessStage = {
   step: Step.success;
   message: string;
