@@ -1,12 +1,13 @@
 import { Contracts, contracts } from "constants/contracts";
-import { Contract, ethers } from "ethers";
+import { SBToken, SBToken__factory } from "constants/types";
+import { SBFactory } from "constants/types/SBFactory";
 import { useContract, useProvider, useSigner } from "wagmi";
 
 export function getContract(type: Contracts) {
   return contracts.find((c) => c.id === type);
 }
 
-export const useFactoryContract = (): Contract => {
+export const useFactoryContract = (): SBFactory => {
   const library = useProvider();
   const contract = getContract(Contracts.Factory);
   return useContract({
@@ -17,9 +18,10 @@ export const useFactoryContract = (): Contract => {
 };
 
 export const useSBTContractFactory = () => {
-  // const { data: signer } = useSigner();
-  const library = useProvider();
   const contract = getContract(Contracts.SBToken);
+  const { data } = useSigner();
 
-  return (address: string): Contract | undefined => address ? new ethers.Contract(address, contract?.artifact!, library) : undefined;
+  return (address: string): SBToken => {
+    return SBToken__factory.getContract(address!, contract?.artifact!, data!) as SBToken
+  };
 };

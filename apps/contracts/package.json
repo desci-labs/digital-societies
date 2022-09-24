@@ -12,5 +12,9 @@
     "build": "./build.sh",
     "deploy": "./deploy.sh",
     "verify": "./verify.sh"
+  },
+  "devDependencies": {
+    "@typechain/ethers-v5": "^10.1.0",
+    "typechain": "^8.1.0"
   }
 }

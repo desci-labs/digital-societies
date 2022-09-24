@@ -52,7 +52,7 @@ export default function useCredentialForm(address: string, tokenType?: number) {
         recklesslySetUnpreparedArgs: cid,
       });
 
-      const typeId = await tokenContract?.totalTypes();
+      const typeId = await tokenContract?.totalTypes() ?? 0;
       const credential: PendingCredential = { id: typeId + 1, cid, address, mintedBy, metadata: meta, pending: true, dateCreated: Date.now() };
       dispatch(setCredential({ address, credential }))
       const previewLink = `/credentials/${typeId + 1}?address=${address}`;

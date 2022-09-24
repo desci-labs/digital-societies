@@ -34,3 +34,8 @@ fi
 # copy the required abis to the web/constants/abis
 cp -rv ./out/SBFactory.sol ../web/src/constants/abis/
 cp -rv ./out/SBToken.sol ../web/src/constants/abis/
+
+# generate typescript bindings for contracts
+typechain --target ethers-v5 --out-dir '../web/src/constants/types' './out/SBFactory.sol/SBFactory.json'
+typechain --target ethers-v5 --out-dir '../web/src/constants/types' './out/SBToken.sol/SBToken.json'
+rm -rf ../web/src/constants/types/factories
