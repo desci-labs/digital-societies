@@ -8,7 +8,7 @@ import { useGetTxState } from "services/transaction/hooks";
 import { setFormError, setFormLoading } from "services/transaction/transactionSlice";
 import { Step } from "services/transaction/types";
 import useTxUpdator from "services/transaction/updators";
-import { useAccount, useContractWrite } from "wagmi";
+import { useAccount, useSigner } from "wagmi";
 import { IssuerValues } from "../types";
 
 export default function useIssueCredential(address: string) {
@@ -18,13 +18,9 @@ export default function useIssueCredential(address: string) {
   const { form_loading } = useGetTxState();
   const { address: account } = useAccount();
   const getContract = useSBTContractFactory();
+  const { data: signer } = useSigner();
   const tokenContract = getContract(address);
-  const { isLoading, isSuccess, writeAsync } = useContractWrite({
-    mode: "recklesslyUnprepared",
-    addressOrName: tokenContract?.address!,
-    contractInterface: tokenContract?.interface!,
-    functionName: "batchMint",
-  });
+
 
   async function setTokens(addresses: string[], credential: number) {
     try {
@@ -47,13 +43,9 @@ export default function useIssueCredential(address: string) {
     try {
       dispatch(setFormLoading(true));
       updateTx({ step: Step.submit, message: "Confirm transaction..." })
-      const args = [
-        metadata.addresses.split(",").map((v) => v.trim()),
-        metadata.credential,
-      ];
-      const tx = await writeAsync({
-        recklesslySetUnpreparedArgs: args,
-      });
+     
+      const arg1 = metadata.addresses.split(",").map((v) => v.trim());
+      const tx = await tokenContract.connect(signer!).batchMint(arg1, metadata.credential);
       showModal(TransactionPrompt, {});
       updateTx({ step: Step.broadcast, txHash: tx.hash, message: "Issuing token..." })
 
@@ -69,5 +61,5 @@ export default function useIssueCredential(address: string) {
       dispatch(setFormError(e?.data?.message ?? e?.message));
     }
   }
-  return { issueCredential, isLoading: isLoading || form_loading, isSuccess };
+  return { issueCredential, isLoading: form_loading, isSuccess: false };
 }
