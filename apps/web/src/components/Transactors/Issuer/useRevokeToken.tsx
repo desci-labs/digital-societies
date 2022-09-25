@@ -8,14 +8,15 @@ import { useDispatch } from "react-redux";
 import { removeToken } from "services/credentials/credentialSlice";
 import { CredentialToken } from "services/credentials/types";
 import { addRevocation } from "services/orgs/orgSlice";
-import { useAccount, useContractWrite } from "wagmi";
+import { useAccount, useContractWrite, useSigner } from "wagmi";
 
 export default function useRevokeToken(address: string) {
   const { showModal } = useModalContext();
   const { address: account } = useAccount();
   const { setTx, reset } = useSetTx();
   const getContract = useSBTContractFactory();
-  const tokenContract = getContract(address);
+  const { data: signer } = useSigner();
+  const tokenContract = getContract(address).connect(signer!);
   const dispatch = useDispatch();
 
   const { isLoading, isSuccess, writeAsync } = useContractWrite({

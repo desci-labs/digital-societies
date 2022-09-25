@@ -25,3 +25,12 @@ export const useSBTContractFactory = () => {
     return SBToken__factory.getContract(address!, contract?.artifact!, data!) as SBToken
   };
 };
+
+export const useTokenContract = () => {
+  const contract = getContract(Contracts.SBToken);
+  const { data: signer } = useSigner();
+
+  return (address: string): SBToken => {
+    return SBToken__factory.getContract(address!, contract?.artifact!, signer!).connect(signer!) as SBToken
+  };
+};

@@ -77,7 +77,6 @@ const slice = createSlice({
         });
       } else {
         const canUpdate = compareMetadata(prev.metadata, payload.credential.metadata);
-        console.log('can update', canUpdate)
         if (canUpdate) {
           state.credentials[payload.address] = state.credentials[payload.address].filter(cred => cred.id !== payload.credential.id);
           state.credentials[payload.address].push(payload.credential)
@@ -95,7 +94,7 @@ const slice = createSlice({
         }
 
         state.tokens[org] = state.tokens[org].filter((t) => {
-          if (payload[org].find((data) => t.tokenId == data.tokenId)) {
+          if (payload[org].find((data) => t.tokenId == data.tokenId || (t.credential === data.credential && t.owner === data.owner))) {
             return false;
           }
           return true
@@ -115,6 +114,15 @@ const slice = createSlice({
         (token) => token.tokenId != payload.token.tokenId
       );
       state.tokens[payload.address] = update.concat(payload.token);
+    },
+    removeTokens: (
+      state,
+      { payload }: PayloadAction<{ tokenIds: number[]; address: string }>
+    ) => {
+      const update = state.tokens[payload.address].filter(
+        (token) => !payload.tokenIds.includes(token.tokenId)
+      );
+      state.tokens[payload.address] = update;
     },
     removeToken: (
       state,
@@ -137,4 +145,5 @@ export const {
   setToken,
   setTokens,
   removeToken,
+  removeTokens,
 } = slice.actions;
