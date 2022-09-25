@@ -36,3 +36,6 @@ yarn-error.log*
 
 # tmp folder
 tmp
+
+# compiler
+soljson-*
