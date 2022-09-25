@@ -102,19 +102,6 @@ const slice = createSlice({
         state.tokens[org].push(...payload[org]);
       });
     },
-    setToken: (
-      state,
-      { payload }: PayloadAction<{ token: CredentialToken; address: string }>
-    ) => {
-      if (!state.tokens[payload.address]) {
-        state.tokens[payload.address] = [];
-      }
-
-      const update = state.tokens[payload.address].filter(
-        (token) => token.tokenId != payload.token.tokenId
-      );
-      state.tokens[payload.address] = update.concat(payload.token);
-    },
     removeTokens: (
       state,
       { payload }: PayloadAction<{ tokenIds: number[]; address: string }>
@@ -142,7 +129,6 @@ export const {
   setCredential,
   setCredentials,
   setIsLoading,
-  setToken,
   setTokens,
   removeToken,
   removeTokens,
