@@ -13,23 +13,18 @@ export default function UpdateForm() {
   const {
     register,
     handleSubmit,
-    reset,
     watch,
     formState: { isDirty, isSubmitting, isValid, errors },
   } = useFormContext<MetadataValues>();
   const router = useRouter();
   const { address } = router.query;
   const { hideModal } = useModalContext();
-  const { run, isLoading, isSuccess } = useUpdate(address as string);
+  const { run, isLoading } = useUpdate(address as string);
 
   const image = watch('banner');
   const badge = watch('badge');
   
   const canDisable = useMemo(() => !isDirty || isSubmitting || isLoading, [isDirty, isSubmitting, isLoading])
-
-  useEffect(() => {
-    if (isSuccess) reset();
-  }, [isSuccess, reset]);
 
   useEffect(() => {
     if (!address) {
@@ -96,7 +91,7 @@ export default function UpdateForm() {
         <FileDropzone<MetadataValues>
           name="banner"
           className="h-10"
-          disabled={canDisable}
+          disabled={isLoading}
           hasError={!!errors.banner}
         />
       </InputRow>
@@ -109,7 +104,7 @@ export default function UpdateForm() {
         <FileDropzone<MetadataValues>
           name="badge"
           className="h-10"
-          disabled={canDisable}
+          disabled={isLoading}
           hasError={!!errors.badge}
         />
       </InputRow>

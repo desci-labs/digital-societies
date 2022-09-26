@@ -12,7 +12,6 @@ import { useGetTxState } from "services/transaction/hooks";
 import { setFormError, setFormLoading } from "services/transaction/transactionSlice";
 import { Step } from "services/transaction/types";
 import useTxUpdator from "services/transaction/updators";
-import { useContractWrite } from "wagmi";
 
 export default function useUpdate(address: string) {
   const org = useGetOrg(address)
@@ -22,12 +21,6 @@ export default function useUpdate(address: string) {
   const { form_loading } = useGetTxState();
   const getContract = useTokenContract();
   const tokenContract = getContract(address);
-  const { isLoading, isSuccess, writeAsync } = useContractWrite({
-    mode: "recklesslyUnprepared",
-    addressOrName: tokenContract?.address!,
-    contractInterface: tokenContract?.interface!,
-    functionName: "setContractURI",
-  });
 
   useEffect(() => () => { dispatch(setFormError(null)) });
 
@@ -49,12 +42,10 @@ export default function useUpdate(address: string) {
 
       dispatch(setOrg(preview));
 
-      const tx = await writeAsync({
-        recklesslySetUnpreparedArgs: cid,
-      });
-      updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Updating ${metadata.name}` });
+      const tx = await tokenContract.setContractURI(cid);
+      updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Updating ${metadata.name}`, previewLink: { href: `/orgs/${address}`, caption: "Preview" } });
       await tx.wait();
-      updateTx({ step: Step.success, message: "", txHash: tx.hash });
+      updateTx({ step: Step.success, message: "", txHash: tx.hash, previewLink: { href: `/orgs/${address}`, caption: "Preview" } });
       dispatch(setFormLoading(false));
     } catch (e: any) {
       dispatch(setOrg(org!));
@@ -63,5 +54,5 @@ export default function useUpdate(address: string) {
       dispatch(setFormError({ title: `Error updating ${metadata.name}` }));
     }
   }
-  return { run, isLoading: form_loading || isLoading, isSuccess };
+  return { run, isLoading: form_loading };
 }
