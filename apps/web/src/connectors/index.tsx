@@ -3,6 +3,7 @@ import { configureChains } from 'wagmi';
 import { chain } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
 import { getDefaultWallets } from '@rainbow-me/rainbowkit';
+import { DEFAULT_CHAIN, RPC_URLS } from 'constants/web3';
 
 const gorliChain = {
   id: 5,
@@ -16,7 +17,7 @@ const gorliChain = {
     symbol: 'ETH'
   },
   rpcUrls: {
-    default: 'https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'
+    default: RPC_URLS[DEFAULT_CHAIN]
   },
   blockExplorers: {
     default: { name: 'Etherscan', url: 'https://goerli.etherscan.io/' },

@@ -63,7 +63,6 @@ export default function CredentialUpdater() {
         const filters = contracts.map((contract) =>
           contract.filters.TypeCreated()
         );
-
         const events = await Promise.all(
           filters.map((filter, i) =>
             contracts[i].queryFilter(
