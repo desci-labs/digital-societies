@@ -23,7 +23,7 @@ export default function CredentialForm() {
   const { address, id } = router.query;
   const { hideModal } = useModalContext();
   const org = useGetOrg(address as string);
-  const { launch, isLoading, isSuccess } = useCredentialForm(
+  const { launch, isLoading } = useCredentialForm(
     org?.address!,
     parseInt(id as string)
   );
@@ -34,13 +34,9 @@ export default function CredentialForm() {
   const isUpdateMode = mode === "update";
 
   const canDisable = useMemo(
-    () => !isDirty || isSubmitting || isLoading || isSuccess,
-    [isDirty, isSubmitting, isLoading, isSuccess]
+    () => !isDirty || isLoading,
+    [isDirty, isLoading]
   );
-
-  useEffect(() => {
-    if (isSuccess) reset();
-  }, [isSuccess, reset]);
 
   useEffect(() => {
     if (isUpdateMode && !id) {
@@ -104,7 +100,7 @@ export default function CredentialForm() {
         <FileDropzone<MetadataValues>
           name="banner"
           className="h-10"
-          disabled={canDisable}
+          disabled={isLoading}
           hasError={!!errors.banner}
         />
       </InputRow>
@@ -123,7 +119,7 @@ export default function CredentialForm() {
         <FileDropzone<MetadataValues>
           name="badge"
           className="h-10"
-          disabled={canDisable}
+          disabled={isLoading}
           hasError={!!errors.badge}
         />
       </InputRow>

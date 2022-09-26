@@ -1,5 +1,6 @@
 import { useModalContext } from "components/Modal/Modal";
 import TransactionPrompt from "components/TransactionStatus/TransactionPrompt";
+import { BigNumber, Transaction } from "ethers";
 import { pinMetadataToIpfs } from "helper/web3";
 import { useTokenContract } from "hooks/useContract";
 import { useFormContext } from "react-hook-form";
@@ -11,7 +12,7 @@ import { useGetTxState } from "services/transaction/hooks";
 import { setFormError, setFormLoading } from "services/transaction/transactionSlice";
 import { Step } from "services/transaction/types";
 import useTxUpdator from "services/transaction/updators";
-import { useAccount, useContractWrite } from "wagmi";
+import { useAccount } from "wagmi";
 import { LauncherFormValues, LaunchMode } from "../types";
 
 type Launcher = (metadata: LauncherFormValues) => Promise<void>;
@@ -27,12 +28,6 @@ export default function useCredentialForm(address: string, tokenType: number) {
   const { showModal } = useModalContext();
   const { watch } = useFormContext<LauncherFormValues>();
   const mode = watch("mode");
-  const { isLoading, isSuccess, writeAsync } = useContractWrite({
-    mode: "recklesslyUnprepared",
-    addressOrName: tokenContract?.address!,
-    contractInterface: tokenContract?.interface!,
-    functionName: mode === "create" ? "mintTokenType" : "updateTypeURI",
-  });
 
   async function launch(metadata: LauncherFormValues) {
     try {
@@ -45,10 +40,8 @@ export default function useCredentialForm(address: string, tokenType: number) {
       const cid = await pinMetadataToIpfs(meta);
 
       updateTx({ step: Step.submit, message: "Confirming transaction..." });
-      const tx = await writeAsync({
-        recklesslySetUnpreparedArgs: cid,
-      });
-
+      
+      const tx = await tokenContract.mintTokenType(cid);
       const typeId = await tokenContract?.totalTypes() ?? 0;
       const credential: PendingCredential = { id: typeId + 1, cid, address, mintedBy, metadata: meta, pending: true, dateCreated: Date.now() };
       dispatch(setCredential({ address, credential }))
@@ -82,9 +75,8 @@ export default function useCredentialForm(address: string, tokenType: number) {
       dispatch(setCredential({ address, credential: update }))
       
       updateTx({ step: Step.submit, message: "Confirming transaction..." });
-      const tx = await writeAsync({
-        recklesslySetUnpreparedArgs: [tokenType, cid],
-      });
+      
+      const tx = await tokenContract.updateTypeURI(BigNumber.from(tokenType).toString(), cid);
 
       updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Updating ${metadata.name}` });
      
@@ -102,5 +94,5 @@ export default function useCredentialForm(address: string, tokenType: number) {
 
   const lauchers: Record<LaunchMode, Launcher> = { "create": launch, "update": update }
 
-  return { launch: lauchers[mode], isLoading: form_loading || isLoading, isSuccess };
+  return { launch: lauchers[mode], isLoading: form_loading };
 }
