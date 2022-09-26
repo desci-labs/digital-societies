@@ -13,8 +13,6 @@ import { Metadata } from "components/Transactors/types";
 import { useGetOrgs } from "./hooks";
 import { FACTORY_DEPLOY_BLOCK } from "constants/web3";
 
-// TODO: update fromBlock to latest block after every event query
-
 export default function FactoryUpdater() {
   const dispatch = useDispatch();
   const orgs = useGetOrgs();

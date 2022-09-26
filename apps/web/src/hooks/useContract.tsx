@@ -14,15 +14,16 @@ export const useFactoryContract = (): SBFactory => {
   return useContract({
     addressOrName: contract?.address!,
     contractInterface: contract?.artifact!,
-    signerOrProvider: signer,
+    signerOrProvider: signer || library,
   });
 };
 
 export const useTokenContract = () => {
   const contract = getContract(Contracts.SBToken);
   const { data: signer } = useSigner();
+  const provider = useProvider();
 
   return (address: string): SBToken => {
-    return SBToken__factory.getContract(address!, contract?.artifact!, signer!).connect(signer!) as SBToken
+    return SBToken__factory.getContract(address!, contract?.artifact!, signer! || provider).connect(signer!) as SBToken
   };
 };
