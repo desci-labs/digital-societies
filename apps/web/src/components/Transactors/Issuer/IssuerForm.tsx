@@ -14,7 +14,6 @@ import { useGetTxStage } from "services/transaction/hooks";
 
 export default function IssuerForm() {
   const {
-    reset,
     register,
     handleSubmit,
     formState: { isSubmitting, isValid, errors },
@@ -24,15 +23,11 @@ export default function IssuerForm() {
   const stage = useGetTxStage();
   const org = useGetOrg(address as string);
   const credentials = useGetCredentials(org?.address ?? '');
-  const { issueCredential, isLoading, isSuccess } = useIssueCredential(org?.address!);
+  const { issueCredential, isLoading } = useIssueCredential(org?.address!);
   const canDisable = useMemo(
-    () => isSubmitting || isLoading || isSuccess,
-    [isSubmitting, isLoading, isSuccess]
+    () => isSubmitting || isLoading,
+    [isSubmitting, isLoading]
   );
-
-  useEffect(() => {
-    if (isSuccess) reset();
-  }, [isSuccess, reset]);
 
   return (
     <Form onSubmit={handleSubmit(issueCredential)} title={org?.metadata.name} description="Issue a Credential">

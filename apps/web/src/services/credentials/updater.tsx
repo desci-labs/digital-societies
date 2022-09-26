@@ -5,7 +5,7 @@ import { useProvider } from "wagmi";
 import { queryIpfsHash } from "api";
 import { asyncMap, getCIDStringFromBytes } from "helper";
 import useBlockNumber from "hooks/useBlockNumber";
-import { useSBTContractFactory } from "hooks/useContract";
+import { useTokenContract } from "hooks/useContract";
 import { useGetOrgs } from "services/orgs/hooks";
 import { Credential, CredentialMap } from "./types";
 import { setCredentials, setIsLoading } from "./credentialSlice";
@@ -17,7 +17,7 @@ export default function CredentialUpdater() {
   const orgs = useGetOrgs();
   const block = useBlockNumber();
   const provider = useProvider();
-  const getContract = useSBTContractFactory();
+  const getContract = useTokenContract();
   const [lastUpdated, setLastUpdated] = useState(0);
 
   async function getCrendentialInfofromEvent(

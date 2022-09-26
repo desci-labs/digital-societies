@@ -4,7 +4,7 @@ import { queryIpfsHash } from "api";
 import { Contract, ethers } from "ethers";
 import { asyncMap, getCIDStringFromBytes } from "helper";
 import useBlockNumber from "hooks/useBlockNumber";
-import { useFactoryContract, useSBTContractFactory } from "hooks/useContract";
+import { useFactoryContract, useTokenContract } from "hooks/useContract";
 import { DEFAULT_ADMIN_ROLE, DELEGATE_ROLE } from "constants/roles";
 import { useDispatch } from "react-redux";
 import { setIsLoading, setOrgs } from "./orgSlice";
@@ -23,7 +23,7 @@ export default function FactoryUpdater() {
   const block = useBlockNumber();
 
   const provider = useProvider();
-  const getContract = useSBTContractFactory();
+  const getContract = useTokenContract();
   const [lastUpdated, setLastUpdated] = useState(0);
 
   async function getDelegates(contract: Contract): Promise<string[]> {

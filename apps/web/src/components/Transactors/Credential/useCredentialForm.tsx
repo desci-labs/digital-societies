@@ -1,7 +1,7 @@
 import { useModalContext } from "components/Modal/Modal";
 import TransactionPrompt from "components/TransactionStatus/TransactionPrompt";
 import { pinMetadataToIpfs } from "helper/web3";
-import { useSBTContractFactory } from "hooks/useContract";
+import { useTokenContract } from "hooks/useContract";
 import { useFormContext } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { setCredential } from "services/credentials/credentialSlice";
@@ -20,7 +20,7 @@ export default function useCredentialForm(address: string, tokenType?: number) {
   const dispatch = useDispatch();
   const { updateTx } = useTxUpdator();
   const { form_loading } = useGetTxState();
-  const getContract = useSBTContractFactory();
+  const getContract = useTokenContract();
   const tokenContract = getContract(address);
   const credential = useGetCredential(address, tokenType!);
   const { address: mintedBy } = useAccount();

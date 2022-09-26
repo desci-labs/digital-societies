@@ -1,15 +1,14 @@
 import { useModalContext } from "components/Modal/Modal";
 import TransactionPrompt from "components/TransactionStatus/TransactionPrompt";
 import { DELEGATE_ROLE } from "constants/roles";
-import { useSBTContractFactory } from "hooks/useContract";
+import { useTokenContract } from "hooks/useContract";
 import { useDispatch } from "react-redux";
-import { addDelegate } from "services/orgs/orgSlice";
+import { addDelegate, removeDelegate } from "services/orgs/orgSlice";
 import { useGetOrg } from "services/orgs/hooks";
 import { useGetTxState } from "services/transaction/hooks";
 import { setFormError, setFormLoading } from "services/transaction/transactionSlice";
 import { Step } from "services/transaction/types";
 import useTxUpdator from "services/transaction/updators";
-import { useContractWrite } from "wagmi";
 import { DelegaterValues } from "../types";
 
 export default function useGrantRole(address: string) {
@@ -18,15 +17,8 @@ export default function useGrantRole(address: string) {
   const org = useGetOrg(address);
   const { updateTx } = useTxUpdator();
   const { form_loading } = useGetTxState();
-  const getContract = useSBTContractFactory();
+  const getContract = useTokenContract();
   const tokenContract = getContract(address);
-
-  const { isLoading, isSuccess, writeAsync } = useContractWrite({
-    mode: "recklesslyUnprepared",
-    addressOrName: tokenContract?.address!,
-    contractInterface: tokenContract?.interface!,
-    functionName: "grantRole",
-  });
 
   async function grantRole(metadata: DelegaterValues) {
     try {
@@ -36,10 +28,7 @@ export default function useGrantRole(address: string) {
       dispatch(setFormLoading(true));
       updateTx({ step: Step.submit, message: "Confirm transaction..." })
 
-      const args = [DELEGATE_ROLE, metadata.delegate]
-      const tx = await writeAsync({
-        recklesslySetUnpreparedArgs: args,
-      });
+      const tx = await tokenContract.grantRole(DELEGATE_ROLE, metadata.delegate);
 
       showModal(TransactionPrompt, {});
       dispatch(addDelegate({ org: address, delegate: metadata.delegate }))
@@ -51,12 +40,12 @@ export default function useGrantRole(address: string) {
       updateTx({ step: Step.success, txHash: tx.hash, message: "" })
     } catch (e: any) {
       dispatch(setFormLoading(false));
-      console.log('Error ', e?.data?.message, e?.message);
+      dispatch(removeDelegate({ org: address, delegate: metadata.delegate }))
       updateTx({ step: Step.error, message: "An error occured while adding delegate" });
       dispatch(setFormLoading(false));
       dispatch(setFormError(e?.data?.message ?? e?.message));
     }
 
   }
-  return { grantRole, isLoading: isLoading || form_loading, isSuccess };
+  return { grantRole, isLoading: form_loading };
 }

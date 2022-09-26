@@ -1,6 +1,6 @@
 import { useModalContext } from "components/Modal/Modal";
 import TransactionPrompt from "components/TransactionStatus/TransactionPrompt";
-import { useSBTContractFactory } from "hooks/useContract";
+import { useTokenContract } from "hooks/useContract";
 import { useDispatch } from "react-redux";
 import { removeTokens, setTokens } from "services/credentials/credentialSlice";
 import { CredentialToTokenMap } from "services/credentials/types";
@@ -8,7 +8,7 @@ import { useGetTxState } from "services/transaction/hooks";
 import { setFormError, setFormLoading } from "services/transaction/transactionSlice";
 import { Step } from "services/transaction/types";
 import useTxUpdator from "services/transaction/updators";
-import { useAccount, useSigner } from "wagmi";
+import { useAccount } from "wagmi";
 import { IssuerValues } from "../types";
 
 export default function useIssueCredential(address: string) {
@@ -17,9 +17,8 @@ export default function useIssueCredential(address: string) {
   const { showModal } = useModalContext();
   const { form_loading } = useGetTxState();
   const { address: account } = useAccount();
-  const getContract = useSBTContractFactory();
-  const { data: signer } = useSigner();
-  const tokenContract = getContract(address).connect(signer!);
+  const getContract = useTokenContract();
+  const tokenContract = getContract(address);
 
 
   async function getPayload(addresses: string[], credential: number) {
@@ -65,5 +64,5 @@ export default function useIssueCredential(address: string) {
       dispatch(setFormError(e?.data?.message ?? e?.message));
     }
   }
-  return { issueCredential, isLoading: form_loading, isSuccess: false };
+  return { issueCredential, isLoading: form_loading };
 }

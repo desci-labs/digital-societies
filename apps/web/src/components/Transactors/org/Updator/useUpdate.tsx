@@ -2,7 +2,7 @@ import { useModalContext } from "components/Modal/Modal";
 import TransactionPrompt from "components/TransactionStatus/TransactionPrompt";
 import { MetadataValues } from "components/Transactors/types";
 import { pinMetadataToIpfs } from "helper/web3";
-import { useSBTContractFactory } from "hooks/useContract";
+import { useTokenContract } from "hooks/useContract";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useGetOrg } from "services/orgs/hooks";
@@ -20,7 +20,7 @@ export default function useUpdate(address: string) {
   const dispatch = useDispatch();
   const { updateTx } = useTxUpdator();
   const { form_loading } = useGetTxState();
-  const getContract = useSBTContractFactory();
+  const getContract = useTokenContract();
   const tokenContract = getContract(address);
   const { isLoading, isSuccess, writeAsync } = useContractWrite({
     mode: "recklesslyUnprepared",

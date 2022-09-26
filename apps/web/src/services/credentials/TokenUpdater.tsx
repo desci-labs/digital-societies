@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { ethers } from "ethers";
 import { asyncMap } from "helper";
 import useBlockNumber from "hooks/useBlockNumber";
-import { useSBTContractFactory } from "hooks/useContract";
+import { useTokenContract } from "hooks/useContract";
 import { useProvider } from "wagmi";
 import { useGetOrgs } from "services/orgs/hooks";
 import { CredentialToken, CredentialToTokenMap } from "./types";
@@ -15,7 +15,7 @@ export default function TokenUpdater() {
   const orgs = useGetOrgs();
   const block = useBlockNumber();
   const provider = useProvider();
-  const getContract = useSBTContractFactory();
+  const getContract = useTokenContract();
   const [lastUpdated, setLastUpdated] = useState(0);
 
   async function getTokenInfofromEvent(

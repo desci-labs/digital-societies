@@ -5,7 +5,7 @@ import Success from "components/ModalViews/Success";
 import { DELEGATE_ROLE } from "constants/roles";
 import { useSetTx } from "context/useTx";
 import { maskAddress } from "helper";
-import { useSBTContractFactory } from "hooks/useContract";
+import { useTokenContract } from "hooks/useContract";
 import { useDispatch } from "react-redux";
 import { removeDelegate } from "services/orgs/orgSlice";
 import { useContractWrite } from "wagmi";
@@ -13,7 +13,7 @@ import { useContractWrite } from "wagmi";
 export default function useRemoveDelegate(address: string) {
   const { showModal } = useModalContext();
   const { setTx, reset } = useSetTx();
-  const getContract = useSBTContractFactory();
+  const getContract = useTokenContract();
   const tokenContract = getContract(address);
   const dispatch = useDispatch();
 

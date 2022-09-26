@@ -17,15 +17,6 @@ export const useFactoryContract = (): SBFactory => {
   });
 };
 
-export const useSBTContractFactory = () => {
-  const contract = getContract(Contracts.SBToken);
-  const { data } = useSigner();
-
-  return (address: string): SBToken => {
-    return SBToken__factory.getContract(address!, contract?.artifact!, data!) as SBToken
-  };
-};
-
 export const useTokenContract = () => {
   const contract = getContract(Contracts.SBToken);
   const { data: signer } = useSigner();

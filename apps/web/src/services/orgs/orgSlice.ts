@@ -85,8 +85,14 @@ const slice = createSlice({
       if (exists?.tokenId === payload.token.tokenId) return;
       org?.revocations.push(payload.token);
     },
+
+    deleteRevocation(state, { payload }: PayloadAction<{ org: string; tokenId: number }>) {
+      const org = state.data.find(org => org.address === payload.org);
+      if (!org?.revocations) return;
+      org.revocations = org.revocations.filter(data => data.tokenId !== payload.tokenId);
+    },
   },
 });
 
 export default slice.reducer;
-export const { resetOrgs, setOrg, setOrgs, setIsLoading, addDelegate, removeDelegate, addRevocation } = slice.actions;
+export const { resetOrgs, setOrg, setOrgs, setIsLoading, addDelegate, removeDelegate, addRevocation, deleteRevocation } = slice.actions;
