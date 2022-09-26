@@ -9,11 +9,12 @@ export function getContract(type: Contracts) {
 
 export const useFactoryContract = (): SBFactory => {
   const library = useProvider();
+  const { data: signer } = useSigner();
   const contract = getContract(Contracts.Factory);
   return useContract({
     addressOrName: contract?.address!,
     contractInterface: contract?.artifact!,
-    signerOrProvider: library,
+    signerOrProvider: signer,
   });
 };
 

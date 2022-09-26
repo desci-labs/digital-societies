@@ -1,5 +1,5 @@
 import FileDropzone from "components/FileDropzone";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import useLaunch from "./useLaunch";
@@ -11,20 +11,14 @@ export default function LaunchForm() {
   const {
     register,
     handleSubmit,
-    reset,
     watch,
     formState: { isSubmitting, isValid, errors },
   } = useFormContext<MetadataValues>();
-  const { launch, isLoading, isSuccess } = useLaunch();
+  const { launch, isLoading } = useLaunch();
 
   const image = watch('banner');
   const badge = watch('badge');
   const canDisable = useMemo(() => isSubmitting || isLoading, [isSubmitting, isLoading])
-
-  useEffect(() => {
-    if (isSuccess) reset();
-  }, [isSuccess, reset]);
-
 
   return (
     <Form onSubmit={handleSubmit(launch)} title="Launch Organisation" className="mb-10 bg-white">

@@ -12,7 +12,6 @@ import { useGetTxState } from "services/transaction/hooks";
 import { setFormError, setFormLoading } from "services/transaction/transactionSlice";
 import { Step } from "services/transaction/types";
 import useTxUpdator from "services/transaction/updators";
-import { useContractWrite } from "wagmi";
 
 export default function useLaunch() {
   const { showModal } = useModalContext();
@@ -20,12 +19,6 @@ export default function useLaunch() {
   const { updateTx } = useTxUpdator();
   const { form_loading } = useGetTxState();
   const factoryContract = useFactoryContract();
-  const { isLoading, isSuccess, writeAsync } = useContractWrite({
-    mode: "recklesslyUnprepared",
-    addressOrName: factoryContract.address!,
-    contractInterface: factoryContract.interface!,
-    functionName: "deployToken",
-  });
 
   useEffect(() => () => { dispatch(setFormError(null)) });
 
@@ -38,10 +31,7 @@ export default function useLaunch() {
       const cid = await pinMetadataToIpfs(metadata);
 
       updateTx({ step: Step.submit, message: "Confirm transaction..." });
-      const tx = await writeAsync({
-        recklesslySetUnpreparedArgs: [metadata.name, metadata.symbol, cid],
-      });
-
+      const tx = await factoryContract.deployToken(metadata.name, metadata.symbol, cid)
       updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Deploying ${metadata.name}` });
       
       const receipt = await tx.wait();
@@ -60,8 +50,8 @@ export default function useLaunch() {
       };
       
       dispatch(setOrg(preview));
-      dispatch(setFormLoading(false));
       updateTx({ step: Step.success, message: "", txHash: tx.hash, previewLink: { href: `/orgs/${address}`, caption: "Preview" } });
+      dispatch(setFormLoading(false));
     } catch (e: any) {
       console.log("Error ", e?.data?.message, e?.message);
       updateTx({ step: Step.error, message: "Error processing deployment!!!" });
@@ -69,5 +59,5 @@ export default function useLaunch() {
       dispatch(setFormError({ title: `Error deploying ${metadata.name}`, details: "" }));
     }
   }
-  return { launch, isLoading: form_loading || isLoading, isSuccess };
+  return { launch, isLoading: form_loading };
 }

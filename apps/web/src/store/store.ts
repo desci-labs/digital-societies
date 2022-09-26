@@ -24,7 +24,7 @@ const migrations = {
 }
 
 const persistConfig = {
-  key: 'root1',
+  key: 'root',
   version: 1,
   storage,
   migrate: createMigrate(migrations),
