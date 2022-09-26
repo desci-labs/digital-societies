@@ -3,7 +3,7 @@ import { MetadataCard } from "components/UI/Credential/Index";
 import { useGetOrgState } from "services/orgs/hooks";
 import Link from "next/link";
 
-export default function ListOrgs() {
+export default function DesocList() {
   const { data, isLoading } = useGetOrgState();
 
   if (isLoading) {
@@ -14,7 +14,7 @@ export default function ListOrgs() {
     return <NoContent />;
   }
   return (
-    <div className="container py-10 grid grid-cols-1 lg:grid-cols-3 content-start gap-y-10 place-items-center mt-10">
+    <div className="container mx-auto py-10 grid grid-cols-1 lg:grid-cols-3 content-start gap-y-10 place-items-center mt-10">
       {data.map((org, idx) => (
         <MetadataCard
           key={idx}

@@ -1,4 +1,4 @@
-import ListOrgs from 'components/Views/ListOrgs';
+import DesocList from 'components/UI/DesocList';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 
@@ -13,7 +13,7 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ListOrgs />
+      <DesocList />
     </div>
   );
 };
