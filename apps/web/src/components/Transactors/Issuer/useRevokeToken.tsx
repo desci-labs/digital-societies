@@ -24,25 +24,44 @@ export default function useRevokeToken(address: string) {
     if (!tokenContract) return;
     try {
       dispatch(setFormLoading(true));
-      updateTx({ step: Step.submit, message: "Confirm transaction..." })
+      updateTx({ step: Step.submit, message: "Confirm transaction..." });
       showModal(TransactionPrompt, {});
 
       const tx = await tokenContract.revoke(token.tokenId);
       dispatch(removeToken({ address, tokenId: token.tokenId }));
-      dispatch(addRevocation({ org: address, token: { tokenId: token.tokenId, revokedBy: account!, owner: token.owner, timestamp: Date.now() } }))
+      dispatch(
+        addRevocation({
+          org: address,
+          token: {
+            tokenId: token.tokenId,
+            revokedBy: account!,
+            owner: token.owner,
+            timestamp: Date.now(),
+          },
+        })
+      );
 
-      updateTx({ step: Step.broadcast, txHash: tx.hash, message: 'Revoking Credential...' })
+      updateTx({
+        step: Step.broadcast,
+        txHash: tx.hash,
+        message: "Revoking Credential...",
+      });
       await tx.wait();
-      console.log('tx ', tx);
       dispatch(setFormLoading(false));
-      updateTx({ step: Step.success, txHash: tx.hash, message: 'Credential revoked' });
+      updateTx({
+        step: Step.success,
+        txHash: tx.hash,
+        message: "Credential revoked",
+      });
     } catch (e: any) {
       dispatch(setTokens({ [address]: [token] }));
-      dispatch(deleteRevocation({ org: address, tokenId: token.tokenId }))
+      dispatch(deleteRevocation({ org: address, tokenId: token.tokenId }));
       dispatch(setFormLoading(false));
-      updateTx({ step: Step.error, message: `Error revoking tokenId ${token.tokenId}`, });
+      updateTx({
+        step: Step.error,
+        message: `Error revoking tokenId ${token.tokenId}`,
+      });
     }
-
   }
   return { revoke, isLoading: form_loading };
 }

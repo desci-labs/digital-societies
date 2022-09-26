@@ -16,7 +16,7 @@ import { LauncherFormValues, LaunchMode } from "../types";
 
 type Launcher = (metadata: LauncherFormValues) => Promise<void>;
 
-export default function useCredentialForm(address: string, tokenType?: number) {
+export default function useCredentialForm(address: string, tokenType: number) {
   const dispatch = useDispatch();
   const { updateTx } = useTxUpdator();
   const { form_loading } = useGetTxState();
@@ -37,9 +37,6 @@ export default function useCredentialForm(address: string, tokenType?: number) {
   async function launch(metadata: LauncherFormValues) {
     try {
       if (!mintedBy) throw Error("Check wallet connection and try again!!!");
-
-      if (!metadata.banner.ipfsHash && !metadata.banner.file) throw new Error("Please select a banner image to upload");
-      if (!metadata.badge.ipfsHash && !metadata.badge.file) throw new Error("Please select a badge icon to upload");
 
       dispatch(setFormLoading(true));
       updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
@@ -74,7 +71,6 @@ export default function useCredentialForm(address: string, tokenType?: number) {
     
     try {
       if (!mintedBy) throw Error("Check wallet connection and try again!!!");
-      if (!tokenType || !credential) throw Error("Check wallet connection and try again!!!");
 
       dispatch(setFormLoading(true));
       updateTx({ step: Step.submit, message: "Pinning update to IPFS..." });
@@ -82,7 +78,6 @@ export default function useCredentialForm(address: string, tokenType?: number) {
       
       const { mode, ...meta } = metadata;
       const cid = await pinMetadataToIpfs(meta);
-      console.log('cid ', cid);
       const update = { ...credential, cid, metadata: meta, } as PendingCredential;
       dispatch(setCredential({ address, credential: update }))
       
