@@ -97,7 +97,7 @@ export default function LaunchForm() {
       </InputRow>
       <Button
         disabled={canDisable || !isValid}
-        className="mt-4 w-full bg-black disabled:bg-regent-gray"
+        className="mt-4 w-full bg-tint-primary-dark disabled:bg-regent-gray"
       >
         Deploy organisation
       </Button>

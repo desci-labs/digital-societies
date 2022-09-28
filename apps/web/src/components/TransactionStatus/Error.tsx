@@ -23,7 +23,7 @@ export default function ErrorPop({ message }: { message: string }) {
         </p>
       </div>
       <Button
-        className="tracking-wide text-lg text-white rounded-lg w-full mt-5 bg-primary"
+        className="tracking-wide text-lg text-white rounded-lg w-full mt-5 bg-tint-primary-dark"
         onClick={close}
       >
         okay

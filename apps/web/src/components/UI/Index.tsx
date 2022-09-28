@@ -48,6 +48,6 @@ export function RoundedLogo(props: ImgProps) {
 
 export function CardContainer(props: PropsWithChildren<{ className?: string }>) {
   return (
-    <div className={`container mx-auto pb-5 pt-2 mt-10 shadow-lg hover:shadow-2xl duration-100 ${props.className}`}>{props.children}</div>
+    <div className={`container mx-auto pb-5 pt-2 px-2 lg:px-0 mt-10 shadow-lg hover:shadow-2xl duration-100 ${props.className}`}>{props.children}</div>
   )
 }

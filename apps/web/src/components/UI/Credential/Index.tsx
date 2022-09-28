@@ -40,13 +40,13 @@ export function CredentialGridView({ address }: { address: string }) {
   if (isLoading) return <Loader />;
 
   return (
-    <div className="container mx-auto pt-2 mt-10">
+    <div className="container mx-auto pt-2 mt-10 px-2 lg:px-0">
       <div className="flex w-full justify-between">
-        <h1 className="text-left text-2xl text-neutrals-gray-7 font-bold">Credentials</h1>
+        <h1 className="text-left text-2xl text-neutrals-gray-7 font-semibold">Credentials</h1>
         {hasAccess && (
           <Button
             onClick={showCredenter}
-            className="flex items-center justify-evenly font-bold outline-none rounded-3xl px-2 p-1"
+            className="flex items-center justify-evenly font-bold outline-none px-2 p-1 bg-primary-hover"
           >
             <AiOutlinePlus color="black" className="block" />{" "}
             <span className="block capitalize text-sm text-dark">new</span>{" "}
@@ -54,7 +54,7 @@ export function CredentialGridView({ address }: { address: string }) {
         )}
       </div>
       {credentials && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 content-start gap-y-10 place-items-start mt-5 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-y-10 md:place-items-start mt-5 mb-10">
           {credentials.map((credential, idx) => (
             <MetadataCard
               key={idx}
@@ -80,9 +80,10 @@ export function MetadataCard({
   if (!metadata) return null;
 
   return (
-    <div
+    <a
+      tabIndex={0}
       onClick={() => router.push(link)}
-      className="bg-transparent text-white min-w-80 w-80 pb-4 shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden border border-neutrals-gray-3"
+      className="bg-transparent text-white min-w-80 w-80 pb-4 shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden border border-neutrals-gray-3 focus:outline-white"
     >
       <div className="w-80 h-32 relative">
         <ImageBanner src={getImageURL(metadata?.banner ?? "")} />
@@ -106,7 +107,7 @@ export function MetadataCard({
             </div>
           )}
       </div>
-    </div>
+    </a>
   );
 }
 
@@ -126,11 +127,11 @@ export function Delegates({ address }: { address: string }) {
   return (
     <CardContainer>
       <div className="flex justify-between items-center text-neutrals-gray-7">
-        <h1 className="text-xl font-semibold">Delegates</h1>
+        <h1 className="text-2xl font-semibold">Delegates</h1>
         {hasAccess && (
           <Button
             onClick={showDelegate}
-            className="flex items-center justify-evenly outline-none border rounded-3xl px-2 p-1 border-curious-blue font-bold"
+            className="flex items-center justify-evenly outline-none px-2 p-1 font-bold bg-primary-hover "
           >
             <AiOutlinePlus className="block" />{" "}
             <span className="block capitalize text-sm">new</span>{" "}
@@ -189,8 +190,8 @@ export function RevocationHistory({ address }: { address: string }) {
 
   return (
     <CardContainer>
-      <div className="flex justify-between items-center px-5 mb-5 text-neutrals-gray-7">
-        <h1 className="text-xl font-semibold">Revocation History</h1>
+      <div className="flex justify-between items-center mb-5 text-neutrals-gray-7">
+        <h1 className="ext-left text-2xl text-neutrals-gray-7 font-semibold">Revocation History</h1>
       </div>
       <Table>
         <THead rows={getRows()} />
@@ -246,11 +247,11 @@ export function TokenTableView({
   return (
     <CardContainer>
       {hasAccess && (
-        <div className="flex justify-between items-center px-5 mb-5 text-neutrals-gray-7">
-          <h1 className="text-xl font-semibold">Recipients</h1>
+        <div className="flex justify-between items-center mb-5 text-neutrals-gray-7">
+          <h1 className="ext-left text-2xl text-neutrals-gray-7 font-semibold">Recipients</h1>
           <Button
             onClick={showIssuer}
-            className="flex items-center justify-evenly outline-none border rounded-3xl px-2 p-1 border-primary font-bold"
+            className="flex items-center justify-evenly outline-none p-1 bg-primary-hover font-bold"
           >
             <AiOutlinePlus className="block" />
             <span className="block capitalize text-sm">Issue</span>{" "}
@@ -263,7 +264,7 @@ export function TokenTableView({
           {tokens &&
             tokens.map((token, idx) => (
               <Row key={idx}>
-                <Cell className="flex justify-start p-2">
+                <Cell className="p-2 h-full">
                   <div className="w-10 h-10 relative">
                     <Image
                       src={getImageURL(

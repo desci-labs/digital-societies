@@ -41,7 +41,7 @@ export default function Success({
         )}
         {previewLink && (
           <Button
-            className="tracking-wide text-lg text-white rounded-lg w-full mt-5 bg-primary"
+            className="tracking-wide text-lg text-white rounded-lg w-full mt-5 bg-tint-primary-dark"
             onClick={() => preview(previewLink.href)}
           >
             {previewLink && "Preview"}

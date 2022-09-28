@@ -125,7 +125,7 @@ export default function CredentialForm() {
       </InputRow>
       <Button
         disabled={canDisable || !isValid}
-        className="mt-4 w-full bg-black disabled:bg-regent-gray"
+        className="mt-4 w-full disabled:bg-regent-gray bg-tint-primary-dark"
       >
         {isLoading
           ? stage.message || "submitting..."

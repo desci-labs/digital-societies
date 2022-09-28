@@ -4,9 +4,10 @@ import { useGetOrg, useIsAdmin } from "services/orgs/hooks";
 import { CredentialGridView, Delegates, RevocationHistory } from "components/UI/Credential/Index";
 import { ImageBanner, RoundedLogo } from "components/UI/Index";
 import { getImageURL } from "helper";
-import { ActionButton, ActionButtons } from "components/ActionButtons/Index";
 import useUpdater from "components/Transactors/org/Updator/useUpdater";
 import { useEffect, useState } from "react";
+import Button from "components/UI/Button/Index";
+import { FiEdit } from "react-icons/fi";
 
 export default function OrganisationDetails() {
   const router = useRouter();
@@ -28,16 +29,23 @@ export default function OrganisationDetails() {
   return (
     <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center mb-10">
       <div className="w-full h-88 relative group">
-        {hasAccess && <ActionButtons>
-          <ActionButton title="Edit Metadata" onClick={() => showUpdater()}>Edit metadata</ActionButton>
-        </ActionButtons>}
         <ImageBanner src={getImageURL(org.metadata.banner)} alt={org.metadata.name} />
         <RoundedLogo src={getImageURL(org.metadata.badge)} alt={org.metadata.name} />
       </div>
-      <div className="container mx-auto mt-10">
-        <span className="text-3xl  text-white block font-bold mb-2 text-left">
-          {org.metadata.name} {org.metadata.symbol && (org.metadata.symbol)}
-        </span>
+      <div className="container mx-auto mt-8 px-2 lg:px-0">
+        <div className="flex gap-3 items-center mb-2">
+          <span className="text-3xl text-white block font-bold text-left">
+            {org.metadata.name} - {org.metadata.symbol && (org.metadata.symbol)}
+          </span>
+          {hasAccess && (
+            <Button
+              onClick={() => showUpdater()}
+              className="flex items-center justify-evenly focus:outline-white bg-transparent px-2 p-1 font-bold"
+            >
+              <FiEdit className="text-white" />{" "}
+            </Button>
+          )}
+        </div>
         <span className="text-lg block mb-2 text-left text-neutrals-gray-5">
           {org.metadata.description}
         </span>

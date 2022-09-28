@@ -52,7 +52,7 @@ export default function DelegaterForm() {
       </InputRow>
       <Button
         disabled={canDisable || !isValid}
-        className="mt-10 w-full bg-black disabled:bg-regent-gray"
+        className="mt-10 w-full bg-tint-primary-dark disabled:bg-regent-gray"
       >
         {isLoading ? stage.message || "Loading..." : "Grant role"}
       </Button>

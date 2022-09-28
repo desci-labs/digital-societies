@@ -8,8 +8,9 @@ import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { ImageBanner, RoundedLogo } from "components/UI/Index";
 import { TokenTableView } from "components/UI/Credential/Index";
-import { ActionButton, ActionButtons } from "components/ActionButtons/Index";
 import useCredenter from "components/Transactors/Credential/useCredenter";
+import Button from "components/UI/Button/Index";
+import { FiEdit } from "react-icons/fi";
 
 export default function CredentialDetails() {
   const router = useRouter();
@@ -41,16 +42,23 @@ export default function CredentialDetails() {
   return (
     <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center mb-10">
       <div className="w-full h-88 relative group">
-        {hasAccess && <ActionButtons>
-          <ActionButton title="Edit Metadata" onClick={() => showLauncher()}>Edit credential</ActionButton>
-        </ActionButtons>}
         <ImageBanner src={getImageURL(metadata?.banner ?? "")} />
         <RoundedLogo src={getImageURL(metadata?.badge ?? "")} />
       </div>
-      <div className="container mx-auto mt-5">
-        <span className="text-3xl text-neutrals-gray-7 block font-bold mb-2 text-left">
-          {metadata.name} ({metadata.symbol})
-        </span>
+      <div className="container mx-auto mt-8 px-2 lg:px-0">
+        <div className="flex gap-3 items-center mb-2">
+          <span className="text-3xl text-white block font-bold text-left">
+            {metadata.name} - {metadata.symbol && (metadata.symbol)}
+          </span>
+          {hasAccess && (
+            <Button
+              onClick={() => showLauncher()}
+              className="flex items-center justify-evenly outline-none bg-transparent px-2 p-1 font-bold"
+            >
+              <FiEdit className="text-white" />{" "}
+            </Button>
+          )}
+        </div>
         <span className="text-lg block mb-2 text-left text-neutrals-gray-5">
           {metadata.description}
         </span>
