@@ -1,5 +1,4 @@
 import AddressOrEns from "components/AddressOrEns/Index";
-import { Button } from "components/Form/Index";
 import Loader from "components/Loader";
 import useCredenter from "components/Transactors/Credential/useCredenter";
 import useDelegater from "components/Transactors/Delegater/useDelegater";
@@ -30,6 +29,7 @@ import {
 } from "../Index";
 import { Cell, Row, Table, TBody, THead } from "../Table";
 import { useRouter } from "next/router";
+import Button from "../Button/Index";
 
 export function CredentialGridView({ address }: { address: string }) {
   const hasAccess = useIsAdminOrDelegate(address);
@@ -44,13 +44,13 @@ export function CredentialGridView({ address }: { address: string }) {
       <div className="flex w-full justify-between">
         <h1 className="text-left text-2xl text-neutrals-gray-7 font-bold">Credentials</h1>
         {hasAccess && (
-          <button
+          <Button
             onClick={showCredenter}
-            className="flex items-center justify-evenly outline-none rounded-3xl px-2 p-1 border border-primary"
+            className="flex items-center justify-evenly font-bold outline-none rounded-3xl px-2 p-1"
           >
-            <span className="block capitalize text-sm text-white">Add Credential</span>{" "}
-            <AiOutlinePlus color="white" className="block" />{" "}
-          </button>
+            <AiOutlinePlus color="black" className="block" />{" "}
+            <span className="block capitalize text-sm text-dark">new</span>{" "}
+          </Button>
         )}
       </div>
       {credentials && (
@@ -128,13 +128,13 @@ export function Delegates({ address }: { address: string }) {
       <div className="flex justify-between items-center text-neutrals-gray-7">
         <h1 className="text-xl font-semibold">Delegates</h1>
         {hasAccess && (
-          <button
+          <Button
             onClick={showDelegate}
-            className="flex items-center justify-evenly outline-none border rounded-3xl px-2 p-1 border-curious-blue"
+            className="flex items-center justify-evenly outline-none border rounded-3xl px-2 p-1 border-curious-blue font-bold"
           >
-            <span className="block capitalize text-sm">Add delegate</span>{" "}
             <AiOutlinePlus className="block" />{" "}
-          </button>
+            <span className="block capitalize text-sm">new</span>{" "}
+          </Button>
         )}
       </div>
       <Table>
@@ -248,13 +248,13 @@ export function TokenTableView({
       {hasAccess && (
         <div className="flex justify-between items-center px-5 mb-5 text-neutrals-gray-7">
           <h1 className="text-xl font-semibold">Recipients</h1>
-          <button
+          <Button
             onClick={showIssuer}
-            className="flex items-center justify-evenly outline-none border rounded-3xl px-2 p-1 border-primary"
+            className="flex items-center justify-evenly outline-none border rounded-3xl px-2 p-1 border-primary font-bold"
           >
-            <span className="block capitalize text-sm">Issue credential</span>{" "}
-            <AiOutlinePlus className="block" />{" "}
-          </button>
+            <AiOutlinePlus className="block" />
+            <span className="block capitalize text-sm">Issue</span>{" "}
+          </Button>
         </div>
       )}
       <Table>

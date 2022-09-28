@@ -1,8 +1,8 @@
 import { useRouter }  from "next/router";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { GradientButton, Form, InputRow, SelectInput } from "components/Form/Index";
+import { Form, InputRow, SelectInput } from "components/Form/Index";
 import { useGetOrg } from "services/orgs/hooks";
 import { IssuerValues } from "../types";
 import {
@@ -11,6 +11,7 @@ import {
 import useIssueCredential from "./useIssueCredential";
 import { Credential, PendingCredential } from "services/credentials/types";
 import { useGetTxStage } from "services/transaction/hooks";
+import Button from "components/UI/Button/Index";
 
 export default function IssuerForm() {
   const {
@@ -60,12 +61,12 @@ export default function IssuerForm() {
           {...register("addresses")}
         />
       </InputRow>
-      <GradientButton
+      <Button
         disabled={canDisable || !isValid}
         className="mt-10 w-full bg-black disabled:bg-regent-gray"
       >
         {isLoading ? stage.message || "Loading..." : "Issue Credential"}
-      </GradientButton>
+      </Button>
     </Form>
   );
 }

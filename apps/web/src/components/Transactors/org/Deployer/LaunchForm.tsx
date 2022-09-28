@@ -3,9 +3,10 @@ import { useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import useLaunch from "./useLaunch";
-import { GradientButton, Form, Input, InputRow } from "components/Form/Index";
+import { Form, Input, InputRow } from "components/Form/Index";
 import { MetadataValues } from "../../types";
 import ImagePreview from "components/UI/ImagePreview";
+import Button from "components/UI/Button/Index";
 
 export default function LaunchForm() {
   const {
@@ -94,12 +95,12 @@ export default function LaunchForm() {
           hasError={!!errors.badge}
         />
       </InputRow>
-      <GradientButton
+      <Button
         disabled={canDisable || !isValid}
         className="mt-4 w-full bg-black disabled:bg-regent-gray"
       >
         Deploy organisation
-      </GradientButton>
+      </Button>
     </Form>
   );
 }

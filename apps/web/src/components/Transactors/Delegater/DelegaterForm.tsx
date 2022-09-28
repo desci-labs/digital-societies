@@ -1,12 +1,13 @@
 import { useRouter } from "next/router";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { GradientButton, Form, InputRow, Input } from "components/Form/Index";
+import { Form, InputRow, Input } from "components/Form/Index";
 import { useGetOrg } from "services/orgs/hooks";
 import { DelegaterValues } from "../types";
 import useGrantRole from "./useGrantRole";
 import { useGetTxStage } from "services/transaction/hooks";
 import { useMemo } from "react";
+import Button from "components/UI/Button/Index";
 
 export default function DelegaterForm() {
   const {
@@ -49,12 +50,12 @@ export default function DelegaterForm() {
           {...register("delegate")}
         />
       </InputRow>
-      <GradientButton
+      <Button
         disabled={canDisable || !isValid}
         className="mt-10 w-full bg-black disabled:bg-regent-gray"
       >
         {isLoading ? stage.message || "Loading..." : "Grant role"}
-      </GradientButton>
+      </Button>
     </Form>
   );
 }

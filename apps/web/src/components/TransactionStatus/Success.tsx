@@ -1,4 +1,5 @@
 import { useModalContext } from "components/Modal/Modal";
+import Button from "components/UI/Button/Index";
 import { getTransactionUrl } from "helper/web3";
 import { useRouter } from "next/router";
 import { SuccessStage } from "services/transaction/types";
@@ -39,12 +40,12 @@ export default function Success({
           />
         )}
         {previewLink && (
-          <button
-            className="tracking-wide text-lg text-white rounded-lg w-32 py-1.5 px-4 outline-none bg-regent-gray"
+          <Button
+            className="tracking-wide text-lg text-white rounded-lg w-full mt-5 bg-primary"
             onClick={() => preview(previewLink.href)}
           >
             {previewLink && "Preview"}
-          </button>
+          </Button>
         )}
       </div>
     </div>

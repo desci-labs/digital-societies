@@ -3,21 +3,21 @@ import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import FileDropzone from "components/FileDropzone";
-import { Form, GradientButton, Input, InputRow } from "components/Form/Index";
+import { Form, Input, InputRow } from "components/Form/Index";
 import { useGetOrg } from "services/orgs/hooks";
 import { LauncherFormValues, MetadataValues } from "../types";
 import ImagePreview from "components/UI/ImagePreview";
 import useCredentialForm from "./useCredentialForm";
 import { useGetTxStage } from "services/transaction/hooks";
 import { useModalContext } from "components/Modal/Modal";
+import Button from "components/UI/Button/Index";
 
 export default function CredentialForm() {
   const {
-    reset,
     watch,
     register,
     handleSubmit,
-    formState: { isSubmitting, isDirty, isValid, errors },
+    formState: { isDirty, isValid, errors },
   } = useFormContext<LauncherFormValues>();
   const router = useRouter();
   const { address, id } = router.query;
@@ -123,7 +123,7 @@ export default function CredentialForm() {
           hasError={!!errors.badge}
         />
       </InputRow>
-      <GradientButton
+      <Button
         disabled={canDisable || !isValid}
         className="mt-4 w-full bg-black disabled:bg-regent-gray"
       >
@@ -132,7 +132,7 @@ export default function CredentialForm() {
           : isUpdateMode
           ? "update credential"
           : "Create Credential"}
-      </GradientButton>
+      </Button>
     </Form>
   );
 }

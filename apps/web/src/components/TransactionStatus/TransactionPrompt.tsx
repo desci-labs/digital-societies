@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { AiOutlineClose } from "react-icons/ai"
 import { useDispatch } from "react-redux";
 import { useGetTxStage } from "services/transaction/hooks";
-import { resetTxFormState, setStage } from "services/transaction/transactionSlice";
+import { setStage } from "services/transaction/transactionSlice";
 import { Step } from "services/transaction/types";
 import ErrorPop from "./Error";
 import Processing from "./Processing";

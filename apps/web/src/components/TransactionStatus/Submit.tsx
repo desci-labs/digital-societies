@@ -6,7 +6,7 @@ export default function Submit({ message }: SubmitStage) {
     <div className="w-full">
         <div className="flex flex-col items-center justify-center">
           <div className="flex flex-row justify-center items-center mb-5">
-            <RotatingLines strokeColor="#7B61FF" width="100" strokeWidth="2" />
+          <RotatingLines strokeColor="#61DCF7" width="100" strokeWidth="2" />
           </div>
           <p className="font-semibold text-regent-gray capitalize text-lg">
             {message || "Submitting transaction..."}

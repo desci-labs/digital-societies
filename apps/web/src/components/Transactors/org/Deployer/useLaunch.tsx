@@ -54,7 +54,7 @@ export default function useLaunch() {
       dispatch(setFormLoading(false));
     } catch (e: any) {
       console.log("Error ", e?.data?.message, e?.message);
-      updateTx({ step: Step.error, message: "Error processing deployment!!!" });
+      updateTx({ step: Step.error, message: "Deployment not completed!!" });
       dispatch(setFormLoading(false));
       dispatch(setFormError({ title: `Error deploying ${metadata.name}`, details: "" }));
     }

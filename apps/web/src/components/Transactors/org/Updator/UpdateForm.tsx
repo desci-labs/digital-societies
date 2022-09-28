@@ -2,12 +2,13 @@ import FileDropzone from "components/FileDropzone";
 import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { GradientButton, Form, Input, InputRow } from "components/Form/Index";
+import { Form, Input, InputRow } from "components/Form/Index";
 import { MetadataValues } from "../../types";
 import ImagePreview from "components/UI/ImagePreview";
 import useUpdate from "./useUpdate";
 import { useRouter } from "next/router";
 import { useModalContext } from "components/Modal/Modal";
+import Button from "components/UI/Button/Index";
 
 export default function UpdateForm() {
   const {
@@ -108,12 +109,12 @@ export default function UpdateForm() {
           hasError={!!errors.badge}
         />
       </InputRow>
-      <GradientButton
+      <Button
         disabled={canDisable || !isValid}
         className="mt-4 w-full bg-black disabled:bg-regent-gray"
       >
         { isLoading ? "submitting..." : "Update Organisation"}
-      </GradientButton>
+      </Button>
     </Form>
   );
 }
