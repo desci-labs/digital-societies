@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  /* background-color: #e9edf0; */
+  /* background: linear-gradient(to bottom right, #081316, #000001); */
 }
 
 body.modal-open {

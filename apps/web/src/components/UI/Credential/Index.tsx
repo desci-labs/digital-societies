@@ -12,12 +12,22 @@ import {
   useGetCredentialState,
   useGetCredentialTokens,
 } from "services/credentials/hooks";
-import { useIsAdminOrDelegate, useGetOrg, useIsAdmin, useIsDelegate } from "services/orgs/hooks";
+import {
+  useIsAdminOrDelegate,
+  useGetOrg,
+  useIsAdmin,
+  useIsDelegate,
+} from "services/orgs/hooks";
 import { getImageURL, shortenText } from "helper";
 import Image from "next/image";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiCloseLine } from "react-icons/ri";
-import { CardContainer, ExternalLink, ImageBanner, RoundedLogo } from "../Index";
+import {
+  CardContainer,
+  ExternalLink,
+  ImageBanner,
+  RoundedLogo,
+} from "../Index";
 import { Cell, Row, Table, TBody, THead } from "../Table";
 import { useRouter } from "next/router";
 
@@ -46,7 +56,11 @@ export function CredentialGridView({ address }: { address: string }) {
       {credentials && (
         <div className="grid grid-cols-1 lg:grid-cols-3 content-start gap-y-10 place-items-start mt-5 mb-10">
           {credentials.map((credential, idx) => (
-            <MetadataCard key={idx} metadata={credential.metadata} link={`/credentials/${credential.id}?address=${credential.address}`} />
+            <MetadataCard
+              key={idx}
+              metadata={credential.metadata}
+              link={`/credentials/${credential.id}?address=${credential.address}`}
+            />
           ))}
         </div>
       )}
@@ -62,34 +76,37 @@ export function MetadataCard({
   metadata: Metadata | MetadataValues;
 }) {
   const router = useRouter();
-  
+
   if (!metadata) return null;
 
   return (
-      <div onClick={() => router.push(link)} className="min-w-80 w-80 h-96 rounded-lg shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden">
-        <div className="w-80 h-48 relative rounded-lg">
-          <ImageBanner src={getImageURL(metadata?.banner ?? '')} />
-          <RoundedLogo
-            src={getImageURL(metadata?.badge ?? '')}
-            className="w-12 h-12 left-3 -bottom-5"
-          />
-        </div>
-        <div className="p-2 mt-3">
-            <span className="text-xl block font-bold mb-1 truncate">
-              {metadata.name}
-            </span>
-          <div className="flex flex-col justify-between h-32 gap-1">
-            <span className="text-sm block">
-              {shortenText(metadata.description)}
-            </span>
-            {metadata.external_link && (
-              <div className="flex justify-center">
-                <ExternalLink href={metadata.external_link} />
-              </div>
-            )}
-          </div>
+    <div
+      onClick={() => router.push(link)}
+      className="bg-transparent text-white min-w-80 w-80 h-96 shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden border border-neutrals-gray-1"
+    >
+      <div className="w-80 h-48 relative rounded-lg">
+        <ImageBanner src={getImageURL(metadata?.banner ?? "")} />
+        <RoundedLogo
+          src={getImageURL(metadata?.badge ?? "")}
+          className="w-12 h-12 left-3 -bottom-5"
+        />
+      </div>
+      <div className="p-2 mt-3">
+        <span className="text-xl block font-bold mb-1 truncate">
+          {metadata.name}
+        </span>
+        <div className="flex flex-col justify-between h-32 gap-1">
+          <span className="text-sm block">
+            {shortenText(metadata.description)}
+          </span>
+          {metadata.external_link && (
+            <div className="flex justify-center">
+              <ExternalLink href={metadata.external_link} />
+            </div>
+          )}
         </div>
       </div>
+    </div>
   );
 }
 
@@ -208,7 +225,13 @@ export function RevocationHistory({ address }: { address: string }) {
   );
 }
 
-export function TokenTableView({ address, id }: { id: number; address: string }) {
+export function TokenTableView({
+  address,
+  id,
+}: {
+  id: number;
+  address: string;
+}) {
   const tokens = useGetCredentialTokens(address, id);
   const credential = useGetCredential(address, id);
   const showIssuer = useIssuer(credential!);
@@ -243,7 +266,11 @@ export function TokenTableView({ address, id }: { id: number; address: string })
                 <Cell className="flex justify-start p-2">
                   <div className="w-10 h-10 relative">
                     <Image
-                      src={getImageURL(credential?.metadata?.badge ?? credential?.metadata?.banner ?? "")} //TODO: add a fall back image as placeholder
+                      src={getImageURL(
+                        credential?.metadata?.badge ??
+                          credential?.metadata?.banner ??
+                          ""
+                      )} //TODO: add a fall back image as placeholder
                       layout="fill"
                       objectFit="cover"
                       objectPosition="center"

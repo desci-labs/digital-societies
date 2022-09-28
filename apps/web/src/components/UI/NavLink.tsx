@@ -12,7 +12,7 @@ export default function NavLink(
   return (
     <Link href={props.href}>
       <a
-        className={`font-semibold text-regent-gray text-lg hover:text-dark capitalize ${
+        className={`font-normal text-regent-gray hover:text-white ${props.className ?? ''} ${
           router.pathname === props.href ? props.activeClassName : ""
         }`}
       >
