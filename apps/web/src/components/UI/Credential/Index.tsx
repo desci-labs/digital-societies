@@ -42,14 +42,14 @@ export function CredentialGridView({ address }: { address: string }) {
   return (
     <div className="container mx-auto pt-2 mt-10">
       <div className="flex w-full justify-between">
-        <h1 className="text-left text-2xl text-dark font-bold">Credentials</h1>
+        <h1 className="text-left text-2xl text-neutrals-gray-7 font-bold">Credentials</h1>
         {hasAccess && (
           <button
             onClick={showCredenter}
-            className="flex items-center justify-evenly outline-none border rounded-3xl px-2 p-1 border-curious-blue"
+            className="flex items-center justify-evenly outline-none rounded-3xl px-2 p-1 border border-primary"
           >
-            <span className="block capitalize text-sm">Add Credential</span>{" "}
-            <AiOutlinePlus className="block" />{" "}
+            <span className="block capitalize text-sm text-white">Add Credential</span>{" "}
+            <AiOutlinePlus color="white" className="block" />{" "}
           </button>
         )}
       </div>
@@ -125,7 +125,7 @@ export function Delegates({ address }: { address: string }) {
 
   return (
     <CardContainer>
-      <div className="flex justify-between items-center px-5">
+      <div className="flex justify-between items-center text-neutrals-gray-7">
         <h1 className="text-xl font-semibold">Delegates</h1>
         {hasAccess && (
           <button
@@ -138,8 +138,8 @@ export function Delegates({ address }: { address: string }) {
         )}
       </div>
       <Table>
-        <THead rows={getRows()} />
-        <TBody className="">
+        <THead rows={getRows()} className="text-neutrals-gray-5" />
+        <TBody>
           {org.delegates.map((delegate, idx) => (
             <Row key={idx} className="border-none">
               <Cell className="flex justify-start p-2">
@@ -189,7 +189,7 @@ export function RevocationHistory({ address }: { address: string }) {
 
   return (
     <CardContainer>
-      <div className="flex justify-between items-center px-5 mb-5">
+      <div className="flex justify-between items-center px-5 mb-5 text-neutrals-gray-7">
         <h1 className="text-xl font-semibold">Revocation History</h1>
       </div>
       <Table>
@@ -246,11 +246,11 @@ export function TokenTableView({
   return (
     <CardContainer>
       {hasAccess && (
-        <div className="flex justify-between items-center px-5 mb-5">
+        <div className="flex justify-between items-center px-5 mb-5 text-neutrals-gray-7">
           <h1 className="text-xl font-semibold">Recipients</h1>
           <button
             onClick={showIssuer}
-            className="flex items-center justify-evenly outline-none border rounded-3xl px-2 p-1 border-curious-blue"
+            className="flex items-center justify-evenly outline-none border rounded-3xl px-2 p-1 border-primary"
           >
             <span className="block capitalize text-sm">Issue credential</span>{" "}
             <AiOutlinePlus className="block" />{" "}

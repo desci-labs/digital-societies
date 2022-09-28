@@ -24,7 +24,7 @@ export default function Header() {
       <div className="flex gap-5 items-center">
         <TransactionHint />
         {!hide && (
-          <NavLink href="/launch" activeClassName="text-white border-white" className="text-sm border border-regent-gray hover:border-white p-1">
+          <NavLink href="/launch" activeClassName="border-white bg-white text-black" className="text-sm border border-regent-gray hover:border-white hover:bg-white hover:text-black p-1 duration-200">
             Launch an organisation
           </NavLink>
         )}

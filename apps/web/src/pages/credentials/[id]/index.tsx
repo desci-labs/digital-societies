@@ -48,10 +48,10 @@ export default function CredentialDetails() {
         <RoundedLogo src={getImageURL(metadata?.badge ?? "")} />
       </div>
       <div className="container mx-auto mt-5">
-        <span className="text-3xl block font-bold mb-2 text-left">
+        <span className="text-3xl text-neutrals-gray-7 block font-bold mb-2 text-left">
           {metadata.name} ({metadata.symbol})
         </span>
-        <span className="text-lg block mb-2 text-left">
+        <span className="text-lg block mb-2 text-left text-neutrals-gray-5">
           {metadata.description}
         </span>
       </div>

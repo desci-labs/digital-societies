@@ -35,10 +35,10 @@ export default function OrganisationDetails() {
         <RoundedLogo src={getImageURL(org.metadata.badge)} alt={org.metadata.name} />
       </div>
       <div className="container mx-auto mt-10">
-        <span className="text-3xl block font-bold mb-2 text-left">
+        <span className="text-3xl  text-white block font-bold mb-2 text-left">
           {org.metadata.name} {org.metadata.symbol && (org.metadata.symbol)}
         </span>
-        <span className="text-lg block mb-2 text-left text-regent-gray">
+        <span className="text-lg block mb-2 text-left text-neutrals-gray-5">
           {org.metadata.description}
         </span>
       </div>

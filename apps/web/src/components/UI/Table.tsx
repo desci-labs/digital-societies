@@ -12,7 +12,7 @@ export function Table(props: HTMLProps<HTMLTableElement>) {
 export function THead(props: { rows: string[], className?: string }) {
   return (
     <thead className={props.className}>
-      <tr className="border-b border-aqua-haze text-dark text-left">
+      <tr className="border-b border-aqua-haze text-neutrals-gray-6 text-left">
         {props.rows.map((cell, i) => <Cell key={i} className="px-2 py-1 font-semibold font-lg capitalize">{cell}</Cell>)}
       </tr>
     </thead>
