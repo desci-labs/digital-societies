@@ -1,7 +1,7 @@
 import Loader from "components/Loader";
-import { MetadataCard } from "components/UI/Credential/Index";
 import { useGetOrgState } from "services/orgs/hooks";
 import Link from "next/link";
+import { MetadataCard } from "./Credential/MetadataCard";
 
 export default function DesocList() {
   const { data, isLoading } = useGetOrgState();

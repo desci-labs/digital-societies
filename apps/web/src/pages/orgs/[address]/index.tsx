@@ -1,13 +1,15 @@
 import { useRouter } from "next/router";
 import Loader from "components/Loader";
 import { useGetOrg, useIsAdmin } from "services/orgs/hooks";
-import { CredentialGridView, Delegates, RevocationHistory } from "components/UI/Credential/Index";
+import { CredentialGridView } from "components/UI/Credential/Index";
 import { ImageBanner, RoundedLogo } from "components/UI/Index";
 import { getImageURL } from "helper";
 import useUpdater from "components/Transactors/org/Updator/useUpdater";
 import { useEffect, useState } from "react";
 import Button from "components/UI/Button/Index";
 import { FiEdit } from "react-icons/fi";
+import { Delegates } from "components/UI/Credential/Delegates";
+import { RevocationHistory } from "components/UI/Credential/RevocationHistory";
 
 export default function OrganisationDetails() {
   const router = useRouter();
