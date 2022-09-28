@@ -10,7 +10,7 @@ export function ExternalLink(props: HTMLProps<HTMLAnchorElement>) {
       onClick={e => e.stopPropagation()}
       target="_blank"
       rel="noreferrer"
-      className="w-full inline-block text-md border border-cornflower-blue hover:bg-cornflower-blue hover:text-white duration-200 text-center rounded-3xl px-3 py-1.5"
+      className="inline-block text-md text-tint-primary hover:text-tint-primary-hover bg-dark-gray text-center duration-200 rounded-md px-6 py-1.5"
     >
       Visit website
     </a>
@@ -33,7 +33,7 @@ export function ImageBanner(props: ImgProps ) {
 
 export function RoundedLogo(props: ImgProps) {
   return (
-    <div className={`w-32 h-32 absolute left-10 -bottom-11 rounded-full border-2 border-white ${props.className ?? ''}`}>
+    <div className={`w-32 h-32 absolute left-10 -bottom-11 rounded-full border border-dark ${props.className ?? ''}`}>
       <Image
         src={props.src}
         layout="fill"

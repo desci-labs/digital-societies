@@ -82,29 +82,29 @@ export function MetadataCard({
   return (
     <div
       onClick={() => router.push(link)}
-      className="bg-transparent text-white min-w-80 w-80 h-96 shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden border border-neutrals-gray-1"
+      className="bg-transparent text-white min-w-80 w-80 pb-4 shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden border border-neutrals-gray-3"
     >
-      <div className="w-80 h-48 relative rounded-lg">
+      <div className="w-80 h-32 relative">
         <ImageBanner src={getImageURL(metadata?.banner ?? "")} />
         <RoundedLogo
           src={getImageURL(metadata?.badge ?? "")}
           className="w-12 h-12 left-3 -bottom-5"
         />
       </div>
-      <div className="p-2 mt-3">
-        <span className="text-xl block font-bold mb-1 truncate">
-          {metadata.name}
-        </span>
-        <div className="flex flex-col justify-between h-32 gap-1">
-          <span className="text-sm block">
+      <div className="px-2 mt-6 flex flex-col justify-between gap-1 h-32">
+        <div>
+          <span className="text-md block font-bold mb-1 truncate">
+            {metadata.name}
+          </span>
+          <span className="text-[13px] text-neutrals-gray-4 block">
             {shortenText(metadata.description)}
           </span>
+        </div>
           {metadata.external_link && (
             <div className="flex justify-center">
               <ExternalLink href={metadata.external_link} />
             </div>
           )}
-        </div>
       </div>
     </div>
   );
@@ -268,8 +268,8 @@ export function TokenTableView({
                     <Image
                       src={getImageURL(
                         credential?.metadata?.badge ??
-                          credential?.metadata?.banner ??
-                          ""
+                        credential?.metadata?.banner ??
+                        ""
                       )} //TODO: add a fall back image as placeholder
                       layout="fill"
                       objectFit="cover"
