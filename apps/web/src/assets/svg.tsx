@@ -37,3 +37,20 @@ export const DesocIcon = (props: IconProps) => {
     </svg>
   );
 };
+
+export const MenuIcon = (props: IconProps) => {
+  return (
+    <svg
+      className="w-6 h-6 text-gray-500 hover:text-black dark:text-white dark:hover:text-white"
+      x-show="!showMenu"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  );
+};

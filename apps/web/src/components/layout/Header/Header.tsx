@@ -1,7 +1,7 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { DesocIcon, MenuIcon } from "assets/svg";
 import TransactionHint from "components/TransactionStatus/TransactionHint";
 import Button from "components/UI/Button/Index";
-import DesocLogo from "components/UI/DesocLogo";
 import NavLink from "components/UI/NavLink";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
@@ -18,11 +18,11 @@ export default function Header() {
   return (
     <nav className="container mx-auto flex items-center justify-start p-4 relative">
       <div className="grow flex items-center justify-start gap-5">
-        <DesocLogo />
+        <DesocIcon width="15" heigth="15" />
         <NavLink
           href="/"
-          activeClassName="text-white border-b-2 border-white"
-          className="hidden sm:block border-b-2 border-transparent hover:border-white"
+          activeClassName="border-b-2 border-white text-black dark:text-white"
+          className="hidden sm:block hover:text-black dark:hover:text-white border-b-2 border-transparent dark:hover:border-white hover:border-dark"
         >
           Explore
         </NavLink>
@@ -32,8 +32,8 @@ export default function Header() {
         {!hide && (
           <NavLink
             href="/launch"
-            activeClassName="border-white text-white"
-            className="text-sm border border-regent-gray hover:border-white hover:bg-white hover:text-black p-2 duration-200"
+            activeClassName="dark:border-white border-black text-black dark:text-white dark:hover:text-black"
+            className="text-sm border border-regent-gray hover:border-white hover:bg-white text-neutrals-gray-3 hover:text-black p-2 duration-200"
           >
             Launch an organisation
           </NavLink>
@@ -53,18 +53,7 @@ function MenuTrigger() {
   return (
     <div className="sm:hidden flex items-center">
       <Button className="m-0" onClick={toggleMenu}>
-        <svg
-          className="w-6 h-6 text-gray-500 hover:text-white"
-          x-show="!showMenu"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
+        <MenuIcon />
       </Button>
     </div>
   );
@@ -81,25 +70,24 @@ function MobileMenu() {
 
   return (
     <div
-      className={`z-50 pointer-none opacity-0 sm:hidden mobile-menu absolute left-0 right-0 top-[100%] bg-white transition-all overflow-hidden ${opened ? "pointer-click opacity-100" : "h-0"
+      className={`z-50 pointer-none opacity-0 sm:hidden mobile-menu absolute left-0 right-0 top-[100%] bg-white dark:bg-gradient-to-b dark:from-rich-black dark:to-black transition-all overflow-hidden ${opened ? "pointer-click opacity-100" : "h-0"
         }`}
     >
       <ul className="responsive-nav transition-opacity duration-500">
         <li className="block text-sm px-2 py-4 hover:bg-primary-over hover:text-black transition duration-300">
           <NavLink
             href="/"
-            activeClassName="t border-b-2 border-white"
-            className="border-b-2 border-transparent hover:border-white text-neutrals-gray-1 hover:text-black"
+            activeClassName="border-b-2 border-white text-black dark:text-white"
+            className="hover:text-black dark:hover:text-white border-b-2 border-transparent dark:hover:border-white hover:border-dark"
           >
             Explore
           </NavLink>
         </li>
         {!hide && (<li className="block text-sm px-2 py-4 hover:bg-primary-over  hover:text-black transition duration-300">
-
           <NavLink
             href="/launch"
-            activeClassName="border-white text-white"
-            className="text-sm text-neutrals-gray-1 border hover:border-neutrals-gray-1 hover:bg-white hover:text-black p-1 duration-200"
+            activeClassName="dark:border-white border-black text-black dark:text-white dark:hover:text-black"
+            className="text-sm border border-regent-gray hover:border-white hover:bg-white text-neutrals-gray-3 hover:text-black p-2 duration-200"
           >
             Launch an organisation
           </NavLink>
