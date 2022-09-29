@@ -9,6 +9,7 @@ import { BlockNumberProvider } from 'hooks/useBlockNumber';
 import FactoryUpdater from 'services/orgs/updater';
 import TokenUpdater from 'services/credentials/TokenUpdater';
 import CredentialUpdater from 'services/credentials/updater';
+import AppMenuProvider from 'components/layout/Header/useAppMenu';
 
 function Updaters() {
   return (
@@ -27,9 +28,11 @@ function AppProviders({ children }: PropsWithChildren<unknown>) {
         <RainbowKitProvider chains={chains}>
           <BlockNumberProvider>
             <Updaters />
-              <ModalProvider classes="bg-black bg-opacity-50 backdrop-blur-xl fixed top-0 right-0 bottom-0 left-0 z-50 grid place-items-center">
+            <ModalProvider classes="bg-black bg-opacity-50 backdrop-blur-xl fixed top-0 right-0 bottom-0 left-0 z-50 grid place-items-center">
+              <AppMenuProvider>
                 {children}
-              </ModalProvider>
+              </AppMenuProvider>
+            </ModalProvider>
           </BlockNumberProvider>
         </RainbowKitProvider>
       </WagmiConfig>

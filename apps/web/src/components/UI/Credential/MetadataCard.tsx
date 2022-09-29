@@ -15,7 +15,7 @@ export function MetadataCard({
   if (!metadata) return null;
 
   return (
-    <a
+    <button
       tabIndex={0}
       onClick={() => router.push(link)}
       className="bg-transparent text-white min-w-80 w-80 pb-4 shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden border border-neutrals-gray-3 focus:outline-white"
@@ -42,7 +42,7 @@ export function MetadataCard({
           </div>
         )}
       </div>
-    </a>
+    </button>
   );
 }
 
