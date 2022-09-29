@@ -15,10 +15,10 @@ export function MetadataCard({
   if (!metadata) return null;
 
   return (
-    <button
+    <div
       tabIndex={0}
       onClick={() => router.push(link)}
-      className="bg-transparent text-white min-w-80 w-80 pb-4 shadow-md cursor-pointer transition-shadow duration-200 hover:shadow-xl overflow-hidden border border-neutrals-gray-3 focus:outline-white"
+      className="bg-transparent text-white min-w-80 w-80 pb-4 shadow-md cursor-pointer overflow-hidden border border-neutrals-gray-3 focus:outline-neutrals-gray-7 transition-shadow duration-200 hover:shadow-xl hover:border-neutrals-gray-7"
     >
       <div className="w-80 h-32 relative">
         <ImageBanner src={getImageURL(metadata?.banner ?? "")} />
@@ -42,7 +42,7 @@ export function MetadataCard({
           </div>
         )}
       </div>
-    </button>
+    </div>
   );
 }
 

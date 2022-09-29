@@ -15,7 +15,7 @@ export default function ErrorPop({ message }: { message: string }) {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-transparent">
       <div className="flex flex-col items-center justify-center">
         <p className="text-3xl mb-5"><AiOutlineInfoCircle size={35} className="text-crimson" /></p>
         <p className="font-semibold text-md">

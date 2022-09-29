@@ -36,7 +36,7 @@ export default function UpdateForm() {
 
 
   return (
-    <Form onSubmit={handleSubmit(run)} title="Update Organisation" className="mb-10 bg-white">
+    <Form onSubmit={handleSubmit(run)} title="Update Organisation" className="mb-10 bg-transparent">
       <InputRow
         htmlFor="issuer"
         label="Issuer:"
@@ -69,7 +69,7 @@ export default function UpdateForm() {
       >
         <textarea
           id="description"
-          className="w-full border p-2 rounded-xl"
+          className="w-full bg-transparent outline-none border-neutrals-gray-3 focus:border-neutrals-gray-5 text-white border p-2 rounded-xl appearance-none resize-none h-20"
           {...register("description")} />
       </InputRow>
       <InputRow

@@ -10,7 +10,7 @@ export function ExternalLink(props: HTMLProps<HTMLAnchorElement>) {
       onClick={e => e.stopPropagation()}
       target="_blank"
       rel="noreferrer"
-      className="inline-block text-md text-tint-primary hover:text-tint-primary-hover bg-dark-gray text-center duration-200 rounded-md px-6 py-1.5"
+      className="inline-block text-md text-tint-primary hover:text-tint-primary-hover bg-dark-gray focus:outline-neutrals-gray-7 text-center duration-200 rounded-md px-6 py-1.5"
     >
       Visit website
     </a>

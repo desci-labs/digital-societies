@@ -15,7 +15,6 @@ export default function AppMenuProvider({ children }: { children: ReactNode }) {
   const windowSize = useWindowSize();
 
   const toggleMenu = (_event: any) => {
-    console.log('toggle ', !opened)
     setOpened(!opened);
   };
 

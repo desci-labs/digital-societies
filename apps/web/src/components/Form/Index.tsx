@@ -31,7 +31,7 @@ export const Input = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>(
       <input
         ref={ref}
         type="text"
-        className="py-1.5 px-4 w-full rounded-xl border-2 focus:border-cornflower-blue my-1 outline-none"
+        className="py-1.5 px-4 w-full rounded-xl border border-neutrals-gray-3 focus:border-neutrals-gray-5 bg-transparent text-white my-1 outline-none"
         {...props}
       />
     );
@@ -40,7 +40,7 @@ export const Input = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>(
 
 export function LabelText({ text }: { text: string }) {
   return (
-    <span className="text-lg cursor-pointer font-semibold capitalize">
+    <span className="text-lg text-neutrals-gray-5 cursor-pointer font-semibold capitalize">
       {text}
     </span>
   );
@@ -80,8 +80,8 @@ export function Form(props: HTMLProps<HTMLFormElement> & FormProps) {
 
   return (
     <div className={`container mx-auto flex flex-col gap-5 py-8 max-w-500 bg-white ${props.className}`}>
-      {props.title && <h1 className="text-3xl font-bold mt-5 text-center capitalize">{props.title}</h1>}
-      {props.description && <span className="text-lg text-center font-normal text-regent-gray capitalize">{props.description}</span>}
+      {props.title && <h1 className="text-3xl font-bold mt-5 text-center capitalize text-neutrals-gray-7">{props.title}</h1>}
+      {props.description && <span className="text-lg text-center font-normal text-neutrals-gray-5 capitalize">{props.description}</span>}
       <div className="mx-auto flex justify-center w-120">
         <form className="w-full" onSubmit={props.onSubmit}>
           {props.children}

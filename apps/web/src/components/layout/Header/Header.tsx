@@ -33,7 +33,7 @@ export default function Header() {
           <NavLink
             href="/launch"
             activeClassName="border-white text-white"
-            className="text-sm border border-regent-gray hover:border-white hover:bg-white hover:text-black p-1 duration-200"
+            className="text-sm border border-regent-gray hover:border-white hover:bg-white hover:text-black p-2 duration-200"
           >
             Launch an organisation
           </NavLink>

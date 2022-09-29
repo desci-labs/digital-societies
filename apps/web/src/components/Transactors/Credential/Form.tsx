@@ -51,6 +51,7 @@ export default function CredentialForm() {
       onSubmit={handleSubmit(launch)}
       title={org?.metadata.name}
       description={isUpdateMode ? "update credential" : "Add new credential"}
+      className="bg-transparent"
     >
       <InputRow htmlFor="issuer" label="Issuer:">
         <Input id="issuer" disabled {...register("issuer")} />
@@ -72,7 +73,7 @@ export default function CredentialForm() {
       <InputRow htmlFor="description" label="Description:">
         <textarea
           id="description"
-          className="w-full border p-2 rounded-xl"
+          className="w-full bg-transparent outline-none text-white border border-neutrals-gray-3 focus:border-neutrals-gray-5 p-2 rounded-xl appearance-none resize-none h-20"
           {...register("description")}
         />
       </InputRow>

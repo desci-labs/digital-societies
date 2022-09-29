@@ -20,9 +20,9 @@ export default function Dropzone<T extends FieldValues>(props: Props<T>) {
   } as any);
 
   const className = `
-    py-1.5 px-4 w-full flex flex-col items-center rounded-xl border-2  
-    ${isDragActive ? "border-cornflower-blue" : ""} 
-    ${props.value ? "border-cornflower-blue" : "border-regent-gray"}
+    py-1.5 px-4 w-full flex flex-col items-center rounded-xl border
+    ${isDragActive ? "border-neutrals-gray-5" : ""} 
+    ${props.value ? "border-neutrals-gray-5" : "border-regent-gray"}
     ${props.hasError ? "border-red-400" : ""}
     `;
 
@@ -45,8 +45,8 @@ function DropzoneInner({
       className="block flex flex-col gap-2 items-start"
       htmlFor="image"
     >
-      <div className="text-regent-gray">
-        {value?.file && <span className="block text-center my-1 font-bold capitalize text-black">{value.name}</span>}
+      <div className="text-neutrals-gray-5">
+        {value?.file && <span className="block text-center my-1 font-bold capitalize text-neutrals-gray-7">{value.name}</span>}
         <div className="`w-10 h-10 relative">
           <Image
             src={ImageIcon}
