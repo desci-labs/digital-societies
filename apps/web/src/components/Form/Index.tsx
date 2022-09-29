@@ -52,7 +52,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, HTMLProps<HTMLTextAreaEl
 
 export function LabelText({ text }: { text: string }) {
   return (
-    <span className="text-lg text-neutrals-gray-3 dark:text-neutrals-gray-5 cursor-pointer font-semibold capitalize">
+    <span className="text-lg text-darker cursor-pointer font-semibold capitalize">
       {text}
     </span>
   );
@@ -93,7 +93,7 @@ export function Form(props: HTMLProps<HTMLFormElement> & FormProps) {
   return (
     <div className={`container mx-auto flex flex-col gap-5 py-8 mb-5 max-w-500 ${props.className}`}>
       {props.title && <h1 className="text-3xl font-bold mt-5 text-center capitalize text-darker">{props.title}</h1>}
-      {props.description && <span className="text-lg text-center font-normal text-neutrals-gray-5 capitalize">{props.description}</span>}
+      {props.description && <span className="text-lg text-center font-normal text-darker capitalize">{props.description}</span>}
       <div className="mx-auto flex justify-center w-full">
         <form className="w-full" onSubmit={props.onSubmit}>
           {props.children}
