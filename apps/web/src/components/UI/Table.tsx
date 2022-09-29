@@ -29,7 +29,7 @@ export function TBody(props: HTMLProps<HTMLTableSectionElement>) {
 
 export function Row(props: HTMLProps<HTMLTableRowElement>) {
   return (
-    <tr {...props} className={`border-b border-neutrals-gray-5 hover:bg-tint-primary table-row text-md text-left font-normal ${props.className ?? ''}`}>
+    <tr {...props} className={`border-b border-neutrals-gray-5 hover:bg-tint-primary dark:bg-opacity-10 table-row text-md text-left font-normal ${props.className ?? ''}`}>
       {props.children}
     </tr>
   )
