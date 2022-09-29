@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import useLaunch from "./useLaunch";
-import { Form, Input, InputRow } from "components/Form/Index";
+import { Form, Input, InputRow, Textarea } from "components/Form/Index";
 import { MetadataValues } from "../../types";
 import ImagePreview from "components/UI/ImagePreview";
 import Button from "components/UI/Button/Index";
@@ -28,7 +28,7 @@ export default function LaunchForm() {
     <Form
       onSubmit={handleSubmit(launch)}
       title="Launch Organisation"
-      className="mb-10 bg-transparent border border-neutrals-gray-5"
+      className="mb-10 bg-transparent dark:bg-transparent border border-neutrals-gray-5"
     >
       <InputRow htmlFor="issuer" label="Issuer:">
         <Input id="issuer" disabled {...register("issuer")} />
@@ -48,9 +48,8 @@ export default function LaunchForm() {
         />
       </InputRow>
       <InputRow htmlFor="description" label="Description:">
-        <textarea
+        <Textarea
           id="description"
-          className="w-full p-2 rounded-xl border border-neutrals-gray-3 focus:border-neutrals-gray-5 bg-transparent text-white outline-none"
           {...register("description")}
         />
       </InputRow>

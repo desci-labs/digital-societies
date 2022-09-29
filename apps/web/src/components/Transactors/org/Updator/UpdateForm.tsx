@@ -2,7 +2,7 @@ import FileDropzone from "components/FileDropzone";
 import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { Form, Input, InputRow } from "components/Form/Index";
+import { Form, Input, InputRow, Textarea } from "components/Form/Index";
 import { MetadataValues } from "../../types";
 import ImagePreview from "components/UI/ImagePreview";
 import useUpdate from "./useUpdate";
@@ -36,7 +36,7 @@ export default function UpdateForm() {
 
 
   return (
-    <Form onSubmit={handleSubmit(run)} title="Update Organisation" className="mb-10 bg-transparent">
+    <Form onSubmit={handleSubmit(run)} title="Update Organisation" className="mb-10 form">
       <InputRow
         htmlFor="issuer"
         label="Issuer:"
@@ -67,10 +67,10 @@ export default function UpdateForm() {
         htmlFor="description"
         label="Description:"
       >
-        <textarea
+        <Textarea
           id="description"
-          className="w-full bg-transparent outline-none border-neutrals-gray-3 focus:border-neutrals-gray-5 text-white border p-2 rounded-xl appearance-none resize-none h-20"
-          {...register("description")} />
+          {...register("description")}
+        />
       </InputRow>
       <InputRow
         htmlFor="external_link"

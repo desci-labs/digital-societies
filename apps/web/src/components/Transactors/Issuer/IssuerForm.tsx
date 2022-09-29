@@ -31,7 +31,7 @@ export default function IssuerForm() {
   );
 
   return (
-    <Form onSubmit={handleSubmit(issueCredential)} title={org?.metadata.name} description="Issue a Credential" className="bg-transparent">
+    <Form onSubmit={handleSubmit(issueCredential)} title={org?.metadata.name} description="Issue a Credential" className="form">
       <InputRow
         htmlFor="credential"
         label="Select credential"

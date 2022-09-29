@@ -3,7 +3,7 @@ import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import FileDropzone from "components/FileDropzone";
-import { Form, Input, InputRow } from "components/Form/Index";
+import { Form, Input, InputRow, Textarea } from "components/Form/Index";
 import { useGetOrg } from "services/orgs/hooks";
 import { LauncherFormValues, MetadataValues } from "../types";
 import ImagePreview from "components/UI/ImagePreview";
@@ -51,7 +51,7 @@ export default function CredentialForm() {
       onSubmit={handleSubmit(launch)}
       title={org?.metadata.name}
       description={isUpdateMode ? "update credential" : "Add new credential"}
-      className="bg-transparent"
+      className="form"
     >
       <InputRow htmlFor="issuer" label="Issuer:">
         <Input id="issuer" disabled {...register("issuer")} />
@@ -71,9 +71,8 @@ export default function CredentialForm() {
         />
       </InputRow>
       <InputRow htmlFor="description" label="Description:">
-        <textarea
+        <Textarea
           id="description"
-          className="w-full bg-transparent outline-none text-white border border-neutrals-gray-3 focus:border-neutrals-gray-5 p-2 rounded-xl appearance-none resize-none h-20"
           {...register("description")}
         />
       </InputRow>

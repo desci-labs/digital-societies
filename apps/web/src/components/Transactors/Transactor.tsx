@@ -9,7 +9,7 @@ export default function Transactor<C>(props: TxProps<C>) {
   return (
     <div
       className={`min-w-45 max-w-104 p-10 relative ${props.inModal
-        ? "bg-neutrals-gray-1 rounded-md overflow-scroll pt-4 fixed-center z-20 relative min-h-120 max-h-200 scroll-hidden"
+        ? "bg-white dark:bg-neutrals-gray-1 rounded-md overflow-scroll pt-4 fixed-center z-20 relative min-h-120 max-h-200 scroll-hidden"
         : "relative"
         }`}
     >
@@ -19,7 +19,7 @@ export default function Transactor<C>(props: TxProps<C>) {
             onClick={hideModal}
             className="bg-transparent hover:bg-regent-gray hover:bg-opacity-50 rounded-full absolute right-2 top-2 flex items-center justify-center w-8 h-8"
           >
-            <AiOutlineClose size={15} className="text-white" />
+            <AiOutlineClose size={15} className="dark:text-white" />
           </button>
         </div>
       )}

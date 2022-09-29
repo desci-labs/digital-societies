@@ -26,7 +26,7 @@ export default function DelegaterForm() {
   );
 
   return (
-    <Form onSubmit={handleSubmit(grantRole)} title={org?.metadata.name} description="Grant Delegate role" className="bg-transparent">
+    <Form onSubmit={handleSubmit(grantRole)} title={org?.metadata.name} description="Grant Delegate role" className="form">
       <InputRow
         htmlFor="org"
         label="Organisation"

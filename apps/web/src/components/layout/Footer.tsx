@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="container mx-auto grid md:grid-cols-2 place-items-center justify-start bg-transparent text-white py-5 px-10">
       <section className="flex my-2 flex-wrap order-1 md:order-0">
         <section className="mx-2 my-2">
-          <p>DeSoc manager</p>
+          <p className="text-black dark:text-white">DeSoc manager</p>
           <a
             href="#"
             target="_blank"
@@ -42,33 +42,33 @@ export default function Footer() {
           href="#"
           target="_blank"
           rel="noopener"
-          className="mx-2 bg-tint-primary p-1 w-[25px] h-[25px] rounded-full flex items-center justify-center"
+          className="mx-2 dark:bg-tint-primary p-1 w-[25px] h-[25px] rounded-full flex items-center justify-center"
         >
-          <SiGitbook fill="black" />
+          <SiGitbook className="text-black" />
         </a>
         <a
           href="#"
           target="_blank"
           rel="noopener"
-          className="mx-2 bg-tint-primary pt-1 w-[25px] h-[25px] rounded-full flex items-center justify-center"
+          className="mx-2 dark:bg-tint-primary pt-1 w-[25px] h-[25px] rounded-full flex items-center justify-center"
         >
-          <FaGithub fill="black" />
+          <FaGithub className="text-black" />
         </a>
         <a
           href="#"
           target="_blank"
           rel="noopener"
-          className="mx-2 bg-tint-primary p-1 w-[25px] h-[25px] rounded-full flex items-center justify-center"
+          className="mx-2 dark:bg-tint-primary p-1 w-[25px] h-[25px] rounded-full flex items-center justify-center"
         >
-          <FaTwitter fill="black" />
+          <FaTwitter className="text-black" />
         </a>
         <a
           href="#"
           target="_blank"
           rel="noopener"
-          className="mx-2 bg-tint-primary p-1 w-[25px] h-[25px] rounded-full flex items-center justify-center"
+          className="mx-2 dark:bg-tint-primary p-1 w-[25px] h-[25px] rounded-full flex items-center justify-center"
         >
-          <FaDiscord fill="black" />
+          <FaDiscord className="text-black" />
         </a>
       </section>
     </footer>
