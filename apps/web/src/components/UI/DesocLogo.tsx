@@ -1,16 +1,9 @@
-import desocLogo from "assets/desocLogo.svg";
-import Image from "next/image";
+import { DesocIcon } from "assets/svg";
 
 export default function DesocLogo() {
   return (
     <div className={`w-4 h-4 relative`}>
-      <Image
-        src={desocLogo}
-        layout="fill"
-        objectFit="contain"
-        objectPosition="center"
-        alt="Desoc Logo"
-      />
+      <DesocIcon width="15" heigth="15" />
     </div>
   );
 }
