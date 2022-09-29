@@ -44,7 +44,7 @@ export default function OrganisationDetails() {
               onClick={() => showUpdater()}
               className="flex items-center justify-evenly focus:outline-white bg-transparent px-2 p-1 font-bold"
             >
-              <FiEdit className="text-white" />{" "}
+              <FiEdit className="text-darker" />{" "}
             </Button>
           )}
         </div>

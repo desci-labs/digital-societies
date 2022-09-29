@@ -36,7 +36,7 @@ export default function UpdateForm() {
 
 
   return (
-    <Form onSubmit={handleSubmit(run)} title="Update Organisation" className="mb-10 form">
+    <Form onSubmit={handleSubmit(run)} title="Update Organisation" className="form">
       <InputRow
         htmlFor="issuer"
         label="Issuer:"

@@ -29,7 +29,7 @@ export function CredentialGridView({ address }: { address: string }) {
             className="flex items-center justify-evenly font-bold outline-none px-2 p-1 bg-primary-hover"
           >
             <AiOutlinePlus color="black" className="block" />{" "}
-            <span className="block capitalize text-sm text-darker">new</span>{" "}
+            <span className="block capitalize text-sm">new</span>{" "}
           </Button>
         )}
       </div>

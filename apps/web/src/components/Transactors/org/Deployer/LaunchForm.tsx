@@ -28,7 +28,7 @@ export default function LaunchForm() {
     <Form
       onSubmit={handleSubmit(launch)}
       title="Launch Organisation"
-      className="mb-10 bg-transparent dark:bg-transparent border border-neutrals-gray-5"
+      className="form"
     >
       <InputRow htmlFor="issuer" label="Issuer:">
         <Input id="issuer" disabled {...register("issuer")} />

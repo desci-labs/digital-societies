@@ -55,7 +55,7 @@ export default function CredentialDetails() {
               onClick={() => showLauncher()}
               className="flex items-center justify-evenly outline-none bg-transparent px-2 p-1 font-bold"
             >
-              <FiEdit className="text-white" />{" "}
+              <FiEdit className="text-darker" />{" "}
             </Button>
           )}
         </div>

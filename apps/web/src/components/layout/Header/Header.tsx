@@ -21,8 +21,8 @@ export default function Header() {
         <DesocIcon width="15" heigth="15" />
         <NavLink
           href="/"
-          activeClassName="border-b-2 border-white text-black dark:text-white"
-          className="hidden sm:block hover:text-black dark:hover:text-white border-b-2 border-transparent dark:hover:border-white hover:border-dark"
+          activeClassName="border-b-2 border-white text-neutrals-gray-1 dark:text-white"
+          className="hidden sm:block text-neutrals-gray-3 dark:text-neutrals-gray-5 hover:text-neutrals-gray-3 dark:hover:text-neutrals-gray-7 border-b-2 border-transparent hover:border-black dark:hover:border-white"
         >
           Explore
         </NavLink>
@@ -78,7 +78,7 @@ function MobileMenu() {
           <NavLink
             href="/"
             activeClassName="border-b-2 border-white text-black dark:text-white"
-            className="hover:text-black dark:hover:text-white border-b-2 border-transparent dark:hover:border-white hover:border-dark"
+            className="text-neutrals-gray-3 dark:text-neutrals-gray-5 hover:text-neutrals-gray-3 dark:hover:text-neutrals-gray-7 border-b-2 border-transparent hover:border-black dark:hover:border-white"
           >
             Explore
           </NavLink>

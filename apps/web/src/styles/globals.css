@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --gradient-light: rgba(34, 117, 145, 0.263);
+  --gradient-light: rgba(34, 117, 145, 0.233);
   --gradient-dark: rgba(34, 117, 146, 0.163);
 }
 
@@ -30,7 +30,7 @@ body.modal-open {
 
 @layer components {
   .light-gradient {
-    background: radial-gradient(30% 30% at 50% 50%, var(--gradient-light) 0px, rgba(255, 255, 255, 0.01) 100%);
+    background: radial-gradient(50% 60% at 50% 50%, var(--gradient-light) 0px, rgba(255, 255, 255, 0.01) 100%);
   }
   
   .dark-gradient {
