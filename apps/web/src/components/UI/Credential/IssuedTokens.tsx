@@ -33,7 +33,7 @@ export function IssuedTokens({
     <CardContainer>
       {hasAccess && (
         <div className="flex justify-between items-center mb-5 text-neutrals-gray-7">
-          <h1 className="ext-left text-2xl text-neutrals-gray-7 font-semibold">Recipients</h1>
+          <h1 className="text-left heading-2">Recipients</h1>
           <Button
             onClick={showIssuer}
             className="flex items-center justify-evenly outline-none p-1 bg-primary-hover font-bold"
@@ -48,7 +48,7 @@ export function IssuedTokens({
         <TBody>
           {tokens &&
             tokens.map((token, idx) => (
-              <Row key={idx} className="border-none">
+              <Row key={idx} className="border-none table-row">
                 <Cell className="p-2 h-full">
                   <div className="w-10 h-10 relative">
                     <Image

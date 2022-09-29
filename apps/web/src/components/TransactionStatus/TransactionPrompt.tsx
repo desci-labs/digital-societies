@@ -40,14 +40,14 @@ export default function TransactionPrompt() {
 
   return (
     <div
-      className="min-w-120 p-5 relative bg-neutrals-gray-1 text-neutrals-gray-7 rounded-md overflow-scroll fixed-center z-20 min-h-120 max-h-200 scroll-hidden"
+      className="min-w-120 p-5 relative bg-white dark:bg-neutrals-gray-1 text-neutrals-gray-7 rounded-md overflow-scroll fixed-center z-20 min-h-120 max-h-200 scroll-hidden"
     >
       <div className="flex justify-end absolute right-0 top-0">
         <button
           onClick={closePrompt}
-          className="bg-wild-sand hover:bg-neutrals-gray-3 bg-neutrals-gray-1 hover:bg-opacity-50 rounded-full absolute right-2 top-2 flex items-center justify-center w-8 h-8"
+          className="bg-transparent hover:bg-regent-gray hover:bg-opacity-50 rounded-full absolute right-2 top-2 flex items-center justify-center w-8 h-8"
         >
-          <AiOutlineClose size={15} />
+          <AiOutlineClose size={15} className="text" />
         </button>
       </div>
       {view}

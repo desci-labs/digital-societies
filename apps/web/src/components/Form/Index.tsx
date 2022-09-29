@@ -31,7 +31,7 @@ export const Input = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>(
       <input
         ref={ref}
         type="text"
-        className="py-1.5 px-4 w-full rounded-xl border border-neutrals-gray-3 focus:border-neutrals-gray-5 bg-transparent text-dark my-1 outline-none"
+        className="py-1.5 px-4 w-full rounded-xl border border-neutrals-gray-3 focus:border-neutrals-gray-5 bg-transparent text-darker my-1 outline-none"
         {...props}
       />
     );
@@ -43,7 +43,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, HTMLProps<HTMLTextAreaEl
     return (
       <textarea
         ref={ref}
-        className="w-full bg-transparent outline-none text-dark border border-neutrals-gray-3 focus:border-neutrals-gray-5 p-2 rounded-xl appearance-none resize-none h-20"
+        className="w-full bg-transparent outline-none text-darker border border-neutrals-gray-3 focus:border-neutrals-gray-5 p-2 rounded-xl appearance-none resize-none h-20"
         {...props}
       />
     );
@@ -92,7 +92,7 @@ export function Form(props: HTMLProps<HTMLFormElement> & FormProps) {
 
   return (
     <div className={`container mx-auto flex flex-col gap-5 py-8 max-w-500 bg-white ${props.className}`}>
-      {props.title && <h1 className="text-3xl font-bold mt-5 text-center capitalize text-dark">{props.title}</h1>}
+      {props.title && <h1 className="text-3xl font-bold mt-5 text-center capitalize text-darker">{props.title}</h1>}
       {props.description && <span className="text-lg text-center font-normal text-neutrals-gray-5 capitalize">{props.description}</span>}
       <div className="mx-auto flex justify-center w-120">
         <form className="w-full" onSubmit={props.onSubmit}>

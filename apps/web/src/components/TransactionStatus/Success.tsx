@@ -25,14 +25,9 @@ export default function Success({
     <div className="w-full">
       <div className="flex flex-col items-center justify-center gap-2">
         <p className="text-3xl mb-3">🎉</p>
-        <p className="font-semibold capitalize text-lg">
-          Transaction Successfull
+        <p className="heading-3 capitalize">
+          {feedback ? feedback : "Transaction Successful"}
         </p>
-        {feedback && (
-          <p className="font-semibold text-regent-gray capitalize text-lg">
-            {feedback}
-          </p>
-        )}
         {txHash && chain?.id && (
           <TransactionLink
             name={chain.name}

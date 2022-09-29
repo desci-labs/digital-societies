@@ -3,7 +3,7 @@
 
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/**/*.html"],
-  darkMode: 'class',
+  darkMode: "class",
   theme: {
     extend: {
       animation: {
@@ -21,7 +21,6 @@ module.exports = {
       },
       colors: {
         dark: "#1F2128",
-        "rich-black": "#081316",
         white: "#FFFFFF",
         "regent-gray": "#8793A6",
         turquoise: "#42E2B8",

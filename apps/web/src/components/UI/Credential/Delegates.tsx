@@ -26,7 +26,7 @@ export function Delegates({ address }: { address: string }) {
   return (
     <CardContainer>
       <div className="flex justify-between items-center text-neutrals-gray-7 mb-2">
-        <h1 className="text-2xl font-semibold">Delegates</h1>
+        <h1 className="heading-2">Delegates</h1>
         {hasAccess && (
           <Button
             onClick={showDelegate}
@@ -38,10 +38,10 @@ export function Delegates({ address }: { address: string }) {
         )}
       </div>
       <Table>
-        <THead rows={getRows()} className="text-neutrals-gray-5" />
+        <THead rows={getRows()}/>
         <TBody>
           {org.delegates.map((delegate, idx) => (
-            <Row key={idx} className="border-none">
+            <Row key={idx} className="border-none table-row">
               <Cell className="flex justify-start p-2">
                 <div className="w-10 h-10 relative">
                   <Image

@@ -22,14 +22,14 @@ export function CredentialGridView({ address }: { address: string }) {
   return (
     <div className="container mx-auto pt-2 mt-10 px-2 lg:px-0">
       <div className="flex w-full justify-between">
-        <h1 className="text-left text-2xl text-neutrals-gray-7 font-semibold">Credentials</h1>
+        <h1 className="text-left heading-2">Credentials</h1>
         {hasAccess && (
           <Button
             onClick={showCredenter}
             className="flex items-center justify-evenly font-bold outline-none px-2 p-1 bg-primary-hover"
           >
             <AiOutlinePlus color="black" className="block" />{" "}
-            <span className="block capitalize text-sm text-dark">new</span>{" "}
+            <span className="block capitalize text-sm text-darker">new</span>{" "}
           </Button>
         )}
       </div>

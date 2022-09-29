@@ -31,7 +31,7 @@ function NoContent() {
     <div className="container mx-auto flex flex-col justify-center items-center h-96 gap-10">
       <h1 className="text-xl">No Organisations deployed yet!!!</h1>
       <Link href="/launch">
-        <a className="font-semibold text-lg hover:text-dark capitalize border border-black p-2">
+        <a className="font-semibold text-lg hover:text-darker capitalize border border-black p-2">
           Launch an organisation
         </a>
       </Link>

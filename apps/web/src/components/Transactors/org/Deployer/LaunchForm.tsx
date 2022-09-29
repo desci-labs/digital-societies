@@ -73,7 +73,7 @@ export default function LaunchForm() {
           as="span"
           className="text-xs text-left text-red-400 font-semibold m-0"
         />
-        <ImagePreview image={image} />
+        <ImagePreview image={image} className="rounded-xl" wrapperClassName="h-32" />
         <FileDropzone<MetadataValues>
           name="banner"
           className="h-10"

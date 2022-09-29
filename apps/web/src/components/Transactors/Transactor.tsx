@@ -19,7 +19,7 @@ export default function Transactor<C>(props: TxProps<C>) {
             onClick={hideModal}
             className="bg-transparent hover:bg-regent-gray hover:bg-opacity-50 rounded-full absolute right-2 top-2 flex items-center justify-center w-8 h-8"
           >
-            <AiOutlineClose size={15} className="dark:text-white" />
+            <AiOutlineClose size={15} className="text" />
           </button>
         </div>
       )}

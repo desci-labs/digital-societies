@@ -47,7 +47,7 @@ export default function CredentialDetails() {
       </div>
       <div className="container mx-auto mt-8 px-2 lg:px-0">
         <div className="flex gap-3 items-center mb-2">
-          <span className="text-3xl text-white block font-bold text-left">
+          <span className="heading-1 text-left">
             {metadata.name} - {metadata.symbol && (metadata.symbol)}
           </span>
           {hasAccess && (

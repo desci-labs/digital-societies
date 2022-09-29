@@ -17,14 +17,14 @@ export default function ImagePreview({ image, className, wrapperClassName }: { i
   if (!url) return null;
 
   return (
-    <div className={`w-full h-32 relative ${wrapperClassName}`}>
+    <div className={`w-full relative ${wrapperClassName}`}>
       <Image
         alt="preview"
         src={url}
         layout="fill"
         objectFit="cover"
         objectPosition="center"
-        className={`rounded-xl ${className}`}
+        className={className}
       />
     </div>
   );

@@ -3,7 +3,7 @@ import { HTMLProps } from "react";
 export function Table(props: HTMLProps<HTMLTableElement>) {
 
   return (
-    <table className="table-auto rounded-2xl w-full min-w-500 text-regent-gray text-center shadow-dark-inset">
+    <table className="table-auto rounded-2xl w-full min-w-500 text-regent-gray text-center ">
       {props.children}
     </table>
   );
@@ -29,7 +29,7 @@ export function TBody(props: HTMLProps<HTMLTableSectionElement>) {
 
 export function Row(props: HTMLProps<HTMLTableRowElement>) {
   return (
-    <tr {...props} className={`border-b border-neutrals-gray-5 hover:bg-neutrals-gray-1 text-md text-left font-normal ${props.className ?? ''}`}>
+    <tr {...props} className={`border-b border-neutrals-gray-5 hover:bg-neutrals-gray-3 table-row text-md text-left font-normal ${props.className ?? ''}`}>
       {props.children}
     </tr>
   )
