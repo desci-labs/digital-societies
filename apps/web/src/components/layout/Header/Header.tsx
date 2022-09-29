@@ -3,9 +3,11 @@ import { DesocIcon, MenuIcon } from "assets/svg";
 import TransactionHint from "components/TransactionStatus/TransactionHint";
 import Button from "components/UI/Button/Index";
 import NavLink from "components/UI/NavLink";
+import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { useMobileMenu, useSetMobileMenu } from "./useAppMenu";
+import { MdOutlineLightMode, MdOutlineNightlight } from 'react-icons/md'
 
 export default function Header() {
   const { isConnected } = useAccount();
@@ -41,6 +43,7 @@ export default function Header() {
         <div className="hidden sm:block">
           <ConnectButton showBalance={false} />
         </div>
+        {/* <ThemeTogger /> */}
         <MenuTrigger />
       </div>
       <MobileMenu />
@@ -54,6 +57,17 @@ function MenuTrigger() {
     <div className="sm:hidden flex items-center">
       <Button className="m-0" onClick={toggleMenu}>
         <MenuIcon />
+      </Button>
+    </div>
+  );
+}
+
+function ThemeTogger() {
+  const { resolvedTheme } = useTheme();
+  return (
+    <div className="flex items-center rounded-lg">
+      <Button>
+        {resolvedTheme === 'dark' ? <MdOutlineLightMode className="duration-300" color="white" size={15} /> : <MdOutlineNightlight size={15} />}
       </Button>
     </div>
   );

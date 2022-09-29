@@ -91,7 +91,7 @@ export default function LaunchForm() {
         <ImagePreview
           image={badge}
           className="rounded-full"
-          wrapperClassName="w-20 h-20"
+          wrapperClassName="w-16 h-16"
         />
         <FileDropzone<MetadataValues>
           name="badge"

@@ -101,7 +101,7 @@ export default function UpdateForm() {
         label="badge"
       >
         <ErrorMessage errors={errors} name="badge" as="span" className="text-xs text-left text-red-400 font-semibold m-0" />
-        <ImagePreview image={badge} className="rounded-full" wrapperClassName="w-20 h-20" />
+        <ImagePreview image={badge} className="rounded-full" wrapperClassName="w-16 h-16" />
         <FileDropzone<MetadataValues>
           name="badge"
           className="h-10"

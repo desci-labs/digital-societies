@@ -114,7 +114,7 @@ export default function CredentialForm() {
         <ImagePreview
           image={logo}
           className="rounded-full"
-          wrapperClassName="w-20 h-20"
+          wrapperClassName="w-16 h-16"
         />
         <FileDropzone<MetadataValues>
           name="badge"
