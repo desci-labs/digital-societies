@@ -2,7 +2,6 @@
 pragma solidity 0.8.13;
 import "src/SBToken.sol";
 
-
 /// @title An experimental implementation of a soul-bound token (SBT) Factory smart contract
 /// @author Oloyede Shadrach Temitayo (@oloyedeshadrach)
 /// @notice You can use this contract to deploy a SBT contract for your organisation
@@ -10,7 +9,6 @@ import "src/SBToken.sol";
 /// @custom:experimental This is an experimental contract for DeSci Labs (https://desci.com).
 contract SBFactory {
     event TokenCreated(address indexed token, address indexed owner);
-
 
     /// @notice Deploy a new SBT contract to be associate to the Desci Labs factory contract
     /// @dev creates a new SBToken contract using the create2 opcode
@@ -26,7 +24,6 @@ contract SBFactory {
             type(SBToken).creationCode,
             abi.encode(_name, _symbol, _metadata, msg.sender)
         );
-        // NOTE: this prevents same address from deploying same contract(name,symbol)
         bytes32 salt = keccak256(abi.encodePacked(msg.sender));
         assembly {
             token := create2(0, add(code, 0x20), mload(code), salt)
@@ -34,7 +31,6 @@ contract SBFactory {
                 revert(0, 0)
             }
         }
-
         emit TokenCreated(token, msg.sender);
     }
 }
