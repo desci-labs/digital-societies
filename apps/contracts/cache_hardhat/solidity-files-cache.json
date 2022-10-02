@@ -1,16 +1,16 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/src/SBFactory.sol": {
-      "lastModificationDate": 1664512116058,
-      "contentHash": "86a254b1f8f660e1f093d42ddc75523a",
-      "sourceName": "src/SBFactory.sol",
+    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/src/Forwarder.sol": {
+      "lastModificationDate": 1664576594889,
+      "contentHash": "7aaf10be905619aa2e6c8b4cb4b5a08d",
+      "sourceName": "src/Forwarder.sol",
       "solcConfig": {
         "version": "0.8.13",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 1
+            "runs": 200
           },
           "outputSelection": {
             "*": {
@@ -19,41 +19,45 @@
                 "evm.bytecode",
                 "evm.deployedBytecode",
                 "evm.methodIdentifiers",
-                "metadata"
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
               ],
               "": [
                 "ast"
               ]
             }
           },
+          "metadata": {
+            "useLiteralContent": true
+          },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363634353132333138343133"
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
             }
           }
         }
       },
       "imports": [
-        "src/SBToken.sol",
-        "lib/gsn/packages/contracts/src/ERC2771Recipient.sol"
+        "lib/gsn/packages/contracts/src/forwarder/Forwarder.sol"
       ],
       "versionPragmas": [
         "0.8.13"
       ],
-      "artifacts": [
-        "SBFactory"
-      ]
+      "artifacts": []
     },
-    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/src/SBToken.sol": {
-      "lastModificationDate": 1664076953348,
-      "contentHash": "34f876b9d1aaee4fd668f2194465cf1c",
-      "sourceName": "src/SBToken.sol",
+    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/gsn/packages/contracts/src/forwarder/Forwarder.sol": {
+      "lastModificationDate": 1664576733936,
+      "contentHash": "485e14cfd8ad622bb092259ed93382dd",
+      "sourceName": "lib/gsn/packages/contracts/src/forwarder/Forwarder.sol",
       "solcConfig": {
         "version": "0.8.13",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 1
+            "runs": 200
           },
           "outputSelection": {
             "*": {
@@ -62,115 +66,423 @@
                 "evm.bytecode",
                 "evm.deployedBytecode",
                 "evm.methodIdentifiers",
-                "metadata"
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
               ],
               "": [
                 "ast"
               ]
             }
           },
+          "metadata": {
+            "useLiteralContent": true
+          },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363634353132333138343133"
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
             }
           }
         }
       },
       "imports": [
-        "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
-        "lib/openzeppelin-contracts/contracts/access/AccessControlEnumerable.sol"
-      ],
-      "versionPragmas": [
-        "0.8.13"
-      ],
-      "artifacts": [
-        "SBToken"
-      ]
-    },
-    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/gsn/packages/contracts/src/ERC2771Recipient.sol": {
-      "lastModificationDate": 1664507311701,
-      "contentHash": "a3f8c0bfa93fbf48114c0d9dedfeb5a0",
-      "sourceName": "lib/gsn/packages/contracts/src/ERC2771Recipient.sol",
-      "solcConfig": {
-        "version": "0.8.13",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "libraries": {
-            "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363634353132333138343133"
-            }
-          }
-        }
-      },
-      "imports": [
-        "./interfaces/IERC2771Recipient.sol"
-      ],
-      "versionPragmas": [
-        ">=0.6.9"
-      ],
-      "artifacts": [
-        "ERC2771Recipient"
-      ]
-    },
-    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/access/AccessControlEnumerable.sol": {
-      "lastModificationDate": 1663294451592,
-      "contentHash": "b6d9b165dc57e9ad8153bdca05c783a4",
-      "sourceName": "lib/openzeppelin-contracts/contracts/access/AccessControlEnumerable.sol",
-      "solcConfig": {
-        "version": "0.8.13",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "libraries": {
-            "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363634353132333138343133"
-            }
-          }
-        }
-      },
-      "imports": [
-        "./IAccessControlEnumerable.sol",
-        "./AccessControl.sol",
-        "../utils/structs/EnumerableSet.sol"
+        "lib/openzeppelin-contracts/contracts/utils/cryptography/ECDSA.sol",
+        "lib/openzeppelin-contracts/contracts/utils/introspection/ERC165.sol",
+        "./IForwarder.sol"
       ],
       "versionPragmas": [
         "^0.8.0"
       ],
       "artifacts": [
-        "AccessControlEnumerable"
+        "Forwarder"
+      ]
+    },
+    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/utils/cryptography/ECDSA.sol": {
+      "lastModificationDate": 1663294451615,
+      "contentHash": "58ce80c4c4302ad24a32d1494228151a",
+      "sourceName": "lib/openzeppelin-contracts/contracts/utils/cryptography/ECDSA.sol",
+      "solcConfig": {
+        "version": "0.8.13",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
+            }
+          }
+        }
+      },
+      "imports": [
+        "../Strings.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ECDSA"
+      ]
+    },
+    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/gsn/packages/contracts/src/forwarder/IForwarder.sol": {
+      "lastModificationDate": 1664507311702,
+      "contentHash": "d3047e9ac1190808e848543bf4109fa7",
+      "sourceName": "lib/gsn/packages/contracts/src/forwarder/IForwarder.sol",
+      "solcConfig": {
+        "version": "0.8.13",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
+            }
+          }
+        }
+      },
+      "imports": [
+        "lib/openzeppelin-contracts/contracts/interfaces/IERC165.sol"
+      ],
+      "versionPragmas": [
+        ">=0.7.6"
+      ],
+      "artifacts": [
+        "IForwarder"
+      ]
+    },
+    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/utils/introspection/ERC165.sol": {
+      "lastModificationDate": 1663294451616,
+      "contentHash": "0e7db055ce108f9da7bb6686a00287c0",
+      "sourceName": "lib/openzeppelin-contracts/contracts/utils/introspection/ERC165.sol",
+      "solcConfig": {
+        "version": "0.8.13",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC165"
+      ]
+    },
+    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/utils/Strings.sol": {
+      "lastModificationDate": 1663294451615,
+      "contentHash": "cf46906c4035f51639a22265066a9e78",
+      "sourceName": "lib/openzeppelin-contracts/contracts/utils/Strings.sol",
+      "solcConfig": {
+        "version": "0.8.13",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Strings"
+      ]
+    },
+    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/interfaces/IERC165.sol": {
+      "lastModificationDate": 1663294451596,
+      "contentHash": "ee9624272968c23d93d4c2e39f06e6e2",
+      "sourceName": "lib/openzeppelin-contracts/contracts/interfaces/IERC165.sol",
+      "solcConfig": {
+        "version": "0.8.13",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
+            }
+          }
+        }
+      },
+      "imports": [
+        "../utils/introspection/IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": []
+    },
+    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/utils/introspection/IERC165.sol": {
+      "lastModificationDate": 1663294451616,
+      "contentHash": "03e6768535ac4da0e9756f1d8a4a018a",
+      "sourceName": "lib/openzeppelin-contracts/contracts/utils/introspection/IERC165.sol",
+      "solcConfig": {
+        "version": "0.8.13",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC165"
+      ]
+    },
+    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/token/ERC721/IERC721.sol": {
+      "lastModificationDate": 1663294451612,
+      "contentHash": "ec99d946db3685a3630554aa6055bd7f",
+      "sourceName": "lib/openzeppelin-contracts/contracts/token/ERC721/IERC721.sol",
+      "solcConfig": {
+        "version": "0.8.13",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
+            }
+          }
+        }
+      },
+      "imports": [
+        "../../utils/introspection/IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC721"
+      ]
+    },
+    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/token/ERC721/extensions/IERC721Metadata.sol": {
+      "lastModificationDate": 1663294451613,
+      "contentHash": "efbc0d15b80a74e34dbe8da0f3e879bb",
+      "sourceName": "lib/openzeppelin-contracts/contracts/token/ERC721/extensions/IERC721Metadata.sol",
+      "solcConfig": {
+        "version": "0.8.13",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
+            }
+          }
+        }
+      },
+      "imports": [
+        "../IERC721.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC721Metadata"
       ]
     },
     "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol": {
@@ -182,7 +494,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 1
+            "runs": 200
           },
           "outputSelection": {
             "*": {
@@ -191,16 +503,23 @@
                 "evm.bytecode",
                 "evm.deployedBytecode",
                 "evm.methodIdentifiers",
-                "metadata"
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
               ],
               "": [
                 "ast"
               ]
             }
           },
+          "metadata": {
+            "useLiteralContent": true
+          },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363634353132333138343133"
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
             }
           }
         }
@@ -221,16 +540,16 @@
         "ERC721"
       ]
     },
-    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/access/IAccessControlEnumerable.sol": {
-      "lastModificationDate": 1663294451592,
-      "contentHash": "4e71cc90682e109e999ce2bd329f6572",
-      "sourceName": "lib/openzeppelin-contracts/contracts/access/IAccessControlEnumerable.sol",
+    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/utils/Address.sol": {
+      "lastModificationDate": 1663294451614,
+      "contentHash": "02560bbb9e081911e486286da3fa761f",
+      "sourceName": "lib/openzeppelin-contracts/contracts/utils/Address.sol",
       "solcConfig": {
         "version": "0.8.13",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 1
+            "runs": 200
           },
           "outputSelection": {
             "*": {
@@ -239,28 +558,127 @@
                 "evm.bytecode",
                 "evm.deployedBytecode",
                 "evm.methodIdentifiers",
-                "metadata"
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
               ],
               "": [
                 "ast"
               ]
             }
           },
+          "metadata": {
+            "useLiteralContent": true
+          },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363634353132333138343133"
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
             }
           }
         }
       },
-      "imports": [
-        "./IAccessControl.sol"
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.1"
       ],
+      "artifacts": [
+        "Address"
+      ]
+    },
+    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/utils/Context.sol": {
+      "lastModificationDate": 1663294451614,
+      "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
+      "sourceName": "lib/openzeppelin-contracts/contracts/utils/Context.sol",
+      "solcConfig": {
+        "version": "0.8.13",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
+            }
+          }
+        }
+      },
+      "imports": [],
       "versionPragmas": [
         "^0.8.0"
       ],
       "artifacts": [
-        "IAccessControlEnumerable"
+        "Context"
+      ]
+    },
+    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/token/ERC721/IERC721Receiver.sol": {
+      "lastModificationDate": 1663294451612,
+      "contentHash": "c22d4395e33763de693fd440c6fd10e1",
+      "sourceName": "lib/openzeppelin-contracts/contracts/token/ERC721/IERC721Receiver.sol",
+      "solcConfig": {
+        "version": "0.8.13",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC721Receiver"
       ]
     },
     "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/access/AccessControl.sol": {
@@ -272,7 +690,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 1
+            "runs": 200
           },
           "outputSelection": {
             "*": {
@@ -281,16 +699,23 @@
                 "evm.bytecode",
                 "evm.deployedBytecode",
                 "evm.methodIdentifiers",
-                "metadata"
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
               ],
               "": [
                 "ast"
               ]
             }
           },
+          "metadata": {
+            "useLiteralContent": true
+          },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363634353132333138343133"
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
             }
           }
         }
@@ -308,46 +733,6 @@
         "AccessControl"
       ]
     },
-    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/utils/structs/EnumerableSet.sol": {
-      "lastModificationDate": 1663294451617,
-      "contentHash": "ae6770a4346d554259b5d0848d84a73d",
-      "sourceName": "lib/openzeppelin-contracts/contracts/utils/structs/EnumerableSet.sol",
-      "solcConfig": {
-        "version": "0.8.13",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "libraries": {
-            "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363634353132333138343133"
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "EnumerableSet"
-      ]
-    },
     "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/access/IAccessControl.sol": {
       "lastModificationDate": 1663294451592,
       "contentHash": "57c84298234411cea19c7c284d86be8b",
@@ -357,7 +742,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 1
+            "runs": 200
           },
           "outputSelection": {
             "*": {
@@ -366,16 +751,23 @@
                 "evm.bytecode",
                 "evm.deployedBytecode",
                 "evm.methodIdentifiers",
-                "metadata"
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
               ],
               "": [
                 "ast"
               ]
             }
           },
+          "metadata": {
+            "useLiteralContent": true
+          },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363634353132333138343133"
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
             }
           }
         }
@@ -388,16 +780,16 @@
         "IAccessControl"
       ]
     },
-    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/utils/Strings.sol": {
-      "lastModificationDate": 1663294451615,
-      "contentHash": "cf46906c4035f51639a22265066a9e78",
-      "sourceName": "lib/openzeppelin-contracts/contracts/utils/Strings.sol",
+    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/access/IAccessControlEnumerable.sol": {
+      "lastModificationDate": 1663294451592,
+      "contentHash": "4e71cc90682e109e999ce2bd329f6572",
+      "sourceName": "lib/openzeppelin-contracts/contracts/access/IAccessControlEnumerable.sol",
       "solcConfig": {
         "version": "0.8.13",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 1
+            "runs": 200
           },
           "outputSelection": {
             "*": {
@@ -406,80 +798,47 @@
                 "evm.bytecode",
                 "evm.deployedBytecode",
                 "evm.methodIdentifiers",
-                "metadata"
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
               ],
               "": [
                 "ast"
               ]
             }
           },
-          "libraries": {
-            "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363634353132333138343133"
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "Strings"
-      ]
-    },
-    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/utils/introspection/ERC165.sol": {
-      "lastModificationDate": 1663294451616,
-      "contentHash": "0e7db055ce108f9da7bb6686a00287c0",
-      "sourceName": "lib/openzeppelin-contracts/contracts/utils/introspection/ERC165.sol",
-      "solcConfig": {
-        "version": "0.8.13",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
+          "metadata": {
+            "useLiteralContent": true
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363634353132333138343133"
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
             }
           }
         }
       },
       "imports": [
-        "./IERC165.sol"
+        "./IAccessControl.sol"
       ],
       "versionPragmas": [
         "^0.8.0"
       ],
       "artifacts": [
-        "ERC165"
+        "IAccessControlEnumerable"
       ]
     },
-    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/utils/Context.sol": {
-      "lastModificationDate": 1663294451614,
-      "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
-      "sourceName": "lib/openzeppelin-contracts/contracts/utils/Context.sol",
+    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/access/AccessControlEnumerable.sol": {
+      "lastModificationDate": 1663294451592,
+      "contentHash": "b6d9b165dc57e9ad8153bdca05c783a4",
+      "sourceName": "lib/openzeppelin-contracts/contracts/access/AccessControlEnumerable.sol",
       "solcConfig": {
         "version": "0.8.13",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 1
+            "runs": 200
           },
           "outputSelection": {
             "*": {
@@ -488,160 +847,49 @@
                 "evm.bytecode",
                 "evm.deployedBytecode",
                 "evm.methodIdentifiers",
-                "metadata"
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
               ],
               "": [
                 "ast"
               ]
             }
           },
-          "libraries": {
-            "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363634353132333138343133"
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "Context"
-      ]
-    },
-    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/utils/introspection/IERC165.sol": {
-      "lastModificationDate": 1663294451616,
-      "contentHash": "03e6768535ac4da0e9756f1d8a4a018a",
-      "sourceName": "lib/openzeppelin-contracts/contracts/utils/introspection/IERC165.sol",
-      "solcConfig": {
-        "version": "0.8.13",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
+          "metadata": {
+            "useLiteralContent": true
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363634353132333138343133"
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "IERC165"
-      ]
-    },
-    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/utils/Address.sol": {
-      "lastModificationDate": 1663294451614,
-      "contentHash": "02560bbb9e081911e486286da3fa761f",
-      "sourceName": "lib/openzeppelin-contracts/contracts/utils/Address.sol",
-      "solcConfig": {
-        "version": "0.8.13",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "libraries": {
-            "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363634353132333138343133"
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.1"
-      ],
-      "artifacts": [
-        "Address"
-      ]
-    },
-    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/token/ERC721/IERC721.sol": {
-      "lastModificationDate": 1663294451612,
-      "contentHash": "ec99d946db3685a3630554aa6055bd7f",
-      "sourceName": "lib/openzeppelin-contracts/contracts/token/ERC721/IERC721.sol",
-      "solcConfig": {
-        "version": "0.8.13",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "libraries": {
-            "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363634353132333138343133"
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
             }
           }
         }
       },
       "imports": [
-        "../../utils/introspection/IERC165.sol"
+        "./IAccessControlEnumerable.sol",
+        "./AccessControl.sol",
+        "../utils/structs/EnumerableSet.sol"
       ],
       "versionPragmas": [
         "^0.8.0"
       ],
       "artifacts": [
-        "IERC721"
+        "AccessControlEnumerable"
       ]
     },
-    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/token/ERC721/IERC721Receiver.sol": {
-      "lastModificationDate": 1663294451612,
-      "contentHash": "c22d4395e33763de693fd440c6fd10e1",
-      "sourceName": "lib/openzeppelin-contracts/contracts/token/ERC721/IERC721Receiver.sol",
+    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/utils/structs/EnumerableSet.sol": {
+      "lastModificationDate": 1663294451617,
+      "contentHash": "ae6770a4346d554259b5d0848d84a73d",
+      "sourceName": "lib/openzeppelin-contracts/contracts/utils/structs/EnumerableSet.sol",
       "solcConfig": {
         "version": "0.8.13",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 1
+            "runs": 200
           },
           "outputSelection": {
             "*": {
@@ -650,16 +898,23 @@
                 "evm.bytecode",
                 "evm.deployedBytecode",
                 "evm.methodIdentifiers",
-                "metadata"
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
               ],
               "": [
                 "ast"
               ]
             }
           },
+          "metadata": {
+            "useLiteralContent": true
+          },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363634353132333138343133"
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
             }
           }
         }
@@ -669,19 +924,19 @@
         "^0.8.0"
       ],
       "artifacts": [
-        "IERC721Receiver"
+        "EnumerableSet"
       ]
     },
-    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/openzeppelin-contracts/contracts/token/ERC721/extensions/IERC721Metadata.sol": {
-      "lastModificationDate": 1663294451613,
-      "contentHash": "efbc0d15b80a74e34dbe8da0f3e879bb",
-      "sourceName": "lib/openzeppelin-contracts/contracts/token/ERC721/extensions/IERC721Metadata.sol",
+    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/src/SBToken.sol": {
+      "lastModificationDate": 1664076953348,
+      "contentHash": "34f876b9d1aaee4fd668f2194465cf1c",
+      "sourceName": "src/SBToken.sol",
       "solcConfig": {
         "version": "0.8.13",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 1
+            "runs": 200
           },
           "outputSelection": {
             "*": {
@@ -690,28 +945,136 @@
                 "evm.bytecode",
                 "evm.deployedBytecode",
                 "evm.methodIdentifiers",
-                "metadata"
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
               ],
               "": [
                 "ast"
               ]
             }
           },
+          "metadata": {
+            "useLiteralContent": true
+          },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363634353132333138343133"
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
             }
           }
         }
       },
       "imports": [
-        "../IERC721.sol"
+        "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
+        "lib/openzeppelin-contracts/contracts/access/AccessControlEnumerable.sol"
       ],
       "versionPragmas": [
-        "^0.8.0"
+        "0.8.13"
       ],
       "artifacts": [
-        "IERC721Metadata"
+        "SBToken"
+      ]
+    },
+    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/src/SBFactoryV2.sol": {
+      "lastModificationDate": 1664684103909,
+      "contentHash": "ad98922d8a6727c0e50a78b8c815fbfc",
+      "sourceName": "src/SBFactoryV2.sol",
+      "solcConfig": {
+        "version": "0.8.13",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
+            }
+          }
+        }
+      },
+      "imports": [
+        "src/SBToken.sol",
+        "lib/gsn/packages/contracts/src/ERC2771Recipient.sol",
+        "lib/gsn/packages/contracts/src/forwarder/Forwarder.sol"
+      ],
+      "versionPragmas": [
+        "0.8.13"
+      ],
+      "artifacts": [
+        "SBFactoryV2"
+      ]
+    },
+    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/gsn/packages/contracts/src/ERC2771Recipient.sol": {
+      "lastModificationDate": 1664507311701,
+      "contentHash": "a3f8c0bfa93fbf48114c0d9dedfeb5a0",
+      "sourceName": "lib/gsn/packages/contracts/src/ERC2771Recipient.sol",
+      "solcConfig": {
+        "version": "0.8.13",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
+            }
+          }
+        }
+      },
+      "imports": [
+        "./interfaces/IERC2771Recipient.sol"
+      ],
+      "versionPragmas": [
+        ">=0.6.9"
+      ],
+      "artifacts": [
+        "ERC2771Recipient"
       ]
     },
     "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/lib/gsn/packages/contracts/src/interfaces/IERC2771Recipient.sol": {
@@ -723,7 +1086,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 1
+            "runs": 200
           },
           "outputSelection": {
             "*": {
@@ -732,16 +1095,23 @@
                 "evm.bytecode",
                 "evm.deployedBytecode",
                 "evm.methodIdentifiers",
-                "metadata"
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
               ],
               "": [
                 "ast"
               ]
             }
           },
+          "metadata": {
+            "useLiteralContent": true
+          },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363634353132333138343133"
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
             }
           }
         }
@@ -754,6 +1124,57 @@
         "IERC2771Recipient"
       ]
     },
+    "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/src/SBFactory.sol": {
+      "lastModificationDate": 1664577101903,
+      "contentHash": "1cc5a919e4d0de8bbca299ee78fde812",
+      "sourceName": "src/SBFactory.sol",
+      "solcConfig": {
+        "version": "0.8.13",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          },
+          "libraries": {
+            "": {
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
+            }
+          }
+        }
+      },
+      "imports": [
+        "src/SBToken.sol",
+        "lib/gsn/packages/contracts/src/ERC2771Recipient.sol",
+        "lib/gsn/packages/contracts/src/forwarder/Forwarder.sol"
+      ],
+      "versionPragmas": [
+        "0.8.13"
+      ],
+      "artifacts": [
+        "SBFactory"
+      ]
+    },
     "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/src/Lock.sol": {
       "lastModificationDate": 1664511771038,
       "contentHash": "ae66265769cc28ebdaa34881df95bc5e",
@@ -763,7 +1184,7 @@
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 1
+            "runs": 200
           },
           "outputSelection": {
             "*": {
@@ -772,16 +1193,23 @@
                 "evm.bytecode",
                 "evm.deployedBytecode",
                 "evm.methodIdentifiers",
-                "metadata"
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
               ],
               "": [
                 "ast"
               ]
             }
           },
+          "metadata": {
+            "useLiteralContent": true
+          },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363634353132333138343133"
+              "__CACHE_BREAKER__": "0x0000000000000031363634363838393434363432"
             }
           }
         }

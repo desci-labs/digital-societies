@@ -11,7 +11,7 @@ contract SBFactoryTest is SBFactory, Test {
     Utils internal utils;
 
     address internal admin;
-
+    
     function setUp() public {
         utils = new Utils();
         address[] memory users = new address[](1);

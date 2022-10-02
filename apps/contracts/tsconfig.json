@@ -1,7 +1,11 @@
 {
+  "include": [
+    "src/**/*.json"
+  ],
   "compilerOptions": {
     "target": "es2020",
     "module": "commonjs",
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,

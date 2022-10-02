@@ -1,18 +1,25 @@
 import { ethers } from "hardhat";
+import forwarder from "../build/gsn/Forwarder.json";
+import relayerHub from "../build/gsn/RelayHub.json";
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  console.log('Forwarder ', forwarder.address);
+  const SBFactory = await ethers.getContractFactory("SBFactoryV2");
+  const sbfactory = await SBFactory.deploy(forwarder.address);
+  await sbfactory.deployed();
 
-  const lockedAmount = ethers.utils.parseEther("1");
+  console.log(`Deployed CTF at ${sbfactory.address} with forwarder ${forwarder}`)
+  const Paymaster = await ethers.getContractFactory("WhitelistPaymaster");
+  const paymaster = await Paymaster.deploy();
+  await paymaster.deployed();
 
-  const Lock = await ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  await paymaster.setRelayHub(relayerHub.address)
+  await paymaster.setTrustedForwarder(forwarder)
 
-  await lock.deployed();
-
-  console.log(`Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`);
+  const signer = await ethers.getSigners();
+  console.log('signers ', signer);
+  // await web3.eth.sendTransaction({ from: accounts[0], to: paymaster.address, value: 1e18 })
+  // console.log(`1 ETH deposited to Paymaster(${WhitelistPaymaster.address})`)
 }
 
 // We recommend this pattern to be able to use async/await everywhere
