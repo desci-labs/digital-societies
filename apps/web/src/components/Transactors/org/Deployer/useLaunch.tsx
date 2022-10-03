@@ -1,9 +1,10 @@
 import { useModalContext } from "components/Modal/Modal";
 import TransactionPrompt from "components/TransactionStatus/TransactionPrompt";
 import { MetadataValues } from "components/Transactors/types";
+import { SBFactory } from "constants/types/SBFactory";
 import { utils } from "ethers";
 import { pinMetadataToIpfs } from "helper/web3";
-import { useFactoryContract } from "hooks/useContract";
+import { useFactoryContract, useWrapContract } from "hooks/useContract";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setOrg } from "services/orgs/orgSlice";
@@ -12,6 +13,7 @@ import { useGetTxState } from "services/transaction/hooks";
 import { setFormError, setFormLoading } from "services/transaction/transactionSlice";
 import { Step } from "services/transaction/types";
 import useTxUpdator from "services/transaction/updators";
+import { useNetwork } from "wagmi";
 
 export default function useLaunch() {
   const { showModal } = useModalContext();
@@ -19,11 +21,15 @@ export default function useLaunch() {
   const { updateTx } = useTxUpdator();
   const { form_loading } = useGetTxState();
   const factoryContract = useFactoryContract();
+  const { chain } = useNetwork();
+  const wrapFactoryContract = useWrapContract();
 
   useEffect(() => () => { dispatch(setFormError(null)) });
 
   async function launch(metadata: MetadataValues) {
     try {
+      const wrappedContract = (await wrapFactoryContract(factoryContract, chain?.id!)) as SBFactory;
+      
       dispatch(setFormLoading(true));
       updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
       showModal(TransactionPrompt, {});
@@ -31,12 +37,12 @@ export default function useLaunch() {
       const cid = await pinMetadataToIpfs(metadata);
 
       updateTx({ step: Step.submit, message: "Confirm transaction..." });
-      const tx = await factoryContract.deployToken(metadata.name, metadata.symbol, cid)
+      const tx = await wrappedContract.deployToken(metadata.name, metadata.symbol, cid)
       updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Deploying ${metadata.name}` });
       
       const receipt = await tx.wait();
       const address = utils.getAddress("0x" + receipt.logs[3].topics?.[1].slice(26));
-      const block = await factoryContract.provider.getBlock(receipt.blockNumber);
+      const block = await wrappedContract.provider.getBlock(receipt.blockNumber);
 
       const preview: PendingOrg = {
         cid,

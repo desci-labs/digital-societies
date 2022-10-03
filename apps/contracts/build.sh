@@ -22,10 +22,10 @@ if [[ $forge_out == "" ]]; then
     foundryup
 fi
 
-npm i
+yarn install
 
 # Run the build script
-npm run remapping-transform && forge build --force
+yarn remapping-transform && forge build --force
 
 if [ -f "apps/contracts" ]; then
     cd apps/contracts

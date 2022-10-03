@@ -4,6 +4,7 @@
 export enum SupportedChainId {
   MAINNET = 1,
   GOERLI = 5,
+  LOCALHOST = 1337
 }
 
 export enum ChainIDs {
@@ -13,12 +14,6 @@ export enum ChainIDs {
   GOERLI = 5,
   KOVAN = 42,
 }
-
-export const CHAIN_IDS_TO_NAMES = {
-  [ChainIDs.MAINNET]: "mainnet",
-  [ChainIDs.GOERLI]: "goerli",
-  [ChainIDs.KOVAN]: "kovan",
-};
 
 /**
  * Array of all the supported chain IDs

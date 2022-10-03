@@ -13,6 +13,7 @@ export interface Contract {
 export enum Contracts {
   Factory = "Factory",
   SBToken = "SBToken",
+  Paymaster = "Paymaster",
 }
 
 export const contracts = [

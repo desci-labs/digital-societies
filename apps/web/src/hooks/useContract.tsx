@@ -1,33 +1,75 @@
-import { Contracts, contracts } from "constants/contracts";
+import { wrapContract } from "@opengsn/provider/dist/WrapContract";
+import { PAYMASTER_ADDRESS, SB_FACTORY_ADDRESS } from "constants/addresses";
 import { SBToken, SBToken__factory } from "constants/types";
 import { SBFactory } from "constants/types/SBFactory";
 import { DEFAULT_CHAIN, RPC_URLS } from "constants/web3";
-import { ethers } from "ethers";
-import { useContract, useProvider, useSigner } from "wagmi";
+import { Contract, ethers } from "ethers";
+import { useContract, useNetwork, useProvider, useSigner } from "wagmi";
+// import FactoryAbi from "../constants/abis/SBFactory.sol/SBFactory.json";
+import FactoryV2Abi from "../constants/abis/SBFactoryV2.sol/SBFactoryV2.json";
+import SBTAbi from "../constants/abis/SBToken.sol/SBToken.json";
 
-const DEFAULT_PROVIDER = new ethers.providers.JsonRpcProvider(RPC_URLS[DEFAULT_CHAIN])
-
-export function getContract(type: Contracts) {
-  return contracts.find((c) => c.id === type);
+export const useDefaultProvider = () => {
+  const { chain } = useNetwork();
+  const DEFAULT_PROVIDER = new ethers.providers.JsonRpcProvider(RPC_URLS[chain?.id ?? DEFAULT_CHAIN])
+  return DEFAULT_PROVIDER;
 }
 
 export const useFactoryContract = (): SBFactory => {
   const library = useProvider();
+  const { chain } = useNetwork()
   const { data: signer } = useSigner();
-  const contract = getContract(Contracts.Factory);
+  const DEFAULT_PROVIDER = useDefaultProvider()
+  const address = SB_FACTORY_ADDRESS[chain?.id ?? DEFAULT_CHAIN];
+
   return useContract({
-    addressOrName: contract?.address!,
-    contractInterface: contract?.artifact!,
+    addressOrName: address,
+    contractInterface: FactoryV2Abi.abi,
     signerOrProvider: signer || library || DEFAULT_PROVIDER,
   });
 };
 
+export const useWrapContract = () => {
+
+  return (contract: Contract, chainId: number) => wrapContract(contract, {
+    paymasterAddress: PAYMASTER_ADDRESS[chainId]
+  })
+}
+
 export const useTokenContract = () => {
-  const contract = getContract(Contracts.SBToken);
   const { data: signer } = useSigner();
   const provider = useProvider();
   
   return (address: string): SBToken => {
-    return SBToken__factory.getContract(address!, contract?.artifact!, signer!).connect(signer! || provider) as SBToken
+    return SBToken__factory.getContract(address!, SBTAbi.abi, signer!).connect(signer! || provider) as SBToken
   };
 };
+
+
+// export const useWrappedFactoryContract = (): SBFactory => {
+//   const { chain } = useNetwork()
+//   const { data: signer } = useSigner();
+//   const DEFAULT_PROVIDER = useDefaultProvider()
+//   const address = SB_FACTORY_ADDRESS[chain?.id ?? DEFAULT_CHAIN];
+//   return useContract({
+//     addressOrName: address,
+//     contractInterface: FactoryV2Abi.abi,
+//     signerOrProvider: signer || DEFAULT_PROVIDER,
+//   });
+// };
+
+// export const useGsnProvider = () => {
+//   const { chain } = useNetwork();
+//   const { data: signer } = useSigner();
+
+//   const gsnProvider = RelayProvider.newProvider({
+//     provider: new WrapBridge(new Eip1193Bridge(signer!, new providers.JsonRpcProvider(RPC_URLS[chain?.id ?? DEFAULT_CHAIN]))),
+//     config: { paymasterAddress: PAYMASTER_ADDRESS[chain?.id ?? DEFAULT_CHAIN] }
+//   })
+//   // await gsnProvider.init();
+
+//   return async () => {
+//     await gsnProvider.init();
+//     return gsnProvider;
+//   };
+// }

@@ -27,7 +27,7 @@ const gorliChain = {
 };
 
 export const { chains, provider } = configureChains(
-  [gorliChain, chain.mainnet], // chain.arbitrum, chain.polygon, chain.rinkeby
+  [gorliChain, chain.mainnet, chain.localhost], // chain.arbitrum, chain.polygon, chain.rinkeby
   [publicProvider()]
 );
 
