@@ -4,15 +4,36 @@ pragma experimental ABIEncoderV2;
 
 import "gsn/packages/contracts/src/BasePaymaster.sol";
 
-// accept everything.
-// this paymaster accepts any request.
+// desoc paymaster
+// this paymaster accepts only request to authorized targets.
 //
-// NOTE: Do NOT use this contract on a mainnet: it accepts anything, so anyone can "grief" it and drain its account
 
-contract AcceptEverythingPaymaster is BasePaymaster {
+contract DesocPaymaster is BasePaymaster {
+    event TargetAdded(address indexed target);
+
+    mapping(address => bool) public targets;
 
     function versionPaymaster() external view override virtual returns (string memory){
-        return "3.0.0-beta.2+opengsn.accepteverything.ipaymaster";
+        return "3.0.0-beta.0+opengsn.desoc.ipaymaster";
+    }
+
+    function addTargets(address[] memory _targets) external onlyOwner {
+        for (uint i = 0; i < _targets.length;) {
+            require(_targets[i] != address(0));
+            targets[_targets[i]] = true;
+            emit TargetAdded(_targets[i]);
+            unchecked {
+                i++;
+            }
+        }
+    }
+    function removeTargets(address[] memory _targets) external onlyOwner {
+        for (uint i = 0; i < _targets.length;) {
+            targets[_targets[i]] = false;
+            unchecked {
+                i++;
+            }
+        }
     }
 
     function _preRelayedCall(
@@ -26,6 +47,7 @@ contract AcceptEverythingPaymaster is BasePaymaster {
     virtual
     returns (bytes memory context, bool revertOnRecipientRevert) {
         (relayRequest, signature, approvalData, maxPossibleGas);
+        require(targets[relayRequest.request.to], "UnAuthorized target");
         return ("", false);
     }
 

@@ -9,7 +9,7 @@ export const SB_FACTORY_ADDRESS: AddressMap = {
 };
 
 export const PAYMASTER_ADDRESS: AddressMap = {
-  [SupportedChainId.GOERLI]: "0x7C10d29cfc9951958d8ffF6d9D9c9697A146bf70",
+  [SupportedChainId.GOERLI]: "0xda497347D894Fdb9D2DB43192e65A99371747c5C",
   [SupportedChainId.LOCALHOST]: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
   [SupportedChainId.MAINNET]: "",
 };

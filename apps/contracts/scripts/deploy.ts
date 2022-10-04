@@ -3,15 +3,6 @@ import { network, ethers } from "hardhat";
 import localForwarder from "../build/gsn/Forwarder.json";
 import deployedNetworks from "../config/gsn-networks.json";
 
-// on localhost - use deployed values
-/** get forwarder and relayer contract from config[chainId]
- on goerli - deploy factory with (forwarder), 
- deploy paymaster,  
- setTrustedForwarder on paymaster
- set relayer  on factory
- sends funds to paymaster
- */
-
 async function main() {
   const net = await ethers.provider.getNetwork();
   const chainId = (await net).chainId;
@@ -54,7 +45,7 @@ async function main() {
     }
 
     //** Deploy custom paymaster here and connect it to relayer & forwarder
-    const Paymaster = await ethers.getContractFactory("AcceptEverythingPaymaster");
+    const Paymaster = await ethers.getContractFactory("DesocPaymaster");
     let paymaster = await Paymaster.deploy();
     console.log("Deploying paymaster at: ", paymaster.address);
     await paymaster.deployed();
@@ -65,10 +56,12 @@ async function main() {
 
     console.log('set relayer', relayerHub);
     await paymaster.setRelayHub(relayerHub);
-
-    const tx = await paymaster.deposit({ from: deployer, value: utils.parseEther('0.5')});
-    console.log('deposit 0.5 ')
-    // console.log('relayer set')
+    
+    console.log('fund paymaster');
+    const tx = await paymaster.deposit({ from: deployer.address, value: utils.parseEther('0.5')});
+    await tx.wait();
+    console.log('Paymaster funded');
+    
   } else {
     forwarder = localForwarder;
   }
