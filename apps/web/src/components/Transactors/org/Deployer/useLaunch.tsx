@@ -32,18 +32,17 @@ export default function useLaunch() {
       updateTx({ step: Step.submit, message: "Initializing transaction..." });
       showModal(TransactionPrompt, {});
       const wrappedContract = (await wrapFactoryContract(factoryContract, chain?.id!)) as SBFactory;
-      console.log('wrapped ',wrappedContract)
       updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
 
       const { CIDBytes, CIDString } = await pinMetadataToIpfs(metadata);
 
       updateTx({ step: Step.submit, message: "Submitting transaction..." });
       const tx = await wrappedContract.deployToken(metadata.name, metadata.symbol, CIDBytes)
-      updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Deploying ${metadata.name}` });
-
-      const receipt = await tx.wait();
-      const address = utils.getAddress(receipt.logs[3].address);
-      const block = await wrappedContract.provider.getBlock(receipt.blockNumber);
+      
+      const txReceipt = (await tx.wait()).logs[2];
+      updateTx({ step: Step.broadcast, txHash: txReceipt.transactionHash, message: `Deploying ${metadata.name}` });
+      const address = utils.getAddress(txReceipt.address);
+      const block = await wrappedContract.provider.getBlock(txReceipt.blockNumber);
 
       const preview: PendingOrg = {
         cid: CIDString,
@@ -55,9 +54,8 @@ export default function useLaunch() {
         dateCreated: block.timestamp * 1000,
         pending: true,
       };
-
       dispatch(setOrg(preview));
-      updateTx({ step: Step.success, message: "", txHash: tx.hash, previewLink: { href: `/orgs/${address}`, caption: "Preview" } });
+      updateTx({ step: Step.success, message: "", txHash: txReceipt.transactionHash, previewLink: { href: `/orgs/${address}`, caption: "Preview" } });
       dispatch(setFormLoading(false));
     } catch (e: any) {
       console.log("Error ", e?.data?.message, e?.message);
