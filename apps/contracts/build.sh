@@ -33,6 +33,7 @@ fi
 
 # copy the required abis to the web/constants/abis
 cp -rv ./out/SBFactory.sol ../web/src/constants/abis/
+cp -rv ./out/SBFactoryV2.sol ../web/src/constants/abis/
 cp -rv ./out/SBToken.sol ../web/src/constants/abis/
 
 # generate typescript bindings for contracts

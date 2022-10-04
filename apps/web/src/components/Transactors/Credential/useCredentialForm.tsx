@@ -37,13 +37,13 @@ export default function useCredentialForm(address: string, tokenType: number) {
       updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
       
       const { mode, ...meta } = metadata;
-      const cid = await pinMetadataToIpfs(meta);
+      const { CIDBytes, CIDString } = await pinMetadataToIpfs(meta);
 
       updateTx({ step: Step.submit, message: "Confirming transaction..." });
       
-      const tx = await tokenContract.mintTokenType(cid);
+      const tx = await tokenContract.mintTokenType(CIDBytes);
       const typeId = await tokenContract?.totalTypes() ?? 0;
-      const credential: PendingCredential = { id: typeId + 1, cid, address, mintedBy, metadata: meta, pending: true, dateCreated: Date.now() };
+      const credential: PendingCredential = { id: typeId + 1, cid: CIDString, address, mintedBy, metadata: meta, pending: true, dateCreated: Date.now() };
       dispatch(setCredential({ address, credential }))
       const previewLink = `/credentials/${typeId + 1}?address=${address}`;
       updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Deploying ${metadata.name} credential`, previewLink: { href: previewLink, caption: "Preview" } });
@@ -70,13 +70,13 @@ export default function useCredentialForm(address: string, tokenType: number) {
       showModal(TransactionPrompt, {});
       
       const { mode, ...meta } = metadata;
-      const cid = await pinMetadataToIpfs(meta);
-      const update = { ...credential, cid, metadata: meta, } as PendingCredential;
+      const { CIDBytes, CIDString} = await pinMetadataToIpfs(meta);
+      const update = { ...credential, cid: CIDString, metadata: meta, } as PendingCredential;
       dispatch(setCredential({ address, credential: update }))
       
       updateTx({ step: Step.submit, message: "Confirming transaction..." });
       
-      const tx = await tokenContract.updateTypeURI(BigNumber.from(tokenType).toString(), cid);
+      const tx = await tokenContract.updateTypeURI(BigNumber.from(tokenType).toString(), CIDBytes);
 
       updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Updating ${metadata.name}` });
      

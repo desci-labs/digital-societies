@@ -48,7 +48,7 @@ export async function pinMetadataToIpfs(metadata: MetadataValues) {
     method: "POST",
     body: JSON.stringify(meta),
   });
-  const result = (await metaRes.json()) as CIDString;
-  const cid = getBytesFromCIDString(result)
-  return cid;
+  const CIDString = (await metaRes.json()) as CIDString;
+  const CIDBytes = getBytesFromCIDString(CIDString)
+  return { CIDBytes, CIDString };
 }

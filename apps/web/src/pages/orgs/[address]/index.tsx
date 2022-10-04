@@ -27,8 +27,7 @@ export default function OrganisationDetails() {
   }, [router.isReady, router.query]);
 
   if (!org) return <Loader className="h-screen" />;
-  console.log('org', org);
-  console.log('meta', org.metadata);
+
   return (
     <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center mb-10">
       <div className="w-full h-88 relative group">

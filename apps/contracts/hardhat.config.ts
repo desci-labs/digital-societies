@@ -9,7 +9,6 @@ import "@nomiclabs/hardhat-etherscan";
 import "hardhat-deploy";
 import 'solidity-coverage'
 import fs from 'fs';
-
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -74,6 +73,11 @@ const config: HardhatUserConfig = {
       accounts
     },
   },
+  etherscan: {
+    // Your API key for Etherscan
+    // Obtain one at https://etherscan.io/
+    apiKey: process.env.ETHERSCAN_KEY
+  }
 };
 
 export default config;

@@ -6,4 +6,6 @@ source .env
 # ** change contract address to deployed contract also
 
 # forge verify-contract --chain-id <chain-id> --compiler-version v0.8.15 <contract-address> src/SBFactory.sol:SBFactory $ETHERSCAN_KEY
-forge verify-contract --chain-id 5 --compiler-version v0.8.15 0x0e3c9450774cb1dad9f577967ee9f9e8444d97eb src/SBFactory.sol:SBFactory $ETHERSCAN_KEY
+# forge verify-contract --chain-id 5 --compiler-version v0.8.15 0x0e3c9450774cb1dad9f577967ee9f9e8444d97eb src/SBFactory.sol:SBFactory $ETHERSCAN_KEY
+
+forge verify-contract --chain-id 5 --compiler-version v0.8.13 --constructor-args "0000000000000000000000007a95fa73250dc53556d264522150a940d4c50238" 0xfEa9425A4566c9FecC81271fD48eFA57c92faA34 src/SBFactoryV2.sol:SBFactoryV2 $ETHERSCAN_KEY
