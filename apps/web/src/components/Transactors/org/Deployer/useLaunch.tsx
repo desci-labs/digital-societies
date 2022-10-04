@@ -28,11 +28,12 @@ export default function useLaunch() {
 
   async function launch(metadata: MetadataValues) {
     try {
-      const wrappedContract = (await wrapFactoryContract(factoryContract, chain?.id!)) as SBFactory;
-      
       dispatch(setFormLoading(true));
-      updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
+      updateTx({ step: Step.submit, message: "Initializing transaction..." });
       showModal(TransactionPrompt, {});
+      const wrappedContract = (await wrapFactoryContract(factoryContract, chain?.id!)) as SBFactory;
+      console.log('wrapped ',wrappedContract)
+      updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
 
       const { CIDBytes, CIDString } = await pinMetadataToIpfs(metadata);
 

@@ -32,7 +32,9 @@ export const useFactoryContract = (): SBFactory => {
 export const useWrapContract = () => {
 
   return (contract: Contract, chainId: number) => wrapContract(contract, {
-    paymasterAddress: PAYMASTER_ADDRESS[chainId]
+    paymasterAddress: PAYMASTER_ADDRESS[chainId],
+    performDryRunViewRelayCall: false,
+    // preferredRelays: [],
   })
 }
 
@@ -44,32 +46,3 @@ export const useTokenContract = () => {
     return SBToken__factory.getContract(address!, SBTAbi.abi, signer!).connect(signer! || provider) as SBToken
   };
 };
-
-
-// export const useWrappedFactoryContract = (): SBFactory => {
-//   const { chain } = useNetwork()
-//   const { data: signer } = useSigner();
-//   const DEFAULT_PROVIDER = useDefaultProvider()
-//   const address = SB_FACTORY_ADDRESS[chain?.id ?? DEFAULT_CHAIN];
-//   return useContract({
-//     addressOrName: address,
-//     contractInterface: FactoryV2Abi.abi,
-//     signerOrProvider: signer || DEFAULT_PROVIDER,
-//   });
-// };
-
-// export const useGsnProvider = () => {
-//   const { chain } = useNetwork();
-//   const { data: signer } = useSigner();
-
-//   const gsnProvider = RelayProvider.newProvider({
-//     provider: new WrapBridge(new Eip1193Bridge(signer!, new providers.JsonRpcProvider(RPC_URLS[chain?.id ?? DEFAULT_CHAIN]))),
-//     config: { paymasterAddress: PAYMASTER_ADDRESS[chain?.id ?? DEFAULT_CHAIN] }
-//   })
-//   // await gsnProvider.init();
-
-//   return async () => {
-//     await gsnProvider.init();
-//     return gsnProvider;
-//   };
-// }
