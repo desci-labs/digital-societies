@@ -5,7 +5,6 @@ import { SBFactory } from "constants/types/SBFactory";
 import { DEFAULT_CHAIN, RPC_URLS } from "constants/web3";
 import { Contract, ethers } from "ethers";
 import { useContract, useNetwork, useProvider, useSigner } from "wagmi";
-// import FactoryAbi from "../constants/abis/SBFactory.sol/SBFactory.json";
 import FactoryV2Abi from "../constants/abis/SBFactoryV2.sol/SBFactoryV2.json";
 import SBTAbi from "../constants/abis/SBToken.sol/SBToken.json";
 

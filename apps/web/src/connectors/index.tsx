@@ -4,6 +4,7 @@ import { chain } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
 import { getDefaultWallets } from '@rainbow-me/rainbowkit';
 import { DEFAULT_CHAIN, RPC_URLS } from 'constants/web3';
+import { IS_DEV } from 'config/Index';
 
 const gorliChain = {
   id: 5,
@@ -27,7 +28,7 @@ const gorliChain = {
 };
 
 export const { chains, provider } = configureChains(
-  [gorliChain, chain.mainnet, chain.localhost], // chain.arbitrum, chain.polygon, chain.rinkeby
+  [gorliChain, chain.mainnet, IS_DEV ? chain.localhost : chain.mainnet],
   [publicProvider()]
 );
 
