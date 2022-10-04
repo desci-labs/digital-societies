@@ -34,7 +34,6 @@ export const useWrapContract = () => {
   return (contract: Contract, chainId: number) => wrapContract(contract, {
     paymasterAddress: PAYMASTER_ADDRESS[chainId],
     performDryRunViewRelayCall: false,
-    // preferredRelays: [],
   })
 }
 

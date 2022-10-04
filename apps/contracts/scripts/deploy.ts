@@ -1,3 +1,4 @@
+import { utils } from "ethers";
 import { network, ethers } from "hardhat";
 import localForwarder from "../build/gsn/Forwarder.json";
 import deployedNetworks from "../config/gsn-networks.json";
@@ -18,9 +19,12 @@ async function main() {
   const deployer = signers[0];
   console.log('chainId ', chainId, 'Deployer', deployer.address);
 
-  let forwarder;
+  if (!deployer) throw new Error('configure accounts for deployment in your hardhat.config.ts file');
+
+  let forwarder, relayerHub;
+  const deployedNetwork = (deployedNetworks[chainId] || [])[0];
+
   if (network.name !== "localhost" || !chainId.toString().match(/1337/)) {
-    const deployedNetwork = (deployedNetworks[chainId] || [])[0]
 
     if (!deployedNetwork) {
       throw new Error(`GSN not deployed on network ${chainId}`)
@@ -33,32 +37,48 @@ async function main() {
     }
     console.log('Forwarder ', forwarder);
 
+    // sanity check: the build/gsn was created on the currently running node.
+    console.log('Deployer is set, running sanity check on forwarder');
+    if (await ethers.provider.getCode(forwarder).then(code => code.length) === 2) {
+      throw new Error('GSN is not running. You may use "yarn node:start && yarn deploy-gsn" to launch Hardhat and GSN.')
+    }
+
+
+    // validate relayerhub
+    relayerHub = deployedNetwork.contracts &&
+      deployedNetwork.contracts.RelayHub &&
+      deployedNetwork.contracts.RelayHub.address;
+
+    if (!relayerHub) {
+      throw new Error(`No RelayHub address on network ${chainId}`)
+    }
+
+    //** Deploy custom paymaster here and connect it to relayer & forwarder
+    const Paymaster = await ethers.getContractFactory("AcceptEverythingPaymaster");
+    let paymaster = await Paymaster.deploy();
+    console.log("Deploying paymaster at: ", paymaster.address);
+    await paymaster.deployed();
+    console.log("Paymaster deployed at: ", paymaster.address);
+
+    console.log('set forwarder', forwarder);
+    await paymaster.setTrustedForwarder(forwarder);
+
+    console.log('set relayer', relayerHub);
+    await paymaster.setRelayHub(relayerHub);
+
+    const tx = await paymaster.deposit({ from: deployer, value: utils.parseEther('0.5')});
+    console.log('deposit 0.5 ')
+    // console.log('relayer set')
   } else {
     forwarder = localForwarder;
   }
 
-  if (!deployer) throw new Error('configure accounts for deployment in your hardhat.config.ts file');
-  // sanity check: the build/gsn was created on the currently running node.
-  console.log('Deployer is set, running sanity check on forwarder');
-  if (await ethers.provider.getCode(forwarder).then(code => code.length) === 2) {
-    throw new Error('GSN is not running. You may use "yarn node:start && yarn deploy-gsn" to launch Hardhat and GSN.')
-  }
 
-  //** Deploy custom paymaster here and connect it to relayer & forwarder
-  // console.log('set forwarder', forwarder.address)
-  // await paymaster.setTrustedForwarder(forwarder.address)
-  // console.log('set relayer', relayerHub.address)
-  // await paymaster.setRelayHub(relayerHub.address)
-  // console.log('relayer set')
+  // const SBFactory = await ethers.getContractFactory("SBFactoryV2");
+  // const sbfactory = await SBFactory.deploy(forwarder);
+  // await sbfactory.deployed();
+  // console.log(`Deployed SBFactory at ${sbfactory.address} with forwarder ${forwarder}`);
 
-  // return;
-  const SBFactory = await ethers.getContractFactory("SBFactoryV2");
-  const sbfactory = await SBFactory.deploy(forwarder);
-  await sbfactory.deployed();
-  console.log(`Deployed SBFactory at ${sbfactory.address} with forwarder ${forwarder}`);
-
-  // await web3.eth.sendTransaction({ from: accounts[0], to: paymaster.address, value: 1e18 })
-  // console.log(`1 ETH deposited to Paymaster(${WhitelistPaymaster.address})`)
 }
 
 // We recommend this pattern to be able to use async/await everywhere

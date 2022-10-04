@@ -41,4 +41,14 @@ contract AcceptEverythingPaymaster is BasePaymaster {
         (context, success, gasUseWithoutPost, relayData);
     }
 
+    function deposit() public payable {
+        require(address(relayHub) != address(0), "relay hub address not set");
+        relayHub.depositFor{value:msg.value}(address(this));
+    }
+
+    function withdrawAll(address payable destination) public {
+        uint256 amount = relayHub.balanceOf(address(this));
+        withdrawRelayHubDepositTo(amount, destination);
+    }
+
 }
