@@ -7,15 +7,15 @@ module.exports = {
   theme: {
     extend: {
       animation: {
-        gradient: "gradients 3s linear infinite",
+        gradient: "gradients 1s linear infinite",
       },
       keyframes: {
         gradients: {
           "0%, 100%": {
-            "background-position": "0% 50%",
+            "background-position": "0% 30%",
           },
           "50%": {
-            "background-position": "100% 50%",
+            "background-position": "100% 40%",
           },
         },
       },

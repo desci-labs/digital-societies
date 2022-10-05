@@ -29,6 +29,10 @@ body.modal-open {
 
 
 @layer components {
+  .bg-gradient {
+    background: radial-gradient(50% 60% at 50% 50%, #77DDE4 0px, #238396 100%);
+  }
+
   .light-gradient {
     background: radial-gradient(50% 60% at 50% 50%, var(--gradient-light) 0px, rgba(255, 255, 255, 0.01) 100%);
   }

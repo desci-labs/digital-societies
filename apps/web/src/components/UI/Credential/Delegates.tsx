@@ -43,7 +43,7 @@ export function Delegates({ address }: { address: string }) {
           {org.delegates.map((delegate, idx) => (
             <Row key={idx} className="border-none table-row">
               <Cell className="flex justify-start p-2">
-                <div className="w-10 h-10 relative">
+                <div className="w-10 h-10 relative bg-gradient rounded-full">
                   <Image
                     src={getImageURL(org?.metadata?.badge ?? "")}
                     layout="fill"

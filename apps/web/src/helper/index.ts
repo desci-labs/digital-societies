@@ -54,7 +54,7 @@ export const getImageURL = (image: string | FileObject) => {
       ? resolveIpfsURL(image.ipfsHash)
       : image.file && image.file.size > 0
       ? window.URL.createObjectURL(image.file)
-      : fallbackImg;
+      : "";
   return url;
 };
 
