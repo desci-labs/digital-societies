@@ -3,7 +3,7 @@ import { SupportedChainId } from "./chains";
 type AddressMap = { [chainId: number]: string };
 
 export const SB_FACTORY_ADDRESS: AddressMap = {
-  [SupportedChainId.GOERLI]: "0xfEa9425A4566c9FecC81271fD48eFA57c92faA34",
+  [SupportedChainId.GOERLI]: "0x0f34e3B59A67F23E67e47C9d8EFbfA1E835cCBdB", // "0xfEa9425A4566c9FecC81271fD48eFA57c92faA34",
   [SupportedChainId.LOCALHOST]: "0x3Aa5ebB10DC797CAC828524e59A333d0A371443c",
   [SupportedChainId.MAINNET]: "",
 };

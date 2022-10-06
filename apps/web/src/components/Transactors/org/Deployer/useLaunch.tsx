@@ -31,6 +31,7 @@ export default function useLaunch() {
       dispatch(setFormLoading(true));
       updateTx({ step: Step.submit, message: "Initializing transaction..." });
       showModal(TransactionPrompt, {});
+
       const wrappedContract = (await wrapFactoryContract(factoryContract, chain?.id!)) as DesocManager;
       updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
 
@@ -58,8 +59,8 @@ export default function useLaunch() {
       updateTx({ step: Step.success, message: "", txHash: txReceipt.transactionHash, previewLink: { href: `/orgs/${address}`, caption: "Preview" } });
       dispatch(setFormLoading(false));
     } catch (e: any) {
-      console.log("Error ", e?.data?.message, e?.message);
-      updateTx({ step: Step.error, message: "Deployment not completed!!" });
+      console.log("Error ", e);
+      updateTx({ step: Step.error, message: "Unable to complete deployment" });
       dispatch(setFormLoading(false));
       dispatch(setFormError({ title: `Error deploying ${metadata.name}`, details: "" }));
     }

@@ -1,18 +1,18 @@
 #!/bin/bash
 
-yarn test
+forge test -vvvv --gas-report
 
 wait 
 
-(trap 'kill 0' SIGINT; yarn node:start &)
+(trap 'kill 0' SIGINT; npx hardhat node --network hardhat --no-deploy &)
 
 sleep 2
 
-yarn gsn &
+npx gsn start &
 
 sleep 5
 
-yarn test:gsn --network localhost
+npx hardhat test --network localhost
 
 killall node
 
