@@ -26,12 +26,19 @@ import type {
   PromiseOrValue,
 } from "./common";
 
-export interface SBFactoryInterface extends utils.Interface {
+export interface DesocManagerInterface extends utils.Interface {
   functions: {
     "deployToken(string,string,bytes)": FunctionFragment;
+    "getTrustedForwarder()": FunctionFragment;
+    "isTrustedForwarder(address)": FunctionFragment;
   };
 
-  getFunction(nameOrSignatureOrTopic: "deployToken"): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic:
+      | "deployToken"
+      | "getTrustedForwarder"
+      | "isTrustedForwarder"
+  ): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "deployToken",
@@ -41,9 +48,25 @@ export interface SBFactoryInterface extends utils.Interface {
       PromiseOrValue<BytesLike>
     ]
   ): string;
+  encodeFunctionData(
+    functionFragment: "getTrustedForwarder",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isTrustedForwarder",
+    values: [PromiseOrValue<string>]
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "deployToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getTrustedForwarder",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "isTrustedForwarder",
     data: BytesLike
   ): Result;
 
@@ -65,12 +88,12 @@ export type TokenCreatedEvent = TypedEvent<
 
 export type TokenCreatedEventFilter = TypedEventFilter<TokenCreatedEvent>;
 
-export interface SBFactory extends BaseContract {
+export interface DesocManager extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: SBFactoryInterface;
+  interface: DesocManagerInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -98,6 +121,15 @@ export interface SBFactory extends BaseContract {
       _metadata: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    getTrustedForwarder(
+      overrides?: CallOverrides
+    ): Promise<[string] & { forwarder: string }>;
+
+    isTrustedForwarder(
+      forwarder: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
   };
 
   deployToken(
@@ -107,6 +139,13 @@ export interface SBFactory extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  getTrustedForwarder(overrides?: CallOverrides): Promise<string>;
+
+  isTrustedForwarder(
+    forwarder: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   callStatic: {
     deployToken(
       _name: PromiseOrValue<string>,
@@ -114,6 +153,13 @@ export interface SBFactory extends BaseContract {
       _metadata: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    getTrustedForwarder(overrides?: CallOverrides): Promise<string>;
+
+    isTrustedForwarder(
+      forwarder: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
   };
 
   filters: {
@@ -134,6 +180,13 @@ export interface SBFactory extends BaseContract {
       _metadata: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
+
+    getTrustedForwarder(overrides?: CallOverrides): Promise<BigNumber>;
+
+    isTrustedForwarder(
+      forwarder: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -142,6 +195,15 @@ export interface SBFactory extends BaseContract {
       _symbol: PromiseOrValue<string>,
       _metadata: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    getTrustedForwarder(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    isTrustedForwarder(
+      forwarder: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };
 }

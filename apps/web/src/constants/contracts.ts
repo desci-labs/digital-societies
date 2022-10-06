@@ -1,6 +1,6 @@
 import { ChainIDs, SupportedChainId } from "./chains";
-import Factory from "./abis/SBFactory.sol/SBFactory.json";
-import SBToken from "./abis/SBToken.sol/SBToken.json";
+import Factory from "./abis/DesocManager.json";
+import SBToken from "./abis/Desoc.json";
 
 export interface Contract {
   address: string;

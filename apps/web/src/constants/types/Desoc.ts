@@ -27,7 +27,7 @@ import type {
   PromiseOrValue,
 } from "./common";
 
-export interface SBTokenInterface extends utils.Interface {
+export interface DesocInterface extends utils.Interface {
   functions: {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "DELEGATE_ROLE()": FunctionFragment;
@@ -59,7 +59,6 @@ export interface SBTokenInterface extends utils.Interface {
     "symbol()": FunctionFragment;
     "tokenCID(uint256)": FunctionFragment;
     "tokenIdToType(uint256)": FunctionFragment;
-    "tokenToMinter(uint256)": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
     "totalSupply()": FunctionFragment;
     "totalTypes()": FunctionFragment;
@@ -102,7 +101,6 @@ export interface SBTokenInterface extends utils.Interface {
       | "symbol"
       | "tokenCID"
       | "tokenIdToType"
-      | "tokenToMinter"
       | "tokenURI"
       | "totalSupply"
       | "totalTypes"
@@ -237,10 +235,6 @@ export interface SBTokenInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "tokenToMinter",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "tokenURI",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
@@ -356,10 +350,6 @@ export interface SBTokenInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "tokenCID", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "tokenIdToType",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "tokenToMinter",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
@@ -557,12 +547,12 @@ export type TypeUpdatedEvent = TypedEvent<
 
 export type TypeUpdatedEventFilter = TypedEventFilter<TypeUpdatedEvent>;
 
-export interface SBToken extends BaseContract {
+export interface Desoc extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: SBTokenInterface;
+  interface: DesocInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -733,11 +723,6 @@ export interface SBToken extends BaseContract {
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[number]>;
-
-    tokenToMinter(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
 
     tokenURI(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -929,11 +914,6 @@ export interface SBToken extends BaseContract {
     overrides?: CallOverrides
   ): Promise<number>;
 
-  tokenToMinter(
-    arg0: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   tokenURI(
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
@@ -1123,11 +1103,6 @@ export interface SBToken extends BaseContract {
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<number>;
-
-    tokenToMinter(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
 
     tokenURI(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -1449,11 +1424,6 @@ export interface SBToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    tokenToMinter(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     tokenURI(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1643,11 +1613,6 @@ export interface SBToken extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     tokenIdToType(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    tokenToMinter(
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

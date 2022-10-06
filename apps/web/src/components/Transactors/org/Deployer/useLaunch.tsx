@@ -1,7 +1,7 @@
 import { useModalContext } from "components/Modal/Modal";
 import TransactionPrompt from "components/TransactionStatus/TransactionPrompt";
 import { MetadataValues } from "components/Transactors/types";
-import { SBFactory } from "constants/types/SBFactory";
+import { DesocManager } from "constants/types/DesocManager";
 import { utils } from "ethers";
 import { pinMetadataToIpfs } from "helper/web3";
 import { useFactoryContract, useWrapContract } from "hooks/useContract";
@@ -31,7 +31,7 @@ export default function useLaunch() {
       dispatch(setFormLoading(true));
       updateTx({ step: Step.submit, message: "Initializing transaction..." });
       showModal(TransactionPrompt, {});
-      const wrappedContract = (await wrapFactoryContract(factoryContract, chain?.id!)) as SBFactory;
+      const wrappedContract = (await wrapFactoryContract(factoryContract, chain?.id!)) as DesocManager;
       updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
 
       const { CIDBytes, CIDString } = await pinMetadataToIpfs(metadata);

@@ -1,12 +1,13 @@
 import { wrapContract } from "@opengsn/provider/dist/WrapContract";
 import { PAYMASTER_ADDRESS, SB_FACTORY_ADDRESS } from "constants/addresses";
-import { SBToken, SBToken__factory } from "constants/types";
-import { SBFactory } from "constants/types/SBFactory";
+import { DesocManager } from "constants/types/DesocManager";
 import { DEFAULT_CHAIN, RPC_URLS } from "constants/web3";
 import { Contract, ethers } from "ethers";
 import { useContract, useNetwork, useProvider, useSigner } from "wagmi";
-import FactoryV2Abi from "../constants/abis/SBFactoryV2.sol/SBFactoryV2.json";
-import SBTAbi from "../constants/abis/SBToken.sol/SBToken.json";
+import DesocManagerInterface from "../constants/abis/DesocManager.json";
+import DesocInterface from "../constants/abis/Desoc.json";
+import { Desoc } from "constants/types/Desoc";
+import { Desoc__factory } from "constants/types/factories/Desoc__factory";
 
 export const useDefaultProvider = () => {
   const { chain } = useNetwork();
@@ -14,7 +15,7 @@ export const useDefaultProvider = () => {
   return DEFAULT_PROVIDER;
 }
 
-export const useFactoryContract = (): SBFactory => {
+export const useFactoryContract = (): DesocManager => {
   const library = useProvider();
   const { chain } = useNetwork()
   const { data: signer } = useSigner();
@@ -23,7 +24,7 @@ export const useFactoryContract = (): SBFactory => {
 
   return useContract({
     addressOrName: address,
-    contractInterface: FactoryV2Abi.abi,
+    contractInterface: DesocManagerInterface.abi,
     signerOrProvider: signer || library || DEFAULT_PROVIDER,
   });
 };
@@ -43,7 +44,7 @@ export const useTokenContract = () => {
   const { data: signer } = useSigner();
   const provider = useProvider();
   
-  return (address: string): SBToken => {
-    return SBToken__factory.getContract(address!, SBTAbi.abi, signer!).connect(signer! || provider) as SBToken
+  return (address: string): Desoc => {
+    return Desoc__factory.getContract(address!, DesocInterface.abi, signer!).connect(signer! || provider) as Desoc
   };
 };

@@ -23,7 +23,7 @@ if [[ $forge_out == "" ]]; then
     foundryup
 fi
 
-yarn install
+# yarn install
 
 # Run the build script
 yarn remapping-transform && forge build --force
@@ -33,10 +33,9 @@ if [ -f "apps/contracts" ]; then
 fi
 
 # copy the required abis to the web/constants/abis
-cp -rv ./out/DesocManager.sol ../web/src/constants/abis/
-cp -rv ./out/Desoc.sol ../web/src/constants/abis/
+cp ./out/DesocManager.sol/DesocManager.json ../web/src/constants/abis/
+cp ./out/Desoc.sol/Desoc.json ../web/src/constants/abis/
 
 # generate typescript bindings for contracts
-typechain --target ethers-v5 --out-dir '../web/src/constants/types' './out/SBFactory.sol/DesocManager.json'
+typechain --target ethers-v5 --out-dir '../web/src/constants/types' './out/DesocManager.sol/DesocManager.json'
 typechain --target ethers-v5 --out-dir '../web/src/constants/types' './out/Desoc.sol/Desoc.json'
-# rm -rf ../web/src/constants/types/factories
