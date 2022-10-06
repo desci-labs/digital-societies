@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 /// @notice You can use this contract to issue soul-bound credentials to users or other smart contracts
 /// @dev All functions are subject to changes in the future.
 /// @custom:experimental This is an experimental contract.
-contract SBToken is ERC721, AccessControlEnumerable {
+contract Desoc is ERC721, AccessControlEnumerable {
     uint256 public totalSupply;
     uint16 public totalTypes;
     address private factory;
@@ -18,7 +18,6 @@ contract SBToken is ERC721, AccessControlEnumerable {
     bytes32 public constant DELEGATE_ROLE = keccak256("DELEGATES");
 
     mapping(uint16 => bytes) private typeToURI;
-    mapping(uint256 => address) public tokenToMinter;
     mapping(uint256 => uint16) public tokenIdToType;
     mapping(uint16 => mapping(address => bool)) public typeToSoul;
 
@@ -94,21 +93,9 @@ contract SBToken is ERC721, AccessControlEnumerable {
         address owner = ownerOf(_tokenId);
         require(owner == msg.sender, "Only the owner can burn their token");
         _burn(_tokenId);
-        tokenToMinter[_tokenId] = address(0);
+        // tokenToMinter[_tokenId] = address(0);
         typeToSoul[tokenIdToType[_tokenId]][msg.sender] = false;
         tokenIdToType[_tokenId] = 0;
-        emit Revoked(msg.sender, owner, _tokenId);
-    }
-
-    /// @notice This function allows the admin or delegates to revoke a user's credential or revoke their ownership
-    /// @dev Admin and delegate can revoke ownership of token
-    /// @param _tokenId Id of the token to be revoked
-    function revoke(uint256 _tokenId) external onlyRole(DELEGATE_ROLE) {
-        address owner = ownerOf(_tokenId);
-        _burn(_tokenId);
-        typeToSoul[tokenIdToType[_tokenId]][owner] = false;
-        tokenToMinter[_tokenId] = address(0);
-        // tokenIdToType[_tokenId] = 0;
         emit Revoked(msg.sender, owner, _tokenId);
     }
 
@@ -119,20 +106,12 @@ contract SBToken is ERC721, AccessControlEnumerable {
         external
         onlyRole(DELEGATE_ROLE)
     {
-        address[] memory owners = new address[](_tokenIds.length);
         for (uint256 i = 0; i < _tokenIds.length; ) {
-            // address owner = ownerOf(_tokenIds[i]);
-            owners[i] = ownerOf(_tokenIds[i]);
-            _burn(_tokenIds[i]);
-            tokenToMinter[_tokenIds[i]] = address(0);
-            // tokenIdToType[_tokenIds[i]] = 0;
-            // emit Revoked(owner, msg.sender, _tokenIds[i]);
-
+            revoke(_tokenIds[i]);
             unchecked {
                 i++;
             }
         }
-        emit BatchRevoked(msg.sender, owners, _tokenIds);
     }
 
     /// @notice Only admin can update a credential's data
@@ -159,7 +138,6 @@ contract SBToken is ERC721, AccessControlEnumerable {
     {
         require(_typeExists(_tokenType), "Invalid SB type");
         require(_exists(_tokenId), "FORBIDDEN: Invalid tokenId");
-
         tokenIdToType[_tokenId] = _tokenType;
         emit TokenIdTypeUpdated(_tokenId, _tokenType);
     }
@@ -194,10 +172,21 @@ contract SBToken is ERC721, AccessControlEnumerable {
         require(!_hasType(_to, _tokenType), "Duplicate credential");
         totalSupply++;
         _safeMint(_to, totalSupply);
-        tokenToMinter[totalSupply] = msg.sender;
         tokenIdToType[totalSupply] = _tokenType;
         typeToSoul[_tokenType][_to] = true;
         emit Mint(msg.sender, _to, totalSupply, _tokenType);
+    }
+
+    /// @notice This function allows the admin or delegates to revoke a user's credential or revoke their ownership
+    /// @dev Admin and delegate can revoke ownership of token
+    /// @param _tokenId Id of the token to be revoked
+    function revoke(uint256 _tokenId) public onlyRole(DELEGATE_ROLE) {
+        address owner = ownerOf(_tokenId);
+        _burn(_tokenId);
+        typeToSoul[tokenIdToType[_tokenId]][owner] = false;
+        // tokenToMinter[_tokenId] = address(0);
+        delete tokenIdToType[_tokenId];
+        emit Revoked(msg.sender, owner, _tokenId);
     }
 
     /// @notice Return the content identify for a credential

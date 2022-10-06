@@ -67,10 +67,10 @@ async function main() {
   }
 
 
-  // const SBFactory = await ethers.getContractFactory("SBFactoryV2");
-  // const sbfactory = await SBFactory.deploy(forwarder);
-  // await sbfactory.deployed();
-  // console.log(`Deployed SBFactory at ${sbfactory.address} with forwarder ${forwarder}`);
+  // const DesocManager = await ethers.getContractFactory("DesocManager");
+  // const manager = await DesocManager.deploy(forwarder);
+  // await manager.deployed();
+  // console.log(`Deployed SBFactory at ${manager.address} with forwarder ${forwarder}`);
 
 }
 

@@ -8,7 +8,13 @@
     "strict": true,
     "skipLibCheck": true
   },
+  "files": [
+    "placeholder.ts"
+  ],
   "include": [
     "src/**/*.json"
   ],
+  "exclude": [
+    "node_modules"
+  ]
 }

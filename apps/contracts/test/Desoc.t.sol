@@ -2,12 +2,12 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
+import "src/DesocManager.sol";
 import {console} from "forge-std/console.sol";
-import "src/SBFactory.sol";
 import {Utils} from "./Utils/Utils.sol";
 
-contract SBTokenTest is SBFactory, Test {
-    SBToken sbt;
+contract DesocTest is DesocManager, Test {
+    Desoc sbt;
     Utils internal utils;
 
     address internal admin;
@@ -17,6 +17,9 @@ contract SBTokenTest is SBFactory, Test {
 
     bytes public ipfsHash = bytes("QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw");
 
+    address internal _forwarder = 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9;
+
+    constructor() DesocManager(_forwarder) {}
     function setUp() public {
         utils = new Utils();
         address[] memory users = new address[](4);
@@ -40,7 +43,7 @@ contract SBTokenTest is SBFactory, Test {
         string memory symbol = "DSI";
 
         address deployed = this.deployToken(name, symbol, ipfsHash);
-        sbt = SBToken(deployed);
+        sbt = Desoc(deployed);
 
         assertEq(sbt.name(), name);
         assertEq(sbt.symbol(), symbol);
@@ -59,10 +62,8 @@ contract SBTokenTest is SBFactory, Test {
     }
 
     function testAddDelegates() public {
-        // vm.startPrank(admin);
         sbt.grantRole(sbt.DELEGATE_ROLE(), alice);
         sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
-        // vm.stopPrank();(admin);
 
         uint256 delegateRoleCount = sbt.getRoleMemberCount(sbt.DELEGATE_ROLE());
         
@@ -72,10 +73,8 @@ contract SBTokenTest is SBFactory, Test {
     }
     
     function testRemoveDelegates() public {
-        // vm.startPrank(admin);
         sbt.grantRole(sbt.DELEGATE_ROLE(), alice);
         sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
-        // vm.stopPrank();(admin);
 
         uint256 delegateRoleCount = sbt.getRoleMemberCount(sbt.DELEGATE_ROLE());
         
@@ -83,10 +82,8 @@ contract SBTokenTest is SBFactory, Test {
         assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), sina), true);
         assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), alice), true);
 
-        // vm.startPrank(admin);
         sbt.revokeRole(sbt.DELEGATE_ROLE(), alice);
         sbt.revokeRole(sbt.DELEGATE_ROLE(), sina);
-        // vm.stopPrank();(admin);
 
         delegateRoleCount = sbt.getRoleMemberCount(sbt.DELEGATE_ROLE());
         
@@ -110,7 +107,6 @@ contract SBTokenTest is SBFactory, Test {
 
         assertEq(sbt.balanceOf(alice), 1);
         assertEq(sbt.ownerOf(1), alice);
-        assertEq(sbt.tokenToMinter(1), admin);
     }
     function tesCannotIssueCredentialTwice() public {
         uint16 _type = _mintTokenType();
@@ -126,12 +122,10 @@ contract SBTokenTest is SBFactory, Test {
 
         assertEq(sbt.balanceOf(alice), 1);
         assertEq(sbt.ownerOf(1), alice);
-        assertEq(sbt.tokenToMinter(1), admin);
 
         sbt.revoke(1);
 
         assertEq(sbt.balanceOf(alice), 0);
-        assertEq(sbt.tokenToMinter(1), address(0));
     }
 
     function testBatchMint() public {
@@ -146,7 +140,6 @@ contract SBTokenTest is SBFactory, Test {
         for (uint i = 0; i < users.length; i++) {
             assertEq(sbt.balanceOf(users[i]), 1);
             assertEq(sbt.ownerOf(i + 1), users[i]);
-            assertEq(sbt.tokenToMinter(i + 1), admin);
         }
     }
 
@@ -169,7 +162,6 @@ contract SBTokenTest is SBFactory, Test {
 
         for (uint i = 0; i < users.length; i++) {
             assertEq(sbt.balanceOf(users[i]), 0);
-            assertEq(sbt.tokenToMinter(i + 1), address(0));
         }
     }
 
@@ -183,7 +175,6 @@ contract SBTokenTest is SBFactory, Test {
 
         assertEq(sbt.balanceOf(alice), 1);
         assertEq(sbt.ownerOf(1), alice);
-        assertEq(sbt.tokenToMinter(1), sina);
     }
 
     function testDelegateRevokeSBToken() public {
@@ -195,12 +186,10 @@ contract SBTokenTest is SBFactory, Test {
 
         assertEq(sbt.balanceOf(alice), 1);
         assertEq(sbt.ownerOf(1), alice);
-        assertEq(sbt.tokenToMinter(1), sina);
 
         sbt.revoke(1);
 
         assertEq(sbt.balanceOf(alice), 0);
-        assertEq(sbt.tokenToMinter(2), address(0));
     }
 
     function testCannotMintSBToken() public {
@@ -239,8 +228,6 @@ contract SBTokenTest is SBFactory, Test {
         assertEq(keccak256(abi.encodePacked(sbt.tokenCID(1))) , keccak256(abi.encodePacked(meta)));
     }
     function testCannotUpdateInvalidTokenType() public {
-        // _mintTokenType();
-        
         // Try to update a non-existent type
         vm.expectRevert("Invalid SB type");
         sbt.updateTokenIdType(1, 2);
@@ -272,10 +259,7 @@ contract SBTokenTest is SBFactory, Test {
     }
 
     function testSetContractURI() public {
-        // bytes memory meta = bytes("QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw");
-
         sbt.setContractURI(ipfsHash);
-
         assertEq(sbt.contractURI(), ipfsHash);
     }
 
@@ -284,7 +268,6 @@ contract SBTokenTest is SBFactory, Test {
         vm.expectRevert(
             "AccessControl: account 0x075edf3ae919fbef9933f666bb0a95c6b80b04ed is missing role 0x0000000000000000000000000000000000000000000000000000000000000000"
         );
-
         sbt.setContractURI(ipfsHash);
     }
 
@@ -301,7 +284,6 @@ contract SBTokenTest is SBFactory, Test {
         _tokenType = sbt.totalTypes();
         assertTrue(_tokenType > 0);
         assertTrue(keccak256(abi.encodePacked((sbt.typeURI(_tokenType)))) == keccak256(abi.encodePacked(ipfsHash)));
-
         _tokenType;
     }
 }

@@ -3,15 +3,18 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
 import {console} from "forge-std/console.sol";
-import "src/SBFactory.sol";
+import "src/DesocManager.sol";
 import {Utils} from "./Utils/Utils.sol";
 
-contract SBFactoryTest is SBFactory, Test {
-    SBToken sbt;
+contract DesocManagerTest is DesocManager, Test {
+    Desoc sbt;
     Utils internal utils;
 
     address internal admin;
     
+    address internal _forwarder = 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9;
+
+    constructor() DesocManager(_forwarder) {}
     function setUp() public {
         utils = new Utils();
         address[] memory users = new address[](1);
@@ -31,7 +34,7 @@ contract SBFactoryTest is SBFactory, Test {
             symbol,
             bytes("qmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw")
         );
-        sbt = SBToken(deployed);
+        sbt = Desoc(deployed);
 
         assertEq(sbt.name(), name);
         assertEq(sbt.symbol(), symbol);
