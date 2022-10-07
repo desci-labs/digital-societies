@@ -33,7 +33,7 @@ export const { chains, provider } = configureChains(
 );
 
 export const { connectors } = getDefaultWallets({
-  appName: 'Credential Manager',
+  appName: 'Desoc Manager',
   chains
 });
 
