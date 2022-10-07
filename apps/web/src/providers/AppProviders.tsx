@@ -32,14 +32,14 @@ function AppProviders({ children }: PropsWithChildren<unknown>) {
   const getTheme = () =>
     resolvedTheme === "dark"
       ? darkTheme({
-          accentColor: "#28AAC4",
-          accentColorForeground: "#000000",
-          overlayBlur: "large",
-        })
+        accentColor: "#28AAC4",
+        accentColorForeground: "#000000",
+        overlayBlur: "large",
+      })
       : lightTheme({
-          accentColor: "#28AAC4",
-          accentColorForeground: "#ffffff",
-        });
+        accentColor: "#28AAC4",
+        accentColorForeground: "#ffffff",
+      });
 
   return (
     <TransactionProvider>

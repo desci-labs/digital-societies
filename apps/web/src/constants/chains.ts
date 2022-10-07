@@ -1,10 +1,16 @@
 /**
  * List of all the networks supported by the Uniswap Interface
  */
-export enum SupportedChainId {
+export enum ChainIds {
   MAINNET = 1,
   GOERLI = 5,
   LOCALHOST = 1337
+}
+
+export enum SupportedChainId {
+  // MAINNET = 1,
+  GOERLI = 5,
+  // LOCALHOST = 1337
 }
 
 export enum ChainIDs {
@@ -18,6 +24,6 @@ export enum ChainIDs {
 /**
  * Array of all the supported chain IDs
  */
-export const ALL_SUPPORTED_CHAIN_IDS: ChainIDs[] = Object.values(
+export const SUPPORTED_CHAIN_IDS: ChainIDs[] = Object.values(
   SupportedChainId
 ).filter((id) => typeof id === "number") as unknown as ChainIDs[];
