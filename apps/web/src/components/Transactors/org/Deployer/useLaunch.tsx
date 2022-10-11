@@ -22,7 +22,7 @@ export default function useLaunch() {
   const { form_loading } = useGetTxState();
   const factoryContract = useFactoryContract();
   const { chain } = useNetwork();
-  const wrapFactoryContract = useWrapContract();
+  const wrapFactoryContract = useWrapContract<DesocManager>();
 
   useEffect(() => () => { dispatch(setFormError(null)) });
 
@@ -32,7 +32,7 @@ export default function useLaunch() {
       updateTx({ step: Step.submit, message: "Initializing transaction..." });
       showModal(TransactionPrompt, {});
 
-      const wrappedContract = (await wrapFactoryContract(factoryContract, chain?.id!)) as DesocManager;
+      const wrappedContract = (await wrapFactoryContract(factoryContract!, chain?.id!)) as DesocManager;
       updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
 
       const { CIDBytes, CIDString } = await pinMetadataToIpfs(metadata);

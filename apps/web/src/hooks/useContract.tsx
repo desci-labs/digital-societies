@@ -36,8 +36,8 @@ export const useFactoryContract = (): DesocManager | undefined => {
     }
 };
 
-export const useWrapContract = () => {
-  return (contract: Contract, chainId: number) =>
+export const useWrapContract = <T extends Contract>() => {
+  return (contract: T, chainId: number) =>
     wrapContract(contract, {
       paymasterAddress: PAYMASTER_ADDRESS[chainId],
       performDryRunViewRelayCall: false,
