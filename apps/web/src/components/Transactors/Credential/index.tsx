@@ -36,7 +36,10 @@ export default function CredentialLauncher({ org, Form, mode }: Props) {
     resolver: yupResolver(metadataSchema),
   });
 
-  if (org.pending) return showModal(Popup, { message: "This deployment of this org is still pending..."});
+  if (org.pending) {
+    showModal(Popup, { message: "This deployment of this org is still pending..." });
+    return null;
+  }
 
   return (
     <FormProvider {...methods}>
