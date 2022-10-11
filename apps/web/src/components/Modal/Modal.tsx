@@ -49,7 +49,7 @@ export default function ModalProvider(props: Props) {
 
   const showModal: Opener = (Content, props) => {
     setBackdropDismiss(props.isDismissDisabled ?? true);
-    setContent(<Content {...props} />);
+    setContent(<Content {...props} inModal={true} />);
     toggleBodyScroll(false);
   };
 

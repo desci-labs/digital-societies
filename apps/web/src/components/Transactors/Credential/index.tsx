@@ -8,12 +8,14 @@ import { FC } from "react";
 import Popup from "components/UI/Popup/Index";
 import { useGetCredential } from "services/credentials/hooks";
 import { useRouter } from "next/router";
+import { useModalContext } from "components/Modal/Modal";
 
 export type Props = { org: Org | PendingOrg, Form: FC, mode: LaunchMode };
 
 export default function CredentialLauncher({ org, Form, mode }: Props) {
   const { address } = useAccount();
   const router = useRouter();
+  const { showModal } = useModalContext()
   const { id } = router.query;
   const credential = useGetCredential(org.address, parseInt(id as string));
   const metadata = credential?.metadata ?? org.metadata;
@@ -34,7 +36,7 @@ export default function CredentialLauncher({ org, Form, mode }: Props) {
     resolver: yupResolver(metadataSchema),
   });
 
-  if (org.pending) return <Popup message="This deployment of this org is still pending..." />
+  if (org.pending) return showModal(Popup, { message: "This deployment of this org is still pending..."});
 
   return (
     <FormProvider {...methods}>
