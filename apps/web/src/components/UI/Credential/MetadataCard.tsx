@@ -3,46 +3,46 @@ import { getImageURL, shortenText } from "helper";
 import { useRouter } from "next/router";
 import { ExternalLink, ImageBanner, RoundedLogo } from "../Index";
 
-export function MetadataCard({
-  metadata,
-  link,
-}: {
+export type MetaCardProps = {
   link: string;
   metadata: Metadata | MetadataValues;
-}) {
+  containerClass?: string;
+  bannerClass?: string;
+};
+
+export function MetadataCard(props: MetaCardProps) {
   const router = useRouter();
 
-  if (!metadata) return null;
+  if (!props.metadata) return null;
 
   return (
     <div
       tabIndex={0}
-      onClick={() => router.push(link)}
-      className="bg-transparent dark:text-white min-w-80 w-80 pb-4 cursor-pointer overflow-hidden transition-shadow duration-200 hover:shadow-xl outline-none border border-neutrals-gray-7 hover:border-neutrals-gray-3 dark:hover:border-neutrals-gray-7 dark:border-neutrals-gray-3 focus:border-neutrals-gray-1 dark:focus:border-neutrals-gray-7"
+      onClick={() => router.push(props.link)}
+      className={`bg-transparent dark:text-white min-w-80 w-80 pb-4 cursor-pointer overflow-hidden transition-shadow duration-200 hover:shadow-xl outline-none border border-neutrals-gray-7 hover:border-neutrals-gray-3 dark:hover:border-neutrals-gray-7 dark:border-neutrals-gray-3 focus:border-neutrals-gray-1 dark:focus:border-neutrals-gray-7 ${props.containerClass ?? ''}`}
     >
-      <div className="h-32 relative">
-        <ImageBanner src={getImageURL(metadata?.banner ?? "")} />
+      <div className={`h-32 relative ${props.bannerClass ?? ''}`}>
+        <ImageBanner src={getImageURL(props.metadata?.banner ?? "")} />
         <RoundedLogo
-          src={getImageURL(metadata?.badge ?? "")}
+          src={getImageURL(props.metadata?.badge ?? "")}
           className="w-12 h-12 left-3 -bottom-5"
         />
       </div>
       <div className="px-2 mt-6 flex flex-col justify-between gap-1 h-32">
         <div>
           <span className="text-md block font-bold mb-1 truncate">
-            {metadata.name}
+            {props.metadata.name}
           </span>
           <span className="text-[13px] text-neutrals-gray-4 block">
-            {shortenText(metadata.description)}
+            {shortenText(props.metadata.description)}
           </span>
         </div>
-        {metadata.external_link && (
+        {props.metadata.external_link && (
           <div className="flex justify-center">
-            <ExternalLink href={metadata.external_link} />
+            <ExternalLink href={props.metadata.external_link} />
           </div>
         )}
       </div>
     </div>
   );
 }
-

@@ -22,7 +22,7 @@ export default function useLaunch() {
   const { form_loading } = useGetTxState();
   const factoryContract = useFactoryContract();
   const { chain } = useNetwork();
-  const wrapFactoryContract = useWrapContract<DesocManager>();
+  const wrapFactoryContract = useWrapContract();
 
   useEffect(() => () => { dispatch(setFormError(null)) });
 
@@ -38,6 +38,7 @@ export default function useLaunch() {
       const { CIDBytes, CIDString } = await pinMetadataToIpfs(metadata);
 
       updateTx({ step: Step.submit, message: "Submitting transaction..." });
+      console.log('wrapped ', wrappedContract);
       const tx = await wrappedContract.deployToken(metadata.name, metadata.symbol, CIDBytes)
       
       const txReceipt = (await tx.wait()).logs[2];
