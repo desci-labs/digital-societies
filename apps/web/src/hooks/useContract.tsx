@@ -3,12 +3,13 @@ import { PAYMASTER_ADDRESS, SB_FACTORY_ADDRESS } from "constants/addresses";
 import { DesocManager } from "constants/types/DesocManager";
 import { DEFAULT_CHAIN, RPC_URLS } from "constants/web3";
 import { Contract, ethers } from "ethers";
-import { useContract, useNetwork, useProvider, useSigner } from "wagmi";
+import { useNetwork, useProvider, useSigner } from "wagmi";
 import DesocManagerInterface from "../constants/abis/DesocManager.json";
 import DesocInterface from "../constants/abis/Desoc.json";
 import { Desoc } from "constants/types/Desoc";
 import { Desoc__factory } from "constants/types/factories/Desoc__factory";
 import { DesocManager__factory } from "constants/types/factories/DesocManager__factory";
+import { useEffect, useState } from "react";
 
 export const useDefaultProvider = () => {
   const { chain } = useNetwork();
@@ -19,27 +20,21 @@ export const useDefaultProvider = () => {
 };
 
 export const useFactoryContract = (): DesocManager | undefined => {
-  // const library = useProvider();
+  const [contract, setContract] = useState<DesocManager>();
   const { chain } = useNetwork();
   const { data: signer } = useSigner();
-  // const DEFAULT_PROVIDER = useDefaultProvider()
+  const provider = useProvider();
   const address = SB_FACTORY_ADDRESS[chain?.id ?? DEFAULT_CHAIN];
 
-  try {
-    // return DesocManager__factory.getContract(
-    //   address!,
-    //   DesocManagerInterface.abi,
-    //   signer!
-    //   ) as DesocManager;
-    // return new ethers.Contract(address!, DesocManagerInterface.abi, signer!) as DesocManager
-    return useContract({
-      addressOrName: address,
-      contractInterface: DesocManagerInterface.abi,
-      signerOrProvider: signer,
-    });
-    } catch (e) {
-      return undefined;
-    }
+  useEffect(() => {
+      setContract(DesocManager__factory.getContract(
+        address!,
+        DesocManagerInterface.abi,
+        signer! || provider
+      ) as DesocManager);
+  }, [address, provider, signer]);
+
+  return contract
 };
 
 export const useWrapContract = () => {
