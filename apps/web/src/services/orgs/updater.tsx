@@ -78,7 +78,7 @@ export default function FactoryUpdater() {
       if (!block || !contract) return;
 
       if (block - lastUpdated < 10) return;
-      console.log('updater ', contract)
+
       try {
         const lastQuery = await provider.getBlockNumber();
         const filter = contract.filters.TokenCreated();
