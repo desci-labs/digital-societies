@@ -3,13 +3,14 @@ pragma solidity 0.8.13;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
+import "./IDesoc.sol";
 
 /// @title An experimental implementation of a soul-bound token (SBT) smart contract
 /// @author Oloyede Shadrach Temitayo (@oloyedeshadrach)
 /// @notice You can use this contract to issue soul-bound credentials to users or other smart contracts
 /// @dev All functions are subject to changes in the future.
 /// @custom:experimental This is an experimental contract.
-contract Desoc is ERC721, AccessControlEnumerable {
+contract Desoc is ERC721, AccessControlEnumerable, IDesoc {
     uint256 public totalSupply;
     uint16 public totalTypes;
     address private factory;
@@ -19,27 +20,7 @@ contract Desoc is ERC721, AccessControlEnumerable {
 
     mapping(uint16 => bytes) private typeToURI;
     mapping(uint256 => uint16) public tokenIdToType;
-    mapping(uint16 => mapping(address => bool)) public typeToSoul;
-
-    event Revoked(
-        address indexed revokedBy,
-        address indexed owner,
-        uint256 tokenId
-    );
-    event BatchRevoked(
-        address indexed revokedBy,
-        address[] owners,
-        uint256[] tokenIds
-    );
-    event Mint(
-        address indexed mintedBy,
-        address indexed to,
-        uint256 tokenId,
-        uint16 tokenType
-    );
-    event TypeCreated(uint16 tokenType, address indexed createdBy, bytes uri);
-    event TypeUpdated(uint16 tokenType, bytes uri);
-    event TokenIdTypeUpdated(uint256 tokenId, uint16 _tokenType);
+    mapping(uint16 => mapping(address => bool)) public typeToOwner;
 
     constructor(
         string memory _name,
@@ -52,6 +33,21 @@ contract Desoc is ERC721, AccessControlEnumerable {
         _setRoleAdmin(DELEGATE_ROLE, DEFAULT_ADMIN_ROLE);
         _grantRole(DELEGATE_ROLE, _admin);
         _grantRole(DEFAULT_ADMIN_ROLE, _admin);
+    }
+
+    /// @notice Return the content identify for a credential
+    /// @dev Returns the type uri of the input credential or sbt type
+    /// @param _type token type ID to get type cid
+    /// @return ipfs cid of the token type
+    function typeURI(uint16 _type) external view returns (bytes memory) {
+        return typeToURI[_type];
+    }
+
+    /// @notice Return the content identify for user's credential
+    /// @dev Returns the cid of the contract metatdata stored on ipfs
+    /// @return returns _contractURI of this SBT contract
+    function contractURI() external view returns (bytes memory) {
+        return _contractURI;
     }
 
     /// @notice Mint a new credential type(SBT) for this organisation
@@ -76,7 +72,7 @@ contract Desoc is ERC721, AccessControlEnumerable {
         external
         onlyRole(DELEGATE_ROLE)
     {
-        require(_typeExists(_tokenType), "Invalid SB type");
+        // require(_typeExists(_tokenType), "Invalid SB type");
         for (uint256 i = 0; i < _to.length; ) {
             mint(_to[i], _tokenType);
 
@@ -94,7 +90,7 @@ contract Desoc is ERC721, AccessControlEnumerable {
         require(owner == msg.sender, "Only the owner can burn their token");
         _burn(_tokenId);
         // tokenToMinter[_tokenId] = address(0);
-        typeToSoul[tokenIdToType[_tokenId]][msg.sender] = false;
+        typeToOwner[tokenIdToType[_tokenId]][msg.sender] = false;
         tokenIdToType[_tokenId] = 0;
         emit Revoked(msg.sender, owner, _tokenId);
     }
@@ -173,7 +169,7 @@ contract Desoc is ERC721, AccessControlEnumerable {
         totalSupply++;
         _safeMint(_to, totalSupply);
         tokenIdToType[totalSupply] = _tokenType;
-        typeToSoul[_tokenType][_to] = true;
+        typeToOwner[_tokenType][_to] = true;
         emit Mint(msg.sender, _to, totalSupply, _tokenType);
     }
 
@@ -183,34 +179,21 @@ contract Desoc is ERC721, AccessControlEnumerable {
     function revoke(uint256 _tokenId) public onlyRole(DELEGATE_ROLE) {
         address owner = ownerOf(_tokenId);
         _burn(_tokenId);
-        typeToSoul[tokenIdToType[_tokenId]][owner] = false;
+        typeToOwner[tokenIdToType[_tokenId]][owner] = false;
         // tokenToMinter[_tokenId] = address(0);
         delete tokenIdToType[_tokenId];
         emit Revoked(msg.sender, owner, _tokenId);
     }
 
-    /// @notice Return the content identify for a credential
-    /// @dev Returns the type uri of the input credential or sbt type
-    /// @param _type token type ID to get type cid
-    /// @return ipfs cid of the token type
-    function typeURI(uint16 _type) public view returns (bytes memory) {
-        return typeToURI[_type];
-    }
-
-    /// @notice Return the content identify for user's credential
-    /// @dev Returns the cid of the contract metatdata stored on ipfs
-    /// @return returns _contractURI of this SBT contract
-    function contractURI() public view returns (bytes memory) {
-        return _contractURI;
-    }
-
+    /// @inheritdoc IERC165
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(AccessControlEnumerable, ERC721)
+        override(AccessControlEnumerable, ERC721, IERC165)
         returns (bool)
     {
         return
+            interfaceId == type(IDesoc).interfaceId ||
             interfaceId == type(IAccessControlEnumerable).interfaceId ||
             super.supportsInterface(interfaceId);
     }
@@ -236,6 +219,6 @@ contract Desoc is ERC721, AccessControlEnumerable {
         view
         returns (bool)
     {
-        return typeToSoul[tokenType][owner] == true;
+        return typeToOwner[tokenType][owner] == true;
     }
 }

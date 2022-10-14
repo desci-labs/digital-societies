@@ -6,6 +6,7 @@ import "src/DesocManager.sol";
 import {console} from "forge-std/console.sol";
 import {Utils} from "./Utils/Utils.sol";
 
+
 contract DesocTest is DesocManager, Test {
     Desoc sbt;
     Utils internal utils;
@@ -287,3 +288,12 @@ contract DesocTest is DesocManager, Test {
         _tokenType;
     }
 }
+
+// contract DesocInterfaceTest is DesocTest {
+
+//   function testIDesocInterfaceSupport() public {
+//         IDesoc desoc = new Desoc("name", "symbol", "qeripoifasdf", admin);
+//         // assertEq(address(sbt).supportsInterface(type(desoc).interfaceId), true);
+//         assertTrue(type(Desoc).interfaceId == type(IDesoc).interfaceId);
+//     }   
+// }
