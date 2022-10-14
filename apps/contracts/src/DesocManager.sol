@@ -4,7 +4,6 @@ import "src/Desoc.sol";
 import "gsn/packages/contracts/src/ERC2771Recipient.sol";
 import "gsn/packages/contracts/src/forwarder/Forwarder.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import {console} from "forge-std/console.sol";
 
 /// @title An experimental implementation of a soul-bound token (SBT) Factory smart contract
 /// @author Oloyede Shadrach Temitayo (@oloyedeshadrach)
