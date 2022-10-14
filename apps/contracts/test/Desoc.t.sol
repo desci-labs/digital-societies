@@ -42,7 +42,7 @@ contract DesocTest is DesocManager, Test {
         string memory name = "Desci Labs";
         string memory symbol = "DSI";
 
-        address deployed = this.deployToken(name, symbol, ipfsHash);
+        address deployed =  this.deployToken(name, symbol, ipfsHash);
         sbt = Desoc(deployed);
 
         assertEq(sbt.name(), name);
@@ -94,7 +94,6 @@ contract DesocTest is DesocManager, Test {
 
     function testTokenUriIsTypeURI() public {
         uint16 _type = _mintTokenType();
-        console.log("type", _type);
         sbt.mint(alice, _type);
         bytes memory tokenUri = sbt.tokenCID(1);
         bytes memory typeUri = sbt.typeURI(_type);

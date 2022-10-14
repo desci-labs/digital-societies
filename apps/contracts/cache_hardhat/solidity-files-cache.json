@@ -2,11 +2,11 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/src/Forwarder.sol": {
-      "lastModificationDate": 1664689683387,
-      "contentHash": "e68320ddeb145d5c2a54bfd0a025de0c",
+      "lastModificationDate": 1665683854173,
+      "contentHash": "6f8c2f7d5b3f7ca7edb3f61fb06edca1",
       "sourceName": "src/Forwarder.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -35,7 +35,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -44,7 +44,7 @@
         "lib/gsn/packages/contracts/src/forwarder/Forwarder.sol"
       ],
       "versionPragmas": [
-        "0.8.13"
+        "0.8.17"
       ],
       "artifacts": []
     },
@@ -53,7 +53,7 @@
       "contentHash": "485e14cfd8ad622bb092259ed93382dd",
       "sourceName": "lib/gsn/packages/contracts/src/forwarder/Forwarder.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -82,7 +82,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -104,7 +104,7 @@
       "contentHash": "58ce80c4c4302ad24a32d1494228151a",
       "sourceName": "lib/openzeppelin-contracts/contracts/utils/cryptography/ECDSA.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -133,7 +133,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -153,7 +153,7 @@
       "contentHash": "d3047e9ac1190808e848543bf4109fa7",
       "sourceName": "lib/gsn/packages/contracts/src/forwarder/IForwarder.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -182,7 +182,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -202,7 +202,7 @@
       "contentHash": "0e7db055ce108f9da7bb6686a00287c0",
       "sourceName": "lib/openzeppelin-contracts/contracts/utils/introspection/ERC165.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -231,7 +231,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -251,7 +251,7 @@
       "contentHash": "cf46906c4035f51639a22265066a9e78",
       "sourceName": "lib/openzeppelin-contracts/contracts/utils/Strings.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -280,7 +280,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -298,7 +298,7 @@
       "contentHash": "ee9624272968c23d93d4c2e39f06e6e2",
       "sourceName": "lib/openzeppelin-contracts/contracts/interfaces/IERC165.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -327,7 +327,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -345,7 +345,7 @@
       "contentHash": "03e6768535ac4da0e9756f1d8a4a018a",
       "sourceName": "lib/openzeppelin-contracts/contracts/utils/introspection/IERC165.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -374,7 +374,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -392,7 +392,7 @@
       "contentHash": "ec99d946db3685a3630554aa6055bd7f",
       "sourceName": "lib/openzeppelin-contracts/contracts/token/ERC721/IERC721.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -421,7 +421,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -441,7 +441,7 @@
       "contentHash": "efbc0d15b80a74e34dbe8da0f3e879bb",
       "sourceName": "lib/openzeppelin-contracts/contracts/token/ERC721/extensions/IERC721Metadata.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -470,7 +470,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -490,7 +490,7 @@
       "contentHash": "c40e56f5e41660cb0129c1249bedc792",
       "sourceName": "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -519,7 +519,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -545,7 +545,7 @@
       "contentHash": "02560bbb9e081911e486286da3fa761f",
       "sourceName": "lib/openzeppelin-contracts/contracts/utils/Address.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -574,7 +574,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -592,7 +592,7 @@
       "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
       "sourceName": "lib/openzeppelin-contracts/contracts/utils/Context.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -621,7 +621,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -639,7 +639,7 @@
       "contentHash": "c22d4395e33763de693fd440c6fd10e1",
       "sourceName": "lib/openzeppelin-contracts/contracts/token/ERC721/IERC721Receiver.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -668,7 +668,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -686,7 +686,7 @@
       "contentHash": "bf161670e02cae699c719703be7ea955",
       "sourceName": "lib/openzeppelin-contracts/contracts/access/AccessControl.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -715,7 +715,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -738,7 +738,7 @@
       "contentHash": "57c84298234411cea19c7c284d86be8b",
       "sourceName": "lib/openzeppelin-contracts/contracts/access/IAccessControl.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -767,7 +767,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -785,7 +785,7 @@
       "contentHash": "4e71cc90682e109e999ce2bd329f6572",
       "sourceName": "lib/openzeppelin-contracts/contracts/access/IAccessControlEnumerable.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -814,7 +814,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -834,7 +834,7 @@
       "contentHash": "b6d9b165dc57e9ad8153bdca05c783a4",
       "sourceName": "lib/openzeppelin-contracts/contracts/access/AccessControlEnumerable.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -863,7 +863,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -885,7 +885,7 @@
       "contentHash": "ae6770a4346d554259b5d0848d84a73d",
       "sourceName": "lib/openzeppelin-contracts/contracts/utils/structs/EnumerableSet.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -914,7 +914,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -932,7 +932,7 @@
       "contentHash": "a3f8c0bfa93fbf48114c0d9dedfeb5a0",
       "sourceName": "lib/gsn/packages/contracts/src/ERC2771Recipient.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -961,7 +961,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -981,7 +981,7 @@
       "contentHash": "0e5ad1cd070b2093adf9d1139dbc6ee6",
       "sourceName": "lib/gsn/packages/contracts/src/interfaces/IERC2771Recipient.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -1010,7 +1010,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -1028,7 +1028,7 @@
       "contentHash": "0fa6156957a417e8e9ac0a65c7f22ffe",
       "sourceName": "lib/gsn/packages/contracts/src/interfaces/IStakeManager.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -1057,7 +1057,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -1078,7 +1078,7 @@
       "contentHash": "ad7c2d0af148c8f9f097d65deeb4da6b",
       "sourceName": "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -1107,7 +1107,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -1125,7 +1125,7 @@
       "contentHash": "a4c6ba76c46ef6618536091e3a7823dd",
       "sourceName": "lib/gsn/packages/contracts/src/interfaces/IRelayHub.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -1154,7 +1154,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -1176,7 +1176,7 @@
       "contentHash": "7c7a7293b1d434eab044095c315b0d1b",
       "sourceName": "lib/gsn/packages/contracts/src/utils/GsnTypes.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -1205,7 +1205,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -1225,7 +1225,7 @@
       "contentHash": "d4c631312a0234fcc764b571b62cfa9e",
       "sourceName": "lib/openzeppelin-contracts/contracts/utils/introspection/ERC165Checker.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -1254,7 +1254,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -1274,7 +1274,7 @@
       "contentHash": "03167d2bdb33092ae3112297f003b65f",
       "sourceName": "lib/gsn/packages/contracts/src/BasePaymaster.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -1303,7 +1303,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -1330,7 +1330,7 @@
       "contentHash": "e436cea06129be2c73cda4b1acc848b5",
       "sourceName": "lib/openzeppelin-contracts/contracts/access/Ownable.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -1359,7 +1359,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -1379,7 +1379,7 @@
       "contentHash": "98b50ab56266eeb6d42617582f4adde8",
       "sourceName": "lib/gsn/packages/contracts/src/interfaces/IPaymaster.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -1408,7 +1408,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -1429,7 +1429,7 @@
       "contentHash": "8207435664b0050d0d6577a388977fea",
       "sourceName": "lib/gsn/packages/contracts/src/utils/GsnEip712Library.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -1458,7 +1458,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -1481,7 +1481,7 @@
       "contentHash": "162129775c11b11a983364323a575312",
       "sourceName": "lib/gsn/packages/contracts/src/utils/GsnUtils.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -1510,7 +1510,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -1531,7 +1531,7 @@
       "contentHash": "181d8d962f63a4477abfe9cc7929676d",
       "sourceName": "lib/gsn/packages/contracts/src/utils/MinLibBytes.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -1560,7 +1560,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -1574,11 +1574,11 @@
       ]
     },
     "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/src/DesocPaymaster.sol": {
-      "lastModificationDate": 1664862675778,
-      "contentHash": "c755e07414bb1eab263c576ab69b03dd",
+      "lastModificationDate": 1665683841343,
+      "contentHash": "b4c7b555cb14af80c223509b57960ba8",
       "sourceName": "src/DesocPaymaster.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -1607,7 +1607,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -1616,18 +1616,18 @@
         "lib/gsn/packages/contracts/src/BasePaymaster.sol"
       ],
       "versionPragmas": [
-        "^0.8.0"
+        "^0.8.17"
       ],
       "artifacts": [
         "DesocPaymaster"
       ]
     },
     "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/src/Desoc.sol": {
-      "lastModificationDate": 1665020014068,
-      "contentHash": "6bcd6c03cf73d09d2b47a53ce57e4f68",
+      "lastModificationDate": 1665683823660,
+      "contentHash": "f339f446b99d9a98e6100eac9ec3a480",
       "sourceName": "src/Desoc.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -1656,7 +1656,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -1666,18 +1666,18 @@
         "lib/openzeppelin-contracts/contracts/access/AccessControlEnumerable.sol"
       ],
       "versionPragmas": [
-        "0.8.13"
+        "0.8.17"
       ],
       "artifacts": [
         "Desoc"
       ]
     },
     "/Users/tayo/workstation/DesciLabs/soulbound/apps/contracts/src/DesocManager.sol": {
-      "lastModificationDate": 1665020073752,
-      "contentHash": "8b1f7cd2962100eea291614b613c4186",
+      "lastModificationDate": 1665684021884,
+      "contentHash": "1582e24b13ee7323a3e7dd46d55bfecc",
       "sourceName": "src/DesocManager.sol",
       "solcConfig": {
-        "version": "0.8.13",
+        "version": "0.8.17",
         "settings": {
           "optimizer": {
             "enabled": true,
@@ -1706,7 +1706,7 @@
           },
           "libraries": {
             "": {
-              "__CACHE_BREAKER__": "0x0000000000000031363635303835383031333932"
+              "__CACHE_BREAKER__": "0x0000000000000031363635363834313239343039"
             }
           }
         }
@@ -1714,10 +1714,11 @@
       "imports": [
         "src/Desoc.sol",
         "lib/gsn/packages/contracts/src/ERC2771Recipient.sol",
-        "lib/gsn/packages/contracts/src/forwarder/Forwarder.sol"
+        "lib/gsn/packages/contracts/src/forwarder/Forwarder.sol",
+        "lib/openzeppelin-contracts/contracts/access/Ownable.sol"
       ],
       "versionPragmas": [
-        "0.8.13"
+        "0.8.17"
       ],
       "artifacts": [
         "DesocManager"

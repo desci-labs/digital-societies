@@ -1,19 +1,19 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "hardhat-preprocessor";
-import '@nomiclabs/hardhat-ethers';
-import '@typechain/hardhat'
-import 'hardhat-abi-exporter'
-import 'hardhat-gas-reporter'
+import "@nomiclabs/hardhat-ethers";
+import "@typechain/hardhat";
+import "hardhat-abi-exporter";
+import "hardhat-gas-reporter";
 import "@nomiclabs/hardhat-etherscan";
 import "hardhat-deploy";
-import 'solidity-coverage'
-import fs from 'fs';
-import dotenv from 'dotenv';
+import "solidity-coverage";
+import fs from "fs";
+import dotenv from "dotenv";
 
 dotenv.config();
 
-const infura = process.env.INFURA_ID
+const infura = process.env.INFURA_ID;
 const accounts: string[] = [process.env.PRIVATE_KEY!];
 
 function getRemappings() {
@@ -26,7 +26,8 @@ function getRemappings() {
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: "0.8.13", settings: {
+    version: "0.8.17",
+    settings: {
       optimizer: {
         enabled: true,
         runs: 200,
@@ -54,30 +55,30 @@ const config: HardhatUserConfig = {
   },
   networks: {
     hardhat: {
-      chainId: 1337
+      chainId: 1337,
     },
     development: {
-      url: 'http://localhost:8545'
+      url: "http://localhost:8545",
     },
     fork: {
-      url: 'http://localhost:8545',
-      accounts: []
+      url: "http://localhost:8545",
+      accounts: [],
     },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${infura}`,
-      accounts
+      accounts,
     },
     goerli: {
       url: `https://goerli.infura.io/v3/${infura}`,
       chainId: 5,
-      accounts
+      accounts,
     },
   },
   etherscan: {
     // Your API key for Etherscan
     // Obtain one at https://etherscan.io/
-    apiKey: process.env.ETHERSCAN_KEY
-  }
+    apiKey: process.env.ETHERSCAN_KEY,
+  },
 };
 
 export default config;

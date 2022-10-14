@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity 0.8.13;
+pragma solidity 0.8.17;
 import "src/Desoc.sol";
 import "gsn/packages/contracts/src/ERC2771Recipient.sol";
 import "gsn/packages/contracts/src/forwarder/Forwarder.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import {console} from "forge-std/console.sol";
 
 /// @title An experimental implementation of a soul-bound token (SBT) Factory smart contract
 /// @author Oloyede Shadrach Temitayo (@oloyedeshadrach)
@@ -10,9 +12,15 @@ import "gsn/packages/contracts/src/forwarder/Forwarder.sol";
 /// @dev All functions are subject to changes in the future.
 /// @custom:experimental This is an experimental contract for DeSci Labs (https://desci.com).
 contract DesocManager is ERC2771Recipient {
+    address public owner;
+    mapping (address => bool) public verified;
+    
     event TokenCreated(address indexed token, address indexed owner);
+    event Verified(address indexed org);
+    event Refuted(address indexed org);
 
     constructor(address forwarder) {
+        owner = _msgSender();
         _setTrustedForwarder(forwarder);
     }
 
@@ -25,7 +33,7 @@ contract DesocManager is ERC2771Recipient {
         string memory _name,
         string memory _symbol,
         bytes memory _metadata
-    ) external returns (address token) {
+    ) external returns(address token) {
         bytes memory code = abi.encodePacked(
             type(Desoc).creationCode,
             abi.encode(_name, _symbol, _metadata, _msgSender())
@@ -38,5 +46,23 @@ contract DesocManager is ERC2771Recipient {
             }
         }
         emit TokenCreated(token, _msgSender());
+    }
+
+    /// @notice Verify an organisation
+    /// @dev Add an organisation's Desoc contract to the verified mapping
+    /// @param org address of the Desoc smart contract
+    function verify(address org) external {
+        require(_msgSender() == owner, "UnAuthorized");
+        verified[org] = true;
+        emit Verified(org);
+    }
+    
+    /// @notice Refute an organisation's verification
+    /// @dev Remove an organisation's Desoc contract to the verified mapping
+    /// @param org address of the Desoc smart contract
+    function refute(address org) external {
+        require(_msgSender() == owner, "UnAuthorized");
+        verified[org] = false;
+        emit Refuted(org);
     }
 }
