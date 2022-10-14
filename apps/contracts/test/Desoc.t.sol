@@ -95,8 +95,8 @@ contract DesocTest is DesocManager, Test {
     function testTokenUriIsTypeURI() public {
         uint16 _type = _mintTokenType();
         sbt.mint(alice, _type);
-        bytes memory tokenUri = sbt.tokenCID(1);
-        bytes memory typeUri = sbt.typeURI(_type);
+        string memory tokenUri = sbt.tokenURI(1);
+        string memory typeUri = sbt.typeURI(_type);
         assertTrue(keccak256(abi.encodePacked(tokenUri)) == keccak256(abi.encodePacked(typeUri)));
     }
 
@@ -224,7 +224,7 @@ contract DesocTest is DesocManager, Test {
         sbt.mint(alice, _type2);
         sbt.updateTokenIdType(1, _type2);
 
-        assertEq(keccak256(abi.encodePacked(sbt.tokenCID(1))) , keccak256(abi.encodePacked(meta)));
+        assertEq(keccak256(abi.encodePacked(sbt.tokenURI(1))) , keccak256(abi.encodePacked(meta)));
     }
     function testCannotUpdateInvalidTokenType() public {
         // Try to update a non-existent type

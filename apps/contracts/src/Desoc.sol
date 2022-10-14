@@ -152,14 +152,6 @@ contract Desoc is ERC721, AccessControlEnumerable {
         _contractURI = contractURI_;
     }
 
-    /// @notice Return the content identify for user's credential
-    /// @dev Returns the type uri of the input tokenId's credential or type
-    /// @param _tokenId token id to get type cid
-    /// @return ipfs hash of the token type associated to the input tokenId
-    function tokenCID(uint256 _tokenId) external view returns (bytes memory) {
-        return typeToURI[tokenIdToType[_tokenId]];
-    }
-
     /// @notice Issue a credential (SBT) to a user
     /// @dev Mints a new token or issue a token type to a wallet addresses
     /// @param _to address to receive minted tokens
@@ -189,12 +181,20 @@ contract Desoc is ERC721, AccessControlEnumerable {
         emit Revoked(msg.sender, owner, _tokenId);
     }
 
+    /// @notice Return the content identify for user's credential
+    /// @dev Returns the type uri of the input tokenId's credential or type
+    /// @param _tokenId token id to get type cid
+    /// @return ipfs hash of the token type associated to the input tokenId
+    function tokenURI(uint256 _tokenId) public view override returns (string memory) {
+        return string(typeToURI[tokenIdToType[_tokenId]]);
+    }
+    
     /// @notice Return the content identify for a credential
     /// @dev Returns the type uri of the input credential or sbt type
     /// @param _type token type ID to get type cid
     /// @return ipfs cid of the token type
-    function typeURI(uint16 _type) public view returns (bytes memory) {
-        return typeToURI[_type];
+    function typeURI(uint16 _type) public view returns (string memory) {
+        return string(typeToURI[_type]);
     }
 
     /// @notice Return the content identify for user's credential
