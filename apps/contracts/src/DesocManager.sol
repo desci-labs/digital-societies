@@ -52,6 +52,7 @@ contract DesocManager is ERC2771Recipient {
     /// @dev Add an organisation's Desoc contract to the verified mapping
     /// @param org address of the Desoc smart contract
     function verify(address org) external {
+        require(IDesoc(org).supportsInterface(type(IDesoc).interfaceId) == true, "IDesoc interface not supported");
         require(_msgSender() == owner, "UnAuthorized");
         verified[org] = true;
         emit Verified(org);

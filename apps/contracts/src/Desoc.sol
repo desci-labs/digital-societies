@@ -185,21 +185,6 @@ contract Desoc is ERC721, AccessControlEnumerable, IDesoc {
         return string(typeToURI[tokenIdToType[_tokenId]]);
     }
     
-    /// @notice Return the content identify for a credential
-    /// @dev Returns the type uri of the input credential or sbt type
-    /// @param _type token type ID to get type cid
-    /// @return ipfs cid of the token type
-    function typeURI(uint16 _type) public view returns (string memory) {
-        return string(typeToURI[_type]);
-    }
-
-    /// @notice Return the content identify for user's credential
-    /// @dev Returns the cid of the contract metatdata stored on ipfs
-    /// @return returns _contractURI of this SBT contract
-    function contractURI() public view returns (bytes memory) {
-        return _contractURI;
-    }
-
     /// @inheritdoc IERC165
     function supportsInterface(bytes4 interfaceId)
         public

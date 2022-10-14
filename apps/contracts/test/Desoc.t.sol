@@ -97,7 +97,7 @@ contract DesocTest is DesocManager, Test {
         uint16 _type = _mintTokenType();
         sbt.mint(alice, _type);
         string memory tokenUri = sbt.tokenURI(1);
-        string memory typeUri = sbt.typeURI(_type);
+        bytes memory typeUri = sbt.typeURI(_type);
         assertTrue(keccak256(abi.encodePacked(tokenUri)) == keccak256(abi.encodePacked(typeUri)));
     }
 
@@ -287,12 +287,3 @@ contract DesocTest is DesocManager, Test {
         _tokenType;
     }
 }
-
-// contract DesocInterfaceTest is DesocTest {
-
-//   function testIDesocInterfaceSupport() public {
-//         IDesoc desoc = new Desoc("name", "symbol", "qeripoifasdf", admin);
-//         // assertEq(address(sbt).supportsInterface(type(desoc).interfaceId), true);
-//         assertTrue(type(Desoc).interfaceId == type(IDesoc).interfaceId);
-//     }   
-// }
