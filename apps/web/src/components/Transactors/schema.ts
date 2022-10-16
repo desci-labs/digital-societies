@@ -15,8 +15,8 @@ const FILE_SCHEMA = Yup.mixed<FileObject>()
   })
   .test({
     name: "size",
-    message: "File size must be smaller than 2MB",
-    test: (data) => (data?.file ? (data?.file?.size || 0) <= 1e6 : true),
+    message: "File size must be smaller than 10MB",
+    test: (data) => (data?.file ? (data?.file?.size || 0) <= 1e7 : true),
   })
   .test({
     name: "fileType",
