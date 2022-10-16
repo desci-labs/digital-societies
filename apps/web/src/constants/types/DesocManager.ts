@@ -31,6 +31,10 @@ export interface DesocManagerInterface extends utils.Interface {
     "deployToken(string,string,bytes)": FunctionFragment;
     "getTrustedForwarder()": FunctionFragment;
     "isTrustedForwarder(address)": FunctionFragment;
+    "owner()": FunctionFragment;
+    "refute(address)": FunctionFragment;
+    "verified(address)": FunctionFragment;
+    "verify(address)": FunctionFragment;
   };
 
   getFunction(
@@ -38,6 +42,10 @@ export interface DesocManagerInterface extends utils.Interface {
       | "deployToken"
       | "getTrustedForwarder"
       | "isTrustedForwarder"
+      | "owner"
+      | "refute"
+      | "verified"
+      | "verify"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -56,6 +64,19 @@ export interface DesocManagerInterface extends utils.Interface {
     functionFragment: "isTrustedForwarder",
     values: [PromiseOrValue<string>]
   ): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "refute",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "verified",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "verify",
+    values: [PromiseOrValue<string>]
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "deployToken",
@@ -69,13 +90,28 @@ export interface DesocManagerInterface extends utils.Interface {
     functionFragment: "isTrustedForwarder",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "refute", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "verified", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "verify", data: BytesLike): Result;
 
   events: {
+    "Refuted(address)": EventFragment;
     "TokenCreated(address,address)": EventFragment;
+    "Verified(address)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "Refuted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TokenCreated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Verified"): EventFragment;
 }
+
+export interface RefutedEventObject {
+  org: string;
+}
+export type RefutedEvent = TypedEvent<[string], RefutedEventObject>;
+
+export type RefutedEventFilter = TypedEventFilter<RefutedEvent>;
 
 export interface TokenCreatedEventObject {
   token: string;
@@ -87,6 +123,13 @@ export type TokenCreatedEvent = TypedEvent<
 >;
 
 export type TokenCreatedEventFilter = TypedEventFilter<TokenCreatedEvent>;
+
+export interface VerifiedEventObject {
+  org: string;
+}
+export type VerifiedEvent = TypedEvent<[string], VerifiedEventObject>;
+
+export type VerifiedEventFilter = TypedEventFilter<VerifiedEvent>;
 
 export interface DesocManager extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -130,6 +173,23 @@ export interface DesocManager extends BaseContract {
       forwarder: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
+
+    owner(overrides?: CallOverrides): Promise<[string]>;
+
+    refute(
+      org: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    verified(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    verify(
+      org: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
   };
 
   deployToken(
@@ -146,6 +206,23 @@ export interface DesocManager extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  owner(overrides?: CallOverrides): Promise<string>;
+
+  refute(
+    org: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  verified(
+    arg0: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  verify(
+    org: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
     deployToken(
       _name: PromiseOrValue<string>,
@@ -160,9 +237,29 @@ export interface DesocManager extends BaseContract {
       forwarder: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    owner(overrides?: CallOverrides): Promise<string>;
+
+    refute(
+      org: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    verified(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    verify(
+      org: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
   };
 
   filters: {
+    "Refuted(address)"(org?: PromiseOrValue<string> | null): RefutedEventFilter;
+    Refuted(org?: PromiseOrValue<string> | null): RefutedEventFilter;
+
     "TokenCreated(address,address)"(
       token?: PromiseOrValue<string> | null,
       owner?: PromiseOrValue<string> | null
@@ -171,6 +268,11 @@ export interface DesocManager extends BaseContract {
       token?: PromiseOrValue<string> | null,
       owner?: PromiseOrValue<string> | null
     ): TokenCreatedEventFilter;
+
+    "Verified(address)"(
+      org?: PromiseOrValue<string> | null
+    ): VerifiedEventFilter;
+    Verified(org?: PromiseOrValue<string> | null): VerifiedEventFilter;
   };
 
   estimateGas: {
@@ -186,6 +288,23 @@ export interface DesocManager extends BaseContract {
     isTrustedForwarder(
       forwarder: PromiseOrValue<string>,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    owner(overrides?: CallOverrides): Promise<BigNumber>;
+
+    refute(
+      org: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    verified(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    verify(
+      org: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
 
@@ -204,6 +323,23 @@ export interface DesocManager extends BaseContract {
     isTrustedForwarder(
       forwarder: PromiseOrValue<string>,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    refute(
+      org: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    verified(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    verify(
+      org: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };
 }

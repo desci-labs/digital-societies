@@ -57,13 +57,12 @@ export interface DesocInterface extends utils.Interface {
     "setContractURI(bytes)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
-    "tokenCID(uint256)": FunctionFragment;
     "tokenIdToType(uint256)": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
     "totalSupply()": FunctionFragment;
     "totalTypes()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
-    "typeToSoul(uint16,address)": FunctionFragment;
+    "typeToOwner(uint16,address)": FunctionFragment;
     "typeURI(uint16)": FunctionFragment;
     "updateTokenIdType(uint256,uint16)": FunctionFragment;
     "updateTypeURI(uint16,bytes)": FunctionFragment;
@@ -99,13 +98,12 @@ export interface DesocInterface extends utils.Interface {
       | "setContractURI"
       | "supportsInterface"
       | "symbol"
-      | "tokenCID"
       | "tokenIdToType"
       | "tokenURI"
       | "totalSupply"
       | "totalTypes"
       | "transferFrom"
-      | "typeToSoul"
+      | "typeToOwner"
       | "typeURI"
       | "updateTokenIdType"
       | "updateTypeURI"
@@ -227,10 +225,6 @@ export interface DesocInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "tokenCID",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "tokenIdToType",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
@@ -255,7 +249,7 @@ export interface DesocInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "typeToSoul",
+    functionFragment: "typeToOwner",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -347,7 +341,6 @@ export interface DesocInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "tokenCID", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "tokenIdToType",
     data: BytesLike
@@ -362,7 +355,10 @@ export interface DesocInterface extends utils.Interface {
     functionFragment: "transferFrom",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "typeToSoul", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "typeToOwner",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "typeURI", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "updateTokenIdType",
@@ -376,7 +372,6 @@ export interface DesocInterface extends utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
-    "BatchRevoked(address,address[],uint256[])": EventFragment;
     "Mint(address,address,uint256,uint16)": EventFragment;
     "Revoked(address,address,uint256)": EventFragment;
     "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
@@ -390,7 +385,6 @@ export interface DesocInterface extends utils.Interface {
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "BatchRevoked"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Mint"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Revoked"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
@@ -425,18 +419,6 @@ export type ApprovalForAllEvent = TypedEvent<
 >;
 
 export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
-
-export interface BatchRevokedEventObject {
-  revokedBy: string;
-  owners: string[];
-  tokenIds: BigNumber[];
-}
-export type BatchRevokedEvent = TypedEvent<
-  [string, string[], BigNumber[]],
-  BatchRevokedEventObject
->;
-
-export type BatchRevokedEventFilter = TypedEventFilter<BatchRevokedEvent>;
 
 export interface MintEventObject {
   mintedBy: string;
@@ -714,18 +696,13 @@ export interface Desoc extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<[string]>;
 
-    tokenCID(
-      _tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
     tokenIdToType(
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[number]>;
 
     tokenURI(
-      tokenId: PromiseOrValue<BigNumberish>,
+      _tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string]>;
 
@@ -740,7 +717,7 @@ export interface Desoc extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    typeToSoul(
+    typeToOwner(
       arg0: PromiseOrValue<BigNumberish>,
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -904,18 +881,13 @@ export interface Desoc extends BaseContract {
 
   symbol(overrides?: CallOverrides): Promise<string>;
 
-  tokenCID(
-    _tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   tokenIdToType(
     arg0: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<number>;
 
   tokenURI(
-    tokenId: PromiseOrValue<BigNumberish>,
+    _tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<string>;
 
@@ -930,7 +902,7 @@ export interface Desoc extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  typeToSoul(
+  typeToOwner(
     arg0: PromiseOrValue<BigNumberish>,
     arg1: PromiseOrValue<string>,
     overrides?: CallOverrides
@@ -1094,18 +1066,13 @@ export interface Desoc extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<string>;
 
-    tokenCID(
-      _tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     tokenIdToType(
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<number>;
 
     tokenURI(
-      tokenId: PromiseOrValue<BigNumberish>,
+      _tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
 
@@ -1120,7 +1087,7 @@ export interface Desoc extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    typeToSoul(
+    typeToOwner(
       arg0: PromiseOrValue<BigNumberish>,
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1166,17 +1133,6 @@ export interface Desoc extends BaseContract {
       operator?: PromiseOrValue<string> | null,
       approved?: null
     ): ApprovalForAllEventFilter;
-
-    "BatchRevoked(address,address[],uint256[])"(
-      revokedBy?: PromiseOrValue<string> | null,
-      owners?: null,
-      tokenIds?: null
-    ): BatchRevokedEventFilter;
-    BatchRevoked(
-      revokedBy?: PromiseOrValue<string> | null,
-      owners?: null,
-      tokenIds?: null
-    ): BatchRevokedEventFilter;
 
     "Mint(address,address,uint256,uint16)"(
       mintedBy?: PromiseOrValue<string> | null,
@@ -1414,18 +1370,13 @@ export interface Desoc extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<BigNumber>;
 
-    tokenCID(
-      _tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     tokenIdToType(
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     tokenURI(
-      tokenId: PromiseOrValue<BigNumberish>,
+      _tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1440,7 +1391,7 @@ export interface Desoc extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    typeToSoul(
+    typeToOwner(
       arg0: PromiseOrValue<BigNumberish>,
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1607,18 +1558,13 @@ export interface Desoc extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    tokenCID(
-      _tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     tokenIdToType(
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     tokenURI(
-      tokenId: PromiseOrValue<BigNumberish>,
+      _tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1633,7 +1579,7 @@ export interface Desoc extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    typeToSoul(
+    typeToOwner(
       arg0: PromiseOrValue<BigNumberish>,
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
