@@ -6,10 +6,10 @@ source .env
 # ** change contract address to deployed contract also
 
 # forge verify-contract --chain-id <chain-id> --compiler-version v0.8.15 <contract-address> src/SBFactory.sol:SBFactory $ETHERSCAN_KEY
-# forge verify-contract --chain-id 5 --compiler-version v0.8.15 0x0e3c9450774cb1dad9f577967ee9f9e8444d97eb src/SBFactory.sol:SBFactory $ETHERSCAN_KEY
+# forge verify-contract --chain-id 5 --compiler-version v0.8.13 0xb0D06b9636FA56CE7E4508FAFBf60D43dd3F27BD src/DesocManager.sol:DesocManager $ETHERSCAN_KEY
 
 # code to verify DesocPaymaster.sol
-npx hardhat verify --network goerli 0xda497347D894Fdb9D2DB43192e65A99371747c5C
+# npx hardhat verify --network goerli 0x16A1900eF832cfD84a3584cC63ddE30BA5fd3086
 # forge verify-contract --chain-id 5 --compiler-version v0.8.15 0xda497347D894Fdb9D2DB43192e65A99371747c5C src/DesocPaymaster.sol:DesocPaymaster $ETHERSCAN_KEY
 
 # code to verify SBFactory
