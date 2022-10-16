@@ -29,7 +29,7 @@ export default function CredentialForm() {
   );
   const stage = useGetTxStage();
   const image = watch("banner");
-  const logo = watch("badge");
+  const logo = watch("logo");
   const mode = watch("mode");
   const isUpdateMode = mode === "update";
 
@@ -63,11 +63,11 @@ export default function CredentialForm() {
           {...register("name")}
         />
       </InputRow>
-      <InputRow htmlFor="symbol" label="symbol:">
+      <InputRow htmlFor="acronym" label="acronym:">
         <Input
-          id="symbol"
-          placeholder="Organisation symbol (e.g ETF)"
-          {...register("symbol")}
+          id="acronym"
+          placeholder="Acronym"
+          {...register("acronym")}
         />
       </InputRow>
       <InputRow htmlFor="description" label="Description:">
@@ -104,10 +104,10 @@ export default function CredentialForm() {
           hasError={!!errors.banner}
         />
       </InputRow>
-      <InputRow htmlFor="badge" label="badge">
+      <InputRow htmlFor="logo" label="logo">
         <ErrorMessage
           errors={errors}
-          name="badge"
+          name="logo"
           as="span"
           className="text-xs text-left text-red-400 font-semibold m-0"
         />
@@ -117,10 +117,10 @@ export default function CredentialForm() {
           wrapperClassName="w-16 h-16"
         />
         <FileDropzone<MetadataValues>
-          name="badge"
+          name="logo"
           className="h-10"
           disabled={isLoading}
-          hasError={!!errors.badge}
+          hasError={!!errors.logo}
         />
       </InputRow>
       <Button

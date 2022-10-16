@@ -25,7 +25,7 @@ export function IssuedTokens({
   const hasAccess = useIsDelegate(credential?.address ?? "");
 
   const getRows = () => {
-    const rows = ["badge", "TokenId", "receipient", "issuer", "date Issued"];
+    const rows = ["logo", "TokenId", "receipient", "issuer", "date Issued"];
     return hasAccess ? rows.concat(["Revoke"]) : rows;
   };
 
@@ -53,7 +53,7 @@ export function IssuedTokens({
                   <div className="w-10 h-10 relative bg-gradient rounded-full">
                     <Image
                       src={getImageURL(
-                        credential?.metadata?.badge ??
+                        credential?.metadata?.logo ??
                         credential?.metadata?.banner ??
                         ""
                       )} //TODO: add a fall back image as placeholder

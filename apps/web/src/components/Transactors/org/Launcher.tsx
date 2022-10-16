@@ -16,10 +16,10 @@ export default function Launcher(props: Props) {
     defaultValues: {
       name: props?.metadata?.name ?? "",
       issuer: address,
-      symbol: props?.metadata?.symbol ?? "",
+      acronym: props?.metadata?.acronym ?? "",
       description: props?.metadata?.description ?? "",
       banner: typeof props?.metadata?.banner === "string" ? { ipfsHash: props?.metadata.banner } : {},
-      badge: typeof props?.metadata?.badge === "string" ? { ipfsHash: props?.metadata?.badge } : {},
+      logo: typeof props?.metadata?.logo === "string" ? { ipfsHash: props?.metadata?.logo } : {},
       external_link: props?.metadata?.external_link,
     },
     resolver: yupResolver(metadataSchema),

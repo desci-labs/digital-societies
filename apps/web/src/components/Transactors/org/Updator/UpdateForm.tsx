@@ -23,7 +23,7 @@ export default function UpdateForm() {
   const { run, isLoading } = useUpdate(address as string);
 
   const image = watch('banner');
-  const badge = watch('badge');
+  const badge = watch('logo');
   
   const canDisable = useMemo(() => !isDirty || isSubmitting || isLoading, [isDirty, isSubmitting, isLoading])
 
@@ -54,13 +54,13 @@ export default function UpdateForm() {
         />
       </InputRow>
       <InputRow
-        htmlFor="symbol"
-        label="symbol:"
+        htmlFor="acronym"
+        label="acronym:"
       >
         <Input
-          id="symbol"
+          id="acronym"
           placeholder="Organisation symbol (e.g ETF)"
-          {...register("symbol")}
+          {...register("acronym")}
         />
       </InputRow>
       <InputRow
@@ -97,16 +97,16 @@ export default function UpdateForm() {
         />
       </InputRow>
       <InputRow
-        htmlFor="badge"
-        label="badge"
+        htmlFor="logo"
+        label="logo"
       >
-        <ErrorMessage errors={errors} name="badge" as="span" className="text-xs text-left text-red-400 font-semibold m-0" />
+        <ErrorMessage errors={errors} name="logo" as="span" className="text-xs text-left text-red-400 font-semibold m-0" />
         <ImagePreview image={badge} className="rounded-full" wrapperClassName="w-16 h-16" />
         <FileDropzone<MetadataValues>
-          name="badge"
+          name="logo"
           className="h-10"
           disabled={isLoading}
-          hasError={!!errors.badge}
+          hasError={!!errors.logo}
         />
       </InputRow>
       <Button

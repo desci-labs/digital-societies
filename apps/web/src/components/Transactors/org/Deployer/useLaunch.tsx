@@ -32,7 +32,7 @@ export default function useLaunch() {
       const { CIDBytes, CIDString } = await pinMetadataToIpfs(metadata);
 
       updateTx({ step: Step.submit, message: "Confirm transaction..." });
-      const tx = await factoryContract.deployToken(metadata.name, metadata.symbol, CIDBytes)
+      const tx = await factoryContract.deployToken(metadata.name, metadata.acronym, CIDBytes)
       updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Deploying ${metadata.name}` });
 
       const receipt = await tx.wait();

@@ -24,7 +24,7 @@ export function MetadataCard(props: MetaCardProps) {
       <div className={`relative ${props.bannerClass || 'h-32'}`}>
         <ImageBanner src={getImageURL(props.metadata?.banner || "")} />
         <RoundedLogo
-          src={getImageURL(props.metadata?.badge || "")}
+          src={getImageURL(props.metadata?.logo || "")}
           className="w-12 h-12 left-3 -bottom-5"
         />
       </div>

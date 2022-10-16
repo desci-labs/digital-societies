@@ -18,7 +18,7 @@ export default function LaunchForm() {
   const { launch, isLoading } = useLaunch();
 
   const image = watch("banner");
-  const badge = watch("badge");
+  const logo = watch("logo");
   const canDisable = useMemo(
     () => isSubmitting || isLoading,
     [isSubmitting, isLoading]
@@ -40,11 +40,11 @@ export default function LaunchForm() {
           {...register("name")}
         />
       </InputRow>
-      <InputRow htmlFor="symbol" label="symbol:">
+      <InputRow htmlFor="acronym" label="acronym:">
         <Input
-          id="symbol"
-          placeholder="Organisation symbol (e.g ETF)"
-          {...register("symbol")}
+          id="acronym"
+          placeholder="Acronym"
+          {...register("acronym")}
         />
       </InputRow>
       <InputRow htmlFor="description" label="Description:">
@@ -81,23 +81,23 @@ export default function LaunchForm() {
           hasError={!!errors.banner}
         />
       </InputRow>
-      <InputRow htmlFor="badge" label="badge">
+      <InputRow htmlFor="logo" label="logo">
         <ErrorMessage
           errors={errors}
-          name="badge"
+          name="logo"
           as="span"
           className="text-xs text-left text-red-400 font-semibold m-0"
         />
         <ImagePreview
-          image={badge}
+          image={logo}
           className="rounded-full"
           wrapperClassName="w-16 h-16"
         />
         <FileDropzone<MetadataValues>
-          name="badge"
+          name="logo"
           className="h-10"
           disabled={canDisable}
-          hasError={!!errors.badge}
+          hasError={!!errors.logo}
         />
       </InputRow>
       <Button

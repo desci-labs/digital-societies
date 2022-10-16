@@ -69,9 +69,9 @@ export const flattenMetadata = async (
       meta.banner.base64 = image;
     }
 
-    if (metadata.badge.file) {
+    if (metadata.logo.file) {
       const logo = await toBase64(metadata.banner.file);
-      meta.badge.base64 = logo;
+      meta.logo.base64 = logo;
     }
 
     return meta;
@@ -95,19 +95,19 @@ export const compareMetadata = (
 
   if (
     old.name !== meta.name ||
-    old.symbol !== meta.symbol ||
+    old.acronym !== meta.acronym ||
     old.description !== meta.description ||
     old.external_link !== meta.external_link
   )
     return true;
 
-  if (typeof old.badge !== typeof meta.badge) return true;
+  if (typeof old.logo !== typeof meta.logo) return true;
   if (typeof old.banner !== typeof meta.banner) return true;
 
-  if (typeof old.badge === "string" && old.badge !== meta.badge) return true;
+  if (typeof old.logo === "string" && old.logo !== meta.logo) return true;
   if (typeof old.banner === "string" && old.banner !== meta.banner) return true;
 
-  if (typeof old.badge == "object" || typeof meta.badge === "object")
+  if (typeof old.logo == "object" || typeof meta.logo === "object")
     return true;
 
   return false;

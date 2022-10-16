@@ -3,13 +3,13 @@ import { FileObject } from "components/FileDropzone/types";
 type Meta = {
   name: string;
   issuer: string;
-  symbol: string;
+  acronym: string;
   description: string;
   external_link: string;
 }
 export type MetadataValues = Meta & {
   banner: FileObject;
-  badge: FileObject
+  logo: FileObject
 }
 
 export interface IssuerValues {
@@ -24,7 +24,7 @@ export interface DelegaterValues {
 
 export type Metadata = Meta & {
   banner: string;
-  badge: string;
+  logo: string;
 }
 
 export type IResponse = {

@@ -32,12 +32,12 @@ export default function OrganisationDetails() {
     <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center mb-10">
       <div className="w-full h-88 relative group">
         <ImageBanner src={getImageURL(org.metadata.banner)} alt={org.metadata.name} />
-        <RoundedLogo src={getImageURL(org.metadata.badge)} alt={org.metadata.name} />
+        <RoundedLogo src={getImageURL(org.metadata.logo)} alt={org.metadata.name} />
       </div>
       <div className="container mx-auto mt-8 px-2 lg:px-0">
         <div className="flex gap-3 items-center mb-2">
           <span className="heading-1 text-left">
-            {org.metadata.name} - {org.metadata.symbol && (org.metadata.symbol)}
+            {org.metadata.name} - {org.metadata.acronym && (org.metadata.acronym)}
           </span>
           {hasAccess && (
             <Button

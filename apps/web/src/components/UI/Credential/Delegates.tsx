@@ -19,7 +19,7 @@ export function Delegates({ address }: { address: string }) {
   if (!org?.delegates || org.delegates.length === 0) return null;
 
   const getRows = () => {
-    const rows = ["badge", "delegate"];
+    const rows = ["logo", "delegate"];
     return hasAccess ? rows.concat(["Revoke"]) : rows;
   };
 
@@ -45,7 +45,7 @@ export function Delegates({ address }: { address: string }) {
               <Cell className="flex justify-start p-2">
                 <div className="w-10 h-10 relative bg-gradient rounded-full">
                   <Image
-                    src={getImageURL(org?.metadata?.badge ?? "")}
+                    src={getImageURL(org?.metadata?.logo ?? "")}
                     layout="fill"
                     objectFit="cover"
                     objectPosition="center"

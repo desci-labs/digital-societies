@@ -10,7 +10,7 @@ export function RevocationHistory({ address }: { address: string }) {
   if (!org?.delegates || org.delegates.length === 0) return null;
 
   const getRows = () => {
-    return ["badge", "TokenId", "recipient", "revoked by", "date revoked"];
+    return ["logo", "TokenId", "recipient", "revoked by", "date revoked"];
   };
 
   return (
@@ -26,7 +26,7 @@ export function RevocationHistory({ address }: { address: string }) {
               <Cell className="flex justify-start p-2">
                 <div className="w-10 h-10 relative bg-gradient rounded-full">
                   <Image
-                    src={getImageURL(org?.metadata?.badge)}
+                    src={getImageURL(org?.metadata?.logo)}
                     layout="fill"
                     objectFit="cover"
                     objectPosition="center"
