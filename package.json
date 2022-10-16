@@ -10,7 +10,7 @@
     "apps/*"
   ],
   "scripts": {
-    "build": "turbo run build",
+    "build": "turbo run build --filter=web",
     "clean": "turbo run clean",
     "dev": "turbo run dev --no-cache --parallel --continue",
     "start": "turbo run start --no-cache --parallel --continue",

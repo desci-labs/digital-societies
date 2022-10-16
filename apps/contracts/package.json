@@ -12,7 +12,8 @@
     "build": "./build.sh",
     "deploy": "./deploy.sh",
     "deploy-gsn": "./deploy-gsn.sh",
-    "verify": "./verify.sh"
+    "verify": "./verify.sh",
+    "clean": "forge clean && npx hardhat clean"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.3",

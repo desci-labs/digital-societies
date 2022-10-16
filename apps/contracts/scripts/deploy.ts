@@ -45,32 +45,32 @@ async function main() {
     }
 
     //** Deploy custom paymaster here and connect it to relayer & forwarder
-    const Paymaster = await ethers.getContractFactory("DesocPaymaster");
-    let paymaster = await Paymaster.deploy();
-    console.log("Deploying paymaster....");
-    await paymaster.deployed();
-    console.log("Paymaster deployed at: ", paymaster.address);
+    // const Paymaster = await ethers.getContractFactory("DesocPaymaster");
+    // let paymaster = await Paymaster.deploy();
+    // console.log("Deploying paymaster....");
+    // await paymaster.deployed();
+    // console.log("Paymaster deployed at: ", paymaster.address);
 
-    console.log('running setTrustedForwarder on paymaster', forwarder);
-    await paymaster.setTrustedForwarder(forwarder);
+    // console.log('running setTrustedForwarder on paymaster', forwarder);
+    // await paymaster.setTrustedForwarder(forwarder);
 
-    console.log('running setRelayHub on relayer', relayerHub);
-    await paymaster.setRelayHub(relayerHub);
+    // console.log('running setRelayHub on relayer', relayerHub);
+    // await paymaster.setRelayHub(relayerHub);
     
-    console.log('funding paymaster....');
-    const tx = await paymaster.deposit({ from: deployer.address, value: utils.parseEther('0.5')});
-    await tx.wait();
-    console.log('Paymaster funded ✅', tx.hash);
+    // console.log('funding paymaster....');
+    // const tx = await paymaster.deposit({ from: deployer.address, value: utils.parseEther('0.5')});
+    // await tx.wait();
+    // console.log('Paymaster funded ✅', tx.hash);
     
   } else {
     forwarder = localForwarder.address;
   }
 
   //** ENABLE THIS LINES BELOW TO DEPLOY DESCO_MANAGER USING HARDHAT INSTEAD OF FOUNDRY
-  // const DesocManager = await ethers.getContractFactory("DesocManager");
-  // const manager = await DesocManager.deploy(forwarder);
-  // await manager.deployed();
-  // console.log(`Deployed DesocManager at ${manager.address} with forwarder ${forwarder}`);
+  const DesocManager = await ethers.getContractFactory("DesocManager");
+  const manager = await DesocManager.deploy(forwarder);
+  await manager.deployed();
+  console.log(`Deployed DesocManager at ${manager.address} with forwarder ${forwarder}`);
 
 }
 
