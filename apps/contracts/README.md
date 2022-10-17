@@ -24,4 +24,12 @@ forge test
 forge test -m testMint
 ```
 
-Foundry Docs: https://book.getfoundry.sh/forge/writing-tests
+Flatten contract
+```
+forge flatten src/DesocManager.sol --output flatten.sol
+```
+
+Send Transaction with **cast**
+```
+ cast send [to]  "verify(address)" "0xa5a83de9294eafc131fEf448c3ea7b11282379C0" --private-key=[PRIVATE_KEY] --rpc-url=[RPC_URL] --chain=goerli
+```
