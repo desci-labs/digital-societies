@@ -60,4 +60,4 @@ jobs:
         run: yarn install
 
       - name: Lint codebase
-        run: yarn lint -w=web
+        run: yarn lint
