@@ -2,8 +2,8 @@ import { useModalContext } from "components/Modal/Modal";
 import TransactionPrompt from "components/TransactionStatus/TransactionPrompt";
 import { useTokenContract } from "hooks/useContract";
 import { useDispatch } from "react-redux";
-import { removeToken, setTokens } from "services/credentials/credentialSlice";
-import { CredentialToken } from "services/credentials/types";
+import { removeToken, setTokens } from "services/attestations/attestationSlice";
+import { AttestationToken } from "services/attestations/types";
 import { addRevocation, deleteRevocation } from "services/orgs/orgSlice";
 import { useGetTxState } from "services/transaction/hooks";
 import { setFormLoading } from "services/transaction/transactionSlice";
@@ -20,7 +20,7 @@ export default function useRevokeToken(address: string) {
   const dispatch = useDispatch();
   const { form_loading } = useGetTxState();
 
-  async function revoke(token: CredentialToken) {
+  async function revoke(token: AttestationToken) {
     if (!tokenContract) return;
     try {
       dispatch(setFormLoading(true));

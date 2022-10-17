@@ -3,27 +3,28 @@ import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import FileDropzone from "components/FileDropzone";
-import { Form, Input, InputRow, Textarea } from "components/Form/Index";
+import { Form, Input, InputRow, SelectInput, Textarea } from "components/Form/Index";
 import { useGetOrg } from "services/orgs/hooks";
-import { LauncherFormValues, MetadataValues } from "../types";
+import { AttestationFormValues, MetadataValues } from "../types";
 import ImagePreview from "components/UI/ImagePreview";
-import useCredentialForm from "./useCredentialForm";
+import useAttestationForm from "./useAttestationForm";
 import { useGetTxStage } from "services/transaction/hooks";
 import { useModalContext } from "components/Modal/Modal";
 import Button from "components/UI/Button/Index";
+import { attestationTypes } from "../constants";
 
-export default function CredentialForm() {
+export default function AttestationForm() {
   const {
     watch,
     register,
     handleSubmit,
     formState: { isDirty, isValid, errors },
-  } = useFormContext<LauncherFormValues>();
+  } = useFormContext<AttestationFormValues>();
   const router = useRouter();
   const { address, id } = router.query;
   const { hideModal } = useModalContext();
   const org = useGetOrg(address as string);
-  const { launch, isLoading } = useCredentialForm(
+  const { launch, isLoading } = useAttestationForm(
     org?.address!,
     parseInt(id as string)
   );
@@ -50,11 +51,24 @@ export default function CredentialForm() {
     <Form
       onSubmit={handleSubmit(launch)}
       title={org?.metadata.name}
-      description={isUpdateMode ? "update credential" : "Add new credential"}
+      description={isUpdateMode ? "update attestation" : "Add new attestation"}
       className="form"
     >
       <InputRow htmlFor="issuer" label="Issuer:">
         <Input id="issuer" disabled {...register("issuer")} />
+      </InputRow>
+      <InputRow
+        htmlFor="attestationType"
+        label="Attestation type"
+        className="text-sm"
+      >
+        <SelectInput
+          options={attestationTypes as unknown as string[]}
+          getOptionLabel={(data) => data}
+          getOptionValue={(data) => data}
+          {...register("attestationType")}
+          className="mb-0 outline-none"
+        />
       </InputRow>
       <InputRow htmlFor="name" label="Name:">
         <Input
@@ -76,7 +90,7 @@ export default function CredentialForm() {
           {...register("description")}
         />
       </InputRow>
-      <InputRow htmlFor="external_link" label="External link">
+      <InputRow htmlFor="external_link" label="Link to role specification">
         <ErrorMessage
           errors={errors}
           name="external_link"
@@ -85,7 +99,7 @@ export default function CredentialForm() {
         />
         <Input
           id="external_link"
-          placeholder="website or social media url"
+          placeholder="Link to role specification"
           {...register("external_link")}
         />
       </InputRow>
@@ -130,8 +144,8 @@ export default function CredentialForm() {
         {isLoading
           ? stage.message || "submitting..."
           : isUpdateMode
-          ? "update credential"
-          : "Create Credential"}
+          ? "update attestation"
+          : "Create attestation"}
       </Button>
     </Form>
   );

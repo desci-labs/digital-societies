@@ -1,12 +1,12 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAccount } from "wagmi";
-import { LauncherFormValues, LaunchMode } from "../types";
+import { AttestationFormValues, LaunchMode } from "../types";
 import { metadataSchema } from "../schema";
 import { Org, PendingOrg } from "services/orgs/types";
 import { FC } from "react";
 import Popup from "components/UI/Popup/Index";
-import { useGetCredential } from "services/credentials/hooks";
+import { useGetAttestation } from "services/attestations/hooks";
 import { useRouter } from "next/router";
 import { useModalContext } from "components/Modal/Modal";
 
@@ -17,10 +17,10 @@ export default function CredentialLauncher({ org, Form, mode }: Props) {
   const router = useRouter();
   const { showModal } = useModalContext()
   const { id } = router.query;
-  const credential = useGetCredential(org.address, parseInt(id as string));
+  const credential = useGetAttestation(org.address, parseInt(id as string));
   const metadata = credential?.metadata ?? org.metadata;
 
-  const methods = useForm<LauncherFormValues>({
+  const methods = useForm<AttestationFormValues>({
     reValidateMode: "onChange",
     mode: "onChange",
     defaultValues: {
@@ -29,6 +29,7 @@ export default function CredentialLauncher({ org, Form, mode }: Props) {
       issuer: address,
       acronym: metadata.acronym,
       description: metadata.description,
+      attestationType: "Affiliations",
       banner: typeof metadata.banner === "string" ? { ipfsHash: metadata.banner } : metadata.banner,
       logo: typeof metadata.logo === "string" ? { ipfsHash: metadata.logo } : metadata.logo,
       external_link: metadata.external_link,

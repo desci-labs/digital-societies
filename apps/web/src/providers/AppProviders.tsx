@@ -11,8 +11,8 @@ import ModalProvider from "components/Modal/Modal";
 import TransactionProvider from "context/useTx";
 import { BlockNumberProvider } from "hooks/useBlockNumber";
 import FactoryUpdater from "services/orgs/updater";
-import TokenUpdater from "services/credentials/TokenUpdater";
-import CredentialUpdater from "services/credentials/updater";
+import TokenUpdater from "services/attestations/TokenUpdater";
+import AttestationUpdater from "services/attestations/updater";
 import AppMenuProvider from "components/layout/Header/useAppMenu";
 import { useTheme } from "next-themes";
 
@@ -21,7 +21,7 @@ function Updaters() {
     <>
       <FactoryUpdater />
       <TokenUpdater />
-      <CredentialUpdater />
+      <AttestationUpdater />
     </>
   );
 }

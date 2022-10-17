@@ -1,36 +1,35 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { compareMetadata } from "helper";
 import {
-  Credential,
-  CredentialMap,
-  CredentialState,
-  CredentialToken,
-  CredentialToTokenMap,
-  PendingCredential,
+  Attestation,
+  AttestationMap,
+  AttestationState,
+  AttestationToTokenMap,
+  PendingAttestation,
 } from "./types";
 
-const initialState: CredentialState = {
-  credentials: {},
+const initialState: AttestationState = {
+  attestations: {},
   tokens: {},
   isLoading: true,
 };
 
 const slice = createSlice({
-  name: "credentials",
+  name: "attestation",
   initialState,
   reducers: {
-    resetCredentials: (_state) => initialState,
-    setCredentials: (state, { payload }: PayloadAction<CredentialMap>) => {
+    resetAttestations: (_state) => initialState,
+    setAttestations: (state, { payload }: PayloadAction<AttestationMap>) => {
       Object.keys(payload).forEach((address) => {
-        const credentials = state.credentials[address];
-        if (!credentials) {
-          state.credentials[address] = payload[address];
+        const attestations = state.attestations[address];
+        if (!attestations) {
+          state.attestations[address] = payload[address];
           return;
         }
         const updatable = payload[address].filter((data) => {
           if (data.metadata === null) return false;
-          const prev = credentials.find(
-            (credential) => credential.id === data.id
+          const prev = attestations.find(
+            (attestation) => attestation.id === data.id
           );
           if (prev?.metadata === null) return true;
 
@@ -43,50 +42,50 @@ const slice = createSlice({
           return canUpdate;
         });
 
-        state.credentials[address] = credentials.filter((credential) => {
-          if (updatable.find((d) => d.id === credential.id)) return false;
+        state.attestations[address] = attestations.filter((attestation) => {
+          if (updatable.find((d) => d.id === attestation.id)) return false;
           return true;
         });
 
-        state.credentials[address].push(...updatable);
+        state.attestations[address].push(...updatable);
       });
     },
-    setCredential: (
+    setAttestation: (
       state,
       {
         payload,
       }: PayloadAction<{
         address: string;
-        credential: Credential | PendingCredential;
+        attestation: Attestation | PendingAttestation;
       }>
     ) => {
-      if (!state.credentials[payload.address]) {
-        state.credentials[payload.address] = [];
+      if (!state.attestations[payload.address]) {
+        state.attestations[payload.address] = [];
       }
 
-      const prev = state.credentials[payload.address]?.find(
-        (cred) => cred.id === payload.credential.id
+      const prev = state.attestations[payload.address]?.find(
+        (cred) => cred.id === payload.attestation.id
       );
 
       if (!prev) {
-        state.credentials[payload.address].push(payload.credential);
-      } else if (payload.credential.metadata && prev.pending) {
-        state.credentials[payload.address].map((cred) => {
-          if (cred.id === payload.credential.id) return payload.credential;
+        state.attestations[payload.address].push(payload.attestation);
+      } else if (payload.attestation.metadata && prev.pending) {
+        state.attestations[payload.address].map((cred) => {
+          if (cred.id === payload.attestation.id) return payload.attestation;
           return cred;
         });
       } else {
-        const canUpdate = compareMetadata(prev.metadata, payload.credential.metadata);
+        const canUpdate = compareMetadata(prev.metadata, payload.attestation.metadata);
         if (canUpdate) {
-          state.credentials[payload.address] = state.credentials[payload.address].filter(cred => cred.id !== payload.credential.id);
-          state.credentials[payload.address].push(payload.credential)
+          state.attestations[payload.address] = state.attestations[payload.address].filter(cred => cred.id !== payload.attestation.id);
+          state.attestations[payload.address].push(payload.attestation)
         }
       }
     },
     setIsLoading: (state, { payload }: PayloadAction<boolean>) => {
       state.isLoading = payload;
     },
-    setTokens: (state, { payload }: PayloadAction<CredentialToTokenMap>) => {
+    setTokens: (state, { payload }: PayloadAction<AttestationToTokenMap>) => {
       Object.keys(payload).forEach((org) => {
         if (!state.tokens[org]) {
           state.tokens[org] = payload[org];
@@ -94,7 +93,7 @@ const slice = createSlice({
         }
 
         state.tokens[org] = state.tokens[org].filter((t) => {
-          if (payload[org].find((data) => t.tokenId == data.tokenId || (t.credential === data.credential && t.owner === data.owner))) {
+          if (payload[org].find((data) => t.tokenId == data.tokenId || (t.attestation === data.attestation && t.owner === data.owner))) {
             return false;
           }
           return true
@@ -125,9 +124,9 @@ const slice = createSlice({
 
 export default slice.reducer;
 export const {
-  resetCredentials,
-  setCredential,
-  setCredentials,
+  resetAttestations,
+  setAttestation,
+  setAttestations,
   setIsLoading,
   setTokens,
   removeToken,

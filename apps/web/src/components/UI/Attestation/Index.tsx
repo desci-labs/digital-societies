@@ -1,8 +1,8 @@
 import Loader from "components/Loader";
-import useCredenter from "components/Transactors/Credential/useCredenter";
+import useCredenter from "components/Transactors/Attestation/useCredenter";
 import {
-  useGetCredentialState,
-} from "services/credentials/hooks";
+  useGetAttestationState,
+} from "services/attestations/hooks";
 import {
   useIsAdminOrDelegate,
   useGetOrg,
@@ -11,18 +11,18 @@ import { AiOutlinePlus } from "react-icons/ai";
 import Button from "../Button/Index";
 import { MetadataCard } from "./MetadataCard";
 
-export function CredentialGridView({ address }: { address: string }) {
+export function AttestationGridView({ address }: { address: string }) {
   const hasAccess = useIsAdminOrDelegate(address);
   const org = useGetOrg(address);
-  const { isLoading, credentials: data } = useGetCredentialState();
-  const credentials = data[address];
+  const { isLoading, attestations: data } = useGetAttestationState();
+  const attestations = data[address];
   const showCredenter = useCredenter(org!);
   if (isLoading) return <Loader />;
 
   return (
     <div className="container mx-auto pt-2 mt-10 px-2 lg:px-0">
       <div className="flex w-full justify-between">
-        <h1 className="text-left heading-2">Credentials</h1>
+        <h1 className="text-left heading-2">Attestations</h1>
         {hasAccess && (
           <Button
             onClick={showCredenter}
@@ -33,13 +33,13 @@ export function CredentialGridView({ address }: { address: string }) {
           </Button>
         )}
       </div>
-      {credentials && (
+      {attestations && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-y-10 md:place-items-start mt-5 mb-10">
-          {credentials.map((credential, idx) => (
+          {attestations.map((attestation, idx) => (
             <MetadataCard
               key={idx}
-              metadata={credential.metadata}
-              link={`/credentials/${credential.id}?address=${credential.address}`}
+              metadata={attestation.metadata}
+              link={`/attestations/${attestation.id}?address=${attestation.address}`}
             />
           ))}
         </div>

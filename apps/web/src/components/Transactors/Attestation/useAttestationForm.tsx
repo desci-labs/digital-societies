@@ -1,35 +1,35 @@
 import { useModalContext } from "components/Modal/Modal";
 import TransactionPrompt from "components/TransactionStatus/TransactionPrompt";
-import { BigNumber, Transaction } from "ethers";
+import { BigNumber } from "ethers";
 import { pinMetadataToIpfs } from "helper/web3";
 import { useTokenContract } from "hooks/useContract";
 import { useFormContext } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { setCredential } from "services/credentials/credentialSlice";
-import { useGetCredential } from "services/credentials/hooks";
-import { PendingCredential } from "services/credentials/types";
+import { setAttestation } from "services/attestations/attestationSlice";
+import { useGetAttestation } from "services/attestations/hooks";
+import { PendingAttestation } from "services/attestations/types";
 import { useGetTxState } from "services/transaction/hooks";
 import { setFormError, setFormLoading } from "services/transaction/transactionSlice";
 import { Step } from "services/transaction/types";
 import useTxUpdator from "services/transaction/updators";
 import { useAccount } from "wagmi";
-import { LauncherFormValues, LaunchMode } from "../types";
+import { AttestationFormValues, LaunchMode } from "../types";
 
-type Launcher = (metadata: LauncherFormValues) => Promise<void>;
+type Launcher = (metadata: AttestationFormValues) => Promise<void>;
 
-export default function useCredentialForm(address: string, tokenType: number) {
+export default function useAttestationForm(address: string, tokenType: number) {
   const dispatch = useDispatch();
   const { updateTx } = useTxUpdator();
   const { form_loading } = useGetTxState();
   const getContract = useTokenContract();
   const tokenContract = getContract(address);
-  const credential = useGetCredential(address, tokenType!);
+  const attestation = useGetAttestation(address, tokenType!);
   const { address: mintedBy } = useAccount();
   const { showModal } = useModalContext();
-  const { watch } = useFormContext<LauncherFormValues>();
+  const { watch } = useFormContext<AttestationFormValues>();
   const mode = watch("mode");
 
-  async function launch(metadata: LauncherFormValues) {
+  async function launch(metadata: AttestationFormValues) {
     try {
       if (!mintedBy) throw Error("Check wallet connection and try again!!!");
 
@@ -43,9 +43,9 @@ export default function useCredentialForm(address: string, tokenType: number) {
       
       const tx = await tokenContract.mintTokenType(CIDBytes);
       const typeId = await tokenContract?.totalTypes() ?? 0;
-      const credential: PendingCredential = { id: typeId + 1, cid: CIDString, address, mintedBy, metadata: meta, pending: true, dateCreated: Date.now() };
-      dispatch(setCredential({ address, credential }))
-      const previewLink = `/credentials/${typeId + 1}?address=${address}`;
+      const attestation: PendingAttestation = { id: typeId + 1, cid: CIDString, address, mintedBy, metadata: meta, pending: true, dateCreated: Date.now() };
+      dispatch(setAttestation({ address, attestation }))
+      const previewLink = `/attestations/${typeId + 1}?address=${address}`;
       updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Deploying ${metadata.name} credential`, previewLink: { href: previewLink, caption: "Preview" } });
       showModal(TransactionPrompt, {});
       await tx.wait();
@@ -60,7 +60,7 @@ export default function useCredentialForm(address: string, tokenType: number) {
 
   }
 
-  async function update(metadata: LauncherFormValues) {
+  async function update(metadata: AttestationFormValues) {
     
     try {
       if (!mintedBy) throw Error("Check wallet connection and try again!!!");
@@ -71,8 +71,8 @@ export default function useCredentialForm(address: string, tokenType: number) {
       
       const { mode, ...meta } = metadata;
       const { CIDBytes, CIDString} = await pinMetadataToIpfs(meta);
-      const update = { ...credential, cid: CIDString, metadata: meta, } as PendingCredential;
-      dispatch(setCredential({ address, credential: update }))
+      const update = { ...attestation, cid: CIDString, metadata: meta, } as PendingAttestation;
+      dispatch(setAttestation({ address, attestation: update }))
       
       updateTx({ step: Step.submit, message: "Confirming transaction..." });
       
@@ -85,7 +85,7 @@ export default function useCredentialForm(address: string, tokenType: number) {
       dispatch(setFormLoading(false));
       updateTx({ step: Step.success, message: "", txHash: tx.hash });
     } catch (e: any) {
-      dispatch(setCredential({ address, credential: credential! }))
+      dispatch(setAttestation({ address, attestation: attestation! }))
       updateTx({ step: Step.error, message: `Error updating ${metadata.name}` });
       dispatch(setFormLoading(false));
       dispatch(setFormError({ title: `Error updating ${metadata.name}` }));

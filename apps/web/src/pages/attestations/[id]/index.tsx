@@ -1,16 +1,16 @@
 import Loader from "components/Loader";
 import {
-  useGetCredential,
-} from "services/credentials/hooks";
+  useGetAttestation,
+} from "services/attestations/hooks";
 import { useGetOrg, useIsAdminOrDelegate } from "services/orgs/hooks";
 import { getImageURL } from "helper";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { ImageBanner, RoundedLogo } from "components/UI/Index";
-import useCredenter from "components/Transactors/Credential/useCredenter";
+import useCredenter from "components/Transactors/Attestation/useCredenter";
 import Button from "components/UI/Button/Index";
 import { FiEdit } from "react-icons/fi";
-import { IssuedTokens } from "components/UI/Credential/IssuedTokens";
+import { IssuedTokens } from "components/UI/Attestation/IssuedTokens";
 
 export default function CredentialDetails() {
   const router = useRouter();
@@ -23,7 +23,7 @@ export default function CredentialDetails() {
     }
   }, [router.isReady, router.query]);
 
-  const credential = useGetCredential(
+  const credential = useGetAttestation(
     address,
     id
   );

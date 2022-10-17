@@ -7,12 +7,12 @@ import { asyncMap, getCIDStringFromBytes } from "helper";
 import useBlockNumber from "hooks/useBlockNumber";
 import { useTokenContract } from "hooks/useContract";
 import { useGetOrgs } from "services/orgs/hooks";
-import { Credential, CredentialMap } from "./types";
-import { setCredentials, setIsLoading } from "./credentialSlice";
+import { AttestationMap, Attestation } from "./types";
+import { setAttestations, setIsLoading } from "./attestationSlice";
 import { Metadata } from "components/Transactors/types";
 import { FACTORY_DEPLOY_BLOCK } from "constants/web3";
 
-export default function CredentialUpdater() {
+export default function AttestationUpdater() {
   const dispatch = useDispatch();
   const orgs = useGetOrgs();
   const block = useBlockNumber();
@@ -22,7 +22,7 @@ export default function CredentialUpdater() {
 
   async function getCrendentialInfofromEvent(
     event: ethers.Event
-  ): Promise<Credential> {
+  ): Promise<Attestation> {
     const block = await provider.getBlock(event.blockNumber);
     const mintedBy = event.args?.createdBy ?? event.args?.[1];
     const id = event.args?.tokenType ?? event.args?.[0];
@@ -43,7 +43,7 @@ export default function CredentialUpdater() {
   async function transformEventsToCrendentials(events: ethers.Event[]) {
     const address = events[0]?.address;
     if (!events.length) return null;
-    const credentials = await asyncMap<Credential, ethers.Event>(
+    const credentials = await asyncMap<Attestation, ethers.Event>(
       events,
       getCrendentialInfofromEvent
     );
@@ -81,9 +81,9 @@ export default function CredentialUpdater() {
             if (!credential) return all;
             all[credential.address] = credential.data;
             return all;
-          }, {} as CredentialMap);
+          }, {} as AttestationMap);
 
-        dispatch(setCredentials(credentials));
+        dispatch(setAttestations(credentials));
         dispatch(setIsLoading(false));
         setLastUpdated(lastQuery);
       } catch (e) {

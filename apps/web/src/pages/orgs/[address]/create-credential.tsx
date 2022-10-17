@@ -1,6 +1,6 @@
 import Loader from 'components/Loader';
-import Credenter from 'components/Transactors/Credential';
-import CredentialForm from 'components/Transactors/Credential/Form';
+import Credenter from 'components/Transactors/Attestation';
+import AttestationForm from 'components/Transactors/Attestation/Form';
 import { useGetOrg } from 'services/orgs/hooks';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -26,7 +26,7 @@ const CreateType: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {isConnected && org && <Credenter mode="create" Form={CredentialForm} org={org}  />}
+      {isConnected && org && <Credenter mode="create" Form={AttestationForm} org={org}  />}
     </div>
   );
 };

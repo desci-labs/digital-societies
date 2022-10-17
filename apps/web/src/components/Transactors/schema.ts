@@ -66,12 +66,12 @@ export const metadataSchema = Yup.object().shape({
   description: Yup.string().required(),
   external_link: Yup.string().matches(uriPattern, "Invalid url"),
   banner: FILE_SCHEMA.required(),
-  badge: FILE_SCHEMA.required(),
+  logo: FILE_SCHEMA.required(),
 });
 
 export const issuerSchema = Yup.object().shape({
   addresses: ADDRESSES_SCHEMA.required(),
-  credential: Yup.number().required()
+  attestation: Yup.number().required()
 });
 
 export const delegaterSchema = Yup.object().shape({

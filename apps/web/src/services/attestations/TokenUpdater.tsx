@@ -6,8 +6,8 @@ import useBlockNumber from "hooks/useBlockNumber";
 import { useTokenContract } from "hooks/useContract";
 import { useProvider } from "wagmi";
 import { useGetOrgs } from "services/orgs/hooks";
-import { CredentialToken, CredentialToTokenMap } from "./types";
-import { setTokens } from "./credentialSlice";
+import { AttestationToken, AttestationToTokenMap } from "./types";
+import { setTokens } from "./attestationSlice";
 import { FACTORY_DEPLOY_BLOCK } from "constants/web3";
 
 export default function TokenUpdater() {
@@ -20,7 +20,7 @@ export default function TokenUpdater() {
 
   async function getTokenInfofromEvent(
     event: ethers.Event
-  ): Promise<CredentialToken | null> {
+  ): Promise<AttestationToken | null> {
     const contract = getContract(event.address);
     
     try {
@@ -33,13 +33,13 @@ export default function TokenUpdater() {
       // check validity of the token
       await contract?.ownerOf(tokenId);
 
-      const credential = event.args?.tokenType ?? event.args?.[3];
+      const attestation = event.args?.tokenType ?? event.args?.[3];
       return {
         org: event.address,
         tokenId,
         owner,
         issuer,
-        credential,
+        attestation,
         dateIssued: block.timestamp * 1000,
       };
     } catch (e) {
@@ -50,14 +50,14 @@ export default function TokenUpdater() {
   async function transformEventsToTokens(events: ethers.Event[]) {
     const address = events[0]?.address;
     if (!events.length) return null;
-    const tokens = await asyncMap<CredentialToken, ethers.Event>(
+    const tokens = await asyncMap<AttestationToken, ethers.Event>(
       events,
       getTokenInfofromEvent
     );
     return { address, data: tokens.filter(Boolean) };
   }
 
-  const indexCredentialTokens = useCallback(
+  const indexAttestationTokens = useCallback(
     async () => {
       if (!block) return;
 
@@ -81,7 +81,7 @@ export default function TokenUpdater() {
         if (!token) return all;
         all[token.address] = token.data;
         return all;
-      }, {} as CredentialToTokenMap);
+      }, {} as AttestationToTokenMap);
       dispatch(setTokens(tokens));
       setLastUpdated(lastQuery);
     },
@@ -91,8 +91,8 @@ export default function TokenUpdater() {
 
   useEffect(() => {
     if (block && (lastUpdated === 0 || block - lastUpdated > 5)) {
-      indexCredentialTokens();
+      indexAttestationTokens();
     }
-  }, [block, lastUpdated, indexCredentialTokens]);
+  }, [block, lastUpdated, indexAttestationTokens]);
   return null;
 }

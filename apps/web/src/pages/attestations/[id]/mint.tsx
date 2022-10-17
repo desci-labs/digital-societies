@@ -1,7 +1,7 @@
 import Loader from 'components/Loader';
 import Issuer from 'components/Transactors/Issuer';
 import IssuerForm from 'components/Transactors/Issuer/IssuerForm';
-import { useGetCredential } from 'services/credentials/hooks';
+import { useGetAttestation } from 'services/attestations/hooks';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -12,21 +12,21 @@ const CreateType: NextPage = () => {
   const { address, id } = router.query;
 
   const { isConnected } = useAccount()
-  const credential = useGetCredential(address as string, parseInt(id as string));
+  const attestation = useGetAttestation(address as string, parseInt(id as string));
 
-  if (!credential) return <Loader />;
+  if (!attestation) return <Loader />;
 
   return (
     <div className="py-0 px-10">
       <Head>
-        <title>Issue Credential | {credential?.metadata.name}</title>
+        <title>Issue attestation | {attestation?.metadata.name}</title>
         <meta
           name="description"
-          content={credential?.metadata.description}
+          content={attestation?.metadata.description}
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {isConnected && credential && <Issuer Form={IssuerForm} credential={credential} />}
+      {isConnected && attestation && <Issuer Form={IssuerForm} attestation={attestation} />}
     </div>
   );
 };

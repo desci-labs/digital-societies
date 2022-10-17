@@ -1,15 +1,15 @@
 import { useRouter } from "next/router";
 import Loader from "components/Loader";
 import { useGetOrg, useIsAdmin } from "services/orgs/hooks";
-import { CredentialGridView } from "components/UI/Credential/Index";
+import { AttestationGridView } from "components/UI/Attestation/Index";
 import { ImageBanner, RoundedLogo } from "components/UI/Index";
 import { getImageURL } from "helper";
 import useUpdater from "components/Transactors/org/Updator/useUpdater";
 import { useEffect, useState } from "react";
 import Button from "components/UI/Button/Index";
 import { FiEdit } from "react-icons/fi";
-import { Delegates } from "components/UI/Credential/Delegates";
-import { RevocationHistory } from "components/UI/Credential/RevocationHistory";
+import { Delegates } from "components/UI/Attestation/Delegates";
+import { RevocationHistory } from "components/UI/Attestation/RevocationHistory";
 
 export default function OrganisationDetails() {
   const router = useRouter();
@@ -52,7 +52,7 @@ export default function OrganisationDetails() {
           {org.metadata.description}
         </span>
       </div>
-      <CredentialGridView address={org.address} />
+      <AttestationGridView address={org.address} />
       <Delegates address={org.address} />
       <RevocationHistory address={org.address} />
     </div>

@@ -3,20 +3,20 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { IssuerValues } from "../types";
 import { issuerSchema } from "../schema";
 import { FC } from "react";
-import { Credential, PendingCredential } from "services/credentials/types";
+import { Attestation, PendingAttestation } from "services/attestations/types";
 
-export type Props = { credential: Credential | PendingCredential; Form: FC };
+export type Props = { attestation: Attestation | PendingAttestation; Form: FC };
 
-export default function Issuer({ credential, Form }: Props) {
+export default function Issuer({ attestation, Form }: Props) {
   
-  if (!credential) throw Error("Credential data is required");
+  if (!attestation) throw Error("Credential data is required");
 
   const methods = useForm<IssuerValues>({
     reValidateMode: "onChange",
     mode: "onChange",
     defaultValues: {
       addresses: "",
-      credential: credential.id,
+      attestation: attestation.id,
     },
     resolver: yupResolver(issuerSchema),
   });

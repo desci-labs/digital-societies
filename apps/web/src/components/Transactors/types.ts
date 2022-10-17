@@ -1,4 +1,6 @@
 import { FileObject } from "components/FileDropzone/types";
+import { attestationTypes } from "./constants";
+
 
 type Meta = {
   name: string;
@@ -7,14 +9,24 @@ type Meta = {
   description: string;
   external_link: string;
 }
+
+type WithUploadedFiles = {
+  banner: string;
+  logo: string;
+}
+
+export type AttestationType = typeof attestationTypes[number];
+
 export type MetadataValues = Meta & {
   banner: FileObject;
   logo: FileObject
 }
 
+export type AttestationMetadataValues = MetadataValues & { attestationType: AttestationType }
+export type AttestationMetadata = AttestationMetadataValues & WithUploadedFiles
 export interface IssuerValues {
   addresses: string;
-  credential: number;
+  attestation: number;
 }
 export interface DelegaterValues {
   delegate: string;
@@ -22,10 +34,7 @@ export interface DelegaterValues {
 }
 
 
-export type Metadata = Meta & {
-  banner: string;
-  logo: string;
-}
+export type Metadata = Meta & WithUploadedFiles
 
 export type IResponse = {
   IpfsHash: string;
@@ -36,3 +45,4 @@ export type IResponse = {
 export type LaunchMode = "create" | "update";
 
 export type LauncherFormValues =  MetadataValues & { mode: LaunchMode }
+export type AttestationFormValues = AttestationMetadataValues & { mode: LaunchMode }

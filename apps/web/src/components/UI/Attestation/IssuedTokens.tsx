@@ -5,7 +5,7 @@ import { getImageURL } from "helper";
 import Image from "next/image";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiCloseLine } from "react-icons/ri";
-import { useGetCredential, useGetCredentialTokens } from "services/credentials/hooks";
+import { useGetAttestation, useGetAttestationTokens } from "services/attestations/hooks";
 import { useIsDelegate } from "services/orgs/hooks";
 import Button from "../Button/Index";
 import { CardContainer } from "../Index";
@@ -18,8 +18,8 @@ export function IssuedTokens({
   id: number;
   address: string;
 }) {
-  const tokens = useGetCredentialTokens(address, id);
-  const credential = useGetCredential(address, id);
+  const tokens = useGetAttestationTokens(address, id);
+  const credential = useGetAttestation(address, id);
   const showIssuer = useIssuer(credential!);
   const { revoke, isLoading } = useRevokeToken(credential?.address!);
   const hasAccess = useIsDelegate(credential?.address ?? "");

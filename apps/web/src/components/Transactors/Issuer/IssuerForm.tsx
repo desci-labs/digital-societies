@@ -6,10 +6,10 @@ import { Form, InputRow, SelectInput } from "components/Form/Index";
 import { useGetOrg } from "services/orgs/hooks";
 import { IssuerValues } from "../types";
 import {
-  useGetCredentials,
-} from "services/credentials/hooks";
-import useIssueCredential from "./useIssueCredential";
-import { Credential, PendingCredential } from "services/credentials/types";
+  useGetAttestations,
+} from "services/attestations/hooks";
+import useIssueAttestation from "./useIssueAttestation";
+import { Attestation, PendingAttestation } from "services/attestations/types";
 import { useGetTxStage } from "services/transaction/hooks";
 import Button from "components/UI/Button/Index";
 
@@ -23,25 +23,25 @@ export default function IssuerForm() {
   const { address } = router.query;
   const stage = useGetTxStage();
   const org = useGetOrg(address as string);
-  const credentials = useGetCredentials(org?.address ?? '');
-  const { issueCredential, isLoading } = useIssueCredential(org?.address!);
+  const attestations = useGetAttestations(org?.address ?? '');
+  const { issueAttestation, isLoading } = useIssueAttestation(org?.address!);
   const canDisable = useMemo(
     () => isSubmitting || isLoading,
     [isSubmitting, isLoading]
   );
 
   return (
-    <Form onSubmit={handleSubmit(issueCredential)} title={org?.metadata.name} description="Issue a Credential" className="form">
+    <Form onSubmit={handleSubmit(issueAttestation)} title={org?.metadata.name} description="Issue an Attestation" className="form">
       <InputRow
-        htmlFor="credential"
-        label="Select credential"
+        htmlFor="attestation"
+        label="Select attestation"
         className="text-sm"
       >
-        <SelectInput<Credential | PendingCredential>
-          options={credentials}
+        <SelectInput<Attestation | PendingAttestation>
+          options={attestations}
           getOptionLabel={(data) => data.metadata.name}
           getOptionValue={(data) => data.id}
-          {...register("credential")}
+          {...register("attestation")}
         />
       </InputRow>
       <InputRow
