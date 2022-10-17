@@ -57,7 +57,7 @@ export default function IssuerForm() {
         />
         <textarea
           id="addresses"
-          className="w-full bg-transparent outline-none text-white border border-neutrals-gray-3 focus:border-neutrals-gray-5 p-2 rounded-xl appearance-none resize-none h-20"
+          className="w-full bg-transparent outline-none text-darker border border-neutrals-gray-3 focus:border-neutrals-gray-5 p-2 rounded-xl appearance-none resize-none h-20"
           {...register("addresses")}
         />
       </InputRow>
