@@ -13,6 +13,8 @@ env:
 jobs:
   check:
     strategy:
+      matrix:
+        version: [16]
       fail-fast: true
 
     name: Foundry project
@@ -52,10 +54,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "16"
-          cache: "npm"
+          cache: "yarn"
 
       - name: Install dependencies
-        run: npm install
+        run: yarn install
 
       - name: Lint codebase
-        run: npm run lint
+        run: yarn lint -w=web
