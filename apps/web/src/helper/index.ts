@@ -49,6 +49,7 @@ export const getImageURL = (image: string | FileObject) => {
   if (!image) return fallbackImg;
   if (typeof image === "string") {
     if (image.startsWith(W3S_IPFS_GATEWAY!)) return image;
+    console.log('parse ', image);
     const cid = CID.parse(image);
     if (cid) return resolveIpfsURL(cid.toString());
     return "";

@@ -1,4 +1,4 @@
-import DesocList from 'components/UI/DesocList';
+import DesocList from 'components/UI/DesocList/DesocList';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 

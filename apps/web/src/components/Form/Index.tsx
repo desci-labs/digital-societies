@@ -26,13 +26,13 @@ export function InputRow(props: InputRowProps) {
 }
 
 export const Input = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>(
-  (props, ref) => {
+  ({ className, ...restProps}, ref) => {
     return (
       <input
         ref={ref}
         type="text"
-        className="py-1.5 px-4 w-full rounded-xl border border-neutrals-gray-3 focus:border-neutrals-gray-5 bg-transparent text-darker my-1 outline-none"
-        {...props}
+        className={`py-1.5 px-4 w-full rounded-xl border border-neutrals-gray-3 focus:border-neutrals-gray-5 bg-transparent text-darker my-1 outline-none ${className}`}
+        {...restProps}
       />
     );
   }
