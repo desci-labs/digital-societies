@@ -45,16 +45,22 @@ export function maskAddress(addr?: string) {
   }
 }
 
-// TODO: Handle {base64}
 export const getImageURL = (image: string | FileObject) => {
+  if (!image) return fallbackImg;
+
+  if (typeof image === "string") {
+    if (image.startsWith(W3S_IPFS_GATEWAY!)) return image;
+    const cid = CID.parse(image);
+    if (cid) return resolveIpfsURL(cid.toString());
+    return "";
+  }
+
   const url =
-    typeof image === "string"
-      ? resolveIpfsURL(image)
-      : image.ipfsHash
-      ? resolveIpfsURL(image.ipfsHash)
+    image.ipfsURL
+      ? image.ipfsURL
       : image.file && image.file.size > 0
-      ? window.URL.createObjectURL(image.file)
-      : "";
+        ? window.URL.createObjectURL(image.file)
+        : "";
   return url;
 };
 
@@ -69,9 +75,9 @@ export const flattenMetadata = async (
       meta.banner.base64 = image;
     }
 
-    if (metadata.logo.file) {
+    if (metadata.image.file) {
       const logo = await toBase64(metadata.banner.file);
-      meta.logo.base64 = logo;
+      meta.image.base64 = logo;
     }
 
     return meta;
@@ -101,13 +107,13 @@ export const compareMetadata = (
   )
     return true;
 
-  if (typeof old.logo !== typeof meta.logo) return true;
+  if (typeof old.image !== typeof meta.image) return true;
   if (typeof old.banner !== typeof meta.banner) return true;
 
-  if (typeof old.logo === "string" && old.logo !== meta.logo) return true;
+  if (typeof old.image === "string" && old.image !== meta.image) return true;
   if (typeof old.banner === "string" && old.banner !== meta.banner) return true;
 
-  if (typeof old.logo == "object" || typeof meta.logo === "object")
+  if (typeof old.image == "object" || typeof meta.image === "object")
     return true;
 
   return false;

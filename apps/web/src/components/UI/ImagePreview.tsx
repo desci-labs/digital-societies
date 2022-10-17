@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect } from "react";
 
 export default function ImagePreview({ image, className, wrapperClassName }: { image: FileObject, className?: string, wrapperClassName?: string }) {
-  const url = image.ipfsHash ? resolveIpfsURL(image.ipfsHash) : (image.file && image.file?.size > 0) ? window.URL.createObjectURL(image.file) : "";
+  const url = image.ipfsURL ? image.ipfsURL : (image.file && image.file?.size > 0) ? window.URL.createObjectURL(image.file) : "";
 
   useEffect(() => {
     return () => {

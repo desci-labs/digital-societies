@@ -1,4 +1,3 @@
-import AddressOrEns from "components/AddressOrEns/Index";
 import AddressCopier from "components/Copier/AddressCopier";
 import useIssuer from "components/Transactors/Issuer/useIssuer";
 import useRevokeToken from "components/Transactors/Issuer/useRevokeToken";
@@ -6,7 +5,7 @@ import { getImageURL } from "helper";
 import Image from "next/image";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiCloseLine } from "react-icons/ri";
-import { useGetAttestation, useGetAttestationTokens } from "services/attestations/hooks";
+import { useGetAttestationTokens } from "services/attestations/hooks";
 import { Attestation, PendingAttestation } from "services/attestations/types";
 import { useIsDelegate } from "services/orgs/hooks";
 import Button from "../Button/Index";
@@ -16,10 +15,9 @@ import { Cell, Row, Table, TBody, THead } from "../Table";
 export function IssuedTokens({
   attestation
 }: {
- attestation: Attestation | PendingAttestation
+  attestation: Attestation | PendingAttestation
 }) {
   const tokens = useGetAttestationTokens(attestation.address, attestation.id);
-  // const credential = useGetAttestation(address, id);
   const showIssuer = useIssuer(attestation!);
   const { revoke, isLoading } = useRevokeToken(attestation?.address!);
   const hasAccess = useIsDelegate(attestation?.address ?? "");
@@ -54,10 +52,9 @@ export function IssuedTokens({
                   <div className="w-10 h-10 relative bg-gradient rounded-full">
                     <Image
                       src={getImageURL(
-                        attestation?.metadata?.logo ??
-                        attestation?.metadata?.banner ??
-                        ""
-                      )} //TODO: add a fall back image as placeholder
+                        attestation?.metadata?.image ??
+                        attestation?.metadata?.banner
+                      )}
                       layout="fill"
                       objectFit="cover"
                       objectPosition="center"

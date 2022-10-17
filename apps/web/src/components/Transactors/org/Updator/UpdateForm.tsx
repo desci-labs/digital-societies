@@ -23,7 +23,7 @@ export default function UpdateForm() {
   const { run, isLoading } = useUpdate(address as string);
 
   const image = watch('banner');
-  const badge = watch('logo');
+  const badge = watch('image');
   
   const canDisable = useMemo(() => !isDirty || isSubmitting || isLoading, [isDirty, isSubmitting, isLoading])
 
@@ -97,16 +97,16 @@ export default function UpdateForm() {
         />
       </InputRow>
       <InputRow
-        htmlFor="logo"
-        label="logo"
+        htmlFor="image"
+        label="Logo"
       >
-        <ErrorMessage errors={errors} name="logo" as="span" className="text-xs text-left text-red-400 font-semibold m-0" />
+        <ErrorMessage errors={errors} name="image" as="span" className="text-xs text-left text-red-400 font-semibold m-0" />
         <ImagePreview image={badge} className="rounded-full" wrapperClassName="w-16 h-16" />
         <FileDropzone<MetadataValues>
-          name="logo"
+          name="image"
           className="h-10"
           disabled={isLoading}
-          hasError={!!errors.logo}
+          hasError={!!errors.image}
         />
       </InputRow>
       <Button

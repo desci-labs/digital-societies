@@ -18,7 +18,7 @@ export default function LaunchForm() {
   const { launch, isLoading } = useLaunch();
 
   const image = watch("banner");
-  const logo = watch("logo");
+  const logo = watch("image");
   const canDisable = useMemo(
     () => isSubmitting || isLoading,
     [isSubmitting, isLoading]
@@ -81,10 +81,10 @@ export default function LaunchForm() {
           hasError={!!errors.banner}
         />
       </InputRow>
-      <InputRow htmlFor="logo" label="logo">
+      <InputRow htmlFor="image" label="logo">
         <ErrorMessage
           errors={errors}
-          name="logo"
+          name="image"
           as="span"
           className="text-xs text-left text-red-400 font-semibold m-0"
         />
@@ -94,10 +94,10 @@ export default function LaunchForm() {
           wrapperClassName="w-16 h-16"
         />
         <FileDropzone<MetadataValues>
-          name="logo"
+          name="image"
           className="h-10"
           disabled={canDisable}
-          hasError={!!errors.logo}
+          hasError={!!errors.image}
         />
       </InputRow>
       <Button

@@ -1,5 +1,5 @@
 import { Metadata, MetadataValues } from "components/Transactors/types";
-import { getBytesFromCIDString } from "helper";
+import { getBytesFromCIDString, resolveIpfsURL } from "helper";
 import { Chain } from "wagmi";
 import { CIDString } from "web3.storage";
 
@@ -17,8 +17,8 @@ async function pinFile(form: FormData): Promise<CIDString[]> {
 }
 
 export async function pinMetadataToIpfs(metadata: MetadataValues) {
-  let imageHash: string = metadata.banner.ipfsHash,
-    logoHash: string = metadata.logo.ipfsHash;
+  let imageHash: string = metadata.banner.ipfsURL,
+    logoHash: string = metadata.image.ipfsURL;
 
   if (metadata.banner.file && metadata.banner.file.size > 0) {
     const formdata = new FormData();
@@ -26,16 +26,16 @@ export async function pinMetadataToIpfs(metadata: MetadataValues) {
     formdata.append(metadata.banner.name, metadata.banner.file);
 
     const res = await pinFile(formdata);
-    imageHash = res[0];
+    imageHash = resolveIpfsURL(res[0]);
   }
 
-  if (metadata.logo?.file && metadata.logo?.file.size > 0) {
+  if (metadata.image?.file && metadata.image?.file.size > 0) {
     const formdata = new FormData();
-    formdata.append("logo", metadata.logo.name);
-    formdata.append(metadata.logo.name, metadata.logo.file);
+    formdata.append("logo", metadata.image.name);
+    formdata.append(metadata.image.name, metadata.image.file);
    
     const res = await pinFile(formdata);
-    logoHash = res[0];
+    logoHash = resolveIpfsURL(res[0]);
   }
 
   // TODO: Validate to check valid CIDString
@@ -43,7 +43,7 @@ export async function pinMetadataToIpfs(metadata: MetadataValues) {
     throw Error("Error pinning uploading files");
   }
 
-  const meta: Metadata = { ...metadata, banner: imageHash, logo: logoHash };
+  const meta: Metadata = { ...metadata, banner: imageHash, image: logoHash };
   const metaRes = await fetch("/api/pinJsonToIpfs", {
     method: "POST",
     body: JSON.stringify(meta),

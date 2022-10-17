@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import Button from "components/UI/Button/Index";
 import { FiEdit } from "react-icons/fi";
 import { Delegates } from "components/UI/Attestation/Delegates";
-import { RevocationHistory } from "components/UI/Attestation/RevocationHistory";
 import { VerifiedBadgeIcon } from "assets/svg";
 
 export default function OrganisationDetails() {
@@ -28,12 +27,12 @@ export default function OrganisationDetails() {
   }, [router.isReady, router.query]);
 
   if (!org) return <Loader className="h-screen" />;
-  console.log(org.address, org.delegates)
+  
   return (
     <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center mb-10">
       <div className="w-full h-88 relative group">
         <ImageBanner src={getImageURL(org.metadata.banner)} alt={org.metadata.name} />
-        <RoundedLogo src={getImageURL(org.metadata.logo)} alt={org.metadata.name} />
+        <RoundedLogo src={getImageURL(org.metadata.image)} alt={org.metadata.name} />
       </div>
       <div className="container mx-auto mt-8 px-2 lg:px-0">
         <div className="flex gap-2 items-center mb-2">

@@ -58,18 +58,15 @@ export default function FactoryUpdater() {
     if (!contract) return null;
     const admin = await contract.getRoleMember(DEFAULT_ADMIN_ROLE, 0);
     const delegates = await getDelegates(contract);
-    console.log('delegates', contract.address, delegates)
     let cid = await contract.contractURI();
     cid = await getCIDStringFromBytes(cid);
     const metadata = (await queryIpfsHash(cid)) as Metadata;
-    // const revocations = await getRevocationHistory(contract);
     const verified = await managerContract?.verified(contract.address) ?? false;
     return {
       metadata,
       cid,
       admin,
       delegates,
-      // revocations,
       verified,
       address: contract.address,
       dateCreated: block.timestamp * 1000,

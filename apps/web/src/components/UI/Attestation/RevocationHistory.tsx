@@ -20,7 +20,7 @@ export function RevocationHistory({
   return (
     <CardContainer>
       <div className="flex justify-between items-center mb-5 text-neutrals-gray-7 mb-2">
-        <h1 className="heading-2">Revocation History</h1>
+        <h1 className="heading-2">Revoked Attestations</h1>
       </div>
       <Table>
         <THead className="text-primary" rows={getRows()} />
@@ -30,7 +30,7 @@ export function RevocationHistory({
               <Cell className="flex justify-start p-2">
                 <div className="w-10 h-10 relative bg-gradient rounded-full">
                   <Image
-                    src={getImageURL(attestation?.metadata?.logo)}
+                    src={getImageURL(attestation?.metadata?.image || attestation.metadata.banner)}
                     layout="fill"
                     objectFit="cover"
                     objectPosition="center"

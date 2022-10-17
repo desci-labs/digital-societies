@@ -12,14 +12,16 @@ type Meta = {
 
 type WithUploadedFiles = {
   banner: string;
-  logo: string;
+  image: string;
+  // logo?: string | undefined; // remove later
 }
 
 export type AttestationType = typeof attestationTypes[number];
 
 export type MetadataValues = Meta & {
   banner: FileObject;
-  logo: FileObject
+  image: FileObject;
+  // logo?: FileObject | undefined;
 }
 
 export type AttestationMetadataValues = MetadataValues & { attestationType: AttestationType }

@@ -29,8 +29,8 @@ export default function AttestationForm() {
     parseInt(id as string)
   );
   const stage = useGetTxStage();
-  const image = watch("banner");
-  const logo = watch("logo");
+  const banner = watch("banner");
+  const logo = watch("image");
   const mode = watch("mode");
   const isUpdateMode = mode === "update";
 
@@ -110,7 +110,7 @@ export default function AttestationForm() {
           as="span"
           className="text-xs text-left text-red-400 font-semibold m-0"
         />
-        <ImagePreview image={image} className="rounded-xl" wrapperClassName="h-32" />
+        <ImagePreview image={banner} className="rounded-xl" wrapperClassName="h-32" />
         <FileDropzone<MetadataValues>
           name="banner"
           className="h-10"
@@ -118,10 +118,10 @@ export default function AttestationForm() {
           hasError={!!errors.banner}
         />
       </InputRow>
-      <InputRow htmlFor="logo" label="logo">
+      <InputRow htmlFor="image" label="logo">
         <ErrorMessage
           errors={errors}
-          name="logo"
+          name="image"
           as="span"
           className="text-xs text-left text-red-400 font-semibold m-0"
         />
@@ -131,10 +131,10 @@ export default function AttestationForm() {
           wrapperClassName="w-16 h-16"
         />
         <FileDropzone<MetadataValues>
-          name="logo"
+          name="image"
           className="h-10"
           disabled={isLoading}
-          hasError={!!errors.logo}
+          hasError={!!errors.image}
         />
       </InputRow>
       <Button

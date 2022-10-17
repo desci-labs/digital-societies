@@ -23,9 +23,9 @@ export function MetadataCard(props: MetaCardProps) {
       className={`bg-transparent dark:text-white min-w-80 w-80 pb-4 cursor-pointer overflow-hidden transition-shadow duration-200 hover:shadow-xl outline-none border border-neutrals-gray-7 hover:border-neutrals-gray-3 dark:hover:border-neutrals-gray-7 dark:border-neutrals-gray-3 focus:border-neutrals-gray-1 dark:focus:border-neutrals-gray-7 ${props.containerClass ?? ''}`}
     >
       <div className={`relative ${props.bannerClass || 'h-32'}`}>
-        <ImageBanner src={getImageURL(props.metadata?.banner || "")} />
+        <ImageBanner src={getImageURL(props.metadata?.banner)} />
         <RoundedLogo
-          src={getImageURL(props.metadata?.logo || "")}
+          src={getImageURL(props.metadata?.image || props.metadata?.banner)}
           className="w-12 h-12 left-3 -bottom-5"
         />
       </div>

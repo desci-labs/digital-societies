@@ -11,7 +11,7 @@ const FILE_SCHEMA = Yup.mixed<FileObject>()
   .test({
     name: "Ipfs hash",
     message: "Invalid ipfs hash",
-    test: (data) => (data?.ipfsHash ? data.ipfsHash.length > 20 : true),
+    test: (data) => (data?.ipfsURL ? data.ipfsURL.length > 20 : true),
   })
   .test({
     name: "size",
@@ -31,7 +31,7 @@ const FILE_SCHEMA = Yup.mixed<FileObject>()
     test: (data) =>
       data?.file
         ? !!data && !!data?.file && !!data?.file?.name && !!data?.file?.size
-        : data?.ipfsHash
+        : data?.ipfsURL
           ? true
           : false,
   });
@@ -66,7 +66,7 @@ export const metadataSchema = Yup.object().shape({
   description: Yup.string().required(),
   external_link: Yup.string().matches(uriPattern, "Invalid url"),
   banner: FILE_SCHEMA.required(),
-  logo: FILE_SCHEMA.required(),
+  image: FILE_SCHEMA.required(),
 });
 
 export const issuerSchema = Yup.object().shape({

@@ -47,7 +47,7 @@ export function Delegates({ address }: { address: string }) {
               <Cell className="flex justify-start p-2">
                 <div className="w-10 h-10 relative bg-gradient rounded-full">
                   <Image
-                    src={getImageURL(org?.metadata?.logo ?? "")}
+                    src={getImageURL(org?.metadata?.image ?? org.metadata.banner)}
                     layout="fill"
                     objectFit="cover"
                     objectPosition="center"
