@@ -1,4 +1,6 @@
 import AddressOrEns from "components/AddressOrEns/Index";
+import AddressCopier from "components/Copier/AddressCopier";
+import Copier from "components/Copier/Index";
 import useDelegater from "components/Transactors/Delegater/useDelegater";
 import useRemoveDelegate from "components/Transactors/Delegater/useRemoveDelegate";
 import { getImageURL } from "helper";
@@ -38,7 +40,7 @@ export function Delegates({ address }: { address: string }) {
         )}
       </div>
       <Table>
-        <THead rows={getRows()}/>
+        <THead rows={getRows()} />
         <TBody>
           {org.delegates.map((delegate, idx) => (
             <Row key={idx} className="border-none table-row">
@@ -55,7 +57,7 @@ export function Delegates({ address }: { address: string }) {
                 </div>
               </Cell>
               <Cell>
-                <AddressOrEns address={delegate} />
+                <AddressCopier address={delegate} />
               </Cell>
               {hasAccess && (
                 <Cell className="p-0">

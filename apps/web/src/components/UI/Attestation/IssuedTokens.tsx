@@ -1,4 +1,5 @@
 import AddressOrEns from "components/AddressOrEns/Index";
+import AddressCopier from "components/Copier/AddressCopier";
 import useIssuer from "components/Transactors/Issuer/useIssuer";
 import useRevokeToken from "components/Transactors/Issuer/useRevokeToken";
 import { getImageURL } from "helper";
@@ -67,10 +68,10 @@ export function IssuedTokens({
                 </Cell>
                 <Cell>{token.tokenId}</Cell>
                 <Cell>
-                  <AddressOrEns address={token.owner} />
+                  <AddressCopier address={token.owner} />
                 </Cell>
                 <Cell>
-                  <AddressOrEns address={token.issuer} />
+                  <AddressCopier address={token.issuer} />
                 </Cell>
                 <Cell>{new Date(token.dateIssued).toDateString()}</Cell>
                 {hasAccess && (

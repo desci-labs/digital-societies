@@ -1,4 +1,4 @@
-import AddressOrEns from "components/AddressOrEns/Index";
+import AddressCopier from "components/Copier/AddressCopier";
 import { getImageURL } from "helper";
 import Image from "next/image";
 import { useGetOrg } from "services/orgs/hooks";
@@ -37,10 +37,10 @@ export function RevocationHistory({ address }: { address: string }) {
               </Cell>
               <Cell>{revoked.tokenId}</Cell>
               <Cell>
-                <AddressOrEns address={revoked.owner} />
+                <AddressCopier address={revoked.owner} />
               </Cell>
               <Cell>
-                <AddressOrEns address={revoked.revokedBy} />
+                <AddressCopier address={revoked.revokedBy} />
               </Cell>
               <Cell>{new Date(revoked.timestamp).toDateString()}</Cell>
             </Row>

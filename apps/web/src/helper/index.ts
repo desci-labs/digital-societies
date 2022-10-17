@@ -35,7 +35,7 @@ export const shortenText = (text: string, charCount: number = 100) =>
 export const shortenAddress = (address: string) => shortenText(address, 10);
 
 export function maskAddress(addr?: string) {
-  const nChars = 6;
+  const nChars = 4;
   if (!addr) {
     return "";
   } else {
