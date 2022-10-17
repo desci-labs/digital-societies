@@ -4,7 +4,7 @@ import { HiOutlineClipboard, HiOutlineCheck } from "react-icons/hi";
 function useCopier() {
   const [copied, setCopied] = useState(false);
 
-  function copy(text: string) {
+  function handleCopy(text: string) {
     navigator.clipboard
       .writeText(text)
       .then(
@@ -17,10 +17,10 @@ function useCopier() {
       );
   }
 
-  return { copy, copied }
+  return { handleCopy, copied }
 }
 
 export default function Copier(props: { text: string; }) {
-  const {copy, copied} = useCopier();
-  return <>{copied ? <HiOutlineCheck /> : <HiOutlineClipboard className="cursor-pointer" onClick={() => copy(props.text)} />}</>
+  const { handleCopy, copied } = useCopier();
+  return <>{copied ? <HiOutlineCheck /> : <HiOutlineClipboard className="cursor-pointer" onClick={() => handleCopy(props.text)} />}</>
 }

@@ -5,7 +5,7 @@ import { W3S_IPFS_GATEWAY } from "pages/api/constants";
 import { Metadata, MetadataValues } from "components/Transactors/types";
 import fallbackImg from "assets/fallback.png";
 
-export const resolveIpfsURL = (hash: string) => `${W3S_IPFS_GATEWAY}${hash}`;
+export const resolveIpfsURL = (hash: string) => `${W3S_IPFS_GATEWAY?.trim()}${hash}`;
 
 export const getBytesFromCIDString = (input: string) => {
   const cid = CID.parse(input);
@@ -47,7 +47,6 @@ export function maskAddress(addr?: string) {
 
 export const getImageURL = (image: string | FileObject) => {
   if (!image) return fallbackImg;
-  console.log('getImageURL', image);
   if (typeof image === "string") {
     if (image.startsWith(W3S_IPFS_GATEWAY!)) return image;
     const cid = CID.parse(image);
