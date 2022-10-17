@@ -17,7 +17,7 @@ export default function FactoryUpdater() {
   const dispatch = useDispatch();
   const orgs = useGetOrgs();
 
-  const contract = useFactoryContract();
+  const managerContract = useFactoryContract();
   const block = useBlockNumber();
 
   const provider = useProvider();
@@ -62,27 +62,29 @@ export default function FactoryUpdater() {
     cid = await getCIDStringFromBytes(cid);
     const metadata = (await queryIpfsHash(cid)) as Metadata;
     const revocations = await getRevocationHistory(contract);
+    const verified = await managerContract?.verified(contract.address) ?? false;
     return {
       metadata,
       cid,
-      dateCreated: block.timestamp * 1000,
-      address: contract.address,
       admin,
       delegates,
       revocations,
+      verified,
+      address: contract.address,
+      dateCreated: block.timestamp * 1000,
     };
   }
 
   const getFactoryTokens = useCallback(
     async () => {
-      if (!block || !contract) return;
+      if (!block || !managerContract) return;
 
       if (block - lastUpdated < 10) return;
 
       try {
         const lastQuery = await provider.getBlockNumber();
-        const filter = contract.filters.TokenCreated();
-        const events = await contract.queryFilter(
+        const filter = managerContract.filters.TokenCreated();
+        const events = await managerContract.queryFilter(
           filter,
           lastUpdated ? lastUpdated - 10 : FACTORY_DEPLOY_BLOCK
         );
@@ -98,17 +100,17 @@ export default function FactoryUpdater() {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [block, contract, dispatch, lastUpdated]
+    [block, managerContract, dispatch, lastUpdated]
   );
 
   useEffect(() => {
     if (
-      contract &&
+      managerContract &&
       block &&
       (orgs.length === 0 || lastUpdated === 0 || block - lastUpdated > 10)
     ) {
       getFactoryTokens();
     }
-  }, [block, lastUpdated, contract, getFactoryTokens, provider, orgs.length]);
+  }, [block, lastUpdated, managerContract, getFactoryTokens, provider, orgs.length]);
   return null;
 }

@@ -48,7 +48,9 @@ export default function useLaunch() {
         delegates: [metadata.issuer],
         dateCreated: block.timestamp * 1000,
         pending: true,
+        verified: false
       };
+      
       dispatch(setOrg(preview));
       updateTx({ step: Step.success, message: "", txHash: tx.hash, previewLink: { href: `/orgs/${address}`, caption: "Preview" } });
       dispatch(setFormLoading(false));

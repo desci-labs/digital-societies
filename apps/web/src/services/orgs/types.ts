@@ -14,6 +14,7 @@ export type OrgMeta = {
   delegates: string[];
   revocations: Revoked[];
   admin: string;
+  verified: boolean;
 };
 
 export type PendingOrg = OrgMeta & {

@@ -11,6 +11,7 @@ import useCredenter from "components/Transactors/Attestation/useCredenter";
 import Button from "components/UI/Button/Index";
 import { FiEdit } from "react-icons/fi";
 import { IssuedTokens } from "components/UI/Attestation/IssuedTokens";
+import { VerifiedBadgeIcon } from "assets/svg";
 
 export default function CredentialDetails() {
   const router = useRouter();
@@ -50,6 +51,7 @@ export default function CredentialDetails() {
           <span className="heading-1 text-left">
             {metadata.name} - {metadata.acronym && (metadata.acronym)}
           </span>
+          {org?.verified && <VerifiedBadgeIcon width="25" heigth="25" />}
           {hasAccess && (
             <Button
               onClick={() => showLauncher()}

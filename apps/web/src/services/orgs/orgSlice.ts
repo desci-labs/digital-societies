@@ -23,7 +23,7 @@ const slice = createSlice({
         const prev = state.data.find(org => org.address === data.address);
         if (!prev) return true;
         if (prev?.pending === true && data.metadata !== null) return true;
-        
+        if (prev.verified !== data.verified) return true;
         if (data.cid !== prev.cid) return true;
       
         // check diff in metadata

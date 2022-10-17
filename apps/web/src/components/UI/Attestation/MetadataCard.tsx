@@ -1,3 +1,4 @@
+import { VerifiedBadgeIcon } from "assets/svg";
 import { Metadata, MetadataValues } from "components/Transactors/types";
 import { getImageURL, shortenText } from "helper";
 import { useRouter } from "next/router";
@@ -8,13 +9,13 @@ export type MetaCardProps = {
   metadata: Metadata | MetadataValues;
   containerClass?: string;
   bannerClass?: string;
+  verified?: boolean;
 };
 
 export function MetadataCard(props: MetaCardProps) {
   const router = useRouter();
 
   if (!props.metadata) return null;
-
   return (
     <div
       tabIndex={0}
@@ -30,9 +31,12 @@ export function MetadataCard(props: MetaCardProps) {
       </div>
       <div className="px-2 mt-6 flex flex-col justify-between gap-1 h-32">
         <div>
-          <span className="text-md block font-bold mb-1 truncate">
-            {props.metadata.name}
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-md block font-bold mb-1 truncate">
+              {props.metadata.name}
+            </span>
+            {props.verified && <VerifiedBadgeIcon />}
+          </div>
           <span className="text-[13px] text-neutrals-gray-4 block">
             {shortenText(props.metadata.description)}
           </span>

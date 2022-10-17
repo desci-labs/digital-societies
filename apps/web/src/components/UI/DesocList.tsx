@@ -13,6 +13,7 @@ export default function DesocList() {
   if (data.length === 0) {
     return <NoContent />;
   }
+
   return (
     <div className="container mx-auto py-10 grid grid-cols-1 content-start gap-y-10 place-items-center mt-10">
       {data.map((org, idx) => (
@@ -20,6 +21,7 @@ export default function DesocList() {
           key={idx}
           link={`orgs/${org.address}`}
           metadata={org.metadata}
+          verified={org.verified}
           bannerClass="h-40"
         />
       ))}

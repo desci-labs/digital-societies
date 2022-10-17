@@ -39,6 +39,7 @@ export function AttestationGridView({ address }: { address: string }) {
             <MetadataCard
               key={idx}
               metadata={attestation.metadata}
+              verified={org?.verified}
               link={`/attestations/${attestation.id}?address=${attestation.address}`}
             />
           ))}

@@ -10,6 +10,7 @@ import Button from "components/UI/Button/Index";
 import { FiEdit } from "react-icons/fi";
 import { Delegates } from "components/UI/Attestation/Delegates";
 import { RevocationHistory } from "components/UI/Attestation/RevocationHistory";
+import { VerifiedBadgeIcon } from "assets/svg";
 
 export default function OrganisationDetails() {
   const router = useRouter();
@@ -35,10 +36,11 @@ export default function OrganisationDetails() {
         <RoundedLogo src={getImageURL(org.metadata.logo)} alt={org.metadata.name} />
       </div>
       <div className="container mx-auto mt-8 px-2 lg:px-0">
-        <div className="flex gap-3 items-center mb-2">
+        <div className="flex gap-2 items-center mb-2">
           <span className="heading-1 text-left">
-            {org.metadata.name} - {org.metadata.acronym && (org.metadata.acronym)}
+            {org.metadata.name}
           </span>
+          {org.verified && <VerifiedBadgeIcon width="25" heigth="25" />}
           {hasAccess && (
             <Button
               onClick={() => showUpdater()}
