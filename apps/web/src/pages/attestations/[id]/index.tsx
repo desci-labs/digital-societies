@@ -12,6 +12,7 @@ import Button from "components/UI/Button/Index";
 import { FiEdit } from "react-icons/fi";
 import { IssuedTokens } from "components/UI/Attestation/IssuedTokens";
 import { VerifiedBadgeIcon } from "assets/svg";
+import { RevocationHistory } from "components/UI/Attestation/RevocationHistory";
 
 export default function CredentialDetails() {
   const router = useRouter();
@@ -65,7 +66,8 @@ export default function CredentialDetails() {
           {metadata.description}
         </span>
       </div>
-      <IssuedTokens id={credential.id} address={credential.address} />
+      <IssuedTokens attestation={credential!} />
+      <RevocationHistory attestation={credential!} />
     </div>
   );
 }

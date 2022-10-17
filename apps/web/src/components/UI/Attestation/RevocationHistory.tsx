@@ -1,13 +1,17 @@
 import AddressCopier from "components/Copier/AddressCopier";
 import { getImageURL } from "helper";
 import Image from "next/image";
-import { useGetOrg } from "services/orgs/hooks";
+import { useGetRevokedAttestationTokens } from "services/attestations/hooks";
+import { Attestation, PendingAttestation } from "services/attestations/types";
 import { CardContainer } from "../Index";
 import { Cell, Row, Table, TBody, THead } from "../Table";
 
-export function RevocationHistory({ address }: { address: string }) {
-  const org = useGetOrg(address);
-  if (!org?.delegates || org.delegates.length === 0) return null;
+export function RevocationHistory({
+  attestation
+}: {
+  attestation: Attestation | PendingAttestation
+}) {
+  const tokens = useGetRevokedAttestationTokens(attestation.address, attestation.id);
 
   const getRows = () => {
     return ["logo", "TokenId", "recipient", "revoked by", "date revoked"];
@@ -21,16 +25,16 @@ export function RevocationHistory({ address }: { address: string }) {
       <Table>
         <THead className="text-primary" rows={getRows()} />
         <TBody>
-          {org.revocations.map((revoked, idx) => (
+          {tokens.map((revoked, idx) => (
             <Row key={idx} className="border-none table-row">
               <Cell className="flex justify-start p-2">
                 <div className="w-10 h-10 relative bg-gradient rounded-full">
                   <Image
-                    src={getImageURL(org?.metadata?.logo)}
+                    src={getImageURL(attestation?.metadata?.logo)}
                     layout="fill"
                     objectFit="cover"
                     objectPosition="center"
-                    alt={`${org?.metadata.name} image`}
+                    alt={`${attestation?.metadata.name} image`}
                     className="rounded-full block"
                   />
                 </div>
@@ -42,7 +46,7 @@ export function RevocationHistory({ address }: { address: string }) {
               <Cell>
                 <AddressCopier address={revoked.revokedBy} />
               </Cell>
-              <Cell>{new Date(revoked.timestamp).toDateString()}</Cell>
+              <Cell>{new Date(revoked.dateRevoked).toDateString()}</Cell>
             </Row>
           ))}
         </TBody>

@@ -4,6 +4,7 @@ import {
   Attestation,
   AttestationMap,
   AttestationState,
+  AttestationTokens,
   AttestationToTokenMap,
   PendingAttestation,
 } from "./types";
@@ -93,7 +94,7 @@ const slice = createSlice({
         }
 
         state.tokens[org] = state.tokens[org].filter((t) => {
-          if (payload[org].find((data) => t.tokenId == data.tokenId || (t.attestation === data.attestation && t.owner === data.owner))) {
+          if (payload[org].find((data) => t.tokenId == data.tokenId && (t.attestation === data.attestation && t.owner === data.owner))) {
             return false;
           }
           return true
@@ -105,19 +106,25 @@ const slice = createSlice({
       state,
       { payload }: PayloadAction<{ tokenIds: number[]; address: string }>
     ) => {
-      const update = state.tokens[payload.address].filter(
-        (token) => !payload.tokenIds.includes(token.tokenId)
-      );
-      state.tokens[payload.address] = update;
+      state.tokens[payload.address] = state.tokens[payload.address].filter(
+        (token) => {
+          if (payload.tokenIds.includes(token.tokenId)) return true;
+          return false;
+        }
+      );;
     },
-    removeToken: (
+    updateTokens: (
       state,
-      { payload }: PayloadAction<{ tokenId: number; address: string }>
+      { payload }: PayloadAction<{ tokens: AttestationTokens[]; address: string }>
     ) => {
-      const update = state.tokens[payload.address].filter(
-        (token) => token.tokenId != payload.tokenId
-      );
-      state.tokens[payload.address] = update;
+      console.log('update ', payload, state.tokens[payload.address].length);
+      state.tokens[payload.address] = state.tokens[payload.address].map(
+        (token) => {
+          const update = payload.tokens.find(t => t.tokenId === token.tokenId);
+          if (!update) return token;
+          return update
+        }
+      );;
     },
   },
 });
@@ -129,6 +136,6 @@ export const {
   setAttestations,
   setIsLoading,
   setTokens,
-  removeToken,
   removeTokens,
+  updateTokens,
 } = slice.actions;

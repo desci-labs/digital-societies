@@ -1,4 +1,5 @@
 import { useGetter } from "store/accessors";
+import { AttestationToken, RevokedAttestationToken } from "./types";
 
 export function useGetAttestationState() {
   const state = useGetter(state => state.attestations);
@@ -22,5 +23,10 @@ export function useGetTokens(address: string) {
 
 export function useGetAttestationTokens(address: string, attestation: number) {
   const tokens = useGetTokens(address);
-  return tokens.filter((token) => token.attestation === attestation);
+  return tokens.filter((token) => token.attestation === attestation && token.active === true) as AttestationToken[];
+}
+
+export function useGetRevokedAttestationTokens(address: string, attestation: number): RevokedAttestationToken[] {
+  const tokens = useGetTokens(address);
+  return tokens.filter((token) => token.attestation === attestation && token.active === false) as RevokedAttestationToken[];
 }

@@ -28,7 +28,7 @@ export default function OrganisationDetails() {
   }, [router.isReady, router.query]);
 
   if (!org) return <Loader className="h-screen" />;
-
+  console.log(org.address, org.delegates)
   return (
     <div className="w-full grid grid-cols-1 content-start gap-y-5 place-items-center mb-10">
       <div className="w-full h-88 relative group">
@@ -56,7 +56,6 @@ export default function OrganisationDetails() {
       </div>
       <AttestationGridView address={org.address} />
       <Delegates address={org.address} />
-      <RevocationHistory address={org.address} />
     </div>
   );
 }

@@ -30,6 +30,7 @@ export default function useIssueAttestation(address: string) {
       dateIssued: Date.now(),
       issuer: account!,
       owner: owner,
+      active: true,
     }))
 
     const payload: AttestationToTokenMap = { [address]: tokenIds }
@@ -59,7 +60,6 @@ export default function useIssueAttestation(address: string) {
       if (payload !== undefined) {
         dispatch(removeTokens({ address, tokenIds: payload[address].map(t => t.tokenId)}))
       }
-      // dispatch(removeTokens({ address }))
       updateTx({ step: Step.error, message: "An error occured while issuing credentials" });
       dispatch(setFormLoading(false));
       dispatch(setFormError(e?.data?.message ?? e?.message));

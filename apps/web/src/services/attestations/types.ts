@@ -1,15 +1,30 @@
 import { Metadata, MetadataValues } from "components/Transactors/types";
 
-export type AttestationToken = {
+export type AttestationToken  = {
   org: string;
   tokenId: number;
   attestation: number;
   dateIssued: number;
   issuer: string;
   owner: string;
+  active: true;
 };
 
-export type AttestationToTokenMap = Record<string, AttestationToken[]>;
+
+export type RevokedAttestationToken = {
+  org: string;
+  tokenId: number;
+  attestation: number;
+  dateRevoked: number;
+  issuer: string;
+  owner: string;
+  active: false;
+  revokedBy: string;
+};
+
+export type AttestationTokens = AttestationToken | RevokedAttestationToken;
+
+export type AttestationToTokenMap = Record<string, AttestationTokens[]>;
 
 type AttestationMeta = {
   id: number;

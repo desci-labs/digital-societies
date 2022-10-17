@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { compareMetadata } from "helper";
-import { FactoryState, Org, PendingOrg, Revoked } from "./types";
+import { FactoryState, Org, PendingOrg } from "./types";
 
 const initialState: FactoryState = { data: [], isLoading: true };
 
@@ -25,6 +25,7 @@ const slice = createSlice({
         if (prev?.pending === true && data.metadata !== null) return true;
         if (prev.verified !== data.verified) return true;
         if (data.cid !== prev.cid) return true;
+        if (data.delegates.length !== prev.delegates.length) return true;
       
         // check diff in metadata
         const canUpdate = compareMetadata(prev.metadata, data.metadata);
@@ -78,21 +79,8 @@ const slice = createSlice({
       if (!org?.delegates.includes(payload.delegate)) return;
       org.delegates = org?.delegates.filter(el => el !== payload.delegate)
     },
-
-    addRevocation(state, { payload }: PayloadAction<{ org: string; token: Revoked }>) {
-      const org = state.data.find(org => org.address === payload.org);
-      const exists = org?.revocations.find(t => t.tokenId);
-      if (exists?.tokenId === payload.token.tokenId) return;
-      org?.revocations.push(payload.token);
-    },
-
-    deleteRevocation(state, { payload }: PayloadAction<{ org: string; tokenId: number }>) {
-      const org = state.data.find(org => org.address === payload.org);
-      if (!org?.revocations) return;
-      org.revocations = org.revocations.filter(data => data.tokenId !== payload.tokenId);
-    },
   },
 });
 
 export default slice.reducer;
-export const { resetOrgs, setOrg, setOrgs, setIsLoading, addDelegate, removeDelegate, addRevocation, deleteRevocation } = slice.actions;
+export const { resetOrgs, setOrg, setOrgs, setIsLoading, addDelegate, removeDelegate } = slice.actions;

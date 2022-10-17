@@ -12,7 +12,7 @@ export type OrgMeta = {
   address: string;
   dateCreated: number;
   delegates: string[];
-  revocations: Revoked[];
+  // revocations: Revoked[];
   admin: string;
   verified: boolean;
 };
