@@ -13,7 +13,7 @@ export default function Toolbar(props: {
       <div className="flex items-center p-1 px-3 border border-text">
         <Input
           placeholder="search"
-          name="orgSearch"
+          id="orgSearch"
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             props.onhSearchTextChange(e.target.value)
           }
@@ -24,10 +24,10 @@ export default function Toolbar(props: {
           {props.isDebouncing ? (
             <RiLoader5Fill
               size={20}
-              className="text-tint-primary-hover animate-spin"
+              className="text-tint-primary-hover animate-spin cursor-pointer"
             />
           ) : (
-            <HiOutlineSearch className="text-tint-primary-hover" size={20} />
+              <HiOutlineSearch className="text-tint-primary-hover cursor-pointer" size={20} />
           )}
         </label>
       </div>
