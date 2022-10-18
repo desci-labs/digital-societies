@@ -1,5 +1,6 @@
-import { useGetOrgs } from "services/orgs/hooks";
+import { useGetOrg, useGetOrgs } from "services/orgs/hooks";
 import { useAccount } from "wagmi";
+import useRouterAddress from "./useRouterAddress";
 
 function useConnectedUserDesoc(address: string = "") {
   const orgs = useGetOrgs();
@@ -7,8 +8,10 @@ function useConnectedUserDesoc(address: string = "") {
 }
 
 export default function useDashboard() {
-  const { address } = useAccount();
-  const org = useConnectedUserDesoc(address);
-
-  return { org, showDashboard: !!org }
+  const { address: account } = useAccount();
+  const address = useRouterAddress();
+  const org = useConnectedUserDesoc(account);
+  const currentOrg = useGetOrg(address);
+  
+  return { org, showDashboard: !!org, hasAccess: currentOrg && currentOrg.address === org?.address }
 }

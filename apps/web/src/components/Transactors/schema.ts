@@ -63,6 +63,7 @@ const ADDRES_SCHEMA = Yup.mixed<string>()
 
 export const metadataSchema = Yup.object().shape({
   name: Yup.string().required(),
+  acronym: Yup.string(),
   description: Yup.string().required(),
   external_link: Yup.string().matches(uriPattern, "Invalid url"),
   banner: FILE_SCHEMA.required(),
