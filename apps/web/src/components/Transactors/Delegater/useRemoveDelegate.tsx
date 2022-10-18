@@ -36,7 +36,7 @@ export default function useRemoveDelegate(address: string) {
       updateTx({
         step: Step.success,
         txHash: tx.hash,
-        message: `Delegate role revoked for ${maskAddress(
+        message: `Role revoked for ${maskAddress(
           delegate.toLowerCase()
         )}`,
       });

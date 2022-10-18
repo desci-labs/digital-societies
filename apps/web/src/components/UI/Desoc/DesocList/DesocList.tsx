@@ -1,6 +1,6 @@
 import Loader from "components/Loader";
 import Link from "next/link";
-import { MetadataCard } from "../Attestation/MetadataCard";
+import { MetadataCard } from "../../Attestation/MetadataCard";
 import Toolbar from "./Toolbar";
 import useFilteredOrg from "./useFilteredOrg";
 

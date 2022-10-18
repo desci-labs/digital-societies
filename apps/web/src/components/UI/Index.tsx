@@ -51,3 +51,8 @@ export function CardContainer(props: PropsWithChildren<{ className?: string }>) 
     <div className={`container mx-auto pb-5 pt-2 px-2 lg:px-0 mt-10 shadow-md dark:shadow-dark hover:shadow-2xl duration-100 ${props.className}`}>{props.children}</div>
   )
 }
+export function ContentGrid(props: PropsWithChildren<{ className?: string }>) {
+  return (
+    <div className={`w-full grid grid-cols-1 content-start gap-y-5 place-items-center mb-10 ${props.className}`}>{props.children}</div>
+  )
+}
