@@ -9,8 +9,8 @@ export default function Toolbar(props: {
   onhSearchTextChange: (text: string) => void;
 }) {
   return (
-    <div className="flex justify-end app-bg min-w-80 w-80 sticky top-0 backdrop-filter backdrop-blur-sm">
-      <div className="flex items-center w-full gap-2 p-1 px-3 border border-text">
+    <div className="mx-auto app-bg min-w-80 w-80 sticky top-0 backdrop-filter backdrop-blur-sm">
+      <div className="flex items-center p-1 px-3 border border-text">
         <Input
           placeholder="search"
           name="orgSearch"

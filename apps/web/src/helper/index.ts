@@ -48,9 +48,7 @@ export function maskAddress(addr?: string) {
 export const getImageURL = (image: string | FileObject) => {
   if (!image) return fallbackImg;
   if (typeof image === "string") {
-    console.log('parse ', image);
     if (image.startsWith(W3S_IPFS_GATEWAY!.trim())) return image;
-    console.log('parsed', image);
     const cid = CID.parse(image);
     if (cid) return resolveIpfsURL(cid.toString());
     return "";

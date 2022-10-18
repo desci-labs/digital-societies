@@ -23,7 +23,7 @@ export default function DesocList() {
   }
 
   return (
-    <div className="container flex flex-col items-center mt-5">
+    <div className="container mx-auto w-full mt-5">
       <Toolbar
         searchText={searchText}
         onhSearchTextChange={handleSearchTextChange}
