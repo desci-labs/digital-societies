@@ -40,8 +40,8 @@ export default function Header() {
           </NavLink>
         )}
       </div>
-      <div className="flex gap-5 items-center">
-        <TransactionHint />
+      <div className="flex gap-2 items-center">
+       
         {!hide && !showDashboard && (
           <NavLink
             href="/launch"
@@ -51,10 +51,11 @@ export default function Header() {
             Launch an organisation
           </NavLink>
         )}
+        <TransactionHint />
         <div className="hidden sm:block">
           <ConnectButton showBalance={false} />
         </div>
-        {/* <ThemeTogger /> */}
+        <ThemeTogger />
         <MenuTrigger />
       </div>
       <MobileMenu />
@@ -75,6 +76,7 @@ function MenuTrigger() {
 
 function ThemeTogger() {
   const { resolvedTheme } = useTheme();
+  
   return (
     <div className="flex items-center rounded-lg">
       <Button>
