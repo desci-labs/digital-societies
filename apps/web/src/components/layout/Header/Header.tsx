@@ -25,15 +25,15 @@ export default function Header() {
         <DesocIcon width="15" heigth="15" />
         <NavLink
           href="/"
-          activeClassName="border-b-2 border-white text-neutrals-gray-1 dark:text-white"
+          activeClassName="border-dark dark:border-white dark:text-neutrals-gray-7"
           className="hidden sm:block text-neutrals-gray-3 dark:text-neutrals-gray-5 hover:text-neutrals-gray-3 dark:hover:text-neutrals-gray-7 border-b-2 border-transparent hover:border-black dark:hover:border-white"
         >
           Explore
         </NavLink>
         {showDashboard && (
           <NavLink
-            href={`/dasbhoard/${org?.address}`}
-            activeClassName="border-b-2 border-white text-neutrals-gray-1 dark:text-white"
+            href={`/dashboard/${org?.address}`}
+            activeClassName="border-dark dark:border-white dark:text-neutrals-gray-7"
             className="hidden sm:block text-neutrals-gray-3 dark:text-neutrals-gray-5 hover:text-neutrals-gray-3 dark:hover:text-neutrals-gray-7 border-b-2 border-transparent hover:border-black dark:hover:border-white"
           >
             Dashboard
@@ -96,7 +96,7 @@ function MobileMenu() {
   const opened = useMobileMenu();
   const { isConnected } = useAccount();
   const [hide, setHidden] = useState(true);
-  const { showDashboard } = useDashboard();
+  const { org, showDashboard } = useDashboard();
 
   useEffect(() => {
     setHidden(!isConnected);
@@ -111,7 +111,7 @@ function MobileMenu() {
       <ul className="responsive-nav transition-opacity duration-500">
         <li className="block text-sm px-2 py-4 hover:bg-primary-over hover:text-black transition duration-300">
           <NavLink
-            href="/"
+            href={`/dashboard/${org?.address}`}
             activeClassName="border-b-2 border-white text-black dark:text-white"
             className="text-neutrals-gray-3 dark:text-neutrals-gray-5 hover:text-neutrals-gray-3 dark:hover:text-neutrals-gray-7 border-b-2 border-transparent hover:border-black dark:hover:border-white"
           >

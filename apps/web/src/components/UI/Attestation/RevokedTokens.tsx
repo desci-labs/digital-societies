@@ -6,7 +6,7 @@ import { Attestation, PendingAttestation } from "services/attestations/types";
 import { CardContainer } from "../Index";
 import { Cell, Row, Table, TBody, THead } from "../Table";
 
-export function RevocationHistory({
+export function RevokedTokens({
   attestation
 }: {
   attestation: Attestation | PendingAttestation

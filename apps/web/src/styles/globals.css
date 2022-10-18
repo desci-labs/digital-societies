@@ -45,7 +45,7 @@ body.modal-open {
     @apply light-gradient dark:dark-gradient;
   }
   
-  .text {
+  .app-text {
     @apply text-dark dark:text-white;
   }
 
@@ -54,7 +54,7 @@ body.modal-open {
   }
 
   .heading-1 {
-    @apply text-3xl text block font-bold
+    @apply text-3xl app-text block font-bold
   }
   
   .heading-2 {
@@ -74,6 +74,6 @@ body.modal-open {
   }
 
   .table-row {
-    @apply text hover:text-white dark:hover:text-white
+    @apply app-text hover:text-white dark:hover:text-white
   }
 }

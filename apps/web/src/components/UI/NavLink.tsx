@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { AnchorHTMLAttributes, HTMLProps } from "react";
+import { AnchorHTMLAttributes, HTMLProps, useMemo } from "react";
 
 export default function NavLink(
   props: HTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>> & {
@@ -9,11 +9,20 @@ export default function NavLink(
   }
 ) {
   const router = useRouter();
+
+  const isActive = useMemo(() => {
+    if (router.pathname === props.href) return true;
+    if (props.href === "/") return false;
+    return (
+      router.pathname.toLowerCase().search(props.href.toLowerCase()) !== -1
+    );
+  }, [props.href, router.pathname]);
+
   return (
     <Link href={props.href}>
       <a
-        className={`font-normal text-regent-gray hover:text-white ${props.className ?? ''} ${
-          router.pathname === props.href ? props.activeClassName : ""
+        className={`font-normal hover:text-white ${props.className ?? ""} ${
+          isActive ? props.activeClassName : ""
         }`}
       >
         {props.children}
