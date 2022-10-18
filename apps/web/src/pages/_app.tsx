@@ -13,23 +13,23 @@ import { ThemeProvider } from 'next-themes'
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider attribute='class'>
-    <Provider store={store}>
-      <Head>
-        <title>Credential Manager App</title>
-        <meta
-          name="description"
-          content="Credential manager app by Desci Labs"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <PersistGate loading={null} persistor={persistor}>
-        <AppProviders>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </AppProviders>
-      </PersistGate>
-    </Provider>
+      <Provider store={store}>
+        <Head>
+          <title>Credential Manager App</title>
+          <meta
+            name="description"
+            content="Credential manager app by Desci Labs"
+          />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <PersistGate loading={null} persistor={persistor}>
+          <AppProviders>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </AppProviders>
+        </PersistGate>
+      </Provider>
     </ThemeProvider>
   );
 }

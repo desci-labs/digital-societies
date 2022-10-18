@@ -31,9 +31,3 @@ export function useIsAdminOrDelegate(address: string) {
   const isAdmin = useIsAdmin(address,);
   return isDelegate || isAdmin;
 }
-
-// export function useGetRevocations(address: string, type: number) {
-//   const org = useGetOrg(address);
-//   return org?.revocations.filter(token => token.) ?? [];
-// }
-
