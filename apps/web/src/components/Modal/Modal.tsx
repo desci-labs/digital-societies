@@ -14,7 +14,7 @@ import { Handlers, Opener, Props } from "./types";
 export default function ModalProvider(props: Props) {
   const [Content, setContent] = useState<ReactNode>();
   const ref = useRef<HTMLDivElement>();
-  const [backdropDismiss, setBackdropDismiss] = useState(true);
+  const [backdropDismiss, setBackdropDismiss] = useState(false);
   const escKeyPressed = useKeyPress("Escape");
 
 
@@ -48,7 +48,7 @@ export default function ModalProvider(props: Props) {
 
 
   const showModal: Opener = (Content, props) => {
-    setBackdropDismiss(props.isDismissDisabled ?? true);
+    setBackdropDismiss(props.isDismissDisabled ?? false);
     setContent(<Content {...props} inModal={true} />);
     toggleBodyScroll(false);
   };
@@ -65,7 +65,7 @@ export default function ModalProvider(props: Props) {
   function closeModal() {
     toggleBodyScroll(true);
     setContent(undefined);
-    setBackdropDismiss(true);
+    // setBackdropDismiss(false);
   }
 
   return (
