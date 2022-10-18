@@ -7,7 +7,7 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { useMobileMenu, useSetMobileMenu } from "./useAppMenu";
-import { MdOutlineLightMode, MdOutlineNightlight } from "react-icons/md";
+import { BsFillMoonFill, BsFillBrightnessHighFill } from "react-icons/bs";
 import useDashboard from "hooks/useDashboard";
 
 export default function Header() {
@@ -41,7 +41,7 @@ export default function Header() {
         )}
       </div>
       <div className="flex gap-2 items-center">
-       
+
         {!hide && !showDashboard && (
           <NavLink
             href="/launch"
@@ -75,19 +75,19 @@ function MenuTrigger() {
 }
 
 function ThemeTogger() {
-  const { resolvedTheme } = useTheme();
-  
+  const { resolvedTheme, setTheme } = useTheme();
+
   return (
     <div className="flex items-center rounded-lg">
-      <Button>
-        {resolvedTheme === "dark" ? (
-          <MdOutlineLightMode
-            className="duration-300"
-            color="white"
-            size={15}
-          />
+      <Button onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}>
+        {resolvedTheme === "light" ? (
+          <BsFillMoonFill size={20} fill="#142E0C" />
         ) : (
-          <MdOutlineNightlight size={15} />
+          <BsFillBrightnessHighFill
+            className="duration-300"
+              color="#EDF492"
+            size={20}
+          />
         )}
       </Button>
     </div>
@@ -106,9 +106,8 @@ function MobileMenu() {
 
   return (
     <div
-      className={`z-50 pointer-none opacity-0 sm:hidden mobile-menu absolute left-0 right-0 top-[100%] bg-white dark:bg-dark dark:bg-gradient-to-b dark:from-rich-black dark:to-black transition-all overflow-hidden ${
-        opened ? "pointer-click opacity-100" : "h-0"
-      }`}
+      className={`z-50 pointer-none opacity-0 sm:hidden mobile-menu absolute left-0 right-0 top-[100%] bg-white dark:bg-dark dark:bg-gradient-to-b dark:from-rich-black dark:to-black transition-all overflow-hidden ${opened ? "pointer-click opacity-100" : "h-0"
+        }`}
     >
       <ul className="responsive-nav transition-opacity duration-500">
         <li className="block text-sm px-2 py-4 hover:bg-primary-over hover:text-black transition duration-300">

@@ -12,7 +12,7 @@ export default function TransactionHint() {
   switch (step) {
     case Step.error:
       return (
-        <StatusButton Icon={AiOutlineExclamationCircle} iconClass="text-error" />
+        <StatusButton Icon={AiOutlineExclamationCircle} iconClass="text-states-error" />
       );
     case Step.broadcast:
     case Step.submit:
