@@ -69,9 +69,9 @@
           "type": "string"
         },
         {
-          "internalType": "bytes",
+          "internalType": "string",
           "name": "_metadata",
-          "type": "bytes"
+          "type": "string"
         }
       ],
       "name": "deployToken",

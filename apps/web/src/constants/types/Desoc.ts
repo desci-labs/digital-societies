@@ -45,7 +45,7 @@ export interface DesocInterface extends utils.Interface {
     "hasRole(bytes32,address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "mint(address,uint16)": FunctionFragment;
-    "mintTokenType(bytes)": FunctionFragment;
+    "mintTokenType(string)": FunctionFragment;
     "name()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
@@ -54,7 +54,7 @@ export interface DesocInterface extends utils.Interface {
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
-    "setContractURI(bytes)": FunctionFragment;
+    "setContractURI(string)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenIdToType(uint256)": FunctionFragment;
@@ -65,7 +65,7 @@ export interface DesocInterface extends utils.Interface {
     "typeToOwner(uint16,address)": FunctionFragment;
     "typeURI(uint16)": FunctionFragment;
     "updateTokenIdType(uint256,uint16)": FunctionFragment;
-    "updateTypeURI(uint16,bytes)": FunctionFragment;
+    "updateTypeURI(uint16,string)": FunctionFragment;
   };
 
   getFunction(
@@ -175,7 +175,7 @@ export interface DesocInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "mintTokenType",
-    values: [PromiseOrValue<BytesLike>]
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
@@ -217,7 +217,7 @@ export interface DesocInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "setContractURI",
-    values: [PromiseOrValue<BytesLike>]
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "supportsInterface",
@@ -262,7 +262,7 @@ export interface DesocInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "updateTypeURI",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BytesLike>]
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
   ): string;
 
   decodeFunctionResult(
@@ -379,8 +379,8 @@ export interface DesocInterface extends utils.Interface {
     "RoleRevoked(bytes32,address,address)": EventFragment;
     "TokenIdTypeUpdated(uint256,uint16)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
-    "TypeCreated(uint16,address,bytes)": EventFragment;
-    "TypeUpdated(uint16,bytes)": EventFragment;
+    "TypeCreated(uint16,address,string)": EventFragment;
+    "TypeUpdated(uint16,string)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
@@ -635,7 +635,7 @@ export interface Desoc extends BaseContract {
     ): Promise<ContractTransaction>;
 
     mintTokenType(
-      typeURI_: PromiseOrValue<BytesLike>,
+      typeURI_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -685,7 +685,7 @@ export interface Desoc extends BaseContract {
     ): Promise<ContractTransaction>;
 
     setContractURI(
-      contractURI_: PromiseOrValue<BytesLike>,
+      contractURI_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -736,7 +736,7 @@ export interface Desoc extends BaseContract {
 
     updateTypeURI(
       _tokenType: PromiseOrValue<BigNumberish>,
-      _typeURI_: PromiseOrValue<BytesLike>,
+      _typeURI_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
@@ -820,7 +820,7 @@ export interface Desoc extends BaseContract {
   ): Promise<ContractTransaction>;
 
   mintTokenType(
-    typeURI_: PromiseOrValue<BytesLike>,
+    typeURI_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -870,7 +870,7 @@ export interface Desoc extends BaseContract {
   ): Promise<ContractTransaction>;
 
   setContractURI(
-    contractURI_: PromiseOrValue<BytesLike>,
+    contractURI_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -921,7 +921,7 @@ export interface Desoc extends BaseContract {
 
   updateTypeURI(
     _tokenType: PromiseOrValue<BigNumberish>,
-    _typeURI_: PromiseOrValue<BytesLike>,
+    _typeURI_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1005,7 +1005,7 @@ export interface Desoc extends BaseContract {
     ): Promise<void>;
 
     mintTokenType(
-      typeURI_: PromiseOrValue<BytesLike>,
+      typeURI_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1055,7 +1055,7 @@ export interface Desoc extends BaseContract {
     ): Promise<void>;
 
     setContractURI(
-      contractURI_: PromiseOrValue<BytesLike>,
+      contractURI_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1106,7 +1106,7 @@ export interface Desoc extends BaseContract {
 
     updateTypeURI(
       _tokenType: PromiseOrValue<BigNumberish>,
-      _typeURI_: PromiseOrValue<BytesLike>,
+      _typeURI_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -1137,25 +1137,25 @@ export interface Desoc extends BaseContract {
     "Mint(address,address,uint256,uint16)"(
       mintedBy?: PromiseOrValue<string> | null,
       to?: PromiseOrValue<string> | null,
-      tokenId?: null,
+      tokenId?: PromiseOrValue<BigNumberish> | null,
       tokenType?: null
     ): MintEventFilter;
     Mint(
       mintedBy?: PromiseOrValue<string> | null,
       to?: PromiseOrValue<string> | null,
-      tokenId?: null,
+      tokenId?: PromiseOrValue<BigNumberish> | null,
       tokenType?: null
     ): MintEventFilter;
 
     "Revoked(address,address,uint256)"(
       revokedBy?: PromiseOrValue<string> | null,
       owner?: PromiseOrValue<string> | null,
-      tokenId?: null
+      tokenId?: PromiseOrValue<BigNumberish> | null
     ): RevokedEventFilter;
     Revoked(
       revokedBy?: PromiseOrValue<string> | null,
       owner?: PromiseOrValue<string> | null,
-      tokenId?: null
+      tokenId?: PromiseOrValue<BigNumberish> | null
     ): RevokedEventFilter;
 
     "RoleAdminChanged(bytes32,bytes32,bytes32)"(
@@ -1211,7 +1211,7 @@ export interface Desoc extends BaseContract {
       tokenId?: PromiseOrValue<BigNumberish> | null
     ): TransferEventFilter;
 
-    "TypeCreated(uint16,address,bytes)"(
+    "TypeCreated(uint16,address,string)"(
       tokenType?: null,
       createdBy?: PromiseOrValue<string> | null,
       uri?: null
@@ -1222,7 +1222,7 @@ export interface Desoc extends BaseContract {
       uri?: null
     ): TypeCreatedEventFilter;
 
-    "TypeUpdated(uint16,bytes)"(
+    "TypeUpdated(uint16,string)"(
       tokenType?: null,
       uri?: null
     ): TypeUpdatedEventFilter;
@@ -1309,7 +1309,7 @@ export interface Desoc extends BaseContract {
     ): Promise<BigNumber>;
 
     mintTokenType(
-      typeURI_: PromiseOrValue<BytesLike>,
+      typeURI_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1359,7 +1359,7 @@ export interface Desoc extends BaseContract {
     ): Promise<BigNumber>;
 
     setContractURI(
-      contractURI_: PromiseOrValue<BytesLike>,
+      contractURI_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1410,7 +1410,7 @@ export interface Desoc extends BaseContract {
 
     updateTypeURI(
       _tokenType: PromiseOrValue<BigNumberish>,
-      _typeURI_: PromiseOrValue<BytesLike>,
+      _typeURI_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
@@ -1497,7 +1497,7 @@ export interface Desoc extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     mintTokenType(
-      typeURI_: PromiseOrValue<BytesLike>,
+      typeURI_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1547,7 +1547,7 @@ export interface Desoc extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setContractURI(
-      contractURI_: PromiseOrValue<BytesLike>,
+      contractURI_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1598,7 +1598,7 @@ export interface Desoc extends BaseContract {
 
     updateTypeURI(
       _tokenType: PromiseOrValue<BigNumberish>,
-      _typeURI_: PromiseOrValue<BytesLike>,
+      _typeURI_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };

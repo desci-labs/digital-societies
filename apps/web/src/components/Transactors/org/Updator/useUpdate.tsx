@@ -30,7 +30,7 @@ export default function useUpdate(address: string) {
       updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
       showModal(TransactionPrompt, {});
 
-      const { CIDBytes, CIDString} = await pinMetadataToIpfs(metadata);
+      const { ipfsURL, CIDString} = await pinMetadataToIpfs(metadata);
 
       updateTx({ step: Step.submit, message: "Confirm transaction..." });
 
@@ -42,7 +42,7 @@ export default function useUpdate(address: string) {
 
       dispatch(setOrg(preview));
 
-      const tx = await tokenContract.setContractURI(CIDBytes);
+      const tx = await tokenContract.setContractURI(ipfsURL);
       updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Updating ${metadata.name}`, previewLink: { href: `/orgs/${address}`, caption: "Preview" } });
       await tx.wait();
       updateTx({ step: Step.success, message: "", txHash: tx.hash, previewLink: { href: `/orgs/${address}`, caption: "Preview" } });

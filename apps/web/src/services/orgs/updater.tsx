@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useProvider } from "wagmi";
-import { queryIpfsHash } from "api";
+import { queryIpfsHash, queryIpfsURL } from "api";
 import { Contract, ethers } from "ethers";
 import { asyncMap, getCIDStringFromBytes } from "helper";
 import useBlockNumber from "hooks/useBlockNumber";
@@ -34,24 +34,6 @@ export default function FactoryUpdater() {
     return members;
   }
 
-  async function getRevocationHistory(contract: Contract): Promise<Revoked[]> {
-    const filter = contract.filters.Revoked();
-    const events = await contract.queryFilter(filter, FACTORY_DEPLOY_BLOCK);
-    const revocations = await asyncMap<Revoked, ethers.Event>(
-      events,
-      async (event: ethers.Event) => {
-        const block = await provider.getBlock(event.blockNumber);
-        return {
-          owner: event?.args?.revokedBy ?? event.args?.[0],
-          revokedBy: event?.args?.owner ?? event.args?.[1],
-          tokenId: event.args?.[2].toNumber(),
-          timestamp: block.timestamp * 1000,
-        };
-      }
-    );
-    return revocations;
-  }
-
   async function getContractInfofromEvent(event: ethers.Event): Promise<Org | null> {
     const block = await provider.getBlock(event.blockNumber);
     const contract = getContract(event.args?.token ?? event.args?.[1]);
@@ -59,8 +41,8 @@ export default function FactoryUpdater() {
     const admin = await contract.getRoleMember(DEFAULT_ADMIN_ROLE, 0);
     const delegates = await getDelegates(contract);
     let cid = await contract.contractURI();
-    cid = await getCIDStringFromBytes(cid);
-    const metadata = (await queryIpfsHash(cid)) as Metadata;
+    // cid = await getCIDStringFromBytes(cid);
+    const metadata = (await queryIpfsURL(cid)) as Metadata;
     const verified = await managerContract?.verified(contract.address) ?? false;
     return {
       metadata,

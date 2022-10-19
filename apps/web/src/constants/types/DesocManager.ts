@@ -28,7 +28,7 @@ import type {
 
 export interface DesocManagerInterface extends utils.Interface {
   functions: {
-    "deployToken(string,string,bytes)": FunctionFragment;
+    "deployToken(string,string,string)": FunctionFragment;
     "getTrustedForwarder()": FunctionFragment;
     "isTrustedForwarder(address)": FunctionFragment;
     "owner()": FunctionFragment;
@@ -53,7 +53,7 @@ export interface DesocManagerInterface extends utils.Interface {
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
-      PromiseOrValue<BytesLike>
+      PromiseOrValue<string>
     ]
   ): string;
   encodeFunctionData(
@@ -161,7 +161,7 @@ export interface DesocManager extends BaseContract {
     deployToken(
       _name: PromiseOrValue<string>,
       _symbol: PromiseOrValue<string>,
-      _metadata: PromiseOrValue<BytesLike>,
+      _metadata: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -195,7 +195,7 @@ export interface DesocManager extends BaseContract {
   deployToken(
     _name: PromiseOrValue<string>,
     _symbol: PromiseOrValue<string>,
-    _metadata: PromiseOrValue<BytesLike>,
+    _metadata: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -227,7 +227,7 @@ export interface DesocManager extends BaseContract {
     deployToken(
       _name: PromiseOrValue<string>,
       _symbol: PromiseOrValue<string>,
-      _metadata: PromiseOrValue<BytesLike>,
+      _metadata: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<string>;
 
@@ -279,7 +279,7 @@ export interface DesocManager extends BaseContract {
     deployToken(
       _name: PromiseOrValue<string>,
       _symbol: PromiseOrValue<string>,
-      _metadata: PromiseOrValue<BytesLike>,
+      _metadata: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -312,7 +312,7 @@ export interface DesocManager extends BaseContract {
     deployToken(
       _name: PromiseOrValue<string>,
       _symbol: PromiseOrValue<string>,
-      _metadata: PromiseOrValue<BytesLike>,
+      _metadata: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

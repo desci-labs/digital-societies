@@ -1,5 +1,5 @@
 import { Metadata, MetadataValues } from "components/Transactors/types";
-import { getBytesFromCIDString, resolveIpfsURL } from "helper";
+import { resolveIpfsURL } from "helper";
 import { Chain } from "wagmi";
 import { CIDString } from "web3.storage";
 
@@ -49,6 +49,6 @@ export async function pinMetadataToIpfs(metadata: MetadataValues) {
     body: JSON.stringify(meta),
   });
   const CIDString = (await metaRes.json()) as CIDString;
-  const CIDBytes = getBytesFromCIDString(CIDString)
-  return { CIDBytes, CIDString };
+  const ipfsURL = resolveIpfsURL(CIDString) // getBytesFromCIDString(CIDString)
+  return { ipfsURL, CIDString };
 }

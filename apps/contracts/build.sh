@@ -1,27 +1,27 @@
 #!/bin/bash
 
-forge_out = $(which forge)
-echo "forge --- $forge_out"
-if [[ $forge_out == "" ]]; then
-    echo "installing forge"
-    curl -L https://foundry.paradigm.xyz | bash
-    brew install libusb
+# forge_out = $(which forge)
+# echo "forge --- $forge_out"
+# if [[ $forge_out == "" ]]; then
+#     echo "installing forge"
+#     curl -L https://foundry.paradigm.xyz | bash
+#     brew install libusb
 
-    if [[ -f "$HOME/.bash_profile" ]]; then
-        echo "sourcing bash_profile"
-        source ~/.bash_profile
-    fi
-    if [[ -f "$HOME/.zshrc" ]]; then
-        echo "sourcing zshrc"
-        source ~/.zshrc
-    fi
-    if [[ -f "$HOME/.bashrc" ]]; then
-        echo "sourcing bashrc"
-        source ~/.bashrc
-    fi
+#     if [[ -f "$HOME/.bash_profile" ]]; then
+#         echo "sourcing bash_profile"
+#         source ~/.bash_profile
+#     fi
+#     if [[ -f "$HOME/.zshrc" ]]; then
+#         echo "sourcing zshrc"
+#         source ~/.zshrc
+#     fi
+#     if [[ -f "$HOME/.bashrc" ]]; then
+#         echo "sourcing bashrc"
+#         source ~/.bashrc
+#     fi
 
-    foundryup
-fi
+#     foundryup
+# fi
 
 # yarn install
 

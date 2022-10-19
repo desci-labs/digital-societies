@@ -29,10 +29,10 @@ export default function useLaunch() {
       updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
       showModal(TransactionPrompt, {});
 
-      const { CIDBytes, CIDString } = await pinMetadataToIpfs(metadata);
+      const { ipfsURL, CIDString } = await pinMetadataToIpfs(metadata);
 
       updateTx({ step: Step.submit, message: "Confirm transaction..." });
-      const tx = await factoryContract.deployToken(metadata.name, metadata.acronym, CIDBytes)
+      const tx = await factoryContract.deployToken(metadata.name, metadata.acronym, ipfsURL)
       updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Deploying ${metadata.name}` });
 
       const receipt = await tx.wait();

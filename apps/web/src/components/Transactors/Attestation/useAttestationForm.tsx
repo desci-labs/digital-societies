@@ -37,11 +37,11 @@ export default function useAttestationForm(address: string, tokenType: number) {
       updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
       
       const { mode, ...meta } = metadata;
-      const { CIDBytes, CIDString } = await pinMetadataToIpfs(meta);
+      const { ipfsURL, CIDString } = await pinMetadataToIpfs(meta);
 
       updateTx({ step: Step.submit, message: "Confirming transaction..." });
       
-      const tx = await tokenContract.mintTokenType(CIDBytes);
+      const tx = await tokenContract.mintTokenType(ipfsURL);
       const typeId = await tokenContract?.totalTypes() ?? 0;
       const attestation: PendingAttestation = { id: typeId + 1, cid: CIDString, address, mintedBy, metadata: meta, pending: true, dateCreated: Date.now() };
       dispatch(setAttestation({ address, attestation }))
@@ -70,13 +70,13 @@ export default function useAttestationForm(address: string, tokenType: number) {
       showModal(TransactionPrompt, {});
       
       const { mode, ...meta } = metadata;
-      const { CIDBytes, CIDString} = await pinMetadataToIpfs(meta);
+      const { ipfsURL, CIDString} = await pinMetadataToIpfs(meta);
       const update = { ...attestation, cid: CIDString, metadata: meta, } as PendingAttestation;
       dispatch(setAttestation({ address, attestation: update }))
       
       updateTx({ step: Step.submit, message: "Confirming transaction..." });
       
-      const tx = await tokenContract.updateTypeURI(BigNumber.from(tokenType).toString(), CIDBytes);
+      const tx = await tokenContract.updateTypeURI(BigNumber.from(tokenType).toString(), ipfsURL);
 
       updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Updating ${metadata.name}` });
      
