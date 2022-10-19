@@ -14,6 +14,7 @@ contract DesocManagerTest is Test {
     address internal admin;
     
     address internal _forwarder = 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9;
+    string public ipfsURI = "https://w3s.link/ipfs/bafkreifdry6syjhedfl2xgjhyy62lsvhgy5tls4cmxtfn6rv7j6gz5455y";
 
     function setUp() public {
         utils = new Utils();
@@ -33,7 +34,7 @@ contract DesocManagerTest is Test {
         address deployed = dManager.deployToken(
             name,
             symbol,
-            bytes("qmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw")
+            ipfsURI
         );
         sbt = Desoc(deployed);
 
@@ -47,7 +48,7 @@ contract DesocManagerTest is Test {
         assertEq(sbt.totalSupply(), 0);
         assertEq(sbt.balanceOf(admin), 0);
         assertEq(sbt.hasRole(sbt.DEFAULT_ADMIN_ROLE(), admin), true);
-        assertEq(sbt.contractURI(), bytes("qmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw"));
+        assertEq(sbt.contractURI(), ipfsURI);
         vm.stopPrank();(admin);
     }
     

@@ -15,17 +15,17 @@ contract Desoc is ERC721, AccessControlEnumerable, IDesoc {
     uint16 public totalTypes;
     address private factory;
 
-    bytes private _contractURI;
+    string private _contractURI;
     bytes32 public constant DELEGATE_ROLE = keccak256("DELEGATES");
 
-    mapping(uint16 => bytes) private typeToURI;
+    mapping(uint16 => string) private typeToURI;
     mapping(uint256 => uint16) public tokenIdToType;
     mapping(uint16 => mapping(address => bool)) public typeToOwner;
 
     constructor(
         string memory _name,
         string memory _symbol,
-        bytes memory _metadata,
+        string memory _metadata,
         address _admin
     ) ERC721(_name, _symbol) {
         factory = msg.sender;
@@ -39,14 +39,14 @@ contract Desoc is ERC721, AccessControlEnumerable, IDesoc {
     /// @dev Returns the type uri of the input credential or sbt type
     /// @param _type token type ID to get type cid
     /// @return ipfs cid of the token type
-    function typeURI(uint16 _type) external view returns (bytes memory) {
+    function typeURI(uint16 _type) external view returns (string memory) {
         return typeToURI[_type];
     }
 
     /// @notice Return the content identify for user's credential
     /// @dev Returns the cid of the contract metatdata stored on ipfs
     /// @return returns _contractURI of this SBT contract
-    function contractURI() external view returns (bytes memory) {
+    function contractURI() external view returns (string memory) {
         return _contractURI;
     }
 
@@ -54,11 +54,11 @@ contract Desoc is ERC721, AccessControlEnumerable, IDesoc {
     /// @dev Mints a new token type that can be issued to users
     /// @dev The new type is linked to a new ipfs hash linked to it's metadata
     /// @param typeURI_ is the uri (ipfs hash) of the metadata associated to this mint
-    function mintTokenType(bytes calldata typeURI_)
+    function mintTokenType(string memory typeURI_)
         external
         onlyRole(DELEGATE_ROLE)
     {
-        require(typeURI_.length > 0, "Invalid typeURI");
+        require(bytes(typeURI_).length > 0, "Invalid typeURI");
         totalTypes++;
         typeToURI[totalTypes] = typeURI_;
         emit TypeCreated(totalTypes, msg.sender, typeURI_);
@@ -114,12 +114,12 @@ contract Desoc is ERC721, AccessControlEnumerable, IDesoc {
     /// @dev DEFAULT_ADMIN_ROLE can update the ipfs of a token type
     /// @param _tokenType token type to update
     /// @param _typeURI_ new ipfs hash or uri to be set for _tokenType
-    function updateTypeURI(uint16 _tokenType, bytes calldata _typeURI_)
+    function updateTypeURI(uint16 _tokenType, string memory _typeURI_)
         external
         onlyRole(DEFAULT_ADMIN_ROLE)
     {
         require(_typeExists(_tokenType), "Invalid SB type");
-        require(_typeURI_.length > 0, "Invalid typeURI");
+        require(bytes(_typeURI_).length > 0, "Invalid typeURI");
         typeToURI[_tokenType] = _typeURI_;
         emit TypeUpdated(_tokenType, _typeURI_);
     }
@@ -141,7 +141,7 @@ contract Desoc is ERC721, AccessControlEnumerable, IDesoc {
     /// @notice set a new metadata uri for this contract (organisation)
     /// @dev update the metadata uri for this contract
     /// @param contractURI_ ipfs hash or URI of the new metadata
-    function setContractURI(bytes calldata contractURI_)
+    function setContractURI(string memory contractURI_)
         external
         onlyRole(DEFAULT_ADMIN_ROLE)
     {
@@ -182,7 +182,7 @@ contract Desoc is ERC721, AccessControlEnumerable, IDesoc {
     /// @param _tokenId token id to get type cid
     /// @return ipfs hash of the token type associated to the input tokenId
     function tokenURI(uint256 _tokenId) public view override returns (string memory) {
-        return string(typeToURI[tokenIdToType[_tokenId]]);
+        return typeToURI[tokenIdToType[_tokenId]];
     }
     
     /// @inheritdoc IERC165

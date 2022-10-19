@@ -10,7 +10,7 @@ interface IDesoc is IERC721 {
     event Revoked(
         address indexed revokedBy,
         address indexed owner,
-        uint256 tokenId
+        uint256 indexed tokenId
     );
 
     /**
@@ -19,19 +19,19 @@ interface IDesoc is IERC721 {
     event Mint(
         address indexed mintedBy,
         address indexed to,
-        uint256 tokenId,
+        uint256 indexed tokenId,
         uint16 tokenType
     );
 
     /**
      * @dev Emitted when type `tokenType` is created by `createdBy` with a typeURI of `uri`.
      */
-    event TypeCreated(uint16 tokenType, address indexed createdBy, bytes uri);
+    event TypeCreated(uint16 tokenType, address indexed createdBy, string uri);
 
     /**
      * @dev Emitted when type `tokenType` is updated to a typeURI of `uri``.
      */
-    event TypeUpdated(uint16 tokenType, bytes uri);
+    event TypeUpdated(uint16 tokenType, string uri);
 
     /**
      * @dev Emitted when token id `tokenId` is updated to type `_tokenType`.
@@ -41,17 +41,17 @@ interface IDesoc is IERC721 {
     /**
      *  @dev Returns the type uri of the input credential or sbt type
      */
-    function typeURI(uint16 _type) external view returns (bytes memory);
+    function typeURI(uint16 _type) external view returns (string memory);
 
     /**
      * @dev Returns the cid of the contract metatdata stored on ipfs
      */
-    function contractURI() external view returns (bytes memory);
+    function contractURI() external view returns (string memory);
 
     /**
      *  @dev Returns the type uri of the input credential or sbt type
      */
-    function mintTokenType(bytes calldata typeURI_) external;
+    function mintTokenType(string memory typeURI_) external;
 
     /**
      * @dev Mints a new token or issue a token type to multiple wallet addresses
@@ -66,7 +66,7 @@ interface IDesoc is IERC721 {
     /**
      * @dev DEFAULT_ADMIN_ROLE can update the ipfs of a token type
      */
-    function updateTypeURI(uint16 _tokenType, bytes calldata _typeURI_)
+    function updateTypeURI(uint16 _tokenType, string memory _typeURI_)
         external;
 
     /**
@@ -77,5 +77,5 @@ interface IDesoc is IERC721 {
     /**
      * @dev update the metadata uri for this contract
      */
-    function setContractURI(bytes calldata contractURI_) external;
+    function setContractURI(string memory contractURI_) external;
 }

@@ -31,7 +31,7 @@ contract DesocManager is ERC2771Recipient {
     function deployToken(
         string memory _name,
         string memory _symbol,
-        bytes memory _metadata
+        string memory _metadata
     ) external returns(address token) {
         bytes memory code = abi.encodePacked(
             type(Desoc).creationCode,

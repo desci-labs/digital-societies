@@ -16,9 +16,11 @@ contract DesocTest is DesocManager, Test {
     address internal sina;
     address internal bob;
 
-    bytes public ipfsHash = bytes("QmYtuTFMfStDRDgiSGxNgUdRVxU4w8yora27JjpqV6kdZw");
-
     address internal _forwarder = 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9;
+
+    string public metadataURI = "https://w3s.link/ipfs/bafkreifdry6syjhedfl2xgjhyy62lsvhgy5tls4cmxtfn6rv7j6gz5455y";
+    string public metadataURI2 = "https://w3s.link/ipfs/bafkreidszg5xvxxkhen4nyfyhz6ooueohcyo2yfgysi4ccqmxgioys65dy";
+
 
     constructor() DesocManager(_forwarder) {}
     function setUp() public {
@@ -43,7 +45,7 @@ contract DesocTest is DesocManager, Test {
         string memory name = "Desci Labs";
         string memory symbol = "DSI";
 
-        address deployed =  this.deployToken(name, symbol, ipfsHash);
+        address deployed =  this.deployToken(name, symbol, metadataURI);
         sbt = Desoc(deployed);
 
         assertEq(sbt.name(), name);
@@ -97,7 +99,7 @@ contract DesocTest is DesocManager, Test {
         uint16 _type = _mintTokenType();
         sbt.mint(alice, _type);
         string memory tokenUri = sbt.tokenURI(1);
-        bytes memory typeUri = sbt.typeURI(_type);
+        string memory typeUri = sbt.typeURI(_type);
         assertTrue(keccak256(abi.encodePacked(tokenUri)) == keccak256(abi.encodePacked(typeUri)));
     }
 
@@ -217,15 +219,14 @@ contract DesocTest is DesocManager, Test {
     function testUpdateTokenIdType() public {
         uint16 _type = _mintTokenType();
         uint16 _type2 = _mintTokenType();
-        assertEq(keccak256(abi.encodePacked(sbt.typeURI(_type))), keccak256(abi.encodePacked(ipfsHash)));
+        assertEq(keccak256(abi.encodePacked(sbt.typeURI(_type))), keccak256(abi.encodePacked(metadataURI)));
 
-        bytes memory meta = bytes("UpdatedURI");
-        sbt.updateTypeURI(_type2, meta);
+        sbt.updateTypeURI(_type2, metadataURI2);
         
         sbt.mint(alice, _type2);
         sbt.updateTokenIdType(1, _type2);
 
-        assertEq(keccak256(abi.encodePacked(sbt.tokenURI(1))) , keccak256(abi.encodePacked(meta)));
+        assertEq(keccak256(abi.encodePacked(sbt.tokenURI(1))) , keccak256(abi.encodePacked(metadataURI2)));
     }
     function testCannotUpdateInvalidTokenType() public {
         // Try to update a non-existent type
@@ -248,19 +249,19 @@ contract DesocTest is DesocManager, Test {
 
         vm.expectRevert("AccessControl: account 0xb4c79dab8f259c7aee6e5b2aa729821864227e84 is missing role 0x0000000000000000000000000000000000000000000000000000000000000000");
 
-        sbt.updateTypeURI(_type, ipfsHash);
+        sbt.updateTypeURI(_type, metadataURI);
     }
     function testCannotSetInvalidTypeURI() public {
         uint16 _type = _mintTokenType();
         sbt.mint(alice, _type);
         
         vm.expectRevert("Invalid typeURI");
-        sbt.updateTypeURI(_type, bytes(""));
+        sbt.updateTypeURI(_type, "");
     }
 
     function testSetContractURI() public {
-        sbt.setContractURI(ipfsHash);
-        assertEq(sbt.contractURI(), ipfsHash);
+        sbt.setContractURI(metadataURI);
+        assertEq(sbt.contractURI(), metadataURI);
     }
 
     function testCannotSetContractURI() public {
@@ -268,22 +269,22 @@ contract DesocTest is DesocManager, Test {
         vm.expectRevert(
             "AccessControl: account 0x075edf3ae919fbef9933f666bb0a95c6b80b04ed is missing role 0x0000000000000000000000000000000000000000000000000000000000000000"
         );
-        sbt.setContractURI(ipfsHash);
+        sbt.setContractURI(metadataURI);
     }
 
     function testUpdateTokenType() public {
         uint16 _tokenType = _mintTokenType();
         uint16 _tokenType2 = _mintTokenType();
-        sbt.updateTypeURI(_tokenType2, "ipfshash2");
-        assertTrue(keccak256(abi.encodePacked(sbt.typeURI(_tokenType))) == keccak256(abi.encodePacked(ipfsHash)));
-        assertTrue(keccak256(abi.encodePacked(sbt.typeURI(_tokenType2))) == keccak256(abi.encodePacked("ipfshash2")));
+        sbt.updateTypeURI(_tokenType2, metadataURI2);
+        assertTrue(keccak256(abi.encodePacked(sbt.typeURI(_tokenType))) == keccak256(abi.encodePacked(metadataURI)));
+        assertTrue(keccak256(abi.encodePacked(sbt.typeURI(_tokenType2))) == keccak256(abi.encodePacked(metadataURI2)));
     }
 
     function _mintTokenType() internal returns(uint16 _tokenType) {
-        sbt.mintTokenType(ipfsHash);
+        sbt.mintTokenType(metadataURI);
         _tokenType = sbt.totalTypes();
         assertTrue(_tokenType > 0);
-        assertTrue(keccak256(abi.encodePacked((sbt.typeURI(_tokenType)))) == keccak256(abi.encodePacked(ipfsHash)));
+        assertTrue(keccak256(abi.encodePacked((sbt.typeURI(_tokenType)))) == keccak256(abi.encodePacked(metadataURI)));
         _tokenType;
     }
 }
