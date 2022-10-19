@@ -26,6 +26,7 @@ export default function CredentialDetails() {
   const credential = useGetAttestation(address, id);
 
   const org = useGetOrg(address);
+
   const showLauncher = useCredenter(org!, "update");
   const metadata = useMemo(
     () => credential?.metadata ?? org?.metadata,
@@ -38,15 +39,13 @@ export default function CredentialDetails() {
 
   return (
     <ContentGrid>
-      {org && (
-        <MetaDataView
-          address={org.address}
-          verified={org.verified}
-          metadata={org.metadata}
-          showUpdater={hasAccess}
-          onUpdateClick={showLauncher}
-        />
-      )}
+      <MetaDataView
+        address={credential.address}
+        verified={org?.verified || false}
+        metadata={credential.metadata}
+        showUpdater={hasAccess}
+        onUpdateClick={showLauncher}
+      />
       <IssuedTokens attestation={credential!} showUpdater={hasAccess} />
       <RevokedTokens attestation={credential!} />
     </ContentGrid>

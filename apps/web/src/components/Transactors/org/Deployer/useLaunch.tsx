@@ -30,6 +30,8 @@ export default function useLaunch() {
       showModal(TransactionPrompt, {});
 
       const { ipfsURL, CIDString } = await pinMetadataToIpfs(metadata);
+      
+      console.log('args', ipfsURL, CIDString);
 
       updateTx({ step: Step.submit, message: "Confirm transaction..." });
       const tx = await factoryContract.deployToken(metadata.name, metadata.acronym, ipfsURL)
@@ -40,7 +42,7 @@ export default function useLaunch() {
       const block = await factoryContract.provider.getBlock(receipt.blockNumber);
 
       const preview: PendingOrg = {
-        cid: CIDString,
+        cid: ipfsURL,
         metadata,
         address,
         admin: metadata.issuer,

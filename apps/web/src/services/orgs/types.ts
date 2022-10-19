@@ -14,6 +14,7 @@ export type OrgMeta = {
   delegates: string[];
   admin: string;
   verified: boolean;
+  // tokenURI: string,
 };
 
 export type PendingOrg = OrgMeta & {

@@ -1,14 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { useProvider } from "wagmi";
-import { queryIpfsHash, queryIpfsURL } from "api";
+import { queryIpfsURL } from "api";
 import { Contract, ethers } from "ethers";
-import { asyncMap, getCIDStringFromBytes } from "helper";
 import useBlockNumber from "hooks/useBlockNumber";
 import { useFactoryContract, useTokenContract } from "hooks/useContract";
 import { DEFAULT_ADMIN_ROLE, DELEGATE_ROLE } from "constants/roles";
 import { useDispatch } from "react-redux";
 import { setIsLoading, setOrgs } from "./orgSlice";
-import { Org, Revoked } from "./types";
+import { Org } from "./types";
 import { Metadata } from "components/Transactors/types";
 import { useGetOrgs } from "./hooks";
 import { FACTORY_DEPLOY_BLOCK } from "constants/web3";
@@ -41,7 +40,6 @@ export default function FactoryUpdater() {
     const admin = await contract.getRoleMember(DEFAULT_ADMIN_ROLE, 0);
     const delegates = await getDelegates(contract);
     let cid = await contract.contractURI();
-    // cid = await getCIDStringFromBytes(cid);
     const metadata = (await queryIpfsURL(cid)) as Metadata;
     const verified = await managerContract?.verified(contract.address) ?? false;
     return {
@@ -58,8 +56,7 @@ export default function FactoryUpdater() {
   const getFactoryTokens = useCallback(
     async () => {
       if (!block || !managerContract) return;
-
-      if (block - lastUpdated < 10) return;
+      if (block - lastUpdated < 5) return;
 
       try {
         const lastQuery = await provider.getBlockNumber();
@@ -87,7 +84,7 @@ export default function FactoryUpdater() {
     if (
       managerContract &&
       block &&
-      (orgs.length === 0 || lastUpdated === 0 || block - lastUpdated > 10)
+      (orgs.length === 0 || lastUpdated === 0 || block - lastUpdated > 5)
     ) {
       getFactoryTokens();
     }

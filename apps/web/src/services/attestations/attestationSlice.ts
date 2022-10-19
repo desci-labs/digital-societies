@@ -76,7 +76,8 @@ const slice = createSlice({
           return cred;
         });
       } else {
-        const canUpdate = compareMetadata(prev.metadata, payload.attestation.metadata);
+        const canUpdate = prev.cid !== payload.attestation.cid || compareMetadata(prev.metadata, payload.attestation.metadata);
+
         if (canUpdate) {
           state.attestations[payload.address] = state.attestations[payload.address].filter(cred => cred.id !== payload.attestation.id);
           state.attestations[payload.address].push(payload.attestation)

@@ -29,7 +29,6 @@ export default function AttestationUpdater() {
     const id = event.args?.tokenType ?? event.args?.[0];
     const contract = getContract(event.address) as Desoc;
     let cid = await contract.typeURI(id);
-    // cid = await getCIDStringFromBytes(cid);
     const metadata = (await queryIpfsURL(cid)) as Metadata;
     return {
       id,

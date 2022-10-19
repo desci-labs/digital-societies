@@ -46,7 +46,8 @@ export default function TokenUpdater() {
     const tokenId =
       event.args?.tokenId.toString() ?? event.args?.[2].toNumber();
     const attestation = event.args?.tokenType ?? event.args?.[3];
-
+    const uri = await contract.tokenURI(tokenId);
+    
     const token: AttestationToken = {
       org: event.address,
       tokenId,
