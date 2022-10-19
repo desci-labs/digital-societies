@@ -28,10 +28,10 @@ export default function DesocDetails(props: {
         address={props.desoc.address}
         showUpdater={props.showUpdaters}
       />
-      <Delegates
+      {props.showUpdaters && <Delegates
         address={props.desoc.address}
         showUpdater={props.showUpdaters}
-      />
+      />}
     </ContentGrid>
   );
 }
