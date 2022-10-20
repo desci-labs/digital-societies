@@ -9,6 +9,7 @@ import { useAccount } from "wagmi";
 import { useMobileMenu, useSetMobileMenu } from "./useAppMenu";
 import { BsFillMoonFill, BsFillBrightnessHighFill } from "react-icons/bs";
 import useDashboard from "hooks/useDashboard";
+import Link from "next/link";
 
 export default function Header() {
   const { isConnected } = useAccount();
@@ -22,21 +23,21 @@ export default function Header() {
   return (
     <nav className="container mx-auto flex items-center justify-start p-4 relative">
       <div className="grow flex items-center justify-start gap-5">
-        <NavLink href="/">
-          <DesocIcon width="15" heigth="15" />
-        </NavLink>
+        <Link href="/">
+          <a className="cursor-pointer">
+            <DesocIcon width="15" heigth="15" />
+          </a>
+        </Link>
         <NavLink
           href="/"
-          activeClassName="border-dark dark:border-white dark:text-neutrals-gray-7"
-          className="hidden sm:block text-neutrals-gray-3 dark:text-neutrals-gray-5 hover:text-neutrals-gray-3 dark:hover:text-neutrals-gray-7 border-b-2 border-transparent hover:border-black dark:hover:border-white"
+          className="hidden sm:block"
         >
           Explore
         </NavLink>
         {showDashboard && (
           <NavLink
             href={`/dashboard/${org?.address}`}
-            activeClassName="border-dark dark:border-white dark:text-neutrals-gray-7"
-            className="hidden sm:block text-neutrals-gray-3 dark:text-neutrals-gray-5 hover:text-neutrals-gray-3 dark:hover:text-neutrals-gray-7 border-b-2 border-transparent hover:border-black dark:hover:border-white"
+            className="hidden sm:block"
           >
             Dashboard
           </NavLink>
@@ -87,7 +88,7 @@ function ThemeTogger() {
         ) : (
           <BsFillBrightnessHighFill
             className="duration-300"
-              color="#EDF492"
+            color="#EDF492"
             size={20}
           />
         )}
@@ -114,9 +115,7 @@ function MobileMenu() {
       <ul className="responsive-nav transition-opacity duration-500">
         <li className="block text-sm px-2 py-4 hover:bg-primary-over hover:text-black transition duration-300">
           <NavLink
-            href={`/dashboard/${org?.address}`}
-            activeClassName="border-b-2 border-white text-black dark:text-white"
-            className="text-neutrals-gray-3 dark:text-neutrals-gray-5 hover:text-neutrals-gray-3 dark:hover:text-neutrals-gray-7 border-b-2 border-transparent hover:border-black dark:hover:border-white"
+            href="/"
           >
             Explore
           </NavLink>
@@ -125,9 +124,7 @@ function MobileMenu() {
         {showDashboard && (
           <li className="block text-sm px-2 py-4 hover:bg-primary-over hover:text-black transition duration-300">
             <NavLink
-              href="/dashboard"
-              activeClassName="border-b-2 border-white text-black dark:text-white"
-              className="text-neutrals-gray-3 dark:text-neutrals-gray-5 hover:text-neutrals-gray-3 dark:hover:text-neutrals-gray-7 border-b-2 border-transparent hover:border-black dark:hover:border-white"
+              href={`/dashboard/${org?.address}`}
             >
               Dashboard
             </NavLink>

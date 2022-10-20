@@ -2,6 +2,20 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { AnchorHTMLAttributes, HTMLProps, useMemo } from "react";
 
+const getClassName = ({
+  className,
+  activeClassName,
+  isActive,
+}: {
+  className: string;
+  activeClassName: string;
+  isActive: boolean;
+}) => {
+  return `text-darker hover:text-neutrals-gray-3 dark:hover:text-neutrals-gray-7 border-b-2 border-transparent hover:border-black dark:hover:border-white ${className} ${
+    isActive ? `dark:text-white font-bold ${activeClassName}` : ""
+  }`;
+};
+
 export default function NavLink(
   props: HTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>> & {
     href: string;
@@ -21,9 +35,7 @@ export default function NavLink(
   return (
     <Link href={props.href}>
       <a
-        className={`font-normal hover:text-white ${props.className ?? ""} ${
-          isActive ? props.activeClassName : ""
-        }`}
+        className={getClassName({ className: props.className!, activeClassName: props.activeClassName!, isActive })}
       >
         {props.children}
       </a>
