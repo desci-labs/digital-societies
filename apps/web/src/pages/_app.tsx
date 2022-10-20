@@ -8,29 +8,33 @@ import { store, persistor } from 'store/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import Head from 'next/head';
 import { ThemeProvider } from 'next-themes'
+import { ErrorBoundary } from 'react-error-boundary';
+import AppFallback from 'components/Fallback/AppFallback';
 
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider attribute='class'>
-      <Provider store={store}>
-        <Head>
-          <title>Credential Manager App</title>
-          <meta
-            name="description"
-            content="Credential manager app by Desci Labs"
-          />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <PersistGate loading={null} persistor={persistor}>
-          <AppProviders>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </AppProviders>
-        </PersistGate>
-      </Provider>
-    </ThemeProvider>
+    <ErrorBoundary FallbackComponent={AppFallback}>
+      <ThemeProvider attribute='class'>
+        <Provider store={store}>
+          <Head>
+            <title>Credential Manager App</title>
+            <meta
+              name="description"
+              content="Credential manager app by Desci Labs"
+            />
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <PersistGate loading={null} persistor={persistor}>
+            <AppProviders>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </AppProviders>
+          </PersistGate>
+        </Provider>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }
 

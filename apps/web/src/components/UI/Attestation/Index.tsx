@@ -47,7 +47,7 @@ export function AttestationList({ address, showUpdater }: { address: string, sho
 function AttestationUpdater(props: { desoc: Org | PendingOrg }) {
   const showCredenter = useCredenter(props.desoc);
   const hasAccess = useIsAdminOrDelegate(props.desoc.address);
-
+  
   return <>
     {hasAccess && (
       <Button
