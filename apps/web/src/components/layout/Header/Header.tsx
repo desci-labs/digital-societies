@@ -22,7 +22,9 @@ export default function Header() {
   return (
     <nav className="container mx-auto flex items-center justify-start p-4 relative">
       <div className="grow flex items-center justify-start gap-5">
-        <DesocIcon width="15" heigth="15" />
+        <NavLink href="/">
+          <DesocIcon width="15" heigth="15" />
+        </NavLink>
         <NavLink
           href="/"
           activeClassName="border-dark dark:border-white dark:text-neutrals-gray-7"
