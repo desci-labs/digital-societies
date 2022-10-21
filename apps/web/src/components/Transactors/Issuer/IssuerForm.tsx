@@ -1,37 +1,43 @@
-import { useRouter }  from "next/router";
 import { useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { Form, InputRow, SelectInput } from "components/Form/Index";
-import { useGetOrg } from "services/orgs/hooks";
+import { Form, InputRow, LabelText, SelectInput } from "components/Form/Index";
+import { useGetDesocMeta, useGetOrg } from "services/orgs/hooks";
 import { IssuerValues } from "../types";
-import {
-  useGetAttestations,
-} from "services/attestations/hooks";
-import useIssueAttestation from "./useIssueAttestation";
+import { useGetAttestations } from "services/attestations/hooks";
+import useUpdateTokenRecipients from "./useUpdateTokenRecipients";
 import { Attestation, PendingAttestation } from "services/attestations/types";
 import { useGetTxStage } from "services/transaction/hooks";
 import Button from "components/UI/Button/Index";
+import RecipientItem from "./RecipientItem";
+import RecipientAdder from "./RecipientAdder/RecipientAdder";
+
 
 export default function IssuerForm() {
   const {
+    watch,
     register,
     handleSubmit,
     formState: { isSubmitting, isValid, errors },
   } = useFormContext<IssuerValues>();
-  const router = useRouter();
-  const { address } = router.query;
   const stage = useGetTxStage();
-  const org = useGetOrg(address as string);
-  const attestations = useGetAttestations(org?.address ?? '');
-  const { issueAttestation, isLoading } = useIssueAttestation(org?.address!);
+  const orgAddress = watch("org");
+  const metadata = useGetDesocMeta(orgAddress);
+  const attestations = useGetAttestations(orgAddress);
+  const { issueAttestation, tokenRecipients, isLoading } =
+    useUpdateTokenRecipients(orgAddress);
   const canDisable = useMemo(
     () => isSubmitting || isLoading,
     [isSubmitting, isLoading]
   );
 
   return (
-    <Form onSubmit={handleSubmit(issueAttestation)} title={org?.metadata.name} description="Issue an Attestation" className="form">
+    <Form
+      onSubmit={handleSubmit(issueAttestation)}
+      title={metadata?.name}
+      description="Issue an Attestation"
+      className="form"
+    >
       <InputRow
         htmlFor="attestation"
         label="Select attestation"
@@ -44,22 +50,26 @@ export default function IssuerForm() {
           {...register("attestation")}
         />
       </InputRow>
-      <InputRow
-        htmlFor="addresses"
-        label="address: (comma separated list)"
-        className="text-sm"
-      >
+      <div className="flex flex-col gap-1 items-start justify-center">
+        <LabelText
+          text="Recipients"
+        />
+        {tokenRecipients.map((recipient) => (
+          <RecipientItem key={recipient.address} recipient={recipient} />
+        ))}
+      </div>
+
+      <InputRow htmlFor="address">
+        <LabelText
+          text="Add recipient"
+        />
         <ErrorMessage
           errors={errors}
-          name="addresses"
+          name="address"
           as="span"
           className="text-xs text-left text-red-400 font-semibold m-0"
         />
-        <textarea
-          id="addresses"
-          className="w-full bg-transparent outline-none text-darker border border-neutrals-gray-3 focus:border-neutrals-gray-5 p-2 rounded-xl appearance-none resize-none h-20"
-          {...register("addresses")}
-        />
+        <RecipientAdder />
       </InputRow>
       <Button
         disabled={canDisable || !isValid}

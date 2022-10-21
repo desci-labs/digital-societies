@@ -57,6 +57,7 @@ const ADDRES_SCHEMA = Yup.mixed<string>()
     name: "Address validation",
     message: "Invalid address format",
     test: (data) => {
+      console.log('validate', isAddress(data ?? ''))
       return isAddress(data ?? '')
     }
   })
@@ -70,10 +71,17 @@ export const metadataSchema = Yup.object().shape({
   image: FILE_SCHEMA.required(),
 });
 
+// const tokenIssuerShape = {
+//   addresses: ADDRES_SCHEMA.required(),
+//   attestation: Yup.number().required(),
+//   org: Yup.number().required()
+// }
+
 export const issuerSchema = Yup.object().shape({
-  addresses: ADDRESSES_SCHEMA.required(),
-  attestation: Yup.number().required()
-});
+  address: ADDRES_SCHEMA.required(),
+  attestation: Yup.number().required(),
+  org: Yup.number().required()
+})
 
 export const delegaterSchema = Yup.object().shape({
   delegate: ADDRES_SCHEMA.required(),

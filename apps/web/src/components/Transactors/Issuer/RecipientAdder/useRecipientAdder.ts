@@ -1,0 +1,42 @@
+import { IssuerValues } from "components/Transactors/types";
+import { useFormContext } from "react-hook-form";
+import {
+  useAddTokenRecipients,
+  useGetTokenRecipients,
+} from "services/admin/hooks";
+import { useGetAttestationTokens } from "services/attestations/hooks";
+
+export default function useRecipientAdder() {
+  const recipientAdder = useAddTokenRecipients();
+  const recipients = useGetTokenRecipients();
+  const {
+    getValues,
+    setError,
+    trigger,
+    resetField,
+  } = useFormContext<IssuerValues>();
+  const existingRecipients = useGetAttestationTokens(
+    getValues("org"),
+    getValues("attestation")
+  );
+
+  async function addRecipient() {
+    const isValid = await trigger(['org', 'attestation', 'address'], { shouldFocus: true });
+
+    if (!isValid) return setError("address", { message: "Invalid address format" });
+    const newRecipient = getValues("address");
+    if (!newRecipient) return;
+
+    const existing =
+      recipients.find((recipient) => recipient.address === newRecipient) ||
+      existingRecipients.find((r) => r.owner === newRecipient);
+
+
+    if (existing) return setError("address", { message: "Duplicate address" });
+
+    recipientAdder(newRecipient);
+    resetField("address");
+  }
+
+  return addRecipient;
+}
