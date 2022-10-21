@@ -5,8 +5,10 @@ import attestationSlice from "services/attestations/attestationSlice";
 import orgSlice from "services/orgs/orgSlice";
 import thunk from 'redux-thunk';
 import transactionSlice from "services/transaction/transactionSlice";
+import { adminReducers } from "services/admin/root";
 
 const rootReducer = combineReducers({
+  admin: adminReducers,
   org: orgSlice,
   attestations: attestationSlice,
   transaction: transactionSlice,
@@ -17,10 +19,6 @@ const migrations = {
     console.log('migrate, ', state);
     return {} as PersistedState; // reset all state, except version
   },
-  3: (state: PersistedState) => {
-    console.log('migrate, ', state);
-    return {} as PersistedState; // reset all state, except version
-  }
 }
 
 const persistConfig = {
@@ -28,7 +26,7 @@ const persistConfig = {
   version: 1,
   storage,
   migrate: createMigrate(migrations),
-  blacklist: ['transaction'],
+  blacklist: ['transaction', 'admin'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
