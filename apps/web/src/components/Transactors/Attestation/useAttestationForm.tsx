@@ -35,17 +35,17 @@ export default function useAttestationForm(address: string, tokenType: number) {
 
       dispatch(setFormLoading(true));
       updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
-      
+
       const { mode, ...meta } = metadata;
-      const { ipfsURL, CIDString } = await pinMetadataToIpfs(meta);
+      const { ipfsURL } = await pinMetadataToIpfs(meta);
 
       updateTx({ step: Step.submit, message: "Confirming transaction..." });
-      
+
       const tx = await tokenContract.mintTokenType(ipfsURL);
       const typeId = await tokenContract?.totalTypes() ?? 0;
       const attestation: PendingAttestation = { id: typeId + 1, cid: ipfsURL, address, mintedBy, metadata: meta, pending: true, dateCreated: Date.now() };
       dispatch(setAttestation({ address, attestation }))
-      const previewLink = `/attestations/${typeId + 1}?address=${address}`;
+      const previewLink = `/orgs/attestations/${typeId + 1}?address=${address}`;
       updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Deploying ${metadata.name} credential`, previewLink: { href: previewLink, caption: "Preview" } });
       showModal(TransactionPrompt, {});
       await tx.wait();
@@ -61,25 +61,25 @@ export default function useAttestationForm(address: string, tokenType: number) {
   }
 
   async function update(metadata: AttestationFormValues) {
-    
+
     try {
       if (!mintedBy) throw Error("Check wallet connection and try again!!!");
 
       dispatch(setFormLoading(true));
       updateTx({ step: Step.submit, message: "Pinning update to IPFS..." });
       showModal(TransactionPrompt, {});
-      
+
       const { mode, ...meta } = metadata;
-      const { ipfsURL, CIDString} = await pinMetadataToIpfs(meta);
+      const { ipfsURL } = await pinMetadataToIpfs(meta);
       const update = { ...attestation, cid: ipfsURL, metadata: meta, } as PendingAttestation;
       dispatch(setAttestation({ address, attestation: update }))
-      
+
       updateTx({ step: Step.submit, message: "Confirming transaction..." });
-      
+
       const tx = await tokenContract.updateTypeURI(BigNumber.from(tokenType).toString(), ipfsURL);
 
       updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Updating ${metadata.name}` });
-     
+
       await tx.wait();
 
       dispatch(setFormLoading(false));
