@@ -1,37 +1,28 @@
 import AddressCopier from "components/Copier/AddressCopier";
-import useRevokeToken from "components/Transactors/Issuer/useRevokeToken";
 import { getImageURL } from "helper";
 import Image from "next/image";
 import { useGetAttestationTokens } from "services/attestations/hooks";
 import { Attestation, PendingAttestation } from "services/attestations/types";
-import { useIsDelegate } from "services/orgs/hooks";
 import { CardContainer } from "../../Index";
 import { Cell, Row, Table, TBody, THead } from "../../Table";
-import { RevokeButton, Updater } from "./Triggers";
 
 export function IssuedTokens({
   attestation,
-  showUpdater
 }: {
   attestation: Attestation | PendingAttestation;
-  showUpdater?: boolean;
 }) {
   const tokens = useGetAttestationTokens(attestation.address, attestation.id);
-  const { revoke, isLoading } = useRevokeToken(attestation?.address!);
-  const hasAccess = useIsDelegate(attestation?.address ?? "");
   if (!attestation) return null;
 
   const getRows = () => {
-    const rows = ["logo", "TokenId", "receipient", "issuer", "date Issued"];
-    return hasAccess ? rows.concat(["Revoke"]) : rows;
+    return ["logo", "TokenId", "receipient", "issuer", "date Issued"];
   };
 
   return (
     <CardContainer>
-      {showUpdater && <div className="flex justify-between items-center mb-5 text-neutrals-gray-7">
+      <div className="flex justify-between items-center mb-5 text-neutrals-gray-7">
         <h1 className="text-left heading-2">Recipients</h1>
-        <Updater attestation={attestation} />
-      </div>}
+      </div>
       <Table>
         <THead rows={getRows()} />
         <TBody>
@@ -61,11 +52,6 @@ export function IssuedTokens({
                   <AddressCopier address={token.issuer} />
                 </Cell>
                 <Cell>{new Date(token.dateIssued).toDateString()}</Cell>
-                {showUpdater && (
-                  <Cell className="p-0">
-                    <RevokeButton onRevoke={() => revoke(token)} isLoading={isLoading} />
-                  </Cell>
-                )}
               </Row>
             ))}
         </TBody>

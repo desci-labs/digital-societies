@@ -29,8 +29,8 @@ const slice = createSlice({
       const recipient = state.find((r) => r.address === payload);
       recipient!.is_deleted = !recipient!.is_deleted;
     },
-    addRecipient: (state, { payload }: PayloadAction<string>) => {
-      state.push({ address: payload, is_added: true, is_deleted: false });
+    addRecipient: (state, { payload }: PayloadAction<AttestationTokenRecipient>) => {
+      state.push(payload);
     },
     undoAddRecipient: (state, { payload }: PayloadAction<string>) => {
       const idx = state.findIndex((recipient) => recipient.address === payload);

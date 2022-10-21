@@ -6,6 +6,7 @@ import {
 } from "services/admin/hooks";
 import AddressCopier from "components/Copier/AddressCopier";
 import { FaEthereum } from "react-icons/fa";
+import { FormEvent } from "react";
 
 export default function RecipientItem(props: {
   recipient: AttestationTokenRecipient;
@@ -13,7 +14,8 @@ export default function RecipientItem(props: {
   const undoAddRecipient = useRemoveTokenRecipient();
   const toggleDeleteRecipient = useToggleDeleteRecipient();
 
-  const onActionClick = () => {
+  const onActionClick = (e: FormEvent) => {
+    e.preventDefault();
     if (props.recipient.is_added) {
       undoAddRecipient(props.recipient.address);
     } else {
@@ -22,8 +24,9 @@ export default function RecipientItem(props: {
   };
   return (
     <li
-      className={`flex gap-1 items-center justify-between p-2 w-full bg-opacity-20 ${props.recipient.is_added ? "bg-states-success" : ""
-        } ${props.recipient.is_deleted ? "bg-states-error" : ""}`}
+      className={`flex gap-1 items-center justify-between p-2 w-full bg-opacity-20 ${
+        props.recipient.is_added ? "bg-states-success" : ""
+      } ${props.recipient.is_deleted ? "bg-states-error" : ""}`}
     >
       <div className="flex gap-2">
         <FaEthereum />
@@ -37,7 +40,7 @@ export default function RecipientItem(props: {
         {props.recipient.is_added || props.recipient.is_deleted ? (
           <CgUndo size={18} />
         ) : (
-            <CgClose size={18} />
+          <CgClose size={18} />
         )}
       </button>
     </li>

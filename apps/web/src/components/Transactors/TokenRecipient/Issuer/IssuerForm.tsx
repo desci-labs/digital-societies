@@ -2,8 +2,8 @@ import { useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { Form, InputRow, LabelText, SelectInput } from "components/Form/Index";
-import { useGetDesocMeta, useGetOrg } from "services/orgs/hooks";
-import { IssuerValues } from "../types";
+import { useGetDesocMeta } from "services/orgs/hooks";
+import { IssuerValues } from "../../types";
 import { useGetAttestations } from "services/attestations/hooks";
 import useUpdateTokenRecipients from "./useUpdateTokenRecipients";
 import { Attestation, PendingAttestation } from "services/attestations/types";
@@ -73,7 +73,7 @@ export default function IssuerForm() {
         disabled={canDisable}
         onClick={issueAttestation}
         type="button"
-        className="mt-10 w-full bg-tint-primary-dark disabled:bg-regent-gray"
+        className="mt-10 w-full bg-primary disabled:bg-regent-gray"
       >
         {isLoading ? stage.message || "Loading..." : "Issue Credential"}
       </Button>

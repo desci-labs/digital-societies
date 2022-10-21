@@ -3,15 +3,28 @@ import TransactionPrompt from "components/TransactionStatus/TransactionPrompt";
 import { useTokenContract } from "hooks/useContract";
 import { useFormContext } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { useGetTokenRecipients, useResetTokenRecipients, useSetTokenRecipients } from "services/admin/hooks";
-import { removeTokens, setTokens } from "services/attestations/attestationSlice";
-import { AttestationToken, AttestationToTokenMap } from "services/attestations/types";
+import {
+  useGetSelectedTokens,
+  useResetTokenRecipients,
+  useSetTokenRecipients,
+} from "services/admin/hooks";
+import {
+  removeTokens,
+  setTokens,
+} from "services/attestations/attestationSlice";
+import {
+  AttestationToken,
+  AttestationToTokenMap,
+} from "services/attestations/types";
 import { useGetTxState } from "services/transaction/hooks";
-import { setFormError, setFormLoading } from "services/transaction/transactionSlice";
+import {
+  setFormError,
+  setFormLoading,
+} from "services/transaction/transactionSlice";
 import { Step } from "services/transaction/types";
 import useTxUpdator from "services/transaction/updators";
 import { useAccount } from "wagmi";
-import { IssuerValues } from "../types";
+import { IssuerValues } from "../../types";
 
 export default function useUpdateTokenRecipients(address: string) {
   const dispatch = useDispatch();
@@ -22,9 +35,9 @@ export default function useUpdateTokenRecipients(address: string) {
   const { getValues, reset } = useFormContext<IssuerValues>();
   const getContract = useTokenContract();
   const tokenContract = getContract(getValues("org"));
-  const tokenRecipients = useGetTokenRecipients();
+  const tokenRecipients = useGetSelectedTokens();
   const resetState = useResetTokenRecipients();
-
+  const attestation = getValues("attestation");
 
   async function getPayload(addresses: string[], credential: number) {
     let tokenId = await tokenContract?.totalSupply();
@@ -36,40 +49,58 @@ export default function useUpdateTokenRecipients(address: string) {
       issuer: account!,
       owner: owner,
       active: true,
-    }))
+    }));
 
-    const payload: AttestationToTokenMap = { [address]: tokenIds }
-    
+    const payload: AttestationToTokenMap = { [address]: tokenIds };
+
     return payload;
   }
 
   async function issueAttestation() {
-    const addresses = tokenRecipients.map(recipients => recipients.address);
-    const attestation = getValues("attestation");
+    const addresses = tokenRecipients
+      .filter((t) => t.is_added && !t.tokenId)
+      .map((recipients) => recipients.address);
+    console.log('tokens', addresses);
     let payload = undefined;
-    
+
     try {
       dispatch(setFormLoading(true));
-      updateTx({ step: Step.submit, message: "Confirm transaction..." })
+      updateTx({ step: Step.submit, message: "Confirm transaction..." });
 
       const tx = await tokenContract.batchMint(addresses, attestation);
       showModal(TransactionPrompt, {});
-      updateTx({ step: Step.broadcast, txHash: tx.hash, message: "Issuing token..." })
+      updateTx({
+        step: Step.broadcast,
+        txHash: tx.hash,
+        message: "Issuing token...",
+      });
 
       // preset issued tokens
       payload = await getPayload(addresses, attestation);
       dispatch(setTokens(payload));
       await tx.wait();
-      dispatch(setFormLoading(false))
-      updateTx({ step: Step.success, txHash: tx.hash, message: "token issued" })
+      dispatch(setFormLoading(false));
+      updateTx({
+        step: Step.success,
+        txHash: tx.hash,
+        message: "token issued",
+      });
       reset();
       resetState();
     } catch (e: any) {
       console.log("Error ", e?.data?.message, e?.message);
       if (payload !== undefined) {
-        dispatch(removeTokens({ address, tokenIds: payload[address].map(t => t.tokenId)}))
+        dispatch(
+          removeTokens({
+            address,
+            tokenIds: payload[address].map((t) => t.tokenId),
+          })
+        );
       }
-      updateTx({ step: Step.error, message: "An error occured while issuing credentials" });
+      updateTx({
+        step: Step.error,
+        message: "An error occured while issuing credentials",
+      });
       dispatch(setFormLoading(false));
       dispatch(setFormError(e?.data?.message ?? e?.message));
     }

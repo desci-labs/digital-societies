@@ -5,9 +5,10 @@ import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { ContentGrid } from "components/UI/Index";
 import useCredenter from "components/Transactors/Attestation/useCredenter";
-import { IssuedTokens } from "components/UI/Attestation/Recipients/Index";
 import { RevokedTokens } from "components/UI/Attestation/RevokedTokens";
 import MetaDataView from "components/UI/MetaDataView";
+import { RevokerForm } from "components/Transactors/TokenRecipient/Revoker/RevokerForm";
+import Issuer from "components/Transactors/TokenRecipient";
 
 export default function CredentialDetails() {
   const router = useRouter();
@@ -46,7 +47,7 @@ export default function CredentialDetails() {
         showUpdater={hasAccess}
         onUpdateClick={showLauncher}
       />
-      <IssuedTokens attestation={credential!} showUpdater={hasAccess} />
+      <Issuer Form={RevokerForm} attestation={credential} />
       <RevokedTokens attestation={credential!} />
     </ContentGrid>
   );

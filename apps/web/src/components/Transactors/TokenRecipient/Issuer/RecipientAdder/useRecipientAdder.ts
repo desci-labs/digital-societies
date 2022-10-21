@@ -1,14 +1,14 @@
 import { IssuerValues } from "components/Transactors/types";
 import { useFormContext } from "react-hook-form";
 import {
-  useAddTokenRecipients,
-  useGetTokenRecipients,
+  useAddTokenRecipient,
+  useGetSelectedTokens,
 } from "services/admin/hooks";
 import { useGetAttestationTokens } from "services/attestations/hooks";
 
 export default function useRecipientAdder() {
-  const recipientAdder = useAddTokenRecipients();
-  const recipients = useGetTokenRecipients();
+  const recipientAdder = useAddTokenRecipient();
+  const recipients = useGetSelectedTokens();
   const {
     getValues,
     setError,
@@ -30,7 +30,9 @@ export default function useRecipientAdder() {
       existingRecipients.find((r) => r.owner === newRecipient);
     if (existing) return setError("address", { message: "Duplicate address" });
 
-    recipientAdder(newRecipient);
+    recipientAdder({
+      address: newRecipient, is_added: true, is_deleted: false
+    });
     resetField("address");
   }
 

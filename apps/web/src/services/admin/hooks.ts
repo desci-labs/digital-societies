@@ -3,7 +3,7 @@ import { useGetter } from "store/accessors"
 import { addRecipient, setRecipients, toggleDeleteExistingRecipient, undoAddRecipient } from "./tokenUpdator";
 import { AttestationTokenRecipient } from "./types";
 
-export const useGetTokenRecipients = () => {
+export const useGetSelectedTokens = () => {
   const recipients = useGetter(state => state.admin.tokenRecipients);
   return recipients;
 }
@@ -18,9 +18,9 @@ export const useResetTokenRecipients = () => {
   return () => dispatch(setRecipients([]));
 }
 
-export const useAddTokenRecipients = () => {
+export const useAddTokenRecipient = () => {
   const dispatch = useDispatch();
-  return (args: string) => dispatch(addRecipient(args));
+  return (args: AttestationTokenRecipient) => dispatch(addRecipient(args));
 }
 
 export const useRemoveTokenRecipient = () => {

@@ -36,7 +36,6 @@ export interface DelegaterValues {
   org: string;
 }
 
-
 export type Metadata = Meta & WithUploadedFiles
 
 export type IResponse = {

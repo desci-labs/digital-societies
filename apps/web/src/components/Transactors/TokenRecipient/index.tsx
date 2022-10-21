@@ -4,7 +4,6 @@ import { IssuerValues } from "../types";
 import { issuerSchema } from "../schema";
 import { FC } from "react";
 import { Attestation, PendingAttestation } from "services/attestations/types";
-import { string } from "yup";
 
 export type Props = { attestation: Attestation | PendingAttestation; Form: FC };
 

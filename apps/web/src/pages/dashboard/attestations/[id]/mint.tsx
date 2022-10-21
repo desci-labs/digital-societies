@@ -1,6 +1,6 @@
 import Loader from 'components/Loader';
-import Issuer from 'components/Transactors/Issuer';
-import IssuerForm from 'components/Transactors/Issuer/IssuerForm';
+import Issuer from 'components/Transactors/TokenRecipient';
+import IssuerForm from 'components/Transactors/TokenRecipient/Issuer/IssuerForm';
 import { useGetAttestation } from 'services/attestations/hooks';
 import type { NextPage } from 'next';
 import Head from 'next/head';

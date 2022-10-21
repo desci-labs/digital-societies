@@ -9,7 +9,7 @@ const Dashboard: NextPage = () => {
   return (
     <div className="py-0 w-full">
       <Head>
-        <title>Desoc | {org?.metadata.acronym}</title>
+        <title>{org?.metadata.name}</title>
         <meta
           name="description"
           content={org?.metadata.name}

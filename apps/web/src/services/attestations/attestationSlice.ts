@@ -107,6 +107,7 @@ const slice = createSlice({
       state,
       { payload }: PayloadAction<{ tokenIds: number[]; address: string }>
     ) => {
+      console.log('remove ', payload);
       state.tokens[payload.address] = state.tokens[payload.address].filter(
         (token) => {
           if (payload.tokenIds.includes(token.tokenId)) return true;
@@ -118,7 +119,6 @@ const slice = createSlice({
       state,
       { payload }: PayloadAction<{ tokens: AttestationTokens[]; address: string }>
     ) => {
-      console.log('update ', payload, state.tokens[payload.address].length);
       state.tokens[payload.address] = state.tokens[payload.address].map(
         (token) => {
           const update = payload.tokens.find(t => t.tokenId === token.tokenId);
