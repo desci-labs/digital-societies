@@ -15,28 +15,26 @@ import RecipientAdder from "./RecipientAdder/RecipientAdder";
 
 export default function IssuerForm() {
   const {
-    watch,
+    getValues,
     register,
-    handleSubmit,
-    formState: { isSubmitting, isValid, errors },
+    formState: { isSubmitting, errors },
   } = useFormContext<IssuerValues>();
   const stage = useGetTxStage();
-  const orgAddress = watch("org");
+  const orgAddress = getValues("org");
   const metadata = useGetDesocMeta(orgAddress);
   const attestations = useGetAttestations(orgAddress);
   const { issueAttestation, tokenRecipients, isLoading } =
     useUpdateTokenRecipients(orgAddress);
   const canDisable = useMemo(
-    () => isSubmitting || isLoading,
-    [isSubmitting, isLoading]
+    () => tokenRecipients.length === 0 || isSubmitting || isLoading,
+    [tokenRecipients.length, isSubmitting, isLoading]
   );
 
   return (
     <Form
-      onSubmit={handleSubmit(issueAttestation)}
       title={metadata?.name}
       description="Issue an Attestation"
-      className="form"
+      onSubmit={() => {}}
     >
       <InputRow
         htmlFor="attestation"
@@ -72,7 +70,9 @@ export default function IssuerForm() {
         <RecipientAdder />
       </InputRow>
       <Button
-        disabled={canDisable || !isValid}
+        disabled={canDisable}
+        onClick={issueAttestation}
+        type="button"
         className="mt-10 w-full bg-tint-primary-dark disabled:bg-regent-gray"
       >
         {isLoading ? stage.message || "Loading..." : "Issue Credential"}

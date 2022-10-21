@@ -12,7 +12,7 @@ export default function useRecipientAdder() {
   const {
     getValues,
     setError,
-    trigger,
+    formState: { isValid },
     resetField,
   } = useFormContext<IssuerValues>();
   const existingRecipients = useGetAttestationTokens(
@@ -21,8 +21,6 @@ export default function useRecipientAdder() {
   );
 
   async function addRecipient() {
-    const isValid = await trigger(['org', 'attestation', 'address'], { shouldFocus: true });
-
     if (!isValid) return setError("address", { message: "Invalid address format" });
     const newRecipient = getValues("address");
     if (!newRecipient) return;
@@ -30,8 +28,6 @@ export default function useRecipientAdder() {
     const existing =
       recipients.find((recipient) => recipient.address === newRecipient) ||
       existingRecipients.find((r) => r.owner === newRecipient);
-
-
     if (existing) return setError("address", { message: "Duplicate address" });
 
     recipientAdder(newRecipient);

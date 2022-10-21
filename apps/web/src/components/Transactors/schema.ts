@@ -57,7 +57,6 @@ const ADDRES_SCHEMA = Yup.mixed<string>()
     name: "Address validation",
     message: "Invalid address format",
     test: (data) => {
-      console.log('validate', isAddress(data ?? ''))
       return isAddress(data ?? '')
     }
   })

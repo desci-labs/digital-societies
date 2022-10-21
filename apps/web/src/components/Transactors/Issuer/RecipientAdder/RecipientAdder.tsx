@@ -11,7 +11,7 @@ export default function RecipientAdder() {
   return (
     <div className="flex items-center justify-between gap-3 w-full">
       <Input {...register("address")} />
-      <Button className="bg-states-success text-sm" onClick={addRecipient}>
+      <Button className="bg-states-success text-sm" type="button" onClick={addRecipient}>
         Add
       </Button>
     </div>

@@ -13,6 +13,11 @@ export const useSetTokenRecipients = () => {
   return (args: AttestationTokenRecipient[]) => dispatch(setRecipients(args));
 }
 
+export const useResetTokenRecipients = () => {
+  const dispatch = useDispatch();
+  return () => dispatch(setRecipients([]));
+}
+
 export const useAddTokenRecipients = () => {
   const dispatch = useDispatch();
   return (args: string) => dispatch(addRecipient(args));

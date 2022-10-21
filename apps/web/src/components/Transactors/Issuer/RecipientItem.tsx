@@ -33,7 +33,6 @@ export default function RecipientItem(props: {
           <AddressCopier address={props.recipient.address} shorten={false} />
         </span>
       </div>
-      {/* <AddressCopier address={props.recipient.address} /> */}
       <button onClick={onActionClick}>
         {props.recipient.is_added || props.recipient.is_deleted ? (
           <CgUndo size={18} />
