@@ -49,6 +49,14 @@ body.modal-open {
     @apply text-dark dark:text-white;
   }
 
+  .text-state-success {
+    @apply text-states-success dark:text-states-success;
+  }
+  
+  .text-state-error {
+    @apply text-states-error dark:text-states-error;
+  }
+
   .text-darker {
     @apply text-neutrals-gray-3 dark:text-neutrals-gray-7;
   }

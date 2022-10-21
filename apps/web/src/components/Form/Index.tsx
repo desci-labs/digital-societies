@@ -50,9 +50,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, HTMLProps<HTMLTextAreaEl
   }
 );
 
-export function LabelText({ text }: { text: string }) {
+export function LabelText({ text, classes }: { text: string, classes?: string; }) {
   return (
-    <span className="text-lg text-darker cursor-pointer font-semibold capitalize">
+    <span className={`text-lg text-darker cursor-pointer font-semibold capitalize ${classes ?? ''}`}>
       {text}
     </span>
   );

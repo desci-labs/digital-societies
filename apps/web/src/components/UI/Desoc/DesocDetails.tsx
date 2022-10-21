@@ -14,7 +14,7 @@ export default function DesocDetails(props: {
   const showUpdater = useUpdater(props.desoc);
   const isAdmin = useIsAdmin(props.desoc.address);
   if (!props.desoc) return <Loader className="h-screen" />;
-
+  
   return (
     <ContentGrid>
       <MetaDetails
@@ -28,10 +28,10 @@ export default function DesocDetails(props: {
         address={props.desoc.address}
         showUpdater={props.showUpdaters}
       />
-      <Delegates
+      {props.showUpdaters && <Delegates
         address={props.desoc.address}
         showUpdater={props.showUpdaters}
-      />
+      />}
     </ContentGrid>
   );
 }

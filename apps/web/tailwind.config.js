@@ -29,7 +29,6 @@ module.exports = {
         "wild-sand": "#F4F4F4",
         iron: "#CFD5D9",
         casal: "#2B6B5A",
-        success: "#712DD3",
         primary: "rgb(82, 168, 193)",
         "primary-hover": "#61DCF7",
         "neutrals-gray-1": "#272727",

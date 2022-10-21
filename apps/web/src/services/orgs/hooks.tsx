@@ -9,9 +9,15 @@ export function useGetOrgs() {
   const { data } = useGetter(state => state.org);
   return data
 }
+
 export function useGetOrg(address: string) {
   const { data } = useGetter(state => state.org);
   return data.find((org) => org.address === address);
+}
+
+export function useGetDesocMeta(address: string) {
+  const { data } = useGetter(state => state.org);
+  return data.find((org) => org.address === address)?.metadata;
 }
 
 export function useIsAdmin(address: string) {

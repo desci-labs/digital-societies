@@ -27,7 +27,8 @@ export type MetadataValues = Meta & {
 export type AttestationMetadataValues = MetadataValues & { attestationType: AttestationType }
 export type AttestationMetadata = AttestationMetadataValues & WithUploadedFiles
 export interface IssuerValues {
-  addresses: string;
+  org: string;
+  address: string;
   attestation: number;
 }
 export interface DelegaterValues {

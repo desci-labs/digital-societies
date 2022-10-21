@@ -1,7 +1,9 @@
 import { useModalContext } from "components/Modal/Modal";
 import TransactionPrompt from "components/TransactionStatus/TransactionPrompt";
 import { useTokenContract } from "hooks/useContract";
+import { useFormContext } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { useGetTokenRecipients, useResetTokenRecipients, useSetTokenRecipients } from "services/admin/hooks";
 import { removeTokens, setTokens } from "services/attestations/attestationSlice";
 import { AttestationToken, AttestationToTokenMap } from "services/attestations/types";
 import { useGetTxState } from "services/transaction/hooks";
@@ -11,14 +13,17 @@ import useTxUpdator from "services/transaction/updators";
 import { useAccount } from "wagmi";
 import { IssuerValues } from "../types";
 
-export default function useIssueAttestation(address: string) {
+export default function useUpdateTokenRecipients(address: string) {
   const dispatch = useDispatch();
   const { updateTx } = useTxUpdator();
   const { showModal } = useModalContext();
   const { form_loading } = useGetTxState();
   const { address: account } = useAccount();
+  const { getValues, reset } = useFormContext<IssuerValues>();
   const getContract = useTokenContract();
-  const tokenContract = getContract(address);
+  const tokenContract = getContract(getValues("org"));
+  const tokenRecipients = useGetTokenRecipients();
+  const resetState = useResetTokenRecipients();
 
 
   async function getPayload(addresses: string[], credential: number) {
@@ -38,23 +43,27 @@ export default function useIssueAttestation(address: string) {
     return payload;
   }
 
-  async function issueAttestation(metadata: IssuerValues) {
-    const addresses = metadata.addresses.split(",");
+  async function issueAttestation() {
+    const addresses = tokenRecipients.map(recipients => recipients.address);
+    const attestation = getValues("attestation");
     let payload = undefined;
+    
     try {
       dispatch(setFormLoading(true));
       updateTx({ step: Step.submit, message: "Confirm transaction..." })
 
-      const tx = await tokenContract.batchMint(addresses, metadata.attestation);
+      const tx = await tokenContract.batchMint(addresses, attestation);
       showModal(TransactionPrompt, {});
       updateTx({ step: Step.broadcast, txHash: tx.hash, message: "Issuing token..." })
 
       // preset issued tokens
-      payload = await getPayload(metadata.addresses.split(",").map((v) => v.trim()), metadata.attestation);
+      payload = await getPayload(addresses, attestation);
       dispatch(setTokens(payload));
       await tx.wait();
       dispatch(setFormLoading(false))
       updateTx({ step: Step.success, txHash: tx.hash, message: "token issued" })
+      reset();
+      resetState();
     } catch (e: any) {
       console.log("Error ", e?.data?.message, e?.message);
       if (payload !== undefined) {
@@ -65,5 +74,5 @@ export default function useIssueAttestation(address: string) {
       dispatch(setFormError(e?.data?.message ?? e?.message));
     }
   }
-  return { issueAttestation, isLoading: form_loading };
+  return { issueAttestation, tokenRecipients, isLoading: form_loading };
 }
