@@ -5,7 +5,6 @@ import Head from 'next/head';
 
 const Dashboard: NextPage = () => {
   const { org, hasAccess } = useDashboard();
-
   return (
     <div className="py-0 w-full">
       <Head>
