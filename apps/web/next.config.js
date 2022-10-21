@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const withImages = require("next-images");
+
 const nextConfig = {
   reactStrictMode: true,
   images: {
@@ -11,6 +13,10 @@ const nextConfig = {
   },
   webpack: (config) => {
     config.resolve.fallback = { fs: false };
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"],
+    });
 
     return config;
   }
