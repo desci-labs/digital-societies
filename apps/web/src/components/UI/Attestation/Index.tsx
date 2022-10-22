@@ -34,7 +34,7 @@ export function AttestationList({ address, showUpdater }: { address: string, sho
               key={idx}
               metadata={attestation.metadata}
               verified={org?.verified}
-              link={`attestations/${attestation.id}?address=${attestation.address}`}
+              link={`/attestations/${attestation.id}?address=${attestation.address}`}
             />
           ))}
         </div>

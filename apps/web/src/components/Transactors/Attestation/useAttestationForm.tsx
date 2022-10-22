@@ -45,7 +45,7 @@ export default function useAttestationForm(address: string, tokenType: number) {
       const typeId = await tokenContract?.totalTypes() ?? 0;
       const attestation: PendingAttestation = { id: typeId + 1, cid: ipfsURL, address, mintedBy, metadata: meta, pending: true, dateCreated: Date.now() };
       dispatch(setAttestation({ address, attestation }))
-      const previewLink = `/orgs/attestations/${typeId + 1}?address=${address}`;
+      const previewLink = `/attestations/${typeId + 1}?address=${address}`;
       updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Deploying ${metadata.name} credential`, previewLink: { href: previewLink, caption: "Preview" } });
       showModal(TransactionPrompt, {});
       await tx.wait();
