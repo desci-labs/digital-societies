@@ -3,7 +3,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["ipfs.io", "w3s.link"],
+    domains: ["w3s.link"],
   },
   env: {
     PINATA_API_KEY: process.env.PINATA_API_KEY,
