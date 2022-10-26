@@ -33,6 +33,7 @@ jobs:
         run: |
           cd apps/contracts
           forge --version
+          yarn install
           forge build --sizes
         id: build
 
