@@ -3,7 +3,8 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
 import {console} from "forge-std/console.sol";
-import "src/DesocManager.sol";
+import {DesocManager} from "src/DesocManager.sol";
+import {Desoc} from "src/Desoc.sol";
 import {Utils} from "./Utils/Utils.sol";
 
 contract DesocManagerTest is Test {

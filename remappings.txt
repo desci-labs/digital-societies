@@ -4,3 +4,4 @@ gsn/=apps/contracts/lib/gsn/
 openzeppelin-contracts/=apps/contracts/lib/openzeppelin-contracts/
 @openzeppelin/=apps/contracts/lib/openzeppelin-contracts/
 src/=apps/contracts/src/
+hardhat/=apps/contracts/../../node_modules/hardhat/

@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/Script.sol";
-import "src/DesocManager.sol";
+import { DesocManager } from "src/DesocManager.sol";
 
 contract FactoryScript is Script {
     // forwarder contract address on goerli
