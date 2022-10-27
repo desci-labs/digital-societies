@@ -86,3 +86,8 @@ export const delegaterSchema = Yup.object().shape({
   delegate: ADDRES_SCHEMA.required(),
   org: Yup.string().required()
 });
+
+export const offchainMetaSchema = Yup.object().shape({
+  delegate: ADDRES_SCHEMA.required(),
+  org: Yup.string().required()
+});

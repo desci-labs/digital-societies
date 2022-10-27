@@ -5,7 +5,7 @@ import { useGetOrg, useIsAdmin } from "services/orgs/hooks";
 import { CardContainer } from "../../Index";
 import MetaLogo from "../../MetaLogo";
 import { Cell, Row, Table, TBody, THead } from "../../Table";
-import { DelegateRevoker, DelegateUpdater } from "./Triggers";
+import { DelegateRevoker, DelegateUpdater, DelegateUpdators } from "./Triggers";
 
 export function Delegates({
   address,
@@ -21,14 +21,14 @@ export function Delegates({
 
   const getRows = () => {
     const rows = ["logo", "delegate"];
-    return hasAccess ? rows.concat(["Revoke"]) : rows;
+    return hasAccess ? rows.concat(["Actions"]) : rows;
   };
 
   return (
     <CardContainer>
       <div className="flex justify-between items-center text-neutrals-gray-7 mb-2">
         <h1 className="heading-2">Delegates</h1>
-        {showUpdater && <DelegateUpdater address={org.address} />}
+        {showUpdater && <DelegateUpdators address={org.address} />}
       </div>
       <Table>
         <THead rows={getRows()} />
@@ -44,12 +44,15 @@ export function Delegates({
               <Cell>
                 <AddressCopier address={delegate} />
               </Cell>
-              <DelegateRevoker
-                delegate={delegate}
-                desoc={org}
-                onRevoke={() => revoke(delegate)}
-                isLoading={isLoading}
-              />
+              <Cell className="p-0">
+                {hasAccess && delegate !== org.admin && (
+                  <DelegateRevoker
+                    delegate={delegate}
+                    onRevoke={() => revoke(delegate)}
+                    isLoading={isLoading}
+                  />
+                )}
+              </Cell>
             </Row>
           ))}
         </TBody>

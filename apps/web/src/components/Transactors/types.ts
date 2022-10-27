@@ -1,4 +1,5 @@
 import { FileObject } from "components/FileDropzone/types";
+import { number, string } from "yup";
 import { attestationTypes } from "./constants";
 
 
@@ -36,6 +37,13 @@ export interface DelegaterValues {
   org: string;
 }
 
+// export enum SupportedSocials {facebook = "facebook",  linkedin = "linkedin", twitter = "twitter", github = "github" };
+type Socials = "facebook" | "linkedin" | "twitter" | "github" | "instagram";
+
+export type MetadataUpdaterValues = { address: string; notes: string } & {
+  [K in Socials]?: string;
+}
+
 export type Metadata = Meta & WithUploadedFiles
 
 export type IResponse = {
@@ -46,5 +54,5 @@ export type IResponse = {
 
 export type LaunchMode = "create" | "update";
 
-export type LauncherFormValues =  MetadataValues & { mode: LaunchMode }
+export type LauncherFormValues = MetadataValues & { mode: LaunchMode }
 export type AttestationFormValues = AttestationMetadataValues & { mode: LaunchMode }
