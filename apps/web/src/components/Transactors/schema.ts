@@ -4,9 +4,6 @@ import * as Yup from "yup";
 
 const VALID_MIME_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
-const uriPattern =
-  /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm;
-
 const FILE_SCHEMA = Yup.mixed<FileObject>()
   .test({
     name: "Ipfs hash",
@@ -65,7 +62,7 @@ export const metadataSchema = Yup.object().shape({
   name: Yup.string().required(),
   acronym: Yup.string(),
   description: Yup.string().required(),
-  external_link: Yup.string().matches(uriPattern, "Invalid url"),
+  external_link: Yup.string().url("Invalid url").required(),
   banner: FILE_SCHEMA.required(),
   image: FILE_SCHEMA.required(),
 });
