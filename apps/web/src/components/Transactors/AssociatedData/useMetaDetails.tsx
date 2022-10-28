@@ -1,21 +1,21 @@
 import { useModalContext } from "components/Modal/Modal";
 import Transactor, { TxProps } from "components/Transactors/Transactor";
 import { useCallback } from "react";
-import Delegater from ".";
+import MetadataUpdater from ".";
 import { Props } from ".";
-import MetadataUpdateForm from "./MetadataUpdateForm";
+import AssociatedDataForm from "./AssociatedDataForm";
 
 export default function useMetaDetails(address: string) {
   const { showModal } = useModalContext();
 
-  const showIssuer = useCallback(() => {
+  const openModal = useCallback(() => {
     showModal<TxProps<Props>>(Transactor, {
-      Content: Delegater,
-      contentProps: { address, Form: MetadataUpdateForm },
+      Content: MetadataUpdater,
+      contentProps: { address, Form: AssociatedDataForm },
       inModal: true,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
-  return showIssuer;
+  return openModal;
 }

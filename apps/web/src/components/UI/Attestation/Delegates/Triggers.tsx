@@ -1,5 +1,7 @@
+import useMetaDetails from "components/Transactors/AssociatedData/useMetaDetails";
 import useDelegater from "components/Transactors/Delegater/useDelegater";
 import { AiOutlinePlus } from "react-icons/ai";
+import { FiEdit2 } from "react-icons/fi";
 import { RiCloseLine } from "react-icons/ri";
 import { useIsAdmin } from "services/orgs/hooks";
 import Button from "../../Button/Index";
@@ -11,16 +13,35 @@ export function DelegateRevoker(props: {
 }) {
 
   return (
-      <Button
-        onClick={props.onRevoke}
-        disabled={props.isLoading}
-        className={`bg-transparent bg-white bg-opacity-0`}
-      >
-        <RiCloseLine
-          className="hover:scale-150 duration-100"
-          color={props.isLoading ? "#8793A6" : "#f15156"}
-        />
-      </Button>
+    <Button
+      onClick={props.onRevoke}
+      disabled={props.isLoading}
+      className={`bg-transparent bg-white bg-opacity-0 pl-0`}
+    >
+      <RiCloseLine
+        className="hover:scale-150 duration-100"
+        color={props.isLoading ? "#8793A6" : "#f15156"}
+      />
+    </Button>
+  );
+}
+export function AssociatedDataEditor(props: {
+  address: string;
+  isLoading?: boolean;
+}) {
+  const trigger = useMetaDetails(props.address);
+
+  return (
+    <Button
+      onClick={trigger}
+      disabled={props.isLoading}
+      className={`bg-transparent bg-white bg-opacity-0 pl-0`}
+    >
+      <FiEdit2
+        className="hover:scale-150 duration-100"
+        color={props.isLoading ? "#8793A6" : "#ffffff"}
+      />
+    </Button>
   );
 }
 

@@ -1,6 +1,8 @@
 import { FileObject } from "components/FileDropzone/types";
 import { isAddress } from "ethers/lib/utils";
 import * as Yup from "yup";
+import Lazy from "yup/lib/Lazy";
+import { AssociatedDataValues } from "./types";
 
 const VALID_MIME_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
@@ -36,22 +38,6 @@ const FILE_SCHEMA = Yup.mixed<FileObject>()
           : false,
   });
 
-const ADDRESSES_SCHEMA = Yup.mixed<string>()
-  .test({
-    name: "Address validation",
-    message: "A wallet address is required",
-    test: (data) => (data?.split(",").map(Boolean).length ?? []) != 0 && true
-  })
-  .test({
-    name: "Address validation",
-    message: "Invalid address format",
-    test: (data) => {
-      const inputs = data?.split(",") ?? [];
-      const validTypes = inputs?.map(addr => isAddress(addr.trim())).map(Boolean)
-      return validTypes?.length === inputs?.length && validTypes.every(val => val === true) && true;
-    }
-  })
-
 const ADDRES_SCHEMA = Yup.mixed<string>()
   .test({
     name: "Address validation",
@@ -70,12 +56,6 @@ export const metadataSchema = Yup.object().shape({
   image: FILE_SCHEMA.required(),
 });
 
-// const tokenIssuerShape = {
-//   addresses: ADDRES_SCHEMA.required(),
-//   attestation: Yup.number().required(),
-//   org: Yup.number().required()
-// }
-
 export const issuerSchema = Yup.object().shape({
   address: ADDRES_SCHEMA.required(),
   attestation: Yup.number().required(),
@@ -87,7 +67,18 @@ export const delegaterSchema = Yup.object().shape({
   org: Yup.string().required()
 });
 
-export const offchainMetaSchema = Yup.object().shape({
-  delegate: ADDRES_SCHEMA.required(),
-  org: Yup.string().required()
-});
+type SchemaShape<S> = {
+  [K in keyof S]: Yup.AnySchema | Lazy<Yup.AnySchema>;
+};
+
+const associatedDetailsShape: SchemaShape<AssociatedDataValues> = {
+  notes: Yup.string().optional(),
+  github: Yup.string().optional(),
+  twitter: Yup.string().optional(),
+  discord: Yup.string().optional(),
+  address: ADDRES_SCHEMA.required(),
+  facebook: Yup.string().optional(),
+  linkedin: Yup.string().optional(),
+}
+
+export const offchainMetaSchema = Yup.object(associatedDetailsShape);

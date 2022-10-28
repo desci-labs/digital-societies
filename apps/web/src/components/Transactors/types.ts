@@ -14,7 +14,6 @@ type Meta = {
 type WithUploadedFiles = {
   banner: string;
   image: string;
-  // logo?: string | undefined; // remove later
 }
 
 export type AttestationType = typeof attestationTypes[number];
@@ -22,7 +21,6 @@ export type AttestationType = typeof attestationTypes[number];
 export type MetadataValues = Meta & {
   banner: FileObject;
   image: FileObject;
-  // logo?: FileObject | undefined;
 }
 
 export type AttestationMetadataValues = MetadataValues & { attestationType: AttestationType }
@@ -37,11 +35,11 @@ export interface DelegaterValues {
   org: string;
 }
 
-// export enum SupportedSocials {facebook = "facebook",  linkedin = "linkedin", twitter = "twitter", github = "github" };
-type Socials = "facebook" | "linkedin" | "twitter" | "github" | "instagram";
+export const ASSOCIATED_SOCIALS = ["facebook", "linkedin", "twitter", "github", "discord"] as const;
+export type Socials = typeof ASSOCIATED_SOCIALS //"facebook" | "linkedin" | "twitter" | "github" | "discord";
 
-export type MetadataUpdaterValues = { address: string; notes: string } & {
-  [K in Socials]?: string;
+export type AssociatedDataValues = { address: string; notes: string } & {
+  [K in Socials[number]]: string;
 }
 
 export type Metadata = Meta & WithUploadedFiles
