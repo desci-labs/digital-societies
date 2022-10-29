@@ -6,12 +6,14 @@ import orgSlice from "services/orgs/orgSlice";
 import thunk from 'redux-thunk';
 import transactionSlice from "services/transaction/transactionSlice";
 import { adminReducers } from "services/admin/root";
+import { api } from "services/api";
 
 const rootReducer = combineReducers({
   admin: adminReducers,
   org: orgSlice,
   attestations: attestationSlice,
   transaction: transactionSlice,
+  [api.reducerPath]: api.reducer,
 });
 
 const migrations = {
@@ -26,7 +28,7 @@ const persistConfig = {
   version: 1,
   storage,
   migrate: createMigrate(migrations),
-  blacklist: ['transaction', 'admin'],
+  blacklist: ['transaction', 'admin', api.reducerPath],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

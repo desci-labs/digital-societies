@@ -9,7 +9,7 @@ import {
   Socials,
 } from "components/Transactors/types";
 import useRouterAddress from "hooks/useRouterAddress";
-import useSaveMetadata from "./useSaveMetadata";
+import useHandleUpdate from "./useHandleUpdate";
 import { maskAddress } from "helper";
 
 const placeholders: Record<Socials[number], string> = {
@@ -29,7 +29,7 @@ export default function AssociatedDataForm() {
   } = useFormContext<AssociatedDataValues>();
   const orgAddress = useRouterAddress();
   const stage = useGetTxStage();
-  const { save } = useSaveMetadata(orgAddress);
+  const { save } = useHandleUpdate(orgAddress);
 
   return (
     <Form
