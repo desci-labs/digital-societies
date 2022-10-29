@@ -66,19 +66,18 @@ type SelectInputProps<T> = {
 }
 
 function Select<T>(
-  props: SelectInputProps<T>,
+  { options, getOptionLabel, getOptionValue, ..._props}: SelectInputProps<T>,
   ref: React.ForwardedRef<HTMLSelectElement>
 ) {
-
   return (
     <select
       ref={ref}
-      id="default"
-      className={`bg-transparent border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${props.className ?? ''}`}
+      {..._props}
+      className={`bg-transparent border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${_props.className ?? ''}`}
     >
-      {props.options.map((data, i) => (
-        <option key={i} value={props.getOptionValue(data)}>
-          {props.getOptionLabel(data)}
+      {options.map((data, i) => (
+        <option key={i} value={getOptionValue(data)}>
+          {getOptionLabel(data)}
         </option>
       ))}
     </select>

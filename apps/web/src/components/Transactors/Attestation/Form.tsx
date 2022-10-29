@@ -32,6 +32,7 @@ export default function AttestationForm() {
   const banner = watch("banner");
   const logo = watch("image");
   const mode = watch("mode");
+  const attestationType = watch("attestationType");
   const isUpdateMode = mode === "update";
 
   const canDisable = useMemo(
@@ -90,7 +91,7 @@ export default function AttestationForm() {
           {...register("description")}
         />
       </InputRow>
-      <InputRow htmlFor="external_link" label="Link to role specification">
+      <InputRow htmlFor="external_link" label={`Link to ${attestationType}`}>
         <ErrorMessage
           errors={errors}
           name="external_link"
@@ -99,7 +100,7 @@ export default function AttestationForm() {
         />
         <Input
           id="external_link"
-          placeholder="Link to role specification"
+          placeholder={`Link to ${attestationType}`}
           {...register("external_link")}
         />
       </InputRow>

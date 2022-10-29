@@ -62,7 +62,7 @@ export const metadataSchema = Yup.object().shape({
   name: Yup.string().required(),
   acronym: Yup.string(),
   description: Yup.string().required(),
-  external_link: Yup.string().url("Invalid url").required(),
+  external_link: Yup.string().url("Invalid url").required("Field is required"),
   banner: FILE_SCHEMA.required(),
   image: FILE_SCHEMA.required(),
 });
