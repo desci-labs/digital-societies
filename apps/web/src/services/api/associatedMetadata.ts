@@ -4,11 +4,13 @@ import { AssociatedDataInsert } from "./types";
 
 type ApiResponse = { status: string; message?: string }
 type QueryParams = { org?: string; owner: string }
+export const defaultErrorMsg = "We encountered an error saving the metadata";
 
 const associatedMetadataApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getAccountMetadata: builder.query<any, QueryParams>({
       query: ({ owner, org }) => "",
+      extraOptions: { maxRetries: 5},
       providesTags: [tags.meta]
     }),
     saveMetadata: builder.mutation<ApiResponse, AssociatedDataInsert>({

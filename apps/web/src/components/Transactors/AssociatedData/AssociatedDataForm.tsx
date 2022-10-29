@@ -25,11 +25,11 @@ export default function AssociatedDataForm() {
     register,
     getValues,
     handleSubmit,
-    formState: { isSubmitting, isValid, errors },
+    formState: { isValid, errors },
   } = useFormContext<AssociatedDataValues>();
   const orgAddress = useRouterAddress();
   const stage = useGetTxStage();
-  const { save } = useHandleUpdate(orgAddress);
+  const { save, isLoading, error } = useHandleUpdate(orgAddress);
 
   return (
     <Form
@@ -38,6 +38,7 @@ export default function AssociatedDataForm() {
       description={maskAddress(getValues("owner"))}
       className="form"
     >
+      {error && <span className="text-states-error text-md inline-block w-full">Error: {error}</span>}
       <>
         {ASSOCIATED_SOCIALS.map((name) => (
           <InputRow htmlFor={name} label={name} className="text-sm" key={name}>
@@ -55,10 +56,10 @@ export default function AssociatedDataForm() {
         <Textarea id="notes" {...register("notes")} placeholder="Extra notes on this recipient" />
       </InputRow>
       <Button
-        disabled={isSubmitting || !isValid}
+        disabled={isLoading || !isValid}
         className="mt-10 w-full bg-tint-primary-dark disabled:bg-regent-gray"
       >
-        {isSubmitting ? stage.message || "saving..." : "Save"}
+        {isLoading ? stage.message || "saving..." : "Save"}
       </Button>
     </Form>
   );
