@@ -38,7 +38,7 @@ export interface DelegaterValues {
 export const ASSOCIATED_SOCIALS = ["facebook", "linkedin", "twitter", "github", "discord"] as const;
 export type Socials = typeof ASSOCIATED_SOCIALS //"facebook" | "linkedin" | "twitter" | "github" | "discord";
 
-export type AssociatedDataValues = { address: string; notes: string } & {
+export type AssociatedDataValues = { owner: string; notes: string } & {
   [K in Socials[number]]: string;
 }
 

@@ -76,7 +76,7 @@ const associatedDetailsShape: SchemaShape<AssociatedDataValues> = {
   github: Yup.string().optional(),
   twitter: Yup.string().optional(),
   discord: Yup.string().optional(),
-  address: ADDRES_SCHEMA.required(),
+  owner: ADDRES_SCHEMA.required(),
   facebook: Yup.string().optional(),
   linkedin: Yup.string().optional(),
 }

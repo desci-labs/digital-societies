@@ -1,9 +1,7 @@
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { Form, InputRow, Input, Textarea } from "components/Form/Index";
-import { useGetOrg } from "services/orgs/hooks";
 import { useGetTxStage } from "services/transaction/hooks";
-import { useMemo } from "react";
 import Button from "components/UI/Button/Index";
 import {
   ASSOCIATED_SOCIALS,
@@ -31,18 +29,13 @@ export default function AssociatedDataForm() {
   } = useFormContext<AssociatedDataValues>();
   const orgAddress = useRouterAddress();
   const stage = useGetTxStage();
-  const org = useGetOrg(orgAddress);
-  const { save, isLoading } = useSaveMetadata(orgAddress);
-  const canDisable = useMemo(
-    () => isSubmitting || isLoading,
-    [isSubmitting, isLoading]
-  );
+  const { save } = useSaveMetadata(orgAddress);
 
   return (
     <Form
       onSubmit={handleSubmit(save)}
       title="Associated Metadata"
-      description={maskAddress(getValues("address"))}
+      description={maskAddress(getValues("owner"))}
       className="form"
     >
       <>
@@ -62,10 +55,10 @@ export default function AssociatedDataForm() {
         <Textarea id="notes" {...register("notes")} placeholder="Extra notes on this recipient" />
       </InputRow>
       <Button
-        disabled={canDisable || !isValid}
+        disabled={isSubmitting || !isValid}
         className="mt-10 w-full bg-tint-primary-dark disabled:bg-regent-gray"
       >
-        {isLoading ? stage.message || "Loading..." : "Save"}
+        {isSubmitting ? stage.message || "saving..." : "Save"}
       </Button>
     </Form>
   );

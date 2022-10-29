@@ -13,7 +13,7 @@ export default function MetadataUpdater({ address, Form }: Props) {
     reValidateMode: "onChange",
     mode: "onChange",
     defaultValues: {
-      address,
+      owner: address,
       facebook: "",
       github: "",
       linkedin: "",

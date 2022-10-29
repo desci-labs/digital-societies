@@ -6,8 +6,6 @@ const nextConfig = {
     domains: ["ipfs.io", "w3s.link"],
   },
   env: {
-    PINATA_API_KEY: process.env.PINATA_API_KEY,
-    PINATA_SECRET_KEY: process.env.PINATA_SECRET_KEY,
     WEB3_STORAGE_TOKEN: process.env.WEB3_STORAGE_TOKEN,
   },
   webpack: (config) => {
