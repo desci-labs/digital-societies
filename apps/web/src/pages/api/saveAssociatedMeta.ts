@@ -44,7 +44,7 @@ async function handler(
   }
 }
 
-export default function pinJSONToIPFS(
+export default function queryAssociatedData(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

@@ -1,16 +1,25 @@
 import { api } from ".";
 import { tags } from "./tags";
-import { AssociatedDataInsert } from "./types";
+import { AssociatedDataInsert, AssociatedDataRow } from "./types";
 
 type ApiResponse = { status: string; message?: string }
-type QueryParams = { org?: string; owner: string }
+type QueryParams = { org?: string; owner?: string; }
 export const defaultErrorMsg = "We encountered an error saving the metadata";
+type MaybeArray<T> = T | T[];
 
 const associatedMetadataApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getAccountMetadata: builder.query<any, QueryParams>({
-      query: ({ owner, org }) => "",
-      extraOptions: { maxRetries: 5},
+    getAccountMetadata: builder.query<AssociatedDataRow[], QueryParams>({
+      query: ({ org }) => {
+        return {
+          method: "GET",
+          url: `queryAssociatedData`,
+          params: {
+            org,
+          },
+        }
+      },
+      extraOptions: { maxRetries: 5 },
       providesTags: [tags.meta]
     }),
     saveMetadata: builder.mutation<ApiResponse, AssociatedDataInsert>({

@@ -5,12 +5,12 @@ import { useGetTxStage } from "services/transaction/hooks";
 import Button from "components/UI/Button/Index";
 import {
   ASSOCIATED_SOCIALS,
-  AssociatedDataValues,
   Socials,
 } from "components/Transactors/types";
 import useRouterAddress from "hooks/useRouterAddress";
 import useHandleUpdate from "./useHandleUpdate";
 import { maskAddress } from "helper";
+import { AssociatedDataUpdate } from "services/api/types";
 
 const placeholders: Record<Socials[number], string> = {
   facebook: "https://facebook.com/desciety",
@@ -26,7 +26,7 @@ export default function AssociatedDataForm() {
     getValues,
     handleSubmit,
     formState: { isValid, errors },
-  } = useFormContext<AssociatedDataValues>();
+  } = useFormContext<AssociatedDataUpdate>();
   const orgAddress = useRouterAddress();
   const stage = useGetTxStage();
   const { save, isLoading, error } = useHandleUpdate(orgAddress);
@@ -48,12 +48,12 @@ export default function AssociatedDataForm() {
               as="span"
               className="text-xs text-left text-red-400 font-semibold m-0"
             />
-            <Input id={name} {...register(name)} className="py-2" placeholder={placeholders[name]} />
+            <Input id={name} {...register(`metadata.${name}`)} className="py-2" placeholder={placeholders[name]} />
           </InputRow>
         ))}
       </>
       <InputRow htmlFor="notes" label="Notes">
-        <Textarea id="notes" {...register("notes")} placeholder="Extra notes on this recipient" />
+        <Textarea id="notes" {...register("metadata.notes")} placeholder="Extra notes on this recipient" />
       </InputRow>
       <Button
         disabled={isLoading || !isValid}

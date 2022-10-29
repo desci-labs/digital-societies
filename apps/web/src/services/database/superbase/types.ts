@@ -1,3 +1,5 @@
+import { AssociatedDataValues } from "components/Transactors/types"
+
 export type Json =
   | string
   | number
@@ -16,7 +18,7 @@ export interface Database {
           updated_at: string | null
           org: string
           owner: string
-          metadata: Json
+          metadata: Omit<AssociatedDataValues, "owner">
         }
         Insert: {
           id?: number
@@ -24,7 +26,7 @@ export interface Database {
           updated_at?: string | null
           org: string
           owner: string
-          metadata: Json
+          metadata: Omit<AssociatedDataValues, "owner">
         }
         Update: {
           id?: number
@@ -32,7 +34,7 @@ export interface Database {
           updated_at?: string | null
           org: string
           owner: string
-          metadata: Json
+          metadata: Omit<AssociatedDataValues, "owner">
         }
       }
     }

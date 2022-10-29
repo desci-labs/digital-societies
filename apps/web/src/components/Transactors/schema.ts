@@ -1,8 +1,8 @@
 import { FileObject } from "components/FileDropzone/types";
 import { isAddress } from "ethers/lib/utils";
+import { AssociatedDataUpdate } from "services/api/types";
 import * as Yup from "yup";
 import Lazy from "yup/lib/Lazy";
-import { AssociatedDataValues } from "./types";
 
 const VALID_MIME_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
@@ -71,14 +71,18 @@ type SchemaShape<S> = {
   [K in keyof S]: Yup.AnySchema | Lazy<Yup.AnySchema>;
 };
 
-const associatedDetailsShape: SchemaShape<AssociatedDataValues> = {
-  notes: Yup.string().optional(),
-  github: Yup.string().optional(),
-  twitter: Yup.string().optional(),
-  discord: Yup.string().optional(),
+const associatedDetailsShape: SchemaShape<Omit<AssociatedDataUpdate, "created_at">> = {
+  org: ADDRES_SCHEMA.required(),
   owner: ADDRES_SCHEMA.required(),
-  facebook: Yup.string().optional(),
-  linkedin: Yup.string().optional(),
+  id: Yup.number().optional(),
+  metadata: Yup.object({
+    notes: Yup.string().url().optional(),
+    github: Yup.string().url().optional(),
+    twitter: Yup.string().url().optional(),
+    discord: Yup.string().url().optional(),
+    facebook: Yup.string().url().optional(),
+    linkedin: Yup.string().url().optional(),
+  }),
 }
 
 export const offchainMetaSchema = Yup.object(associatedDetailsShape);

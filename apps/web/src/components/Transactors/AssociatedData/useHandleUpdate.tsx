@@ -1,8 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useIsAdminOrDelegate } from "services/orgs/hooks";
 import { setFormError, setFormLoading } from "services/transaction/transactionSlice";
-import { AssociatedDataValues } from "components/Transactors/types";
-import { AssociatedDataInsert } from "services/api/types";
+import { AssociatedDataInsert, AssociatedDataUpdate } from "services/api/types";
 import { defaultErrorMsg, useSaveMetadataMutation } from "services/api/associatedMetadata";
 import { useState } from "react";
 import { useModalContext } from "components/Modal/Modal";
@@ -15,11 +14,11 @@ export default function useHandleUpdate(org: string) {
   const [error, setError] = useState(null);
   const { showModal } = useModalContext();
 
-  async function save(data: AssociatedDataValues) {
+  async function save(data: AssociatedDataUpdate) {
     try {
       if (!canUpdate) throw Error("Not enough permission!!!");
-      const { owner, ...metadata } = data;
-      const body: AssociatedDataInsert = { metadata, owner, org };
+      const body: AssociatedDataInsert = data;
+      console.log('upsert', JSON.stringify(body));
       dispatch(setFormLoading(true))
       const response = await saveMetadata(body);
       dispatch(setFormLoading(false))

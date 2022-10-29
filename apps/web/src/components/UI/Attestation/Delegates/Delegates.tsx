@@ -47,7 +47,7 @@ export function Delegates({
               <Cell className="p-0">
                 {hasAccess && delegate !== org.admin && (
                   <div className="flex gap-1 items-center justify-start">
-                    <AssociatedDataEditor address={delegate} isLoading={isLoading} />
+                    <AssociatedDataEditor org={org.address} address={delegate} disabled={isLoading} />
                     <DelegateRevoker
                       delegate={delegate}
                       onRevoke={() => revoke(delegate)}

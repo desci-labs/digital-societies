@@ -8,7 +8,7 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithRetry = retry(baseQuery, { maxRetries: 0 /* current default for all apis */ })
 
 export const api = createApi({
-  reducerPath: 'api',
+  reducerPath: 'desocApi',
   baseQuery: baseQueryWithRetry,
   tagTypes: [tags.meta],
   endpoints: () => ({}),
