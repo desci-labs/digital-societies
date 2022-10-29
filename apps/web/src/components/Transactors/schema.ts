@@ -71,17 +71,18 @@ type SchemaShape<S> = {
   [K in keyof S]: Yup.AnySchema | Lazy<Yup.AnySchema>;
 };
 
+const OptionalUrlSchema = Yup.string().url().optional();
 const associatedDetailsShape: SchemaShape<Omit<AssociatedDataUpdate, "created_at">> = {
   org: ADDRES_SCHEMA.required(),
   owner: ADDRES_SCHEMA.required(),
   id: Yup.number().optional(),
   metadata: Yup.object({
-    notes: Yup.string().url().optional(),
-    github: Yup.string().url().optional(),
-    twitter: Yup.string().url().optional(),
-    discord: Yup.string().url().optional(),
-    facebook: Yup.string().url().optional(),
-    linkedin: Yup.string().url().optional(),
+    notes: OptionalUrlSchema,
+    github: OptionalUrlSchema,
+    twitter: OptionalUrlSchema,
+    discord: OptionalUrlSchema,
+    facebook: OptionalUrlSchema,
+    linkedin: OptionalUrlSchema,
   }),
 }
 

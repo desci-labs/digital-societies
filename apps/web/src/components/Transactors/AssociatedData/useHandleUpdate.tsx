@@ -18,7 +18,6 @@ export default function useHandleUpdate(org: string) {
     try {
       if (!canUpdate) throw Error("Not enough permission!!!");
       const body: AssociatedDataInsert = data;
-      console.log('upsert', JSON.stringify(body));
       dispatch(setFormLoading(true))
       const response = await saveMetadata(body);
       dispatch(setFormLoading(false))
