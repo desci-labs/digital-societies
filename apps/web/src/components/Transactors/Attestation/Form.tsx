@@ -118,7 +118,7 @@ export default function AttestationForm() {
           hasError={!!errors.banner}
         />
       </InputRow>
-      <InputRow htmlFor="image" label="logo">
+      <InputRow htmlFor="image" label="SBT badge image">
         <ErrorMessage
           errors={errors}
           name="image"
