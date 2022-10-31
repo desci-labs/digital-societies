@@ -1,11 +1,10 @@
 import { FileObject } from "components/FileDropzone/types";
-import { attestationTypes } from "./constants";
+import { AttestationType } from "services/attestations/types";
 
 
 type Meta = {
   name: string;
   issuer: string;
-  acronym: string;
   description: string;
   external_link: string;
 }
@@ -15,8 +14,6 @@ type WithUploadedFiles = {
   image: string;
   // logo?: string | undefined; // remove later
 }
-
-export type AttestationType = typeof attestationTypes[number];
 
 export type MetadataValues = Meta & {
   banner: FileObject;

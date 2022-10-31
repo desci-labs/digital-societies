@@ -78,13 +78,6 @@ export default function AttestationForm() {
           {...register("name")}
         />
       </InputRow>
-      <InputRow htmlFor="acronym" label="acronym:">
-        <Input
-          id="acronym"
-          placeholder="Acronym"
-          {...register("acronym")}
-        />
-      </InputRow>
       <InputRow htmlFor="description" label="Description:">
         <Textarea
           id="description"

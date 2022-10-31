@@ -54,16 +54,6 @@ export default function UpdateForm() {
         />
       </InputRow>
       <InputRow
-        htmlFor="acronym"
-        label="acronym:"
-      >
-        <Input
-          id="acronym"
-          placeholder="Organisation symbol (e.g ETF)"
-          {...register("acronym")}
-        />
-      </InputRow>
-      <InputRow
         htmlFor="description"
         label="Description:"
       >

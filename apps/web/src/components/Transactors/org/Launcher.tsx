@@ -16,7 +16,6 @@ export default function Launcher(props: Props) {
     defaultValues: {
       name: props?.metadata?.name ?? "",
       issuer: address,
-      acronym: props?.metadata?.acronym ?? "",
       description: props?.metadata?.description ?? "",
       banner: typeof props?.metadata?.banner === "string" ? { ipfsURL: props?.metadata.banner } : {},
       image: typeof props?.metadata?.image === "string" ? { ipfsURL: props?.metadata?.image } : {},

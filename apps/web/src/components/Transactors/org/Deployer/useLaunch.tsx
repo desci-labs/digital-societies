@@ -30,11 +30,9 @@ export default function useLaunch() {
       showModal(TransactionPrompt, {});
 
       const { ipfsURL, CIDString } = await pinMetadataToIpfs(metadata);
-      
-      console.log('args', ipfsURL, CIDString);
 
       updateTx({ step: Step.submit, message: "Confirm transaction..." });
-      const tx = await factoryContract.deployToken(metadata.name, metadata.acronym, ipfsURL)
+      const tx = await factoryContract.deployToken(metadata.name, "", ipfsURL); // TODO: Deployed tokens need a symbol (acronym)
       updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Deploying ${metadata.name}` });
 
       const receipt = await tx.wait();
