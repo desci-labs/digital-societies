@@ -4,14 +4,15 @@ import useRouterAddress from "./useRouterAddress";
 
 function useConnectedUserDesoc(address: string = "") {
   const orgs = useGetOrgs();
-  return orgs.find(org => org.admin === address || org.delegates.includes(address))
+  return orgs.filter(org => org.admin === address)
 }
 
 export default function useDashboard() {
   const { address: account } = useAccount();
   const address = useRouterAddress();
-  const org = useConnectedUserDesoc(account);
-  const currentOrg = useGetOrg(address);
-  
-  return { org, showDashboard: !!org, hasAccess: currentOrg && currentOrg.address === org?.address }
+  const orgs = useConnectedUserDesoc(account);
+  const hasAccess = orgs.find(o => o.address === address);
+  const org = useGetOrg(address);
+  const currentOrg = orgs.find(o => o.address === org?.address || o.admin === account) ?? orgs.find(o => o.delegates.includes(account!)) ?? orgs[0];
+  return { org: currentOrg, showDashboard: !!currentOrg, hasAccess }
 }

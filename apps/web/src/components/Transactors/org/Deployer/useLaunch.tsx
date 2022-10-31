@@ -4,6 +4,7 @@ import { MetadataValues } from "components/Transactors/types";
 import { utils } from "ethers";
 import { pinMetadataToIpfs } from "helper/web3";
 import { useFactoryContract } from "hooks/useContract";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setOrg } from "services/orgs/orgSlice";
@@ -19,8 +20,13 @@ export default function useLaunch() {
   const { updateTx } = useTxUpdator();
   const { form_loading } = useGetTxState();
   const factoryContract = useFactoryContract();
+  const router = useRouter();
 
   useEffect(() => () => { dispatch(setFormError(null)) });
+
+  const lunchCallback = (address: string) => {
+    router.replace(`/dashboard/${address}`);
+  }
 
   async function launch(metadata: MetadataValues) {
     if (!factoryContract) return;
@@ -53,6 +59,7 @@ export default function useLaunch() {
       dispatch(setOrg(preview));
       updateTx({ step: Step.success, message: "", txHash: tx.hash, previewLink: { href: `/orgs/${address}`, caption: "Preview" } });
       dispatch(setFormLoading(false));
+      lunchCallback(address);
     } catch (e: any) {
       console.log("Error ", e);
       updateTx({ step: Step.error, message: "Unable to complete deployment" });
