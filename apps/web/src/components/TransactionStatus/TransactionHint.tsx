@@ -36,7 +36,7 @@ function StatusButton(props: { Icon: IconType; iconClass?: string }) {
   return (
     <button
       onClick={showPrompt}
-      className="grid place-items-center rounded-md p-0"
+      className="grid place-items-center rounded-md p-0 focus:outline-none"
     >
       <props.Icon size={30} className={`${props.iconClass || ""} `} />
     </button>
