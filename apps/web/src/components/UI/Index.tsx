@@ -33,7 +33,7 @@ export function ImageBanner(props: ImgProps ) {
 
 export function RoundedLogo(props: ImgProps) {
   return (
-    <div className={`w-32 h-32 absolute left-10 -bottom-11 rounded-full border border-dark dark:border-white bg-gradient ${props.className ?? ''}`}>
+    <div className={`w-32 h-32 z-20 absolute left-10 -bottom-11 rounded-full border border-dark dark:border-white bg-gradient ${props.className ?? ''}`}>
       <Image
         src={props.src}
         layout="fill"
