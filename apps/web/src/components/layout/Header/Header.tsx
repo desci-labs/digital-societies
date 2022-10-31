@@ -2,7 +2,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { DesocIcon, MenuIcon } from "assets/svg";
 import TransactionHint from "components/TransactionStatus/TransactionHint";
 import Button from "components/UI/Button/Index";
-import NavLink from "components/UI/NavLink";
+import NavLink, { ExternalLink } from "components/UI/NavLink";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
@@ -34,6 +34,12 @@ export default function Header() {
         >
           Explore
         </NavLink>
+        <ExternalLink
+          href="https://sbt.desci.com/"
+          className="hidden sm:block"
+        >
+          Forum
+        </ExternalLink>
         {showDashboard && (
           <NavLink
             href={`/dashboard/${org?.address}`}
