@@ -47,7 +47,6 @@ export default function AttestationForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, isUpdateMode]);
 
-  
   return (
     <Form
       onSubmit={handleSubmit(launch)}
