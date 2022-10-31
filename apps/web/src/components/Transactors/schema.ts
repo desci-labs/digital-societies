@@ -3,6 +3,7 @@ import { isAddress } from "ethers/lib/utils";
 import * as Yup from "yup";
 
 const VALID_MIME_TYPES = ["image/jpeg", "image/png", "image/webp"];
+export const TWENTY_FIVE_MB = 25e6;
 
 const FILE_SCHEMA = Yup.mixed<FileObject>()
   .test({
@@ -13,7 +14,7 @@ const FILE_SCHEMA = Yup.mixed<FileObject>()
   .test({
     name: "size",
     message: "File size must be smaller than 10MB",
-    test: (data) => (data?.file ? (data?.file?.size || 0) <= 1e7 : true),
+    test: (data) => (data?.file ? (data?.file?.size || 0) <= TWENTY_FIVE_MB : true),
   })
   .test({
     name: "fileType",
@@ -23,7 +24,7 @@ const FILE_SCHEMA = Yup.mixed<FileObject>()
   })
   .test({
     name: "invalidState",
-    message: "Invalid state",
+    message: "Invalid input: (File size must be less than 25MB) and of types jpeg, png or webp",
     // check file is valid, has name and size is greater than zero
     test: (data) =>
       data?.file
