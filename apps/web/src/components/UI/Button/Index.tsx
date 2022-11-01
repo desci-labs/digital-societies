@@ -5,14 +5,12 @@ export default function Button({
   ...resProps
 }: ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <div>
-      <button
-        {...resProps}
-        className={`text-md text-black text-center rounded-md px-4 py-1.5 focus:outline-primary transition-all duration-200 ${resProps.className ?? ''}`}
-      >
-        {children}
-      </button>
-    </div>
+    <button
+      {...resProps}
+      className={`text-md text-black text-center rounded-md px-4 py-1.5 focus:outline-primary transition-all duration-200 ${resProps.className ?? ''}`}
+    >
+      {children}
+    </button>
   );
 }
 

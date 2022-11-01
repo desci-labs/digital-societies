@@ -17,10 +17,10 @@ export function DelegateRevoker(props: {
     <Button
       onClick={props.onRevoke}
       disabled={props.isLoading}
-      className={`bg-transparent bg-white bg-opacity-0 pl-0`}
+      className={`bg-transparent bg-white bg-opacity-0 px-0 py-0 w-10`}
     >
       <RiCloseLine
-        className="hover:scale-150 duration-100"
+        className="will-change-transform hover:-rotate-45 origin-cetner duration-200"
         color={props.isLoading ? "#8793A6" : "#f15156"}
       />
     </Button>
@@ -40,11 +40,10 @@ export function AssociatedDataEditor(props: {
     <Button
       onClick={trigger}
       disabled={props.disabled}
-      className={`bg-transparent bg-white bg-opacity-0 pl-0`}
+      className={`bg-transparent bg-white bg-opacity-0 px-0 py-0 w-10`}
     >
       <FiEdit2
-        className="hover:scale-150 duration-100"
-        color={props.disabled ? "#8793A6" : "#ffffff"}
+        className="will-change-transform hover:-rotate-45 origin-center duration-200 app-text hover:text-white"
       />
     </Button>
   );

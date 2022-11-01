@@ -35,7 +35,7 @@ export function Delegates({
         <TBody>
           {org.delegates.map((delegate, idx) => (
             <Row key={idx} className="border-none table-row">
-              <Cell className="flex justify-start p-2">
+              <Cell className="flex justify-start">
                 <MetaLogo
                   src={getImageURL(org?.metadata?.image ?? org.metadata.banner)}
                   alt={`${org?.metadata.name} image`}
