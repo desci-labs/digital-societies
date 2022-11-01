@@ -2,7 +2,7 @@ import { CID } from "multiformats/cid";
 import { base16 } from "multiformats/bases/base16";
 import { FileObject } from "components/FileDropzone/types";
 import { W3S_IPFS_GATEWAY } from "pages/api/constants";
-import { Metadata, MetadataValues } from "components/Transactors/types";
+import { AttestationMetadata, AttestationMetadataValues, Metadata, MetadataValues } from "components/Transactors/types";
 import fallbackImg from "assets/fallback.png";
 
 export const resolveIpfsURL = (hash: string) => `${W3S_IPFS_GATEWAY?.trim()}${hash}`;
@@ -93,9 +93,9 @@ const toBase64 = (file: File): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-export const compareMetadata = (
-  old: Metadata | MetadataValues,
-  meta: Metadata | MetadataValues
+export const compareMetadata = <M extends Metadata | MetadataValues | AttestationMetadataValues | AttestationMetadata>(
+  old: M,
+  meta: M
 ): boolean => {
 
   if (

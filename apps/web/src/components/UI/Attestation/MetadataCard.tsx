@@ -1,18 +1,25 @@
 import { VerifiedBadgeIcon } from "assets/svg";
-import { Metadata, MetadataValues } from "components/Transactors/types";
+import {
+  AttestationMetadata,
+  AttestationMetadataValues,
+  Metadata,
+  MetadataValues,
+} from "components/Transactors/types";
 import { getImageURL, shortenText } from "helper";
 import { useRouter } from "next/router";
 import { ExternalLink, ImageBanner, RoundedLogo } from "../Index";
 
-export type MetaCardProps = {
+export type MetaCardProps<M> = {
   link: string;
-  metadata: Metadata | MetadataValues;
+  metadata: M;
   containerClass?: string;
   bannerClass?: string;
   verified?: boolean;
 };
 
-export function MetadataCard(props: MetaCardProps) {
+export function MetadataCard<
+  M extends AttestationMetadataValues | Metadata | MetadataValues
+>(props: MetaCardProps<M>) {
   const router = useRouter();
 
   if (!props.metadata) return null;
@@ -20,9 +27,11 @@ export function MetadataCard(props: MetaCardProps) {
     <div
       tabIndex={0}
       onClick={() => router.push(props.link)}
-      className={`bg-transparent dark:text-white min-w-80 w-80 pb-4 cursor-pointer overflow-hidden transition-shadow duration-200 hover:shadow-xl outline-none border border-neutrals-gray-7 hover:border-neutrals-gray-3 dark:hover:border-neutrals-gray-7 dark:border-neutrals-gray-3 focus:border-neutrals-gray-1 dark:focus:border-neutrals-gray-7 ${props.containerClass ?? ''}`}
+      className={`bg-transparent dark:text-white min-w-80 w-80 pb-4 cursor-pointer overflow-hidden transition-shadow duration-200 hover:shadow-xl outline-none border border-neutrals-gray-7 hover:border-neutrals-gray-3 dark:hover:border-neutrals-gray-7 dark:border-neutrals-gray-3 focus:border-neutrals-gray-1 dark:focus:border-neutrals-gray-7 ${
+        props.containerClass ?? ""
+      }`}
     >
-      <div className={`relative ${props.bannerClass || 'h-32'}`}>
+      <div className={`relative ${props.bannerClass || "h-32"}`}>
         <ImageBanner src={getImageURL(props.metadata?.banner)} />
         <RoundedLogo
           src={getImageURL(props.metadata?.image || props.metadata?.banner)}

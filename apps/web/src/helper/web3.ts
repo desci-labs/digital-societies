@@ -1,4 +1,4 @@
-import { Metadata, MetadataValues } from "components/Transactors/types";
+import { AttestationMetadataValues, Metadata, MetadataValues } from "components/Transactors/types";
 import { resolveIpfsURL } from "helper";
 import { Chain } from "wagmi";
 import { CIDString } from "web3.storage";
@@ -16,7 +16,7 @@ async function pinFile(form: FormData): Promise<CIDString[]> {
   return result;
 }
 
-export async function pinMetadataToIpfs(metadata: MetadataValues) {
+export async function pinMetadataToIpfs(metadata: MetadataValues | AttestationMetadataValues) {
   let imageHash: string = metadata.banner.ipfsURL,
     logoHash: string = metadata.image.ipfsURL;
 
@@ -43,7 +43,7 @@ export async function pinMetadataToIpfs(metadata: MetadataValues) {
     throw Error("Error pinning uploading files");
   }
 
-  const meta: Metadata = { ...metadata, banner: imageHash, image: logoHash };
+  const meta = { ...metadata, banner: imageHash, image: logoHash };
   const metaRes = await fetch("/api/pinJsonToIpfs", {
     method: "POST",
     body: JSON.stringify(meta),
