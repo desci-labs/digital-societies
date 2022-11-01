@@ -5,6 +5,8 @@ import { AttestationType } from "services/attestations/types";
 type Meta = {
   name: string;
   issuer: string;
+  symbol: string;
+  acronym?: string;
   description: string;
   external_link: string;
 }
@@ -21,7 +23,7 @@ export type MetadataValues = Meta & {
   // logo?: FileObject | undefined;
 }
 
-export type AttestationMetadataValues = MetadataValues & { attestationType: AttestationType }
+export type AttestationMetadataValues = Omit<MetadataValues, "symbol" | "acronym"> & { attestationType: AttestationType }
 export type AttestationMetadata = AttestationMetadataValues & WithUploadedFiles
 export interface IssuerValues {
   org: string;

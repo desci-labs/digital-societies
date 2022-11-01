@@ -53,6 +53,13 @@ export default function UpdateForm() {
           {...register("name")}
         />
       </InputRow>
+      <InputRow htmlFor="symbol" label="Symbol">
+        <Input
+          id="symbol"
+          placeholder="Organisation symbol (e.g ETF)"
+          {...register("symbol")}
+        />
+      </InputRow>
       <InputRow
         htmlFor="description"
         label="Description:"

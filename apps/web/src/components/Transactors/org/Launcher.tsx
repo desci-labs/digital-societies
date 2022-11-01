@@ -14,8 +14,9 @@ export default function Launcher(props: Props) {
     reValidateMode: "onChange",
     mode: "onChange",
     defaultValues: {
-      name: props?.metadata?.name ?? "",
       issuer: address,
+      name: props?.metadata?.name ?? "",
+      symbol: props?.metadata?.symbol ?? props?.metadata?.acronym,
       description: props?.metadata?.description ?? "",
       banner: typeof props?.metadata?.banner === "string" ? { ipfsURL: props?.metadata.banner } : {},
       image: typeof props?.metadata?.image === "string" ? { ipfsURL: props?.metadata?.image } : {},
