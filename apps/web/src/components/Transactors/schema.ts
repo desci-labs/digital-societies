@@ -72,18 +72,21 @@ type SchemaShape<S> = {
 };
 
 const OptionalUrlSchema = Yup.string().url().optional();
+
+const socialMetaShape: SchemaShape<AssociatedDataUpdate["metadata"]> = {
+  notes: OptionalUrlSchema,
+  github: OptionalUrlSchema,
+  twitter: OptionalUrlSchema,
+  discord: OptionalUrlSchema,
+  facebook: OptionalUrlSchema,
+  linkedin: OptionalUrlSchema,
+}
+
 const associatedDetailsShape: SchemaShape<Omit<AssociatedDataUpdate, "created_at">> = {
   org: ADDRES_SCHEMA.required(),
   owner: ADDRES_SCHEMA.required(),
   id: Yup.number().optional(),
-  metadata: Yup.object({
-    notes: OptionalUrlSchema,
-    github: OptionalUrlSchema,
-    twitter: OptionalUrlSchema,
-    discord: OptionalUrlSchema,
-    facebook: OptionalUrlSchema,
-    linkedin: OptionalUrlSchema,
-  }),
+  metadata: Yup.object(socialMetaShape),
 }
 
 export const offchainMetaSchema = Yup.object(associatedDetailsShape);
