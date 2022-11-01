@@ -3,14 +3,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { AttestationFormValues, LaunchMode } from "../types";
 import { metadataSchema } from "../schema";
 import { Org, PendingOrg } from "services/orgs/types";
-import { FC } from "react";
 import Popup from "components/UI/Popup/Index";
 import { useGetAttestation } from "services/attestations/hooks";
 import { useRouter } from "next/router";
 import { useModalContext } from "components/Modal/Modal";
 import { attestationTypes } from "../constants";
 
-export type Props = { org: Org | PendingOrg, Form: FC, mode: LaunchMode };
+export type Props = { org: Org | PendingOrg, Form: JSX.Element, mode: LaunchMode };
 
 export default function CredentialLauncher({ org, Form, mode }: Props) {
   const router = useRouter();
@@ -41,7 +40,7 @@ export default function CredentialLauncher({ org, Form, mode }: Props) {
 
   return (
     <FormProvider {...methods}>
-      <Form />
+      {Form}
     </FormProvider>
   );
 }

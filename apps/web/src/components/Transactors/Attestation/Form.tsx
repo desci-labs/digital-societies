@@ -12,6 +12,8 @@ import { useGetTxStage } from "services/transaction/hooks";
 import { useModalContext } from "components/Modal/Modal";
 import Button from "components/UI/Button/Index";
 import { attestationTypes } from "../constants";
+import useTxUpdator from "services/transaction/updators";
+import { Step } from "services/transaction/types";
 
 export default function AttestationForm() {
   const {
@@ -29,6 +31,7 @@ export default function AttestationForm() {
     parseInt(id as string)
   );
   const stage = useGetTxStage();
+  const { updateTx } = useTxUpdator();
   const banner = watch("banner");
   const logo = watch("image");
   const mode = watch("mode");
@@ -54,6 +57,7 @@ export default function AttestationForm() {
       description={isUpdateMode ? "update attestation" : "Add new attestation"}
       className="form"
     >
+      <Button type="button" onClick={() => updateTx({ step: Step.preview })}>Preview</Button>
       <InputRow
         htmlFor="attestationType"
         label="Attestation type"
@@ -129,6 +133,7 @@ export default function AttestationForm() {
       </InputRow>
       <Button
         disabled={canDisable || !isValid}
+        type="submit"
         className="mt-4 w-full disabled:bg-regent-gray bg-tint-primary-dark"
       >
         {isLoading

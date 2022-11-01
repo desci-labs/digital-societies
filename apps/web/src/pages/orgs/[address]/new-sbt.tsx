@@ -6,6 +6,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useAccount } from 'wagmi';
+import AttestationPrompt from 'components/Transactors/Attestation/AttestationPrompt';
 
 const CreateType: NextPage = () => {
   const router = useRouter();
@@ -26,7 +27,7 @@ const CreateType: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {isConnected && org && <Credenter mode="create" Form={AttestationForm} org={org}  />}
+      {isConnected && org && <AttestationPrompt mode="create" org={org}  />}
     </div>
   );
 };
