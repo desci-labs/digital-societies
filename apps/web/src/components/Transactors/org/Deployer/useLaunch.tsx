@@ -13,6 +13,7 @@ import { useGetTxState } from "services/transaction/hooks";
 import { setFormError, setFormLoading } from "services/transaction/transactionSlice";
 import { Step } from "services/transaction/types";
 import useTxUpdator from "services/transaction/updators";
+import { useAccount } from "wagmi";
 
 export default function useLaunch() {
   const { showModal } = useModalContext();
@@ -20,6 +21,7 @@ export default function useLaunch() {
   const { updateTx } = useTxUpdator();
   const { form_loading } = useGetTxState();
   const factoryContract = useFactoryContract();
+  const { address: issuer } = useAccount()
   const router = useRouter();
 
   useEffect(() => () => { dispatch(setFormError(null)) });
@@ -29,8 +31,11 @@ export default function useLaunch() {
   }
 
   async function launch(metadata: MetadataValues) {
-    if (!factoryContract) return;
+    
     try {
+      if (!factoryContract) return;
+      if (!issuer) return;
+      
       dispatch(setFormLoading(true));
       updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
       showModal(TransactionPrompt, {});
@@ -49,8 +54,8 @@ export default function useLaunch() {
         cid: ipfsURL,
         metadata,
         address,
-        admin: metadata.issuer,
-        delegates: [metadata.issuer],
+        admin: issuer,
+        delegates: [issuer],
         dateCreated: block.timestamp * 1000,
         pending: true,
         verified: false

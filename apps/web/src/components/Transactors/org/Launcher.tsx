@@ -8,13 +8,10 @@ import { FC } from "react";
 export type Props = { Form: FC, metadata?: Metadata | MetadataValues }
 
 export default function Launcher(props: Props) {
-  const { address } = useAccount();
-
   const methods = useForm<MetadataValues>({
     reValidateMode: "onChange",
     mode: "onChange",
     defaultValues: {
-      issuer: address,
       name: props?.metadata?.name ?? "",
       symbol: props?.metadata?.symbol ?? props?.metadata?.acronym,
       description: props?.metadata?.description ?? "",

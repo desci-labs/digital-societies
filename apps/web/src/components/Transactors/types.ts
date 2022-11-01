@@ -4,7 +4,6 @@ import { AttestationType } from "services/attestations/types";
 
 type Meta = {
   name: string;
-  issuer: string;
   symbol: string;
   acronym?: string;
   description: string;

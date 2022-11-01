@@ -30,9 +30,6 @@ export default function LaunchForm() {
       title="Launch Organisation"
       className="form"
     >
-      <InputRow htmlFor="issuer" label="Deployer">
-        <Input id="issuer" disabled {...register("issuer")} />
-      </InputRow>
       <InputRow htmlFor="name" label="Name">
         <Input
           id="name"

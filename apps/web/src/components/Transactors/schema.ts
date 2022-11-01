@@ -3,9 +3,14 @@ import { isAddress } from "ethers/lib/utils";
 import { AssociatedDataUpdate } from "services/api/types";
 import * as Yup from "yup";
 import Lazy from "yup/lib/Lazy";
+import { DelegaterValues, IssuerValues, MetadataValues } from "./types";
 
 const VALID_MIME_TYPES = ["image/jpeg", "image/png", "image/webp"];
 export const TWENTY_FIVE_MB = 25e6;
+
+type SchemaShape<S> = {
+  [K in keyof S]: Yup.AnySchema | Lazy<Yup.AnySchema>;
+};
 
 const FILE_SCHEMA = Yup.mixed<FileObject>()
   .test({
@@ -45,32 +50,31 @@ const ADDRES_SCHEMA = Yup.mixed<string>()
     }
   })
 
-export const metadataSchema = Yup.object().shape({
+const metadataShape: SchemaShape<MetadataValues> = {
   name: Yup.string().required(),
   symbol: Yup.string().optional(),
   description: Yup.string().required(),
   external_link: Yup.string().url("Invalid url").required("Field is required"),
   banner: FILE_SCHEMA.required(),
   image: FILE_SCHEMA.required(),
-});
+};
+export const metadataSchema = Yup.object(metadataShape);
 
-export const issuerSchema = Yup.object().shape({
+
+const issuerShape: SchemaShape<IssuerValues> = {
   address: ADDRES_SCHEMA.required(),
   attestation: Yup.number().required(),
   org: Yup.number().required()
-})
+}
+export const issuerSchema = Yup.object(issuerShape);
 
-export const delegaterSchema = Yup.object().shape({
+const delegaterShape: SchemaShape<DelegaterValues> = {
   delegate: ADDRES_SCHEMA.required(),
   org: Yup.string().required()
-});
-
-type SchemaShape<S> = {
-  [K in keyof S]: Yup.AnySchema | Lazy<Yup.AnySchema>;
-};
+}
+export const delegaterSchema = Yup.object(delegaterShape);
 
 const OptionalUrlSchema = Yup.string().url().optional();
-
 const socialMetaShape: SchemaShape<AssociatedDataUpdate["metadata"]> = {
   notes: OptionalUrlSchema,
   github: OptionalUrlSchema,

@@ -54,9 +54,6 @@ export default function AttestationForm() {
       description={isUpdateMode ? "update attestation" : "Add new attestation"}
       className="form"
     >
-      <InputRow htmlFor="issuer" label="Issuer:">
-        <Input id="issuer" disabled {...register("issuer")} />
-      </InputRow>
       <InputRow
         htmlFor="attestationType"
         label="Attestation type"

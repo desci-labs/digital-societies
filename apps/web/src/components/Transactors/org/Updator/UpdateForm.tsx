@@ -38,12 +38,6 @@ export default function UpdateForm() {
   return (
     <Form onSubmit={handleSubmit(run)} title="Update Organisation" className="form">
       <InputRow
-        htmlFor="issuer"
-        label="Issuer:"
-      >
-        <Input id="issuer" disabled {...register('issuer')} />
-      </InputRow>
-      <InputRow
         htmlFor="name"
         label="Name:"
       >

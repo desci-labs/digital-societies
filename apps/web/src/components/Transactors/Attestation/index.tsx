@@ -1,6 +1,5 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useAccount } from "wagmi";
 import { AttestationFormValues, LaunchMode } from "../types";
 import { metadataSchema } from "../schema";
 import { Org, PendingOrg } from "services/orgs/types";
@@ -14,7 +13,6 @@ import { attestationTypes } from "../constants";
 export type Props = { org: Org | PendingOrg, Form: FC, mode: LaunchMode };
 
 export default function CredentialLauncher({ org, Form, mode }: Props) {
-  const { address } = useAccount();
   const router = useRouter();
   const { showModal } = useModalContext()
   const { id } = router.query;
@@ -27,7 +25,6 @@ export default function CredentialLauncher({ org, Form, mode }: Props) {
     defaultValues: {
       mode,
       name: metadata.name,
-      issuer: address,
       description: metadata.description,
       attestationType: credential?.metadata?.attestationType || attestationTypes[0],
       banner: typeof metadata.banner === "string" ? { ipfsURL: metadata.banner } : metadata.banner,
