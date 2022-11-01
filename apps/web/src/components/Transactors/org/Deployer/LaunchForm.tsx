@@ -30,24 +30,24 @@ export default function LaunchForm() {
       title="Launch Organisation"
       className="form"
     >
-      <InputRow htmlFor="issuer" label="Issuer:">
+      <InputRow htmlFor="issuer" label="Deployer">
         <Input id="issuer" disabled {...register("issuer")} />
       </InputRow>
-      <InputRow htmlFor="name" label="Name:">
+      <InputRow htmlFor="name" label="Name">
         <Input
           id="name"
           placeholder="Organisation name (e.g Ethereum foundation)"
           {...register("name")}
         />
       </InputRow>
-      <InputRow htmlFor="acronym" label="acronym:">
+      <InputRow htmlFor="symbol" label="Symbol">
         <Input
-          id="acronym"
-          placeholder="Acronym"
-          {...register("acronym")}
+          id="symbol"
+          placeholder="Organisation symbol (e.g ETF)"
+          {...register("symbol")}
         />
       </InputRow>
-      <InputRow htmlFor="description" label="Description:">
+      <InputRow htmlFor="description" label="Description">
         <Textarea
           id="description"
           {...register("description")}

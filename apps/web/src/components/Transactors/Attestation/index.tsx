@@ -9,6 +9,7 @@ import Popup from "components/UI/Popup/Index";
 import { useGetAttestation } from "services/attestations/hooks";
 import { useRouter } from "next/router";
 import { useModalContext } from "components/Modal/Modal";
+import { attestationTypes } from "../constants";
 
 export type Props = { org: Org | PendingOrg, Form: FC, mode: LaunchMode };
 
@@ -27,9 +28,8 @@ export default function CredentialLauncher({ org, Form, mode }: Props) {
       mode,
       name: metadata.name,
       issuer: address,
-      acronym: metadata.acronym,
       description: metadata.description,
-      attestationType: "Affiliations",
+      attestationType: credential?.metadata?.attestationType || attestationTypes[0],
       banner: typeof metadata.banner === "string" ? { ipfsURL: metadata.banner } : metadata.banner,
       image: typeof metadata.image === "string" ? { ipfsURL: metadata.image } : metadata.image,
       external_link: metadata.external_link,

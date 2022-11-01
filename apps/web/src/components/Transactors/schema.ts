@@ -5,9 +5,7 @@ import * as Yup from "yup";
 import Lazy from "yup/lib/Lazy";
 
 const VALID_MIME_TYPES = ["image/jpeg", "image/png", "image/webp"];
-
-const uriPattern =
-  /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm;
+export const TWENTY_FIVE_MB = 25e6;
 
 const FILE_SCHEMA = Yup.mixed<FileObject>()
   .test({
@@ -18,7 +16,7 @@ const FILE_SCHEMA = Yup.mixed<FileObject>()
   .test({
     name: "size",
     message: "File size must be smaller than 10MB",
-    test: (data) => (data?.file ? (data?.file?.size || 0) <= 1e7 : true),
+    test: (data) => (data?.file ? (data?.file?.size || 0) <= TWENTY_FIVE_MB : true),
   })
   .test({
     name: "fileType",
@@ -28,7 +26,7 @@ const FILE_SCHEMA = Yup.mixed<FileObject>()
   })
   .test({
     name: "invalidState",
-    message: "Invalid state",
+    message: "Invalid input: (File size must be less than 25MB) and of types jpeg, png or webp",
     // check file is valid, has name and size is greater than zero
     test: (data) =>
       data?.file
@@ -49,9 +47,9 @@ const ADDRES_SCHEMA = Yup.mixed<string>()
 
 export const metadataSchema = Yup.object().shape({
   name: Yup.string().required(),
-  acronym: Yup.string(),
+  symbol: Yup.string().optional(),
   description: Yup.string().required(),
-  external_link: Yup.string().matches(uriPattern, "Invalid url"),
+  external_link: Yup.string().url("Invalid url").required("Field is required"),
   banner: FILE_SCHEMA.required(),
   image: FILE_SCHEMA.required(),
 });

@@ -16,7 +16,7 @@ const Dashboard: NextPage = () => {
       </Head>
       {!hasAccess && (
         <div className="flex justify-center items-center h-88">
-          <h1 className='text-tint-primary capitalize font-bold text-xl'>You have no access to this Desoc!!!</h1>
+          <h1 className='text-tint-primary capitalize font-bold text-xl'>You have no access to this Desoc 🚫</h1>
         </div>
       )}
       {org && hasAccess && <DesocDetails desoc={org} showUpdaters={true}  />}

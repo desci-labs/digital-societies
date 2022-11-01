@@ -100,7 +100,6 @@ export const compareMetadata = (
 
   if (
     old.name !== meta.name ||
-    old.acronym !== meta.acronym ||
     old.description !== meta.description ||
     old.external_link !== meta.external_link
   )

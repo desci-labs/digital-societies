@@ -8,8 +8,19 @@ module.exports = {
     extend: {
       animation: {
         gradient: "gradients 1s linear infinite",
+        scaleIn: "scaleIn 100ms ease-out",
       },
       keyframes: {
+        scaleIn: {
+          "0%": {
+            "transform": "scale(1.5)",
+            "opacity": "0.2"
+          },
+          "100%": {
+            "transform": "scale(1)",
+            "opacity": "1"
+          },
+        },
         gradients: {
           "0%, 100%": {
             "background-position": "0% 30%",

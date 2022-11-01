@@ -32,6 +32,7 @@ export default function AttestationForm() {
   const banner = watch("banner");
   const logo = watch("image");
   const mode = watch("mode");
+  const attestationType = watch("attestationType");
   const isUpdateMode = mode === "update";
 
   const canDisable = useMemo(
@@ -46,7 +47,6 @@ export default function AttestationForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, isUpdateMode]);
 
-  
   return (
     <Form
       onSubmit={handleSubmit(launch)}
@@ -77,20 +77,13 @@ export default function AttestationForm() {
           {...register("name")}
         />
       </InputRow>
-      <InputRow htmlFor="acronym" label="acronym:">
-        <Input
-          id="acronym"
-          placeholder="Acronym"
-          {...register("acronym")}
-        />
-      </InputRow>
       <InputRow htmlFor="description" label="Description:">
         <Textarea
           id="description"
           {...register("description")}
         />
       </InputRow>
-      <InputRow htmlFor="external_link" label="Link to role specification">
+      <InputRow htmlFor="external_link" label={`Link to ${attestationType}`}>
         <ErrorMessage
           errors={errors}
           name="external_link"
@@ -99,7 +92,7 @@ export default function AttestationForm() {
         />
         <Input
           id="external_link"
-          placeholder="Link to role specification"
+          placeholder={`Link to ${attestationType}`}
           {...register("external_link")}
         />
       </InputRow>
@@ -118,7 +111,7 @@ export default function AttestationForm() {
           hasError={!!errors.banner}
         />
       </InputRow>
-      <InputRow htmlFor="image" label="logo">
+      <InputRow htmlFor="image" label="SBT badge image">
         <ErrorMessage
           errors={errors}
           name="image"

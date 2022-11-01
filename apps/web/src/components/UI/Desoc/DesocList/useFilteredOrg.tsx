@@ -17,8 +17,6 @@ export default function useFilteredOrg() {
         org.address.toLowerCase().search(sanitizedText) !== -1 ||
         org.admin.toLowerCase().search(sanitizedText) !== -1 ||
         org.metadata.name.toLocaleLowerCase().search(sanitizedText) !== -1 ||
-        org.metadata?.acronym.toLocaleLowerCase().search(sanitizedText) !==
-          -1 ||
         org.metadata?.description.toLocaleLowerCase().search(sanitizedText) !==
           -1
     );

@@ -25,8 +25,9 @@ export const useFactoryContract = (): DesocManager | undefined => {
   const { data: signer } = useSigner();
   const provider = useProvider();
   const address = SB_FACTORY_ADDRESS[chain?.id ?? DEFAULT_CHAIN];
-
+  
   useEffect(() => {
+    if (!address) return;
       setContract(DesocManager__factory.getContract(
         address!,
         DesocManagerInterface.abi,
@@ -39,7 +40,7 @@ export const useFactoryContract = (): DesocManager | undefined => {
 
 export const useWrapContract = () => {
   return <T extends Contract>(contract: T, chainId: number) => {
-    console.log("paymaster ", PAYMASTER_ADDRESS[chainId])
+    // console.log("paymaster ", PAYMASTER_ADDRESS[chainId])
     return wrapContract(contract, {
       paymasterAddress: PAYMASTER_ADDRESS[chainId],
       performDryRunViewRelayCall: false,

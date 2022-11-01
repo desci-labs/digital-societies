@@ -2,14 +2,14 @@ import { useCallback, useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { useDispatch } from "react-redux";
 import { useProvider } from "wagmi";
-import { queryIpfsHash, queryIpfsURL } from "api";
-import { asyncMap, getCIDStringFromBytes } from "helper";
+import { queryIpfsURL } from "api";
+import { asyncMap } from "helper";
 import useBlockNumber from "hooks/useBlockNumber";
 import { useTokenContract } from "hooks/useContract";
 import { useGetOrgs } from "services/orgs/hooks";
 import { AttestationMap, Attestation } from "./types";
 import { setAttestations, setIsLoading } from "./attestationSlice";
-import { Metadata } from "components/Transactors/types";
+import { AttestationMetadata } from "components/Transactors/types";
 import { FACTORY_DEPLOY_BLOCK } from "constants/web3";
 import { Desoc } from "constants/types";
 
@@ -29,7 +29,7 @@ export default function AttestationUpdater() {
     const id = event.args?.tokenType ?? event.args?.[0];
     const contract = getContract(event.address) as Desoc;
     let cid = await contract.typeURI(id);
-    const metadata = (await queryIpfsURL(cid)) as Metadata;
+    const metadata = (await queryIpfsURL(cid)) as AttestationMetadata;
     return {
       id,
       metadata,

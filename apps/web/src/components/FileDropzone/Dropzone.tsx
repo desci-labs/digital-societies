@@ -1,9 +1,11 @@
 import { FieldValues } from "react-hook-form";
 import { BaseProps, FileObject } from "./types";
-import { FileRejection, DropEvent, useDropzone } from "react-dropzone";
+import { FileRejection, DropEvent, useDropzone, DropzoneOptions } from "react-dropzone";
 import { ImageIcon } from "assets/svg";
 
 type Props<T extends FieldValues> = BaseProps<T> & {
+  maxSize?: number;
+  maxFiles?: number;
   onDrop: <K extends File>(
     acceptedFiles: K[],
     fileRejections: FileRejection[],
@@ -16,7 +18,9 @@ export default function Dropzone<T extends FieldValues>(props: Props<T>) {
   const { getInputProps, getRootProps, isDragActive } = useDropzone({
     onDrop: props.onDrop,
     disabled: props.disabled,
-  } as any);
+    maxFiles: props.maxFiles ?? 1,
+    maxSize: props.maxSize
+  } as DropzoneOptions);
 
   const className = `
     py-1.5 px-4 w-full flex flex-col items-center rounded-xl border
@@ -25,7 +29,7 @@ export default function Dropzone<T extends FieldValues>(props: Props<T>) {
     ${props.hasError ? "border-red-400" : ""}
     `;
 
-  return (
+    return (
     <div {...getRootProps({ className })}>
       <input id={props.name} {...getInputProps()} />
       <DropzoneInner value={props.value} />

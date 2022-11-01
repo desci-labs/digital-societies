@@ -18,10 +18,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ThemeProvider attribute='class'>
         <Provider store={store}>
           <Head>
-            <title>Credential Manager App</title>
+            <title>Deciety</title>
             <meta
               name="description"
-              content="Credential manager app by Desci Labs"
+              content="Deciety | Tooling for Desoc by Desci Labs"
             />
             <link rel="icon" href="/favicon.ico" />
           </Head>

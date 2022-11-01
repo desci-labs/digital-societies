@@ -1,4 +1,5 @@
-import { Metadata, MetadataValues } from "components/Transactors/types";
+import { attestationTypes } from "components/Transactors/constants";
+import { AttestationMetadataValues } from "components/Transactors/types";
 
 export type AttestationToken  = {
   org: string;
@@ -26,6 +27,9 @@ export type AttestationTokens = AttestationToken | RevokedAttestationToken;
 
 export type AttestationToTokenMap = Record<string, AttestationTokens[]>;
 
+
+export type AttestationType = typeof attestationTypes[number];
+
 type AttestationMeta = {
   id: number;
   mintedBy: string;
@@ -34,8 +38,8 @@ type AttestationMeta = {
   dateCreated: number;
 };
 
-export type Attestation = AttestationMeta & { pending?: never, metadata: Metadata }
-export type PendingAttestation = AttestationMeta & { pending: boolean, metadata: MetadataValues }
+export type Attestation = AttestationMeta & { pending?: never, metadata: AttestationMetadataValues }
+export type PendingAttestation = AttestationMeta & { pending: boolean, metadata: AttestationMetadataValues }
 
 export type AttestationMap = Record<string, (Attestation | PendingAttestation)[]>;
 

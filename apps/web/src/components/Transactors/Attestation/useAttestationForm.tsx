@@ -46,7 +46,7 @@ export default function useAttestationForm(address: string, tokenType: number) {
       const attestation: PendingAttestation = { id: typeId + 1, cid: ipfsURL, address, mintedBy, metadata: meta, pending: true, dateCreated: Date.now() };
       dispatch(setAttestation({ address, attestation }))
       const previewLink = `/attestations/${typeId + 1}?address=${address}`;
-      updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Deploying ${metadata.name} credential`, previewLink: { href: previewLink, caption: "Preview" } });
+      updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Deploying ${metadata.name} SBT type`, previewLink: { href: previewLink, caption: "Preview" } });
       showModal(TransactionPrompt, {});
       await tx.wait();
 
@@ -78,7 +78,7 @@ export default function useAttestationForm(address: string, tokenType: number) {
 
       const tx = await tokenContract.updateTypeURI(BigNumber.from(tokenType).toString(), ipfsURL);
 
-      updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Updating ${metadata.name}` });
+      updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Updating ${metadata.name} SBT type` });
 
       await tx.wait();
 

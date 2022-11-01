@@ -53,14 +53,11 @@ export default function UpdateForm() {
           {...register("name")}
         />
       </InputRow>
-      <InputRow
-        htmlFor="acronym"
-        label="acronym:"
-      >
+      <InputRow htmlFor="symbol" label="Symbol">
         <Input
-          id="acronym"
+          id="symbol"
           placeholder="Organisation symbol (e.g ETF)"
-          {...register("acronym")}
+          {...register("symbol")}
         />
       </InputRow>
       <InputRow
