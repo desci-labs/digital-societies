@@ -47,7 +47,7 @@ function AppProviders({ children }: PropsWithChildren<unknown>) {
         <RainbowKitProvider theme={getTheme()} chains={chains}>
           <BlockNumberProvider>
             <Updaters />
-            <ModalProvider classes="bg-black bg-opacity-50 backdrop-blur-xl fixed top-0 right-0 bottom-0 left-0 z-50 grid place-items-center">
+            <ModalProvider classes="p-3 bg-black bg-opacity-50 backdrop-blur-xl fixed top-0 right-0 bottom-0 left-0 z-50 grid place-items-center">
               <AppMenuProvider>{children}</AppMenuProvider>
             </ModalProvider>
           </BlockNumberProvider>

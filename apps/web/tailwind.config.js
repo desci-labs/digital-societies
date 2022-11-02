@@ -13,12 +13,12 @@ module.exports = {
       keyframes: {
         scaleIn: {
           "0%": {
-            "transform": "scale(1.5)",
-            "opacity": "0.2"
+            transform: "scale(1.5)",
+            opacity: "0.2",
           },
           "100%": {
-            "transform": "scale(1)",
-            "opacity": "1"
+            transform: "scale(1)",
+            opacity: "1",
           },
         },
         gradients: {
@@ -91,6 +91,7 @@ module.exports = {
       },
       maxWidth: {
         500: "630px",
+        80: "80%",
       },
     },
   },

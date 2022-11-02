@@ -3,7 +3,13 @@ import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import FileDropzone from "components/FileDropzone";
-import { Form, Input, InputRow, SelectInput, Textarea } from "components/Form/Index";
+import {
+  Form,
+  Input,
+  InputRow,
+  SelectInput,
+  Textarea,
+} from "components/Form/Index";
 import { useGetOrg } from "services/orgs/hooks";
 import { AttestationFormValues, MetadataValues } from "../types";
 import ImagePreview from "components/UI/ImagePreview";
@@ -38,10 +44,7 @@ export default function AttestationForm() {
   const attestationType = watch("attestationType");
   const isUpdateMode = mode === "update";
 
-  const canDisable = useMemo(
-    () => !isDirty || isLoading,
-    [isDirty, isLoading]
-  );
+  const canDisable = useMemo(() => !isDirty || isLoading, [isDirty, isLoading]);
 
   useEffect(() => {
     if (isUpdateMode && !id) {
@@ -57,9 +60,15 @@ export default function AttestationForm() {
       description={isUpdateMode ? "update attestation" : "Add new attestation"}
       className="form"
     >
-      {/*//Todo: <div className="flex justify-end items-center w-full">
-        <Button type="button" onClick={() => updateTx({ step: Step.preview })} className="app-text border border-neutrals-gray-6 hover:bg-tint-primary-dark hover:border-tint-primary-dark hover:text-white ">Preview {">>"} </Button>
-      </div> */}
+      <div className="flex justify-end items-center w-full">
+        <Button
+          type="button"
+          onClick={() => updateTx({ step: Step.preview })}
+          className="app-text border border-neutrals-gray-6 hover:bg-tint-primary-dark hover:border-tint-primary-dark hover:text-white "
+        >
+          Preview {">>"}{" "}
+        </Button>
+      </div>
       <InputRow
         htmlFor="attestationType"
         label="Attestation type"
@@ -81,10 +90,7 @@ export default function AttestationForm() {
         />
       </InputRow>
       <InputRow htmlFor="description" label="Description:">
-        <Textarea
-          id="description"
-          {...register("description")}
-        />
+        <Textarea id="description" {...register("description")} />
       </InputRow>
       <InputRow htmlFor="external_link" label={`Link to ${attestationType}`}>
         <ErrorMessage
@@ -106,7 +112,11 @@ export default function AttestationForm() {
           as="span"
           className="text-xs text-left text-red-400 font-semibold m-0"
         />
-        <ImagePreview image={banner} className="rounded-xl" wrapperClassName="h-32" />
+        <ImagePreview
+          image={banner}
+          className="rounded-xl"
+          wrapperClassName="h-32"
+        />
         <FileDropzone<MetadataValues>
           name="banner"
           className="h-10"
@@ -142,8 +152,8 @@ export default function AttestationForm() {
         {isLoading
           ? stage.message || "submitting..."
           : isUpdateMode
-            ? "update attestation"
-            : "Create attestation"}
+          ? "update attestation"
+          : "Create attestation"}
       </Button>
     </Form>
   );

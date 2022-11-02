@@ -2,31 +2,14 @@ import ErrorPop from "components/TransactionStatus/Error";
 import Processing from "components/TransactionStatus/Processing";
 import Submit from "components/TransactionStatus/Submit";
 import Success from "components/TransactionStatus/Success";
-import Button from "components/UI/Button/Index";
+import Preview from "components/UI/Attestation/Preview";
 import { useMemo } from "react";
 import { Org, PendingOrg } from "services/orgs/types";
 import { useGetTxStage } from "services/transaction/hooks";
 import { Step } from "services/transaction/types";
-import useTxUpdator from "services/transaction/updators";
 import CredentialLauncher from ".";
 import { LaunchMode } from "../types";
 import AttestationForm from "./Form";
-
-function Preview() {
-  const { updateTx } = useTxUpdator();
-  return (
-    <div className="p-4 h-72">
-      <Button
-        type="button"
-        onClick={() => updateTx({ step: Step.form })}
-        className="app-text border border-neutrals-gray-6 hover:bg-tint-primary-dark hover:border-tint-primary-dark hover:text-white "
-      >
-        {"<<"} Back to form{" "}
-      </Button>
-
-    </div>
-  );
-}
 
 export type Props = { org: Org | PendingOrg; mode: LaunchMode };
 
