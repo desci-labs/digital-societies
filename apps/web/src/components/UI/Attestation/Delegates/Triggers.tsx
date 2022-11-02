@@ -6,7 +6,6 @@ import { RiCloseLine } from "react-icons/ri";
 import { useAccountMetadata } from "services/api/hooks";
 import { useIsAdmin } from "services/orgs/hooks";
 import Button from "../../Button/Index";
-import { useAssociatedDataModal } from "../AssociatedData";
 
 export function DelegateRevoker(props: {
   onRevoke: () => void;

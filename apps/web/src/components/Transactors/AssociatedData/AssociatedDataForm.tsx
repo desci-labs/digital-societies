@@ -11,7 +11,7 @@ import useRouterAddress from "hooks/useRouterAddress";
 import useHandleUpdate from "./useHandleUpdate";
 import { maskAddress } from "helper";
 import { AssociatedDataUpdate } from "services/api/types";
-import Icon, { IconTypes } from "components/Icons/Icons";
+import Icon from "components/Icons/Icons";
 import Copier from "components/Copier/Index";
 
 const placeholders: Partial<Record<Socials[number], string>> = {
