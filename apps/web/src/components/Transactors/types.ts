@@ -1,4 +1,5 @@
 import { FileObject } from "components/FileDropzone/types";
+import { IconTypes } from "components/Icons/Icons";
 import { AttestationType } from "services/attestations/types";
 
 
@@ -32,7 +33,7 @@ export interface DelegaterValues {
   org: string;
 }
 
-export const ASSOCIATED_SOCIALS = ["facebook", "linkedin", "twitter", "github", "discord"] as const;
+export const ASSOCIATED_SOCIALS = ["Facebook", "Linkedin", "Twitter", "Discord", "Github"] as const;
 export type Socials = typeof ASSOCIATED_SOCIALS //"facebook" | "linkedin" | "twitter" | "github" | "discord";
 
 export type AssociatedDataValues = { owner: string; notes: string } & {

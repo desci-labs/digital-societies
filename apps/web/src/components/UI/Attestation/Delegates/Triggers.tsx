@@ -1,11 +1,12 @@
 import useMetaDetails from "components/Transactors/AssociatedData/useMetaDetails";
 import useDelegater from "components/Transactors/Delegater/useDelegater";
 import { AiOutlinePlus } from "react-icons/ai";
-import { FiEdit2 } from "react-icons/fi";
+import { BsEye } from "react-icons/bs";
 import { RiCloseLine } from "react-icons/ri";
 import { useAccountMetadata } from "services/api/hooks";
 import { useIsAdmin } from "services/orgs/hooks";
 import Button from "../../Button/Index";
+import { useAssociatedDataModal } from "../AssociatedData";
 
 export function DelegateRevoker(props: {
   onRevoke: () => void;
@@ -17,15 +18,18 @@ export function DelegateRevoker(props: {
     <Button
       onClick={props.onRevoke}
       disabled={props.isLoading}
-      className={`bg-transparent bg-white bg-opacity-0 px-0 py-0 w-10`}
+      className={`bg-transparent bg-white bg-opacity-0 px-0 py-0 w-10 outline-0`}
     >
       <RiCloseLine
-        className="will-change-transform hover:-rotate-45 origin-cetner duration-200"
+        tabIndex={0}
+        focusable
+        className="will-change-transform hover:-rotate-45 hover:text-tint-primary focus:text-tint-primary origin-cetner duration-200"
         color={props.isLoading ? "#8793A6" : "#f15156"}
       />
     </Button>
   );
 }
+
 export function AssociatedDataEditor(props: {
   address: string;
   org: string;
@@ -40,10 +44,13 @@ export function AssociatedDataEditor(props: {
     <Button
       onClick={trigger}
       disabled={props.disabled}
-      className={`bg-transparent bg-white bg-opacity-0 px-0 py-0 w-10`}
+      className={`bg-transparent bg-white bg-opacity-0 px-0 py-0 w-10 outline-0`}
     >
-      <FiEdit2
-        className="will-change-transform hover:-rotate-45 origin-center duration-200 app-text hover:text-white"
+      <BsEye
+        size={18}
+        tabIndex={0}
+        focusable
+        className="app-text hover:text-white focus:text-white dark:hover:text-tint-primary dark:focus:text-tint-primary"
       />
     </Button>
   );

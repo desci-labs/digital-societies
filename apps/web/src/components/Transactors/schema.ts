@@ -76,12 +76,12 @@ export const delegaterSchema = Yup.object(delegaterShape);
 
 const OptionalUrlSchema = Yup.string().url().optional();
 const socialMetaShape: SchemaShape<AssociatedDataUpdate["metadata"]> = {
-  notes: OptionalUrlSchema,
-  github: OptionalUrlSchema,
-  twitter: OptionalUrlSchema,
-  discord: OptionalUrlSchema,
-  facebook: OptionalUrlSchema,
-  linkedin: OptionalUrlSchema,
+  notes: Yup.string().optional(),
+  Github: OptionalUrlSchema,
+  Twitter: OptionalUrlSchema,
+  Discord: OptionalUrlSchema,
+  Facebook: OptionalUrlSchema,
+  Linkedin: OptionalUrlSchema,
 }
 
 const associatedDetailsShape: SchemaShape<Omit<AssociatedDataUpdate, "created_at">> = {

@@ -25,7 +25,7 @@ export default function useHandleUpdate(org: string) {
         const err = (response.error as any)?.data;
         setError(err.message ?? defaultErrorMsg);
       } else {
-        showModal(Success, { message: "Metadata saved successfully!!!" })
+        showModal(Success, { message: "Saved successfully 🎉" })
       }
     } catch (e: any) {
       console.log('e', e);

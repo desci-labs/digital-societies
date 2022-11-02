@@ -10,7 +10,7 @@ export default function Success({
   const { hideModal } = useModalContext();
 
   return (
-    <div className="rounded-xl overflow-hidden shadow-xl transform transition-all sm:max-w-md sm:w-full">
+    <div className="bg-white dark:bg-transparent rounded-xl overflow-hidden shadow-xl transform transition-all sm:max-w-md sm:w-full">
       <div className="p-4">
         <div className="flex justify-end">
           <button
