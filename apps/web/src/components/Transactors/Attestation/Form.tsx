@@ -57,9 +57,9 @@ export default function AttestationForm() {
       description={isUpdateMode ? "update attestation" : "Add new attestation"}
       className="form"
     >
-      <div className="flex justify-end items-center w-full">
+      {/*//Todo: <div className="flex justify-end items-center w-full">
         <Button type="button" onClick={() => updateTx({ step: Step.preview })} className="app-text border border-neutrals-gray-6 hover:bg-tint-primary-dark hover:border-tint-primary-dark hover:text-white ">Preview {">>"} </Button>
-      </div>
+      </div> */}
       <InputRow
         htmlFor="attestationType"
         label="Attestation type"
