@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 import { useModalContext } from "components/Modal/Modal";
-import { IoMdClose } from "react-icons/io";
+import Icon from "components/Icons/Icons";
 
 export type PopupProps = PropsWithChildren<{ message: string; inModal?: boolean }>;
 export default function Popup(props: PopupProps) {
@@ -11,7 +11,7 @@ export default function Popup(props: PopupProps) {
         onClick={hideModal}
         className="bg-transparent hover:bg-regent-gray hover:bg-opacity-50 rounded-full absolute right-2 top-2 flex items-center justify-center w-8 h-8"
       >
-        <IoMdClose />
+        <Icon type="Close" />
       </button>}
       <p className="text-angel-grey text-center mt-5">{props.message}</p>
       {props.children}

@@ -1,6 +1,6 @@
+import Icon from "components/Icons/Icons";
 import { useModalContext } from "components/Modal/Modal";
 import Button from "components/UI/Button/Index";
-import { IoMdClose } from "react-icons/io";
 
 export default function Success({
   message: text,
@@ -17,7 +17,7 @@ export default function Success({
             onClick={hideModal}
             className="w-8 h-8 hover:bg-regent-gray hover:bg-opacity-50 rounded-full flex items-center justify-center w-full"
           >
-            <IoMdClose />
+            <Icon type="Close" />
           </button>
         </div>
         <div className="w-full">

@@ -2,32 +2,38 @@ import { IconType } from "react-icons";
 import {
   AiFillCaretLeft,
   AiOutlineCheck,
+  AiOutlineCheckCircle,
   AiOutlineCopy,
-  AiOutlineEdit,
   AiOutlineInfoCircle,
+  AiOutlinePlus,
   AiOutlineUpload,
 } from "react-icons/ai";
 import {
-  BiSearchAlt2,
-} from "react-icons/bi";
-import {
   BsDiscord,
   BsExclamationCircle,
+  BsEye,
   BsFacebook,
+  BsFillBrightnessHighFill,
+  BsFillMoonFill,
   BsLinkedin,
   BsTwitter,
 } from "react-icons/bs";
+import { CgUndo } from "react-icons/cg";
 import {
+  FaEthereum,
   FaExternalLinkAlt,
   FaGithub,
   FaTelegramPlane,
   FaUserCircle,
 } from "react-icons/fa";
-import { FiMenu } from "react-icons/fi";
+import { FiEdit, FiMenu } from "react-icons/fi";
 import { GoLinkExternal } from "react-icons/go";
-import { IoClose, IoWalletSharp, IoWarning } from "react-icons/io5";
+import { HiOutlineClipboard, HiOutlineSearch } from "react-icons/hi";
+import { IoChevronBackCircleOutline, IoClose, IoWalletSharp, IoWarning } from "react-icons/io5";
 import { IconBaseProps } from "react-icons/lib";
-import { SiHiveBlockchain } from "react-icons/si";
+import { RiLoader5Fill } from "react-icons/ri";
+import { SiGitbook, SiHiveBlockchain } from "react-icons/si";
+import { VscLoading } from "react-icons/vsc";
 
 export type IconTypes =
   | "Github"
@@ -39,6 +45,7 @@ export type IconTypes =
   | "Link"
   | "Copy"
   | "Check"
+  | "CheckCircle"
   | "Menu"
   | "Close"
   | "Info"
@@ -52,6 +59,17 @@ export type IconTypes =
   | "Search"
   | "Edit"
   | "User"
+  | "Loader"
+  | "Eye"
+  | "Plus"
+  | "Undo"
+  | "Ethereum"
+  | "Clipboard"
+  | "VscLoading"
+  | "ChevronBackCircle"
+  | "FillMoon"
+  | "FillBrightness"
+  | "GitBook"
 
 export const iconList: { [key in IconTypes]: IconType } = {
   Facebook: BsFacebook,
@@ -60,6 +78,8 @@ export const iconList: { [key in IconTypes]: IconType } = {
   Twitter: BsTwitter,
   Copy: AiOutlineCopy,
   Check: AiOutlineCheck,
+  CheckCircle: AiOutlineCheckCircle,
+  VscLoading: VscLoading,
   Menu: FiMenu,
   Close: IoClose,
   Linkedin: BsLinkedin,
@@ -73,9 +93,19 @@ export const iconList: { [key in IconTypes]: IconType } = {
   Wallet: IoWalletSharp,
   Warning: IoWarning,
   Blockchain: SiHiveBlockchain,
-  Search: BiSearchAlt2,
-  Edit: AiOutlineEdit,
+  Search: HiOutlineSearch,
+  Edit: FiEdit,
   User: FaUserCircle,
+  Loader: RiLoader5Fill,
+  Clipboard: HiOutlineClipboard,
+  Eye: BsEye,
+  Undo: CgUndo,
+  GitBook: SiGitbook,
+  Plus: AiOutlinePlus,
+  Ethereum: FaEthereum,
+  FillMoon: BsFillMoonFill,
+  FillBrightness: BsFillBrightnessHighFill,
+  ChevronBackCircle: IoChevronBackCircleOutline,
 };
 
 interface IconProps extends IconBaseProps {

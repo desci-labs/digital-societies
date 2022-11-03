@@ -1,6 +1,6 @@
+import Icon from "components/Icons/Icons";
 import { useModalContext } from "components/Modal/Modal";
 import Button from "components/UI/Button/Index";
-import { AiOutlineInfoCircle } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { setStage } from "services/transaction/transactionSlice";
 import { Step } from "services/transaction/types";
@@ -17,7 +17,7 @@ export default function ErrorPop({ message }: { message: string }) {
   return (
     <div className="w-full bg-transparent">
       <div className="flex flex-col items-center justify-center">
-        <p className="text-3xl mb-5"><AiOutlineInfoCircle size={35} className="text-states-error" /></p>
+        <p className="text-3xl mb-5"><Icon type="Info" size={35} className="text-states-error" /></p>
         <p className="heading-3">
           {message}
         </p>

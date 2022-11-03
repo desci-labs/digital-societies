@@ -1,8 +1,6 @@
+import Icon from "components/Icons/Icons";
 import useMetaDetails from "components/Transactors/AssociatedData/useMetaDetails";
 import useDelegater from "components/Transactors/Delegater/useDelegater";
-import { AiOutlinePlus } from "react-icons/ai";
-import { BsEye } from "react-icons/bs";
-import { RiCloseLine } from "react-icons/ri";
 import { useAccountMetadata } from "services/api/hooks";
 import { useIsAdmin } from "services/orgs/hooks";
 import Button from "../../Button/Index";
@@ -19,7 +17,8 @@ export function DelegateRevoker(props: {
       disabled={props.isLoading}
       className={`bg-transparent bg-white bg-opacity-0 px-0 py-0 w-10 outline-0`}
     >
-      <RiCloseLine
+      <Icon
+        type="Close"
         tabIndex={0}
         focusable
         className="will-change-transform hover:-rotate-45 hover:text-tint-primary focus:text-tint-primary origin-cetner duration-200"
@@ -45,7 +44,8 @@ export function AssociatedDataEditor(props: {
       disabled={props.disabled}
       className={`bg-transparent bg-white bg-opacity-0 px-0 py-0 w-10 outline-0`}
     >
-      <BsEye
+      <Icon
+        type="Eye"
         size={18}
         tabIndex={0}
         focusable
@@ -66,7 +66,7 @@ export function DelegateUpdators(props: { address: string }) {
           onClick={showDelegate}
           className="flex items-center justify-evenly outline-none px-2 p-1 font-bold bg-primary-hover"
         >
-          <AiOutlinePlus className="block" />{" "}
+          <Icon type="Plus" className="block" />{" "}
           <span className="block capitalize text-sm">new</span>{" "}
         </Button>
       )}
@@ -85,7 +85,7 @@ export function DelegateUpdater(props: { address: string }) {
           onClick={showDelegate}
           className="flex items-center justify-evenly outline-none px-2 p-1 font-bold bg-primary-hover"
         >
-          <AiOutlinePlus className="block" />{" "}
+          <Icon type="Plus" className="block" />{" "}
           <span className="block capitalize text-sm">new</span>{" "}
         </Button>
       )}

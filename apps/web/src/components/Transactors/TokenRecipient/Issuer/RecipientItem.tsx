@@ -1,12 +1,11 @@
 import { AttestationTokenRecipient } from "services/admin/types";
-import { CgUndo, CgClose } from "react-icons/cg";
 import {
   useRemoveTokenRecipient,
   useToggleDeleteRecipient,
 } from "services/admin/hooks";
 import AddressCopier from "components/Copier/AddressCopier";
-import { FaEthereum } from "react-icons/fa";
 import { FormEvent } from "react";
+import Icon from "components/Icons/Icons";
 
 export default function RecipientItem(props: {
   recipient: AttestationTokenRecipient;
@@ -29,7 +28,7 @@ export default function RecipientItem(props: {
       } ${props.recipient.is_deleted ? "bg-states-error" : ""}`}
     >
       <div className="flex gap-2">
-        <FaEthereum />
+        <Icon type="Ethereum" />
         <span
           className={`text-sm ${props.recipient.is_deleted && "line-through"}`}
         >
@@ -38,9 +37,9 @@ export default function RecipientItem(props: {
       </div>
       <button onClick={onActionClick}>
         {props.recipient.is_added || props.recipient.is_deleted ? (
-          <CgUndo size={18} />
+          <Icon type="Undo" size={18} />
         ) : (
-          <CgClose size={18} />
+            <Icon type="Close" size={18} />
         )}
       </button>
     </li>

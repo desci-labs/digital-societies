@@ -7,11 +7,11 @@ import {
   useIsAdminOrDelegate,
   useGetOrg,
 } from "services/orgs/hooks";
-import { AiOutlinePlus } from "react-icons/ai";
 import Button from "../Button/Index";
 import { MetadataCard } from "./MetadataCard";
 import { Org, PendingOrg } from "services/orgs/types";
 import { useMemo } from "react";
+import Icon from "components/Icons/Icons";
 
 export function AttestationList({ address, showUpdater }: { address: string, showUpdater?: boolean }) {
   const org = useGetOrg(address);
@@ -54,7 +54,7 @@ function AttestationUpdater(props: { desoc: Org | PendingOrg }) {
         onClick={showCredenter}
         className="flex items-center justify-evenly font-bold outline-none px-2 p-1 bg-primary-hover"
       >
-        <AiOutlinePlus color="black" className="block" />{" "}
+        <Icon type="Plus" color="black" className="block" />{" "}
         <span className="block capitalize text-sm">new</span>{" "}
       </Button>
     )}</>

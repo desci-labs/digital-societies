@@ -1,5 +1,5 @@
+import Icon from "components/Icons/Icons";
 import { useModalContext } from "components/Modal/Modal";
-import { IoMdClose } from "react-icons/io";
 
 export default function Error({ message }: { message: string }) {
   const { hideModal } = useModalContext();
@@ -12,7 +12,7 @@ export default function Error({ message }: { message: string }) {
             onClick={hideModal}
             className="bg-wild-sand w-8 h-8 hover:bg-regent-gray hover:bg-opacity-50 rounded-full flex items-center justify-center w-full"
           >
-            <IoMdClose />
+            <Icon type="Close" />
           </button>
         </div>
         <div className="flex flex-col items-center justify-center">

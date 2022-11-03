@@ -1,13 +1,11 @@
+import Icon from "components/Icons/Icons";
 import useIssuer from "components/Transactors/TokenRecipient/Issuer/useIssuer";
 import Button from "components/UI/Button/Index";
-import { AiOutlinePlus } from "react-icons/ai";
-import { CgClose, CgUndo } from "react-icons/cg";
 import {
   useAddTokenRecipient,
   useGetSelectedTokens,
   useRemoveTokenRecipient,
   useResetTokenRecipients,
-  useToggleDeleteRecipient,
 } from "services/admin/hooks";
 import {
   Attestation,
@@ -26,7 +24,7 @@ export function Updater(props: {
         onClick={showIssuer}
         className="flex items-center justify-evenly outline-none px-2 p-1 font-bold bg-primary-hover"
       >
-        <AiOutlinePlus className="block" />{" "}
+        <Icon type="Plus" className="block" />
         <span className="block capitalize text-sm">Add</span>{" "}
       </Button>
     </>
@@ -96,13 +94,15 @@ export function SelectRecipient(props: {
         className={`bg-transparent bg-white bg-opacity-0`}
       >
         {tokenRecipient && tokenRecipient.is_deleted ? (
-          <CgUndo
+          <Icon
+            type="Undo"
             size={18}
             className="hover:scale-150 duration-100"
             color={props.isLoading ? "#8793A6" : "#ffffff"}
           />
         ) : (
-          <CgClose
+          <Icon
+            type="Close"
             size={18}
             className={`hover:scale-150 duration-100 text-state-error`}
             color={props.isLoading ? "#8793A6" : ""}

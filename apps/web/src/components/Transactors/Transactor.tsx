@@ -1,6 +1,6 @@
+import Icon from "components/Icons/Icons";
 import { useModalContext } from "components/Modal/Modal";
 import { FC } from "react";
-import { AiOutlineClose } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { useGetTxStage } from "services/transaction/hooks";
 import { setStage } from "services/transaction/transactionSlice";
@@ -32,7 +32,7 @@ export default function Transactor<C>(props: TxProps<C>) {
             onClick={closePrompt}
             className="bg-transparent hover:bg-regent-gray hover:bg-opacity-50 rounded-full absolute right-2 top-2 flex items-center justify-center w-8 h-8"
           >
-            <AiOutlineClose size={15} className="text" />
+            <Icon type="Close" size={15} className="text" />
           </button>
         </div>
       )}

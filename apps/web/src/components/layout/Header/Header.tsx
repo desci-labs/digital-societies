@@ -7,9 +7,9 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { useMobileMenu, useSetMobileMenu } from "./useAppMenu";
-import { BsFillMoonFill, BsFillBrightnessHighFill } from "react-icons/bs";
 import useDashboard from "hooks/useDashboard";
 import Link from "next/link";
+import Icon from "components/Icons/Icons";
 
 export default function Header() {
   const { isConnected } = useAccount();
@@ -90,9 +90,10 @@ function ThemeTogger() {
     <div className="flex items-center rounded-lg">
       <Button onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}>
         {resolvedTheme === "light" ? (
-          <BsFillMoonFill size={20} fill="#142E0C" />
+          <Icon type="FillMoon" size={20} fill="#142E0C" />
         ) : (
-          <BsFillBrightnessHighFill
+          <Icon
+            type="FillBrightness"
             className="duration-300"
             color="#EDF492"
             size={20}

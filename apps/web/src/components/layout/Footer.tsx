@@ -1,5 +1,4 @@
-import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa";
-import { SiGitbook } from "react-icons/si";
+import Icon from "components/Icons/Icons";
 
 export default function Footer() {
   return (
@@ -44,7 +43,7 @@ export default function Footer() {
           rel="noopener"
           className="mx-2 dark:bg-tint-primary p-1 w-[25px] h-[25px] rounded-full flex items-center justify-center"
         >
-          <SiGitbook className="text-black" />
+          <Icon type="GitBook" className="text-black" />
         </a>
         <a
           href="#"
@@ -52,7 +51,7 @@ export default function Footer() {
           rel="noopener"
           className="mx-2 dark:bg-tint-primary pt-1 w-[25px] h-[25px] rounded-full flex items-center justify-center"
         >
-          <FaGithub className="text-black" />
+          <Icon type="Github" color="black" />
         </a>
         <a
           href="#"
@@ -60,7 +59,7 @@ export default function Footer() {
           rel="noopener"
           className="mx-2 dark:bg-tint-primary p-1 w-[25px] h-[25px] rounded-full flex items-center justify-center"
         >
-          <FaTwitter className="text-black" />
+          <Icon type="Twitter" color="black" />
         </a>
         <a
           href="#"
@@ -68,7 +67,7 @@ export default function Footer() {
           rel="noopener"
           className="mx-2 dark:bg-tint-primary p-1 w-[25px] h-[25px] rounded-full flex items-center justify-center"
         >
-          <FaDiscord className="text-black" />
+          <Icon type="Discord" color="black" />
         </a>
       </section>
     </footer>

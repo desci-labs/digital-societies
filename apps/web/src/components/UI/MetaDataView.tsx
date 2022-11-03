@@ -1,4 +1,5 @@
 import { VerifiedBadgeIcon } from "assets/svg";
+import Icon from "components/Icons/Icons";
 import {
   AttestationMetadata,
   AttestationMetadataValues,
@@ -8,8 +9,6 @@ import {
 import { getImageURL } from "helper";
 import { useRouter } from "next/router";
 import { PropsWithChildren } from "react";
-import { FiEdit } from "react-icons/fi";
-import { IoChevronBackCircleOutline } from "react-icons/io5";
 import Button from "./Button/Index";
 import { ImageBanner, RoundedLogo } from "./Index";
 
@@ -68,7 +67,7 @@ function EditButton(props: { desoc: string; onClick: () => void }) {
       onClick={props.onClick}
       className="flex items-center justify-evenly focus:outline-white bg-transparent px-2 p-1 font-bold"
     >
-      <FiEdit className="text-darker" />
+      <Icon type="Edit" className="text-darker" />
     </Button>
   );
 }
@@ -85,7 +84,7 @@ function BackButton() {
   const router = useRouter();
   return (
     <Button title="back" className="flex items-center gap-3" onClick={() => router.back()}>
-      <IoChevronBackCircleOutline size={40} color="white" />
+      <Icon type="ChevronBackCircle" size={40} color="white" />
       <span className="text-lg text-white">Back</span>
     </Button>
   );

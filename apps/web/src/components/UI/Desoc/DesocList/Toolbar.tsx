@@ -1,7 +1,6 @@
 import { Input } from "components/Form/Index";
+import Icon from "components/Icons/Icons";
 import { ChangeEvent } from "react";
-import { HiOutlineSearch } from "react-icons/hi";
-import { RiLoader5Fill } from "react-icons/ri";
 
 export default function Toolbar(props: {
   searchText: string;
@@ -22,12 +21,13 @@ export default function Toolbar(props: {
         />
         <label htmlFor="orgSearch">
           {props.isDebouncing ? (
-            <RiLoader5Fill
+            <Icon
+              type="Loader"
               size={20}
               className="text-tint-primary-hover animate-spin cursor-pointer"
             />
           ) : (
-              <HiOutlineSearch className="text-tint-primary-hover cursor-pointer" size={20} />
+              <Icon type="Search" className="text-tint-primary-hover cursor-pointer" size={25} />
           )}
         </label>
       </div>

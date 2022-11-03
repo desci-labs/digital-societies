@@ -1,5 +1,5 @@
+import Icon from "components/Icons/Icons";
 import { useState } from "react";
-import { HiOutlineClipboard, HiOutlineCheck } from "react-icons/hi";
 
 function useCopier() {
   const [copied, setCopied] = useState(false);
@@ -21,9 +21,9 @@ export default function Copier(props: { text: string; classes?: string }) {
   return (
     <>
       {copied ? (
-        <HiOutlineCheck className={props.classes ?? ""} />
+        <Icon type="Check" className={props.classes ?? ""} />
       ) : (
-        <HiOutlineClipboard
+        <Icon type="Clipboard"
           className={`cursor-pointer ${props.classes ?? ""}`}
           onClick={() => handleCopy(props.text)}
         />
