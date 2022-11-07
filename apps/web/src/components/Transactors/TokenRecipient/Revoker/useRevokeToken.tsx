@@ -53,7 +53,7 @@ export default function useRevokeToken() {
       dispatch(setFormLoading(true));
       updateTx({ step: Step.submit, message: "Confirm transaction..." });
       showModal(TransactionPrompt, {});
-      
+
       dispatch(
         updateTokens({
           address: orgContractAddress,
@@ -84,7 +84,9 @@ export default function useRevokeToken() {
         message: "Token revoked",
       });
     } catch (e: any) {
-      dispatch(updateTokens({ address: orgContractAddress, tokens: tokensToUpdate }));
+      dispatch(
+        updateTokens({ address: orgContractAddress, tokens: tokensToUpdate })
+      );
       dispatch(setFormLoading(false));
       updateTx({
         step: Step.error,

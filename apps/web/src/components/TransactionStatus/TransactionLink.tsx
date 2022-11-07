@@ -1,4 +1,3 @@
-
 export default function TransactionLink(props: { name: string; url: string }) {
   return (
     <div className="flex items-center justify-center mt-4">

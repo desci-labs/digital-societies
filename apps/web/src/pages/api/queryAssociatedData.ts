@@ -1,4 +1,7 @@
-import { PostgrestResponse, PostgrestSingleResponse } from "@supabase/supabase-js";
+import {
+  PostgrestResponse,
+  PostgrestSingleResponse,
+} from "@supabase/supabase-js";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { AssociatedDataRow } from "services/api/types";
 import { supabase } from "services/database/superbase/superbaseClient";
@@ -10,29 +13,40 @@ export const config = {
 
 async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<{ status: string; message?: string; error?: string } | AssociatedDataRow | AssociatedDataRow[]>
+  res: NextApiResponse<
+    | { status: string; message?: string; error?: string }
+    | AssociatedDataRow
+    | AssociatedDataRow[]
+  >
 ) {
   let responseBody,
     status = 200;
   try {
     const query = req.query;
-    if (!query.org && !query.owner) throw Error("Invalid query");
+    if (!query.org && !query.owner) throw new Error("Invalid query");
 
-    let result: PostgrestResponse<AssociatedDataRow> | PostgrestSingleResponse<AssociatedDataRow> | undefined = undefined;
+    let result:
+      | PostgrestResponse<AssociatedDataRow>
+      | PostgrestSingleResponse<AssociatedDataRow>
+      | undefined = undefined;
     if (query.org) {
       result = await supabase
         .from("associated_metadata")
         .select("id, org, owner, metadata, created_at, updated_at")
-        .eq("org", query.org)
+        .eq("org", query.org);
     } else if (query.owner) {
       result = await supabase
         .from("associated_metadata")
         .select("id, org, owner, metadata, created_at, updated_at")
         .eq("owner", query.owner)
-        .single()
+        .single();
     }
 
-    if (!result) return res.status(400).json({ message: "No result returned from the query!", status: "error"});
+    if (!result)
+      return res.status(400).json({
+        message: "No result returned from the query!",
+        status: "error",
+      });
     const { error, data, status } = result;
     if (error)
       return res
@@ -40,12 +54,12 @@ async function handler(
         .json({ message: error.message, status: "error" });
 
     return res.status(status).json(data);
-  } catch (e: any) {
-    console.log("e", e);
+  } catch (error: unknown) {
+    const e = error as Error;
     status = 500;
     responseBody = {
       status: "error",
-      message: e.message,
+      message: e.message ?? "Unknown error occured",
       error: e.toString(),
     };
 

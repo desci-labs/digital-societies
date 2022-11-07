@@ -25,7 +25,10 @@ export default function RevokeItem(props: { token: AttestationToken }) {
         <AddressCopier address={props.token.issuer} />
       </Cell>
       <Cell>
-        <AssociatedDataEditor org={props.token.org} address={props.token.owner} />
+        <AssociatedDataEditor
+          org={props.token.org}
+          address={props.token.owner}
+        />
         <SelectRecipient isLoading={false} token={props.token} />
       </Cell>
     </Row>

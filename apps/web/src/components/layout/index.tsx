@@ -8,11 +8,9 @@ export default function Layout({ children }: PropsWithChildren) {
     <div className="app-bg h-screen overflow-y-scroll">
       <Header />
       <main>
-        <NetworkGuard>
-          {children}
-        </NetworkGuard>
+        <NetworkGuard>{children}</NetworkGuard>
       </main>
       <Footer />
     </div>
-  )
+  );
 }

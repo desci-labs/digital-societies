@@ -25,7 +25,7 @@ export default function useLocalStorageState<TValue>(
 
   useEffect(() => {
     if (typeof window === undefined) return;
-    
+
     const prevKey = prevKeyRef.current;
     if (prevKey !== key) {
       window.localStorage.removeItem(prevKey);
@@ -34,7 +34,7 @@ export default function useLocalStorageState<TValue>(
 
     const valueInLocalStorage = window.localStorage.getItem(key);
     if (valueInLocalStorage) {
-       setState(() => JSON.parse(valueInLocalStorage) as TValue);
+      setState(() => JSON.parse(valueInLocalStorage) as TValue);
     }
   }, [key]);
 

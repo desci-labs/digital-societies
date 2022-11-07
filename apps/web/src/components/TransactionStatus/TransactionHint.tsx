@@ -18,9 +18,7 @@ export default function TransactionHint() {
         <StatusButton Icon="VscLoading" iconClass="text-primary animate-spin" />
       );
     case Step.success:
-      return (
-        <StatusButton Icon="CheckCircle" iconClass="text-primary-hover" />
-      );
+      return <StatusButton Icon="CheckCircle" iconClass="text-primary-hover" />;
     default:
       return null;
   }
@@ -36,7 +34,11 @@ function StatusButton(props: { Icon: IconTypes; iconClass?: string }) {
       onClick={showPrompt}
       className="grid place-items-center rounded-md p-0 focus:outline-none"
     >
-      <Icon type={props.Icon} size={30} className={`${props.iconClass || ""} `} />
+      <Icon
+        type={props.Icon}
+        size={30}
+        className={`${props.iconClass || ""} `}
+      />
     </button>
   );
 }

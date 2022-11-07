@@ -1,6 +1,22 @@
 {
-  "extends": "next/core-web-vitals",
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "next"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "prettier"
+  ],
   "rules": {
-    "react/display-name": "off"
+    "prettier/prettier": "error",
+    "react/react-in-jsx-scope": "off",
+    "react/display-name": "off",
+    "no-empty-function": "off",
+    "@typescript-eslint/no-empty-function": "off"
+  },
+  "globals": {
+    "React": "writable"
   }
 }

@@ -45,10 +45,7 @@ export default function LaunchForm() {
         />
       </InputRow>
       <InputRow htmlFor="description" label="Description">
-        <Textarea
-          id="description"
-          {...register("description")}
-        />
+        <Textarea id="description" {...register("description")} />
       </InputRow>
       <InputRow htmlFor="external_link" label="External link">
         <ErrorMessage
@@ -70,7 +67,11 @@ export default function LaunchForm() {
           as="span"
           className="text-xs text-left text-red-400 font-semibold m-0"
         />
-        <ImagePreview image={image} className="rounded-xl" wrapperClassName="h-32" />
+        <ImagePreview
+          image={image}
+          className="rounded-xl"
+          wrapperClassName="h-32"
+        />
         <FileDropzone<MetadataValues>
           name="banner"
           className="h-10"

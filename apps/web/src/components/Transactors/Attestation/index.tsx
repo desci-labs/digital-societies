@@ -9,11 +9,15 @@ import { useRouter } from "next/router";
 import { useModalContext } from "components/Modal/Modal";
 import { attestationTypes } from "../constants";
 
-export type Props = { org: Org | PendingOrg, Form: JSX.Element, mode: LaunchMode };
+export type Props = {
+  org: Org | PendingOrg;
+  Form: JSX.Element;
+  mode: LaunchMode;
+};
 
 export default function CredentialLauncher({ org, Form, mode }: Props) {
   const router = useRouter();
-  const { showModal } = useModalContext()
+  const { showModal } = useModalContext();
   const { id } = router.query;
   const credential = useGetAttestation(org.address, parseInt(id as string));
   const metadata = credential?.metadata ?? org.metadata;
@@ -25,22 +29,27 @@ export default function CredentialLauncher({ org, Form, mode }: Props) {
       mode,
       name: metadata.name,
       description: metadata.description,
-      attestationType: credential?.metadata?.attestationType || attestationTypes[0],
-      banner: typeof metadata.banner === "string" ? { ipfsURL: metadata.banner } : metadata.banner,
-      image: typeof metadata.image === "string" ? { ipfsURL: metadata.image } : metadata.image,
+      attestationType:
+        credential?.metadata?.attestationType || attestationTypes[0],
+      banner:
+        typeof metadata.banner === "string"
+          ? { ipfsURL: metadata.banner }
+          : metadata.banner,
+      image:
+        typeof metadata.image === "string"
+          ? { ipfsURL: metadata.image }
+          : metadata.image,
       external_link: metadata.external_link,
     },
     resolver: yupResolver(metadataSchema),
   });
 
   if (org.pending) {
-    showModal(Popup, { message: "This deployment of this org is still pending..." });
+    showModal(Popup, {
+      message: "This deployment of this org is still pending...",
+    });
     return null;
   }
 
-  return (
-    <FormProvider {...methods}>
-      {Form}
-    </FormProvider>
-  );
+  return <FormProvider {...methods}>{Form}</FormProvider>;
 }

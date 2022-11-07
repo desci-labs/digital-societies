@@ -27,7 +27,11 @@ export default function Toolbar(props: {
               className="text-tint-primary-hover animate-spin cursor-pointer"
             />
           ) : (
-              <Icon type="Search" className="text-tint-primary-hover cursor-pointer" size={25} />
+            <Icon
+              type="Search"
+              className="text-tint-primary-hover cursor-pointer"
+              size={25}
+            />
           )}
         </label>
       </div>

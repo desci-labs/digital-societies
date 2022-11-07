@@ -1,5 +1,5 @@
 import Icon from "components/Icons/Icons";
-import { useModalContext } from "components/Modal/Modal"
+import { useModalContext } from "components/Modal/Modal";
 import { useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { useGetTxStage } from "services/transaction/hooks";
@@ -18,30 +18,27 @@ export default function TransactionPrompt() {
   const view = useMemo(() => {
     switch (stage.step) {
       case Step.success:
-        return <Success {...stage} />
+        return <Success {...stage} />;
       case Step.broadcast:
-        return <Processing {...stage} />
+        return <Processing {...stage} />;
       case Step.submit:
-        return <Submit {...stage} />
+        return <Submit {...stage} />;
       case Step.error:
-        return <ErrorPop {...stage} />
+        return <ErrorPop {...stage} />;
       default:
         throw new Error("Invalid prompt");
     }
   }, [stage]);
 
   function closePrompt() {
-    if (stage.step === Step.success ||
-      stage.step === Step.error) {
-      dispatch(setStage({ step: Step.form }))
+    if (stage.step === Step.success || stage.step === Step.error) {
+      dispatch(setStage({ step: Step.form }));
     }
     hideModal();
   }
 
   return (
-    <div
-      className="min-w-120 p-5 relative bg-white app-bg text-neutrals-gray-7 rounded-md overflow-scroll fixed-center z-20 min-h-120 max-h-200 scroll-hidden will-change-transform animate-scaleIn"
-    >
+    <div className="min-w-120 p-5 relative bg-white app-bg text-neutrals-gray-7 rounded-md overflow-scroll fixed-center z-20 min-h-120 max-h-200 scroll-hidden will-change-transform animate-scaleIn">
       <div className="flex justify-end absolute right-0 top-0">
         <button
           onClick={closePrompt}
@@ -52,5 +49,5 @@ export default function TransactionPrompt() {
       </div>
       {view}
     </div>
-  )
+  );
 }

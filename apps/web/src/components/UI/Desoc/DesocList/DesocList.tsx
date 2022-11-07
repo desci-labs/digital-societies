@@ -50,7 +50,10 @@ export default function DesocList() {
 function NoResult(props: { text: string }) {
   return (
     <div className="container mx-auto flex flex-col justify-center items-center h-96 gap-10">
-      <h1 className="text-xl tracking-widest">No Results found for <span className="font-bold text-tint-primary-hover">{props.text}</span></h1>
+      <h1 className="text-xl tracking-widest">
+        No Results found for{" "}
+        <span className="font-bold text-tint-primary-hover">{props.text}</span>
+      </h1>
     </div>
   );
 }
@@ -60,11 +63,15 @@ function NoContent() {
   return (
     <div className="container mx-auto flex flex-col justify-center items-center h-96 gap-10">
       <h1 className="text-xl">No Organisations deployed yet!!!</h1>
-      {isConnected ? <Link href="/launch">
-        <a className="font-semibold text-lg hover:text-darker capitalize border border-black p-2">
-          Launch an organisation
-        </a>
-      </Link> : <ConnectButton showBalance={false} />}
+      {isConnected ? (
+        <Link href="/launch">
+          <a className="font-semibold text-lg hover:text-darker capitalize border border-black p-2">
+            Launch an organisation
+          </a>
+        </Link>
+      ) : (
+        <ConnectButton showBalance={false} />
+      )}
     </div>
   );
 }

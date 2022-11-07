@@ -4,7 +4,7 @@
 export enum ChainIds {
   MAINNET = 1,
   GOERLI = 5,
-  LOCALHOST = 1337
+  LOCALHOST = 1337,
 }
 
 export enum SupportedChainId {

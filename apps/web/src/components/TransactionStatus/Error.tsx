@@ -17,10 +17,10 @@ export default function ErrorPop({ message }: { message: string }) {
   return (
     <div className="w-full bg-transparent">
       <div className="flex flex-col items-center justify-center">
-        <p className="text-3xl mb-5"><Icon type="Info" size={35} className="text-states-error" /></p>
-        <p className="heading-3">
-          {message}
+        <p className="text-3xl mb-5">
+          <Icon type="Info" size={35} className="text-states-error" />
         </p>
+        <p className="heading-3">{message}</p>
       </div>
       <Button
         className="tracking-wide text-lg text-white rounded-lg w-full mt-5 bg-tint-primary-dark"

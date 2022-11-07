@@ -1,1 +1,6 @@
-export const attestationTypes = ["Commitment", "Credentials", "Social group", "Achievement"] as const;
+export const attestationTypes = [
+  "Commitment",
+  "Credentials",
+  "Social group",
+  "Achievement",
+] as const;

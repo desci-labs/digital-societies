@@ -34,7 +34,7 @@ export function IssuedTokens({
                     <Image
                       src={getImageURL(
                         attestation?.metadata?.image ??
-                        attestation?.metadata?.banner
+                          attestation?.metadata?.banner
                       )}
                       layout="fill"
                       objectFit="cover"

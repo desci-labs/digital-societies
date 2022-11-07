@@ -3,10 +3,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import { Form, InputRow, Input, Textarea } from "components/Form/Index";
 import { useGetTxStage } from "services/transaction/hooks";
 import Button from "components/UI/Button/Index";
-import {
-  ASSOCIATED_SOCIALS,
-  Socials,
-} from "components/Transactors/types";
+import { ASSOCIATED_SOCIALS, Socials } from "components/Transactors/types";
 import useRouterAddress from "hooks/useRouterAddress";
 import useHandleUpdate from "./useHandleUpdate";
 import { maskAddress } from "helper";
@@ -41,7 +38,11 @@ export default function AssociatedDataForm() {
       description={maskAddress(getValues("owner"))}
       className="form"
     >
-      {error && <span className="text-states-error text-md inline-block w-full">Error: {error}</span>}
+      {error && (
+        <span className="text-states-error text-md inline-block w-full">
+          Error: {error}
+        </span>
+      )}
       <>
         {ASSOCIATED_SOCIALS.map((name) => (
           <InputRow htmlFor={name} label={name} className="text-sm" key={name}>
@@ -54,7 +55,12 @@ export default function AssociatedDataForm() {
             <div className="flex items-center justify-between w-full border border-neutrals-gray-3 px-2 ">
               <div className="flex flex-auto items-center justify-start gap-1">
                 <Icon type={name} size={18} />
-                <Input id={name} {...register(`metadata.${name}`)} className="py-2 border-none" placeholder={placeholders[name]} />
+                <Input
+                  id={name}
+                  {...register(`metadata.${name}`)}
+                  className="py-2 border-none"
+                  placeholder={placeholders[name]}
+                />
               </div>
               <ActionButtons link={watch(`metadata.${name}`)} />
             </div>
@@ -62,7 +68,11 @@ export default function AssociatedDataForm() {
         ))}
       </>
       <InputRow htmlFor="notes" label="Notes">
-        <Textarea id="notes" {...register("metadata.notes")} placeholder="Extra notes on this recipient or delegate" />
+        <Textarea
+          id="notes"
+          {...register("metadata.notes")}
+          placeholder="Extra notes on this recipient or delegate"
+        />
       </InputRow>
       <Button
         disabled={isLoading || !isValid}
@@ -80,7 +90,14 @@ function ActionButtons(props: { link: string }) {
   return (
     <div className="flex items-center justify-end gap-2">
       <Copier text={props.link} classes="hover:text-tint-primary" />
-      <a href={props.link} target="_blank" rel="noreferrer" className="hover:text-tint-primary">view</a>
+      <a
+        href={props.link}
+        target="_blank"
+        rel="noreferrer"
+        className="hover:text-tint-primary"
+      >
+        view
+      </a>
     </div>
-  )
+  );
 }

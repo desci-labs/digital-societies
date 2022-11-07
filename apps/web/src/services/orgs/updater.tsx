@@ -33,7 +33,9 @@ export default function FactoryUpdater() {
     return members;
   }
 
-  async function getContractInfofromEvent(event: ethers.Event): Promise<Org | null> {
+  async function getContractInfofromEvent(
+    event: ethers.Event
+  ): Promise<Org | null> {
     const block = await provider.getBlock(event.blockNumber);
     const contract = getContract(event.args?.token ?? event.args?.[1]);
     if (!contract) return null;
@@ -41,7 +43,8 @@ export default function FactoryUpdater() {
     const delegates = await getDelegates(contract);
     let cid = await contract.contractURI();
     const metadata = (await queryIpfsURL(cid)) as Metadata;
-    const verified = await managerContract?.verified(contract.address) ?? false;
+    const verified =
+      (await managerContract?.verified(contract.address)) ?? false;
     return {
       metadata,
       cid,
@@ -88,6 +91,13 @@ export default function FactoryUpdater() {
     ) {
       getFactoryTokens();
     }
-  }, [block, lastUpdated, managerContract, getFactoryTokens, provider, orgs.length]);
+  }, [
+    block,
+    lastUpdated,
+    managerContract,
+    getFactoryTokens,
+    provider,
+    orgs.length,
+  ]);
   return null;
 }

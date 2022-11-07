@@ -1,7 +1,7 @@
-import Launcher from 'components/Transactors/org/Launcher';
-import LaunchForm from 'components/Transactors/org/Deployer/LaunchForm';
-import type { NextPage } from 'next';
-import Head from 'next/head';
+import Launcher from "components/Transactors/org/Launcher";
+import LaunchForm from "components/Transactors/org/Deployer/LaunchForm";
+import type { NextPage } from "next";
+import Head from "next/head";
 
 const Launch: NextPage = () => {
   return (

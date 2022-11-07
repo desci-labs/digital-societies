@@ -30,11 +30,12 @@ export default function CredentialDetails() {
   const org = useGetOrg(address);
 
   const showLauncher = useCredenter(org!, "update");
+
   const metadata = useMemo(
     () => credential?.metadata ?? org?.metadata,
     [credential, org]
   );
-  const hasAccess = useIsAdminOrDelegate(org?.address!);
+  const hasAccess = useIsAdminOrDelegate(org?.address ?? "");
 
   if (!credential) return <Loader className="h-screen" />;
   if (!metadata) return null;
@@ -48,11 +49,13 @@ export default function CredentialDetails() {
         showUpdater={hasAccess}
         onUpdateClick={showLauncher}
       />
-      {!hasAccess && <IssuedTokens attestation={credential!} />}
-      {hasAccess && <>
-        <Issuer Form={RevokerForm} attestation={credential} />
-        <RevokedTokens attestation={credential!} />
-      </>}
+      {!hasAccess && <IssuedTokens attestation={credential} />}
+      {hasAccess && (
+        <>
+          <Issuer Form={RevokerForm} attestation={credential} />
+          <RevokedTokens attestation={credential} />
+        </>
+      )}
     </ContentGrid>
   );
 }

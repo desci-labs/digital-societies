@@ -14,12 +14,11 @@ import { Handlers, Opener, Props } from "./types";
 export default function ModalProvider(props: Props) {
   const [Content, setContent] = useState<ReactNode>();
   const ref = useRef<HTMLDivElement>();
-  const [backdropDismiss, setBackdropDismiss] = useState(false);
+  const [backdropDismiss, setBackdropDismiss] = useState(true);
   const escKeyPressed = useKeyPress("Escape");
 
-
-  const dismissModal = (event: any) => {
-    const path = event.path || (event.composedPath && event.composedPath());
+  const dismissModal = (event: MouseEvent) => {
+    const path = event.composedPath && event.composedPath();
 
     if (path[0] === ref.current) {
       closeModal();
@@ -46,7 +45,6 @@ export default function ModalProvider(props: Props) {
     [backdropDismiss]
   );
 
-
   const showModal: Opener = (Content, props) => {
     setBackdropDismiss(props.isDismissDisabled ?? false);
     setContent(<Content {...props} inModal={true} />);
@@ -55,12 +53,12 @@ export default function ModalProvider(props: Props) {
 
   const toggleBodyScroll = (scroll: boolean) => {
     const body = document.body;
-    if (scroll && body.classList.contains('modal-open')) {
-      body.classList.remove('modal-open')
+    if (scroll && body.classList.contains("modal-open")) {
+      body.classList.remove("modal-open");
     } else if (!scroll) {
-      body.classList.add('modal-open')
+      body.classList.add("modal-open");
     }
-  }
+  };
 
   function closeModal() {
     toggleBodyScroll(true);
@@ -88,8 +86,8 @@ export default function ModalProvider(props: Props) {
   );
 }
 const setContext = createContext<Handlers>({
-  showModal: () => { },
-  hideModal: () => { },
+  showModal: () => {},
+  hideModal: () => {},
 });
 
 export const useModalContext = () => useContext(setContext);

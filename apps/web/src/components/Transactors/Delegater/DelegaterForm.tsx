@@ -19,36 +19,31 @@ export default function DelegaterForm() {
   const stage = useGetTxStage();
   const { address } = router.query;
   const org = useGetOrg(address as string);
-  const { grantRole, isLoading } = useGrantRole(org?.address!);
+  const { grantRole, isLoading } = useGrantRole(org?.address ?? "");
   const canDisable = useMemo(
     () => isSubmitting || isLoading,
     [isSubmitting, isLoading]
   );
+  if (!org) return null;
 
   return (
-    <Form onSubmit={handleSubmit(grantRole)} title={org?.metadata.name} description="Grant Delegate role" className="form">
-      <InputRow
-        htmlFor="org"
-        label="Organisation"
-        className="text-sm"
-      >
-        <Input {...register('org')} disabled />
+    <Form
+      onSubmit={handleSubmit(grantRole)}
+      title={org?.metadata.name}
+      description="Grant Delegate role"
+      className="form"
+    >
+      <InputRow htmlFor="org" label="Organisation" className="text-sm">
+        <Input {...register("org")} disabled />
       </InputRow>
-      <InputRow
-        htmlFor="delegate"
-        label="address"
-        className="text-sm"
-      >
+      <InputRow htmlFor="delegate" label="address" className="text-sm">
         <ErrorMessage
           errors={errors}
           name="delegate"
           as="span"
           className="text-xs text-left text-red-400 font-semibold m-0"
         />
-        <Input
-          id="delegate"
-          {...register("delegate")}
-        />
+        <Input id="delegate" {...register("delegate")} />
       </InputRow>
       <Button
         disabled={canDisable || !isValid}

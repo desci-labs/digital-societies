@@ -8,9 +8,13 @@ export default function useLauncher() {
   const { showModal } = useModalContext();
 
   const showLauncher = useCallback(() => {
-    showModal<TxProps<Props>>(Transactor, { Content: Launcher, contentProps: { Form: LaunchForm }, inModal: true });
+    showModal<TxProps<Props>>(Transactor, {
+      Content: Launcher,
+      contentProps: { Form: LaunchForm },
+      inModal: true,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return showLauncher
+  return showLauncher;
 }

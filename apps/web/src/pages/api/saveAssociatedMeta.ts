@@ -18,7 +18,7 @@ async function handler(
       typeof req.body === "string"
         ? (JSON.parse(req.body) as AssociatedDataInsert)
         : req.body;
-      
+
     if (!body.org || !body.owner || !body.metadata) throw Error("Invalid data");
     const { error, status } = await supabase
       .from("associated_metadata")

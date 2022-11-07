@@ -25,17 +25,19 @@ export const useFactoryContract = (): DesocManager | undefined => {
   const { data: signer } = useSigner();
   const provider = useProvider();
   const address = SB_FACTORY_ADDRESS[chain?.id ?? DEFAULT_CHAIN];
-  
+
   useEffect(() => {
     if (!address) return;
-      setContract(DesocManager__factory.getContract(
+    setContract(
+      DesocManager__factory.getContract(
         address!,
         DesocManagerInterface.abi,
         signer! || provider
-      ) as DesocManager);
+      ) as DesocManager
+    );
   }, [address, provider, signer]);
 
-  return contract
+  return contract;
 };
 
 export const useWrapContract = () => {
@@ -48,7 +50,7 @@ export const useWrapContract = () => {
         logLevel: "debug",
       },
     });
-  }
+  };
 };
 
 export const useTokenContract = () => {

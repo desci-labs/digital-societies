@@ -1,4 +1,3 @@
-
 import Loader from "components/Loader";
 import { useGetOrg } from "services/orgs/hooks";
 import DesocDetails from "components/UI/Desoc/DesocDetails";
@@ -12,8 +11,11 @@ export default function DesocDetailsPage() {
   const org = useGetOrg(address as string);
 
   if (!org) return <Loader className="h-screen" />;
-  
+
   return (
-    <DesocDetails desoc={org} showUpdaters={org.address === adminOrg?.address}  />
+    <DesocDetails
+      desoc={org}
+      showUpdaters={org.address === adminOrg?.address}
+    />
   );
 }

@@ -29,7 +29,12 @@ import {
 import { FiEdit, FiMenu } from "react-icons/fi";
 import { GoLinkExternal } from "react-icons/go";
 import { HiOutlineClipboard, HiOutlineSearch } from "react-icons/hi";
-import { IoChevronBackCircleOutline, IoClose, IoWalletSharp, IoWarning } from "react-icons/io5";
+import {
+  IoChevronBackCircleOutline,
+  IoClose,
+  IoWalletSharp,
+  IoWarning,
+} from "react-icons/io5";
 import { IconBaseProps } from "react-icons/lib";
 import { RiLoader5Fill } from "react-icons/ri";
 import { SiGitbook, SiHiveBlockchain } from "react-icons/si";
@@ -69,7 +74,7 @@ export type IconTypes =
   | "ChevronBackCircle"
   | "FillMoon"
   | "FillBrightness"
-  | "GitBook"
+  | "GitBook";
 
 export const iconList: { [key in IconTypes]: IconType } = {
   Facebook: BsFacebook,
@@ -118,7 +123,7 @@ const defaultIconColors: Partial<Record<IconTypes, string>> = {
   Linkedin: "#0077b5",
   Github: "#ffffff",
   Discord: "#7289da",
-}
+};
 
 export default function Icon(props: IconProps) {
   const { type, ...rest } = props;

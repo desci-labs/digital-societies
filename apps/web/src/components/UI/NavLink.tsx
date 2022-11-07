@@ -11,8 +11,9 @@ const getClassName = ({
   activeClassName: string;
   isActive: boolean;
 }) => {
-  return `text-darker hover:text-neutrals-gray-3 dark:hover:text-neutrals-gray-7 border-b-2 border-transparent hover:border-black dark:hover:border-white ${className} ${isActive ? `dark:text-white font-bold ${activeClassName}` : ""
-    }`;
+  return `text-darker hover:text-neutrals-gray-3 dark:hover:text-neutrals-gray-7 border-b-2 border-transparent hover:border-black dark:hover:border-white ${className} ${
+    isActive ? `dark:text-white font-bold ${activeClassName}` : ""
+  }`;
 };
 
 export default function NavLink(
@@ -34,7 +35,11 @@ export default function NavLink(
   return (
     <Link href={props.href}>
       <a
-        className={getClassName({ className: props.className!, activeClassName: props.activeClassName!, isActive })}
+        className={getClassName({
+          className: props.className!,
+          activeClassName: props.activeClassName!,
+          isActive,
+        })}
       >
         {props.children}
       </a>
@@ -42,16 +47,22 @@ export default function NavLink(
   );
 }
 
-export function ExternalLink(props: HTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>> & {
-  href: string;
-  activeClassName?: string;
-}) {
+export function ExternalLink(
+  props: HTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>> & {
+    href: string;
+    activeClassName?: string;
+  }
+) {
   return (
     <a
       href={props.href}
       target="_blank"
       rel="noreferrer"
-      className={getClassName({ className: props.className!, activeClassName: props.activeClassName!, isActive: false })}
+      className={getClassName({
+        className: props.className!,
+        activeClassName: props.activeClassName!,
+        isActive: false,
+      })}
     >
       {props.children}
     </a>

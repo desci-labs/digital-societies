@@ -83,7 +83,11 @@ function OverlayWrapper(props: PropsWithChildren<{}>) {
 function BackButton() {
   const router = useRouter();
   return (
-    <Button title="back" className="flex items-center gap-3" onClick={() => router.back()}>
+    <Button
+      title="back"
+      className="flex items-center gap-3"
+      onClick={() => router.back()}
+    >
       <Icon type="ChevronBackCircle" size={40} color="white" />
       <span className="text-lg text-white">Back</span>
     </Button>

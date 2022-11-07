@@ -6,7 +6,10 @@ import { useDispatch } from "react-redux";
 import { addDelegate, removeDelegate } from "services/orgs/orgSlice";
 import { useGetOrg } from "services/orgs/hooks";
 import { useGetTxState } from "services/transaction/hooks";
-import { setFormError, setFormLoading } from "services/transaction/transactionSlice";
+import {
+  setFormError,
+  setFormLoading,
+} from "services/transaction/transactionSlice";
 import { Step } from "services/transaction/types";
 import useTxUpdator from "services/transaction/updators";
 import { DelegaterValues } from "../types";
@@ -23,29 +26,38 @@ export default function useGrantRole(address: string) {
   async function grantRole(metadata: DelegaterValues) {
     try {
       if (!tokenContract) return;
-      
+
       if (org?.delegates?.includes(metadata.delegate)) return;
       dispatch(setFormLoading(true));
-      updateTx({ step: Step.submit, message: "Confirm transaction..." })
+      updateTx({ step: Step.submit, message: "Confirm transaction..." });
 
-      const tx = await tokenContract.grantRole(DELEGATE_ROLE, metadata.delegate);
+      const tx = await tokenContract.grantRole(
+        DELEGATE_ROLE,
+        metadata.delegate
+      );
 
       showModal(TransactionPrompt, {});
-      dispatch(addDelegate({ org: address, delegate: metadata.delegate }))
-      updateTx({ step: Step.broadcast, txHash: tx.hash, message: "Adding delegate..." })
+      dispatch(addDelegate({ org: address, delegate: metadata.delegate }));
+      updateTx({
+        step: Step.broadcast,
+        txHash: tx.hash,
+        message: "Adding delegate...",
+      });
 
       await tx.wait();
 
       dispatch(setFormLoading(false));
-      updateTx({ step: Step.success, txHash: tx.hash, message: "" })
+      updateTx({ step: Step.success, txHash: tx.hash, message: "" });
     } catch (e: any) {
       dispatch(setFormLoading(false));
-      dispatch(removeDelegate({ org: address, delegate: metadata.delegate }))
-      updateTx({ step: Step.error, message: "An error occured while adding delegate" });
+      dispatch(removeDelegate({ org: address, delegate: metadata.delegate }));
+      updateTx({
+        step: Step.error,
+        message: "An error occured while adding delegate",
+      });
       dispatch(setFormLoading(false));
       dispatch(setFormError(e?.data?.message ?? e?.message));
     }
-
   }
   return { grantRole, isLoading: form_loading };
 }

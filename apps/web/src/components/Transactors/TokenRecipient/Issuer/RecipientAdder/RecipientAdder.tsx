@@ -8,13 +8,16 @@ export default function RecipientAdder() {
   const { register } = useFormContext<IssuerValues>();
   const addRecipient = useRecipientAdder();
 
-  
   return (
     <div className="flex items-center justify-between gap-3 w-full">
       <Input {...register("address")} />
-      <Button className="bg-primary text-sm" type="button" onClick={addRecipient}>
+      <Button
+        className="bg-primary text-sm"
+        type="button"
+        onClick={addRecipient}
+      >
         Add
       </Button>
     </div>
-  )
+  );
 }

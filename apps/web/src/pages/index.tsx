@@ -1,5 +1,5 @@
-import DesocList from 'components/UI/Desoc/DesocList/DesocList';
-import type { NextPage } from 'next';
+import DesocList from "components/UI/Desoc/DesocList/DesocList";
+import type { NextPage } from "next";
 
 const Home: NextPage = () => {
   return (

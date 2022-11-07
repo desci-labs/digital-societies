@@ -7,11 +7,14 @@ import { CardContainer } from "../Index";
 import { Cell, Row, Table, TBody, THead } from "../Table";
 
 export function RevokedTokens({
-  attestation
+  attestation,
 }: {
-  attestation: Attestation | PendingAttestation
+  attestation: Attestation | PendingAttestation;
 }) {
-  const tokens = useGetRevokedAttestationTokens(attestation.address, attestation.id);
+  const tokens = useGetRevokedAttestationTokens(
+    attestation.address,
+    attestation.id
+  );
 
   const getRows = () => {
     return ["logo", "TokenId", "recipient", "revoked by", "date revoked"];
@@ -30,7 +33,10 @@ export function RevokedTokens({
               <Cell className="flex justify-start p-2">
                 <div className="w-10 h-10 relative bg-gradient rounded-full">
                   <Image
-                    src={getImageURL(attestation?.metadata?.image || attestation.metadata.banner)}
+                    src={getImageURL(
+                      attestation?.metadata?.image ||
+                        attestation.metadata.banner
+                    )}
                     layout="fill"
                     objectFit="cover"
                     objectPosition="center"

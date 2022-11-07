@@ -14,17 +14,18 @@ export default function Transactor<C>(props: TxProps<C>) {
 
   function closePrompt() {
     if ([Step.success, Step.error, Step.preview].includes(stage.step)) {
-      dispatch(setStage({ step: Step.form }))
+      dispatch(setStage({ step: Step.form }));
     }
     hideModal();
   }
 
   return (
     <div
-      className={`w-full max-w-max  md:min-w-160 px-10 relative ${props.inModal
-        ? "bg-white app-bg rounded-md overflow-scroll pt-2 m-5 fixed-center z-20 relative max-h-80 scroll-hidden will-change-transform animate-scaleIn"
-        : "relative"
-        }`}
+      className={`w-full max-w-max  md:min-w-160 px-10 relative ${
+        props.inModal
+          ? "bg-white app-bg rounded-md overflow-scroll pt-2 m-5 fixed-center z-20 relative max-h-80 scroll-hidden will-change-transform animate-scaleIn"
+          : "relative"
+      }`}
     >
       {props.inModal && (
         <div className="flex justify-end absolute right-3 top-3">
@@ -45,4 +46,4 @@ export type TxProps<T> = {
   inModal?: boolean;
   Content: FC<T>;
   contentProps: T;
-}
+};

@@ -33,7 +33,7 @@ export default function AttestationForm() {
   const { hideModal } = useModalContext();
   const org = useGetOrg(address as string);
   const { launch, isLoading } = useAttestationForm(
-    org?.address!,
+    org?.address ?? "",
     parseInt(id as string)
   );
   const stage = useGetTxStage();

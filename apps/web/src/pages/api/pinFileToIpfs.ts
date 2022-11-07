@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import fs from "fs";
-import { Web3Storage, getFilesFromPath } from 'web3.storage';
+import { Web3Storage, getFilesFromPath } from "web3.storage";
 import { PinDataRes } from "./type";
-import busboy from 'busboy';
+import busboy from "busboy";
 import path from "path";
 
 export const config = {
@@ -20,8 +20,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
 
     const bb = busboy({ headers: req.headers });
     const fileList: string[] = [];
-    bb.on('file', async (name, file, info) => {
-      const filepath = path.join('/tmp', `${name}`);
+    bb.on("file", async (name, file, info) => {
+      const filepath = path.join("/tmp", `${name}`);
       fs.writeFileSync(filepath, "");
       file.pipe(fs.createWriteStream(filepath));
       fileList.push(filepath);
@@ -31,32 +31,30 @@ async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
       res.status(400).send({
         status: "error",
         message: "Error pinning file to ipfs",
-        error: err
-      })
-    })
+        error: err,
+      });
+    });
 
-    bb.on('close', async () => {
+    bb.on("close", async () => {
       const uploads = [];
       for (let filepath of fileList) {
         const files = await getFilesFromPath(filepath);
-        const cid = await client.put(files, { wrapWithDirectory: false })
-        console.log('cid', cid);
-        fs.unlink(filepath, (err) => {
-        });
+        const cid = await client.put(files, { wrapWithDirectory: false });
+        console.log("cid", cid);
+        fs.unlink(filepath, (err) => {});
         uploads.push(cid);
       }
 
       res.status(200).send(uploads);
     });
     req.pipe(bb);
-
   } catch (e: any) {
-    console.log('pining file Error', e);
+    console.log("pining file Error", e);
     status = 500;
     responseBody = {
       status: "error",
       message: "Error pinning file to ipfs",
-      error: e.toString()
+      error: e.toString(),
     };
     res.status(status).json(responseBody);
   }

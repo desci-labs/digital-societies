@@ -1,3 +1,3 @@
 export enum tags {
-  meta = "meta"
+  meta = "meta",
 }

@@ -17,7 +17,7 @@ export default function Success({
   const router = useRouter();
 
   const preview = (path: string) => {
-    router.replace(path)
+    router.replace(path);
     hideModal();
   };
 

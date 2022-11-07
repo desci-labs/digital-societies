@@ -1,4 +1,8 @@
-import { AttestationMetadataValues, Metadata, MetadataValues } from "components/Transactors/types";
+import {
+  AttestationMetadataValues,
+  Metadata,
+  MetadataValues,
+} from "components/Transactors/types";
 import { resolveIpfsURL } from "helper";
 import { Chain } from "wagmi";
 import { CIDString } from "web3.storage";
@@ -16,7 +20,9 @@ async function pinFile(form: FormData): Promise<CIDString[]> {
   return result;
 }
 
-export async function pinMetadataToIpfs(metadata: MetadataValues | AttestationMetadataValues) {
+export async function pinMetadataToIpfs(
+  metadata: MetadataValues | AttestationMetadataValues
+) {
   let imageHash: string = metadata.banner.ipfsURL,
     logoHash: string = metadata.image.ipfsURL;
 
@@ -33,7 +39,7 @@ export async function pinMetadataToIpfs(metadata: MetadataValues | AttestationMe
     const formdata = new FormData();
     formdata.append("logo", metadata.image.name);
     formdata.append(metadata.image.name, metadata.image.file);
-   
+
     const res = await pinFile(formdata);
     logoHash = resolveIpfsURL(res[0]);
   }
@@ -49,6 +55,6 @@ export async function pinMetadataToIpfs(metadata: MetadataValues | AttestationMe
     body: JSON.stringify(meta),
   });
   const CIDString = (await metaRes.json()) as CIDString;
-  const ipfsURL = resolveIpfsURL(CIDString) // getBytesFromCIDString(CIDString)
+  const ipfsURL = resolveIpfsURL(CIDString); // getBytesFromCIDString(CIDString)
   return { ipfsURL, CIDString };
 }

@@ -19,10 +19,13 @@ export default function FileDropzone<T extends FieldValues>(
             maxFiles={1}
             maxSize={TWENTY_FIVE_MB}
             onDrop={(acceptedFiles) => {
-              onChange({ file: acceptedFiles[0], name: acceptedFiles[0]?.name });
+              onChange({
+                file: acceptedFiles[0],
+                name: acceptedFiles[0]?.name,
+              });
             }}
           />
-        )
+        );
       }}
     />
   );

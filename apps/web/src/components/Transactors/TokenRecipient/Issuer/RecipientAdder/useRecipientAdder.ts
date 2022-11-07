@@ -21,7 +21,8 @@ export default function useRecipientAdder() {
   );
 
   async function addRecipient() {
-    if (!isValid) return setError("address", { message: "Invalid address format" });
+    if (!isValid)
+      return setError("address", { message: "Invalid address format" });
     const newRecipient = getValues("address");
     if (!newRecipient) return;
 
@@ -31,7 +32,9 @@ export default function useRecipientAdder() {
     if (existing) return setError("address", { message: "Duplicate address" });
 
     recipientAdder({
-      address: newRecipient, is_added: true, is_deleted: false
+      address: newRecipient,
+      is_added: true,
+      is_deleted: false,
     });
     resetField("address");
   }

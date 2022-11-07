@@ -9,12 +9,15 @@ import { useGetOrg } from "services/orgs/hooks";
 import { setOrg } from "services/orgs/orgSlice";
 import { PendingOrg } from "services/orgs/types";
 import { useGetTxState } from "services/transaction/hooks";
-import { setFormError, setFormLoading } from "services/transaction/transactionSlice";
+import {
+  setFormError,
+  setFormLoading,
+} from "services/transaction/transactionSlice";
 import { Step } from "services/transaction/types";
 import useTxUpdator from "services/transaction/updators";
 
 export default function useUpdate(address: string) {
-  const org = useGetOrg(address)
+  const org = useGetOrg(address);
   const { showModal } = useModalContext();
   const dispatch = useDispatch();
   const { updateTx } = useTxUpdator();
@@ -22,7 +25,9 @@ export default function useUpdate(address: string) {
   const getContract = useTokenContract();
   const tokenContract = getContract(address);
 
-  useEffect(() => () => { dispatch(setFormError(null)) });
+  useEffect(() => () => {
+    dispatch(setFormError(null));
+  });
 
   async function run(metadata: MetadataValues) {
     try {
@@ -30,7 +35,7 @@ export default function useUpdate(address: string) {
       updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
       showModal(TransactionPrompt, {});
 
-      const { ipfsURL, CIDString} = await pinMetadataToIpfs(metadata);
+      const { ipfsURL, CIDString } = await pinMetadataToIpfs(metadata);
 
       updateTx({ step: Step.submit, message: "Confirm transaction..." });
 
@@ -43,9 +48,19 @@ export default function useUpdate(address: string) {
       dispatch(setOrg(preview));
 
       const tx = await tokenContract.setContractURI(ipfsURL);
-      updateTx({ step: Step.broadcast, txHash: tx.hash, message: `Updating ${metadata.name}`, previewLink: { href: `/orgs/${address}`, caption: "Preview" } });
+      updateTx({
+        step: Step.broadcast,
+        txHash: tx.hash,
+        message: `Updating ${metadata.name}`,
+        previewLink: { href: `/orgs/${address}`, caption: "Preview" },
+      });
       await tx.wait();
-      updateTx({ step: Step.success, message: "", txHash: tx.hash, previewLink: { href: `/orgs/${address}`, caption: "Preview" } });
+      updateTx({
+        step: Step.success,
+        message: "",
+        txHash: tx.hash,
+        previewLink: { href: `/orgs/${address}`, caption: "Preview" },
+      });
       dispatch(setFormLoading(false));
     } catch (e: any) {
       dispatch(setOrg(org!));

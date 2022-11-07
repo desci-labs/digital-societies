@@ -2,21 +2,21 @@ import { useGetter } from "store/accessors";
 import { useAccount } from "wagmi";
 
 export function useGetOrgState() {
-  const state = useGetter(state => state.org);
-  return state
+  const state = useGetter((state) => state.org);
+  return state;
 }
 export function useGetOrgs() {
-  const { data } = useGetter(state => state.org);
-  return data
+  const { data } = useGetter((state) => state.org);
+  return data;
 }
 
 export function useGetOrg(address: string) {
-  const { data } = useGetter(state => state.org);
+  const { data } = useGetter((state) => state.org);
   return data.find((org) => org.address === address);
 }
 
 export function useGetDesocMeta(address: string) {
-  const { data } = useGetter(state => state.org);
+  const { data } = useGetter((state) => state.org);
   return data.find((org) => org.address === address)?.metadata;
 }
 
@@ -34,6 +34,6 @@ export function useIsDelegate(address: string) {
 
 export function useIsAdminOrDelegate(address: string) {
   const isDelegate = useIsDelegate(address);
-  const isAdmin = useIsAdmin(address,);
+  const isAdmin = useIsAdmin(address);
   return isDelegate || isAdmin;
 }

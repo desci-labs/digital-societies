@@ -47,8 +47,8 @@ export type BroadcastStage = {
   previewLink?: PreviewLink;
 };
 
-export type SuccessLink = { url: string; description: string }
-export type PreviewLink = { href: string; caption: string; }
+export type SuccessLink = { url: string; description: string };
+export type PreviewLink = { href: string; caption: string };
 export type SuccessStage = {
   step: Step.success;
   message: string;
@@ -70,6 +70,12 @@ export type PreviewStage = {
   message?: string;
 };
 
-export type Stage = InitialStage | PreviewStage | SubmitStage | BroadcastStage | SuccessStage | ErrorStage;
+export type Stage =
+  | InitialStage
+  | PreviewStage
+  | SubmitStage
+  | BroadcastStage
+  | SuccessStage
+  | ErrorStage;
 
 export type StageUpdator = (update: Stage) => void;

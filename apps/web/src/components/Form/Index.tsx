@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLProps, PropsWithChildren } from "react";
 
 declare module "react" {
-  function forwardRef<T, P = {}>(
+  function forwardRef<T, P = Record<string, unknown>>(
     render: (props: P, ref: React.Ref<T>) => React.ReactElement | null
   ): (props: P & React.RefAttributes<T>) => React.ReactElement | null;
 }
@@ -15,8 +15,9 @@ export type InputRowProps = PropsWithChildren<{
 export function InputRow(props: InputRowProps) {
   return (
     <label
-      className={`block flex flex-col gap-2 items-start mt-5 ${props.className ?? ""
-        }`}
+      className={`block flex flex-col gap-2 items-start mt-5 ${
+        props.className ?? ""
+      }`}
       htmlFor={props.htmlFor}
     >
       {props.label && <LabelText text={props.label} />}
@@ -26,7 +27,7 @@ export function InputRow(props: InputRowProps) {
 }
 
 export const Input = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>(
-  ({ className, ...restProps}, ref) => {
+  ({ className, ...restProps }, ref) => {
     return (
       <input
         ref={ref}
@@ -38,21 +39,32 @@ export const Input = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>(
   }
 );
 
-export const Textarea = forwardRef<HTMLTextAreaElement, HTMLProps<HTMLTextAreaElement>>(
-  (props, ref) => {
-    return (
-      <textarea
-        ref={ref}
-        className="w-full bg-transparent outline-none text-darker border border-neutrals-gray-3 focus:border-neutrals-gray-5 p-2 rounded-xl appearance-none resize-none h-20"
-        {...props}
-      />
-    );
-  }
-);
-
-export function LabelText({ text, classes }: { text: string, classes?: string; }) {
+export const Textarea = forwardRef<
+  HTMLTextAreaElement,
+  HTMLProps<HTMLTextAreaElement>
+>((props, ref) => {
   return (
-    <span className={`text-lg text-darker cursor-pointer font-semibold capitalize ${classes ?? ''}`}>
+    <textarea
+      ref={ref}
+      className="w-full bg-transparent outline-none text-darker border border-neutrals-gray-3 focus:border-neutrals-gray-5 p-2 rounded-xl appearance-none resize-none h-20"
+      {...props}
+    />
+  );
+});
+
+export function LabelText({
+  text,
+  classes,
+}: {
+  text: string;
+  classes?: string;
+}) {
+  return (
+    <span
+      className={`text-lg text-darker cursor-pointer font-semibold capitalize ${
+        classes ?? ""
+      }`}
+    >
       {text}
     </span>
   );
@@ -63,17 +75,19 @@ type SelectInputProps<T> = {
   options: T[];
   getOptionLabel: (option: T) => string | number;
   getOptionValue: (option: T) => string | number;
-}
+};
 
 function Select<T>(
-  { options, getOptionLabel, getOptionValue, ..._props}: SelectInputProps<T>,
+  { options, getOptionLabel, getOptionValue, ..._props }: SelectInputProps<T>,
   ref: React.ForwardedRef<HTMLSelectElement>
 ) {
   return (
     <select
       ref={ref}
       {..._props}
-      className={`bg-transparent border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${_props.className ?? ''}`}
+      className={`bg-transparent border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
+        _props.className ?? ""
+      }`}
     >
       {options.map((data, i) => (
         <option key={i} value={getOptionValue(data)}>
@@ -86,19 +100,28 @@ function Select<T>(
 
 export const SelectInput = React.forwardRef(Select);
 
-export type FormProps = { title?: string, description?: string };
+export type FormProps = { title?: string; description?: string };
 
 export function Form(props: HTMLProps<HTMLFormElement> & FormProps) {
-
   return (
-    <div className={`container mx-auto flex flex-col gap-5 py-8 mb-5 max-w-500 ${props.className}`}>
-      {props.title && <h1 className="text-3xl font-bold mt-5 text-center capitalize text-darker">{props.title}</h1>}
-      {props.description && <span className="text-lg text-center font-normal text-darker capitalize">{props.description}</span>}
+    <div
+      className={`container mx-auto flex flex-col gap-5 py-8 mb-5 max-w-500 ${props.className}`}
+    >
+      {props.title && (
+        <h1 className="text-3xl font-bold mt-5 text-center capitalize text-darker">
+          {props.title}
+        </h1>
+      )}
+      {props.description && (
+        <span className="text-lg text-center font-normal text-darker capitalize">
+          {props.description}
+        </span>
+      )}
       <div className="mx-auto flex justify-center w-full">
         <form className="w-full" onSubmit={props.onSubmit}>
           {props.children}
         </form>
       </div>
     </div>
-  )
+  );
 }

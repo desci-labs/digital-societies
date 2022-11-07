@@ -1,6 +1,9 @@
 import Image, { StaticImageData } from "next/image";
 
-export default function MetaLogo(props: { src: string | StaticImageData; alt?: string }) {
+export default function MetaLogo(props: {
+  src: string | StaticImageData;
+  alt?: string;
+}) {
   return (
     <div className="w-10 h-10 relative bg-gradient rounded-full">
       <Image

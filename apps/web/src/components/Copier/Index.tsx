@@ -23,7 +23,8 @@ export default function Copier(props: { text: string; classes?: string }) {
       {copied ? (
         <Icon type="Check" className={props.classes ?? ""} />
       ) : (
-        <Icon type="Clipboard"
+        <Icon
+          type="Clipboard"
           className={`cursor-pointer ${props.classes ?? ""}`}
           onClick={() => handleCopy(props.text)}
         />

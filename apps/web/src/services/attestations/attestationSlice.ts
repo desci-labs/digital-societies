@@ -19,7 +19,6 @@ const slice = createSlice({
   name: "attestation",
   initialState,
   reducers: {
-    resetAttestations: (_state) => initialState,
     setAttestations: (state, { payload }: PayloadAction<AttestationMap>) => {
       Object.keys(payload).forEach((address) => {
         const attestations = state.attestations[address];
@@ -76,11 +75,15 @@ const slice = createSlice({
           return cred;
         });
       } else {
-        const canUpdate = prev.cid !== payload.attestation.cid || compareMetadata(prev.metadata, payload.attestation.metadata);
+        const canUpdate =
+          prev.cid !== payload.attestation.cid ||
+          compareMetadata(prev.metadata, payload.attestation.metadata);
 
         if (canUpdate) {
-          state.attestations[payload.address] = state.attestations[payload.address].filter(cred => cred.id !== payload.attestation.id);
-          state.attestations[payload.address].push(payload.attestation)
+          state.attestations[payload.address] = state.attestations[
+            payload.address
+          ].filter((cred) => cred.id !== payload.attestation.id);
+          state.attestations[payload.address].push(payload.attestation);
         }
       }
     },
@@ -95,10 +98,17 @@ const slice = createSlice({
         }
 
         state.tokens[org] = state.tokens[org].filter((t) => {
-          if (payload[org].find((data) => t.tokenId == data.tokenId && (t.attestation === data.attestation && t.owner === data.owner))) {
+          if (
+            payload[org].find(
+              (data) =>
+                t.tokenId == data.tokenId &&
+                t.attestation === data.attestation &&
+                t.owner === data.owner
+            )
+          ) {
             return false;
           }
-          return true
+          return true;
         });
         state.tokens[org].push(...payload[org]);
       });
@@ -107,32 +117,35 @@ const slice = createSlice({
       state,
       { payload }: PayloadAction<{ tokenIds: number[]; address: string }>
     ) => {
-      console.log('remove ', payload);
+      console.log("remove ", payload);
       state.tokens[payload.address] = state.tokens[payload.address].filter(
         (token) => {
           if (payload.tokenIds.includes(token.tokenId)) return true;
           return false;
         }
-      );;
+      );
     },
     updateTokens: (
       state,
-      { payload }: PayloadAction<{ tokens: AttestationTokens[]; address: string }>
+      {
+        payload,
+      }: PayloadAction<{ tokens: AttestationTokens[]; address: string }>
     ) => {
       state.tokens[payload.address] = state.tokens[payload.address].map(
         (token) => {
-          const update = payload.tokens.find(t => t.tokenId === token.tokenId);
+          const update = payload.tokens.find(
+            (t) => t.tokenId === token.tokenId
+          );
           if (!update) return token;
-          return update
+          return update;
         }
-      );;
+      );
     },
   },
 });
 
 export default slice.reducer;
 export const {
-  resetAttestations,
   setAttestation,
   setAttestations,
   setIsLoading,

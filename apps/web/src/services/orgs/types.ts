@@ -20,11 +20,11 @@ export type OrgMeta = {
 export type PendingOrg = OrgMeta & {
   pending: boolean;
   metadata: MetadataValues;
-}
+};
 
 export type Org = OrgMeta & {
   pending?: never;
   metadata: Metadata;
-}
+};
 
 export type FactoryState = { data: (Org | PendingOrg)[]; isLoading: boolean };

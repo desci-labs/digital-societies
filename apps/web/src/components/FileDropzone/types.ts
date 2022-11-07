@@ -5,6 +5,8 @@ export type BaseProps<T extends FieldValues> = {
   className?: string;
   disabled?: boolean;
   hasError?: boolean;
-}
+};
 
-export type FileObject = { file: File, name: string } & { ipfsURL: string } & { base64: string };
+export type FileObject = { file: File; name: string } & { ipfsURL: string } & {
+  base64: string;
+};

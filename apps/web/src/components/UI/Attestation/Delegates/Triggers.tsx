@@ -10,7 +10,6 @@ export function DelegateRevoker(props: {
   delegate: string;
   isLoading?: boolean;
 }) {
-
   return (
     <Button
       onClick={props.onRevoke}

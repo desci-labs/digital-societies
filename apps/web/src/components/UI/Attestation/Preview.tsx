@@ -13,12 +13,11 @@ export default function Preview() {
   const orgAddress = useRouterAddress();
   const org = useGetOrg(orgAddress);
   const { updateTx } = useTxUpdator();
-  const {
-    getValues,
-  } = useFormContext<AttestationFormValues>();
-    const name = getValues("name");
+  const { getValues } = useFormContext<AttestationFormValues>();
+  const name = getValues("name");
   const image = getValues("image");
-  const description = getValues("description") || "Add a description to view it here!";
+  const description =
+    getValues("description") || "Add a description to view it here!";
 
   return (
     <div className="p-4">
@@ -31,7 +30,9 @@ export default function Preview() {
       </Button>
       <div className="badge-details-container bg-white h-80 w-180">
         <div className="header flex items-center justify-between w-full mb-2 px-4 pt-2">
-          <span className="block text-black text-2xl font-bold">{org?.metadata.name} / {name}</span>
+          <span className="block text-black text-2xl font-bold">
+            {org?.metadata.name} / {name}
+          </span>
           <Icon type="Close" size={30} className="text-neutrals-gray-2" />
         </div>
         <div className="content p-5">
@@ -42,28 +43,13 @@ export default function Preview() {
             <span className="desc">{description}</span>
           </div>
           <div className="links">
-            <a
-              className="link"
-              href="##"
-              target="_blank"
-              rel="noopener"
-            >
+            <a className="link" href="##" target="_blank" rel="noopener">
               View SBT holders
             </a>
-            <a
-              className="link"
-              href="##"
-              target="_blank"
-              rel="noopener"
-            >
+            <a className="link" href="##" target="_blank" rel="noopener">
               View SBT specification
             </a>
-            <a
-              className="link"
-              href="##"
-              target="_blank"
-              rel="noopener"
-            >
+            <a className="link" href="##" target="_blank" rel="noopener">
               Etherscan transaction
             </a>
           </div>

@@ -5,7 +5,7 @@ import { Metadata, MetadataValues } from "../types";
 import { metadataSchema } from "../schema";
 import { FC } from "react";
 
-export type Props = { Form: FC, metadata?: Metadata | MetadataValues }
+export type Props = { Form: FC; metadata?: Metadata | MetadataValues };
 
 export default function Launcher(props: Props) {
   const methods = useForm<MetadataValues>({
@@ -15,8 +15,14 @@ export default function Launcher(props: Props) {
       name: props?.metadata?.name ?? "",
       symbol: props?.metadata?.symbol ?? props?.metadata?.acronym,
       description: props?.metadata?.description ?? "",
-      banner: typeof props?.metadata?.banner === "string" ? { ipfsURL: props?.metadata.banner } : {},
-      image: typeof props?.metadata?.image === "string" ? { ipfsURL: props?.metadata?.image } : {},
+      banner:
+        typeof props?.metadata?.banner === "string"
+          ? { ipfsURL: props?.metadata.banner }
+          : {},
+      image:
+        typeof props?.metadata?.image === "string"
+          ? { ipfsURL: props?.metadata?.image }
+          : {},
       external_link: props?.metadata?.external_link,
     },
     resolver: yupResolver(metadataSchema),

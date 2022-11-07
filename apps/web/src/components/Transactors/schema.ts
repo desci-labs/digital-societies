@@ -21,7 +21,8 @@ const FILE_SCHEMA = Yup.mixed<FileObject>()
   .test({
     name: "size",
     message: "File size must be smaller than 10MB",
-    test: (data) => (data?.file ? (data?.file?.size || 0) <= TWENTY_FIVE_MB : true),
+    test: (data) =>
+      data?.file ? (data?.file?.size || 0) <= TWENTY_FIVE_MB : true,
   })
   .test({
     name: "fileType",
@@ -31,24 +32,24 @@ const FILE_SCHEMA = Yup.mixed<FileObject>()
   })
   .test({
     name: "invalidState",
-    message: "Invalid input: (File size must be less than 25MB) and of types jpeg, png or webp",
+    message:
+      "Invalid input: (File size must be less than 25MB) and of types jpeg, png or webp",
     // check file is valid, has name and size is greater than zero
     test: (data) =>
       data?.file
         ? !!data && !!data?.file && !!data?.file?.name && !!data?.file?.size
         : data?.ipfsURL
-          ? true
-          : false,
+        ? true
+        : false,
   });
 
-const ADDRES_SCHEMA = Yup.mixed<string>()
-  .test({
-    name: "Address validation",
-    message: "Invalid address format",
-    test: (data) => {
-      return isAddress(data ?? '')
-    }
-  })
+const ADDRES_SCHEMA = Yup.mixed<string>().test({
+  name: "Address validation",
+  message: "Invalid address format",
+  test: (data) => {
+    return isAddress(data ?? "");
+  },
+});
 
 const metadataShape: SchemaShape<MetadataValues> = {
   name: Yup.string().required(),
@@ -60,18 +61,17 @@ const metadataShape: SchemaShape<MetadataValues> = {
 };
 export const metadataSchema = Yup.object(metadataShape);
 
-
 const issuerShape: SchemaShape<IssuerValues> = {
   address: ADDRES_SCHEMA.required(),
   attestation: Yup.number().required(),
-  org: Yup.number().required()
-}
+  org: Yup.number().required(),
+};
 export const issuerSchema = Yup.object(issuerShape);
 
 const delegaterShape: SchemaShape<DelegaterValues> = {
   delegate: ADDRES_SCHEMA.required(),
-  org: Yup.string().required()
-}
+  org: Yup.string().required(),
+};
 export const delegaterSchema = Yup.object(delegaterShape);
 
 const OptionalUrlSchema = Yup.string().url().optional();
@@ -82,13 +82,15 @@ const socialMetaShape: SchemaShape<AssociatedDataUpdate["metadata"]> = {
   Discord: OptionalUrlSchema,
   Facebook: OptionalUrlSchema,
   Linkedin: OptionalUrlSchema,
-}
+};
 
-const associatedDetailsShape: SchemaShape<Omit<AssociatedDataUpdate, "created_at">> = {
+const associatedDetailsShape: SchemaShape<
+  Omit<AssociatedDataUpdate, "created_at">
+> = {
   org: ADDRES_SCHEMA.required(),
   owner: ADDRES_SCHEMA.required(),
   id: Yup.number().optional(),
   metadata: Yup.object(socialMetaShape),
-}
+};
 
 export const offchainMetaSchema = Yup.object(associatedDetailsShape);

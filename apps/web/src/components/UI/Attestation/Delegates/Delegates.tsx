@@ -5,7 +5,11 @@ import { useGetOrg, useIsAdmin } from "services/orgs/hooks";
 import { CardContainer } from "../../Index";
 import MetaLogo from "../../MetaLogo";
 import { Cell, Row, Table, TBody, THead } from "../../Table";
-import { AssociatedDataEditor, DelegateRevoker, DelegateUpdators } from "./Triggers";
+import {
+  AssociatedDataEditor,
+  DelegateRevoker,
+  DelegateUpdators,
+} from "./Triggers";
 
 export function Delegates({
   address,
@@ -47,7 +51,11 @@ export function Delegates({
               <Cell className="p-0">
                 {hasAccess && delegate !== org.admin && (
                   <div className="flex gap-1 items-center justify-start">
-                    <AssociatedDataEditor org={org.address} address={delegate} disabled={isLoading} />
+                    <AssociatedDataEditor
+                      org={org.address}
+                      address={delegate}
+                      disabled={isLoading}
+                    />
                     <DelegateRevoker
                       delegate={delegate}
                       onRevoke={() => revoke(delegate)}

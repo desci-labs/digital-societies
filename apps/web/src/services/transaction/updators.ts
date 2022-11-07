@@ -6,8 +6,8 @@ export default function useTxUpdator() {
   const dispatch = useDispatch();
 
   const updateTx: StageUpdator = (update) => {
-    dispatch(setStage(update))
-  }
+    dispatch(setStage(update));
+  };
 
-  return { updateTx }
+  return { updateTx };
 }

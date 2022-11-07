@@ -39,7 +39,7 @@ export default function RecipientItem(props: {
         {props.recipient.is_added || props.recipient.is_deleted ? (
           <Icon type="Undo" size={18} />
         ) : (
-            <Icon type="Close" size={18} />
+          <Icon type="Close" size={18} />
         )}
       </button>
     </li>

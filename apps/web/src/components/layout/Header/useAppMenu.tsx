@@ -8,7 +8,7 @@ import {
 } from "react";
 
 const AppMenuContext = createContext(false);
-const AppMenuContextUpdater = createContext({ toggleMenu: (event: any) => { } });
+const AppMenuContextUpdater = createContext({ toggleMenu: (event: any) => {} });
 
 export default function AppMenuProvider({ children }: { children: ReactNode }) {
   const [opened, setOpened] = useState(true);

@@ -1,22 +1,29 @@
-import { ethers } from "ethers";
-import { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  PropsWithChildren,
+  ReactNode,
+  useContext,
+  useState,
+} from "react";
 
 export type ActionTypes = "DeploySBT" | "UpdateSBT" | "IssueSBT";
 
 export interface Tx {
-  txHash? :string;
+  txHash?: string;
   type?: ActionTypes | "none";
   message?: string;
 }
-const initialState: Tx = { type: 'none' };
+const initialState: Tx = { type: "none" };
 export const getContext = createContext<Tx>(initialState);
 export const setContext = createContext({
-  setTx: (tx: Tx) => { },
-  reset: () => { },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setTx: (tx: Tx) => {},
+  reset: () => {},
 });
 
-export default function TransactionProvider({ children }: any) {
-  // { txInfo: tx, type: "deposit | withdrawal" }
+export default function TransactionProvider({
+  children,
+}: PropsWithChildren<{ children: ReactNode }>) {
   const [tx, setVal] = useState<Tx>(initialState);
 
   const setTx = (tx: Tx) => {
@@ -29,7 +36,9 @@ export default function TransactionProvider({ children }: any) {
 
   return (
     <getContext.Provider value={tx}>
-      <setContext.Provider value={{ setTx, reset }}>{children}</setContext.Provider>
+      <setContext.Provider value={{ setTx, reset }}>
+        {children}
+      </setContext.Provider>
     </getContext.Provider>
   );
 }

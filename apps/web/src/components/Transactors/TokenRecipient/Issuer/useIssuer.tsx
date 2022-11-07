@@ -5,7 +5,9 @@ import Issuer, { Props } from "..";
 import Transactor, { TxProps } from "../../Transactor";
 import IssuerForm from "./IssuerForm";
 
-export default function useIssuer(attestation: Attestation | PendingAttestation) {
+export default function useIssuer(
+  attestation: Attestation | PendingAttestation
+) {
   const { showModal } = useModalContext();
   const showIssuer = useCallback(() => {
     showModal<TxProps<Props>>(Transactor, {

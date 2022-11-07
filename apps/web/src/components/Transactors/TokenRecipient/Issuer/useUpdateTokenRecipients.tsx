@@ -60,7 +60,7 @@ export default function useUpdateTokenRecipients(address: string) {
     const addresses = tokenRecipients
       .filter((t) => t.is_added && !t.tokenId)
       .map((recipients) => recipients.address);
-    console.log('tokens', addresses);
+    console.log("tokens", addresses);
     let payload = undefined;
 
     try {

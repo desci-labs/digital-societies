@@ -2,10 +2,16 @@ import { CID } from "multiformats/cid";
 import { base16 } from "multiformats/bases/base16";
 import { FileObject } from "components/FileDropzone/types";
 import { W3S_IPFS_GATEWAY } from "pages/api/constants";
-import { AttestationMetadata, AttestationMetadataValues, Metadata, MetadataValues } from "components/Transactors/types";
+import {
+  AttestationMetadata,
+  AttestationMetadataValues,
+  Metadata,
+  MetadataValues,
+} from "components/Transactors/types";
 import fallbackImg from "assets/fallback.png";
 
-export const resolveIpfsURL = (hash: string) => `${W3S_IPFS_GATEWAY?.trim()}${hash}`;
+export const resolveIpfsURL = (hash: string) =>
+  `${W3S_IPFS_GATEWAY?.trim()}${hash}`;
 
 export const getBytesFromCIDString = (input: string) => {
   const cid = CID.parse(input);
@@ -54,12 +60,11 @@ export const getImageURL = (image: string | FileObject) => {
     return "";
   }
 
-  const url =
-    image.ipfsURL
-      ? image.ipfsURL
-      : image.file && image.file.size > 0
-        ? window.URL.createObjectURL(image.file)
-        : "";
+  const url = image.ipfsURL
+    ? image.ipfsURL
+    : image.file && image.file.size > 0
+    ? window.URL.createObjectURL(image.file)
+    : "";
   return url;
 };
 
@@ -93,11 +98,16 @@ const toBase64 = (file: File): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-export const compareMetadata = <M extends Metadata | MetadataValues | AttestationMetadataValues | AttestationMetadata>(
+export const compareMetadata = <
+  M extends
+    | Metadata
+    | MetadataValues
+    | AttestationMetadataValues
+    | AttestationMetadata
+>(
   old: M,
   meta: M
 ): boolean => {
-
   if (
     old.name !== meta.name ||
     old.description !== meta.description ||

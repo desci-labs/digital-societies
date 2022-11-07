@@ -8,7 +8,6 @@ import { Attestation, PendingAttestation } from "services/attestations/types";
 export type Props = { attestation: Attestation | PendingAttestation; Form: FC };
 
 export default function Issuer({ attestation, Form }: Props) {
-  
   if (!attestation) throw Error("Credential data is required");
 
   const methods = useForm<IssuerValues>({
@@ -17,7 +16,7 @@ export default function Issuer({ attestation, Form }: Props) {
     defaultValues: {
       org: attestation.address,
       attestation: attestation.id,
-      address: ""
+      address: "",
     },
     resolver: yupResolver(issuerSchema),
   });

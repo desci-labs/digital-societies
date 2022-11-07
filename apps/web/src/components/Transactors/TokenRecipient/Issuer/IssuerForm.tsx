@@ -12,7 +12,6 @@ import Button from "components/UI/Button/Index";
 import RecipientItem from "./RecipientItem";
 import RecipientAdder from "./RecipientAdder/RecipientAdder";
 
-
 export default function IssuerForm() {
   const {
     getValues,
@@ -49,18 +48,14 @@ export default function IssuerForm() {
         />
       </InputRow>
       <div className="flex flex-col gap-1 items-start justify-center">
-        <LabelText
-          text="Recipients"
-        />
+        <LabelText text="Recipients" />
         {tokenRecipients.map((recipient) => (
           <RecipientItem key={recipient.address} recipient={recipient} />
         ))}
       </div>
 
       <InputRow htmlFor="address">
-        <LabelText
-          text="Add recipient"
-        />
+        <LabelText text="Add recipient" />
         <ErrorMessage
           errors={errors}
           name="address"

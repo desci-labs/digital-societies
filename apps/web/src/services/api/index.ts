@@ -1,15 +1,17 @@
-import { createApi, fetchBaseQuery, retry } from '@reduxjs/toolkit/query/react'
-import { tags } from './tags'
+import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
+import { tags } from "./tags";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: '/api',
-})
+  baseUrl: "/api",
+});
 
-const baseQueryWithRetry = retry(baseQuery, { maxRetries: 0 /* current default for all apis */ })
+const baseQueryWithRetry = retry(baseQuery, {
+  maxRetries: 0 /* current default for all apis */,
+});
 
 export const api = createApi({
-  reducerPath: 'desocApi',
+  reducerPath: "desocApi",
   baseQuery: baseQueryWithRetry,
   tagTypes: [tags.meta],
   endpoints: () => ({}),
-})
+});

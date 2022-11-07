@@ -28,16 +28,10 @@ export default function Header() {
             <DesocIcon width="15" heigth="15" />
           </a>
         </Link>
-        <NavLink
-          href="/"
-          className="hidden sm:block"
-        >
+        <NavLink href="/" className="hidden sm:block">
           Explore
         </NavLink>
-        <ExternalLink
-          href="https://sbt.desci.com/"
-          className="hidden sm:block"
-        >
+        <ExternalLink href="https://sbt.desci.com/" className="hidden sm:block">
           Forum
         </ExternalLink>
         {showDashboard && (
@@ -50,7 +44,6 @@ export default function Header() {
         )}
       </div>
       <div className="flex gap-2 items-center">
-
         {!hide && !showDashboard && (
           <NavLink
             href="/launch"
@@ -88,7 +81,9 @@ function ThemeTogger() {
 
   return (
     <div className="flex items-center rounded-lg">
-      <Button onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}>
+      <Button
+        onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+      >
         {resolvedTheme === "light" ? (
           <Icon type="FillMoon" size={20} fill="#142E0C" />
         ) : (
@@ -116,25 +111,18 @@ function MobileMenu() {
 
   return (
     <div
-      className={`z-50 pointer-none opacity-0 sm:hidden mobile-menu absolute left-0 right-0 top-[100%] bg-white dark:bg-dark dark:bg-gradient-to-b dark:from-rich-black dark:to-black transition-all overflow-hidden ${opened ? "pointer-click opacity-100" : "h-0"
-        }`}
+      className={`z-50 pointer-none opacity-0 sm:hidden mobile-menu absolute left-0 right-0 top-[100%] bg-white dark:bg-dark dark:bg-gradient-to-b dark:from-rich-black dark:to-black transition-all overflow-hidden ${
+        opened ? "pointer-click opacity-100" : "h-0"
+      }`}
     >
       <ul className="responsive-nav transition-opacity duration-500">
         <li className="block text-sm px-2 py-4 hover:bg-primary-over hover:text-black transition duration-300">
-          <NavLink
-            href="/"
-          >
-            Explore
-          </NavLink>
+          <NavLink href="/">Explore</NavLink>
         </li>
 
         {showDashboard && (
           <li className="block text-sm px-2 py-4 hover:bg-primary-over hover:text-black transition duration-300">
-            <NavLink
-              href={`/dashboard/${org?.address}`}
-            >
-              Dashboard
-            </NavLink>
+            <NavLink href={`/dashboard/${org?.address}`}>Dashboard</NavLink>
           </li>
         )}
         {!hide && !showDashboard && (

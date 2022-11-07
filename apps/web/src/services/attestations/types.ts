@@ -1,7 +1,7 @@
 import { attestationTypes } from "components/Transactors/constants";
 import { AttestationMetadataValues } from "components/Transactors/types";
 
-export type AttestationToken  = {
+export type AttestationToken = {
   org: string;
   tokenId: number;
   attestation: number;
@@ -10,7 +10,6 @@ export type AttestationToken  = {
   owner: string;
   active: true;
 };
-
 
 export type RevokedAttestationToken = {
   org: string;
@@ -27,7 +26,6 @@ export type AttestationTokens = AttestationToken | RevokedAttestationToken;
 
 export type AttestationToTokenMap = Record<string, AttestationTokens[]>;
 
-
 export type AttestationType = typeof attestationTypes[number];
 
 type AttestationMeta = {
@@ -38,10 +36,19 @@ type AttestationMeta = {
   dateCreated: number;
 };
 
-export type Attestation = AttestationMeta & { pending?: never, metadata: AttestationMetadataValues }
-export type PendingAttestation = AttestationMeta & { pending: boolean, metadata: AttestationMetadataValues }
+export type Attestation = AttestationMeta & {
+  pending?: never;
+  metadata: AttestationMetadataValues;
+};
+export type PendingAttestation = AttestationMeta & {
+  pending: boolean;
+  metadata: AttestationMetadataValues;
+};
 
-export type AttestationMap = Record<string, (Attestation | PendingAttestation)[]>;
+export type AttestationMap = Record<
+  string,
+  (Attestation | PendingAttestation)[]
+>;
 
 export type AttestationState = {
   attestations: AttestationMap;

@@ -2,10 +2,9 @@ import { api } from ".";
 import { tags } from "./tags";
 import { AssociatedDataInsert, AssociatedDataRow } from "./types";
 
-type ApiResponse = { status: string; message?: string }
-type QueryParams = { org?: string; owner?: string; }
+type ApiResponse = { status: string; message?: string };
+type QueryParams = { org?: string; owner?: string };
 export const defaultErrorMsg = "We encountered an error saving the metadata";
-type MaybeArray<T> = T | T[];
 
 const associatedMetadataApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -17,22 +16,23 @@ const associatedMetadataApi = api.injectEndpoints({
           params: {
             org,
           },
-        }
+        };
       },
       extraOptions: { maxRetries: 5 },
-      providesTags: [tags.meta]
+      providesTags: [tags.meta],
     }),
     saveMetadata: builder.mutation<ApiResponse, AssociatedDataInsert>({
       query: (data) => {
         return {
           method: "post",
           body: data,
-          url: "saveAssociatedMeta"
-        }
+          url: "saveAssociatedMeta",
+        };
       },
-      invalidatesTags: [tags.meta]
+      invalidatesTags: [tags.meta],
     }),
-  })
+  }),
 });
 
-export const { useGetAccountMetadataQuery, useSaveMetadataMutation } = associatedMetadataApi;
+export const { useGetAccountMetadataQuery, useSaveMetadataMutation } =
+  associatedMetadataApi;

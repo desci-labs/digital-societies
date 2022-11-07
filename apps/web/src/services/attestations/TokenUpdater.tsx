@@ -6,7 +6,12 @@ import useBlockNumber from "hooks/useBlockNumber";
 import { useTokenContract } from "hooks/useContract";
 import { useProvider } from "wagmi";
 import { useGetOrgs } from "services/orgs/hooks";
-import { AttestationToken, AttestationTokens, AttestationToTokenMap, RevokedAttestationToken } from "./types";
+import {
+  AttestationToken,
+  AttestationTokens,
+  AttestationToTokenMap,
+  RevokedAttestationToken,
+} from "./types";
 import { setTokens } from "./attestationSlice";
 import { FACTORY_DEPLOY_BLOCK } from "constants/web3";
 import { Desoc } from "constants/types";
@@ -19,10 +24,15 @@ export default function TokenUpdater() {
   const getContract = useTokenContract();
   const [lastUpdated, setLastUpdated] = useState(0);
 
-  async function getRevokedToken(contract: Desoc, token: AttestationToken): Promise<RevokedAttestationToken | null> {
-    const filter = await contract.filters.Revoked(null, token.owner)
+  async function getRevokedToken(
+    contract: Desoc,
+    token: AttestationToken
+  ): Promise<RevokedAttestationToken | null> {
+    const filter = await contract.filters.Revoked(null, token.owner);
     const evts = await contract.queryFilter(filter);
-    const evt = evts.find(evt => evt.args.tokenId.toNumber() == token.tokenId);
+    const evt = evts.find(
+      (evt) => evt.args.tokenId.toNumber() == token.tokenId
+    );
 
     if (!evt) return null;
 
@@ -47,7 +57,7 @@ export default function TokenUpdater() {
       event.args?.tokenId.toString() ?? event.args?.[2].toNumber();
     const attestation = event.args?.tokenType ?? event.args?.[3];
     const uri = await contract.tokenURI(tokenId);
-    
+
     const token: AttestationToken = {
       org: event.address,
       tokenId,
@@ -61,10 +71,10 @@ export default function TokenUpdater() {
     try {
       // check validity of the token
       await contract?.ownerOf(tokenId);
-     
+
       return token;
     } catch (e) {
-      return getRevokedToken(contract, token)
+      return getRevokedToken(contract, token);
     }
   }
 
@@ -80,7 +90,6 @@ export default function TokenUpdater() {
 
   const indexAttestationTokens = useCallback(
     async () => {
-
       if (!block) return;
 
       if (orgs.length === 0) return;

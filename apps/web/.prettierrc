@@ -1,0 +1,23 @@
+{
+  "semi": true,
+  "singleQuote": false,
+  "tabWidth": 2,
+  "useTabs": false,
+  "importOrder": [
+    "^assets.*",
+    "^pages.*",
+    "^services.*",
+    "^providers.*",
+    "^components.*",
+    "^store.*",
+    "^contracts.*",
+    "^hooks.*",
+    "^helpers.*",
+    "^schemas.*",
+    "^types.*",
+    "^constants.*",
+    "^[../]",
+    "^[./]"
+  ],
+  "importOrderSortSpecifiers": true
+}

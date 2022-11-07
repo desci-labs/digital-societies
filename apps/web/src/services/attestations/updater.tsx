@@ -28,7 +28,7 @@ export default function AttestationUpdater() {
     const mintedBy = event.args?.createdBy ?? event.args?.[1];
     const id = event.args?.tokenType ?? event.args?.[0];
     const contract = getContract(event.address) as Desoc;
-    let cid = await contract.typeURI(id);
+    const cid = await contract.typeURI(id);
     const metadata = (await queryIpfsURL(cid)) as AttestationMetadata;
     return {
       id,
@@ -50,49 +50,44 @@ export default function AttestationUpdater() {
     return { address, data: credentials };
   }
 
-  const getCredentials = useCallback(
-    async () => {
-      if (!block) return;
+  const getCredentials = useCallback(async () => {
+    if (!block) return;
 
-      if (orgs.length === 0) return;
-      const contracts = orgs.map((org) => {
-        return getContract(org.address);
-      }) as Desoc[];
-      try {
-        const lastQuery = await provider.getBlockNumber();
-        const filters = contracts.map((contract) =>
-          contract.filters.TypeCreated()
-        );
-        const events = await Promise.all(
-          filters.map((filter, i) =>
-            contracts[i].queryFilter(
-              filter,
-              lastUpdated ? lastUpdated - 10 : FACTORY_DEPLOY_BLOCK
-            )
+    if (orgs.length === 0) return;
+    const contracts = orgs.map((org) => {
+      return getContract(org.address);
+    }) as Desoc[];
+    try {
+      const lastQuery = await provider.getBlockNumber();
+      const filters = contracts.map((contract) =>
+        contract.filters.TypeCreated()
+      );
+      const events = await Promise.all(
+        filters.map((filter, i) =>
+          contracts[i].queryFilter(
+            filter,
+            lastUpdated ? lastUpdated - 10 : FACTORY_DEPLOY_BLOCK
           )
-        );
-        const results = await Promise.all(
-          events.map(transformEventsToCrendentials)
-        );
+        )
+      );
+      const results = await Promise.all(
+        events.map(transformEventsToCrendentials)
+      );
 
-        const credentials = results
-          .filter(Boolean)
-          .reduce((all, credential) => {
-            if (!credential) return all;
-            all[credential.address] = credential.data;
-            return all;
-          }, {} as AttestationMap);
+      const credentials = results.filter(Boolean).reduce((all, credential) => {
+        if (!credential) return all;
+        all[credential.address] = credential.data;
+        return all;
+      }, {} as AttestationMap);
 
-        dispatch(setAttestations(credentials));
-        dispatch(setIsLoading(false));
-        setLastUpdated(lastQuery);
-      } catch (e) {
-        console.log("Error: ", e);
-      }
-    },
+      dispatch(setAttestations(credentials));
+      dispatch(setIsLoading(false));
+      setLastUpdated(lastQuery);
+    } catch (e) {
+      console.log("Error: ", e);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [block, lastUpdated]
-  );
+  }, [block, lastUpdated]);
 
   useEffect(() => {
     if (block && (lastUpdated === 0 || block - lastUpdated > 10)) {
