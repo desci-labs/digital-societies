@@ -1,5 +1,4 @@
 import { FileObject } from "components/FileDropzone/types";
-import { IconTypes } from "components/Icons/Icons";
 import { AttestationType } from "services/attestations/types";
 
 type Meta = {
