@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import "../styles/preview.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import type { AppProps } from "next/app";
 import AppProviders from "providers/AppProviders";

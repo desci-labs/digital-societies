@@ -16,6 +16,7 @@ export default function Preview() {
   const { getValues } = useFormContext<AttestationFormValues>();
   const name = getValues("name");
   const image = getValues("image");
+  const attestationType = getValues("attestationType");
   const description =
     getValues("description") || "Add a description to view it here!";
 
@@ -28,19 +29,24 @@ export default function Preview() {
       >
         {"<<"} Back to form{" "}
       </Button>
-      <div className="badge-details-container bg-white h-80 w-180">
-        <div className="header flex items-center justify-between w-full mb-2 px-4 pt-2">
+      <div className="badge-details-container bg-white h-80 w-180 pb-3">
+        <div className="header flex items-center justify-between w-full mb-2 px-4 py-2">
           <span className="block text-black text-2xl font-bold">
             {org?.metadata.name} / {name}
           </span>
           <Icon type="Close" size={30} className="text-neutrals-gray-2" />
         </div>
-        <div className="content p-5">
+        <div className="content px-5 pt-2">
           <div className="badge-details-content">
             <div className="badge-image">
               <img src={getImageURL(image) as string} alt="" />
             </div>
-            <span className="desc">{description}</span>
+            <div>
+              {attestationType && (
+                <span className="badge-type">{attestationType}</span>
+              )}
+              <span className="desc">{description}</span>
+            </div>
           </div>
           <div className="links">
             <a className="link" href="##" target="_blank" rel="noopener">

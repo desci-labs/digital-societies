@@ -21,7 +21,6 @@ export default function CredentialLauncher({ org, Form, mode }: Props) {
   const { id } = router.query;
   const credential = useGetAttestation(org.address, parseInt(id as string));
   const metadata = credential?.metadata ?? org.metadata;
-
   const methods = useForm<AttestationFormValues>({
     reValidateMode: "onChange",
     mode: "onChange",
