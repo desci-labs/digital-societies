@@ -2,7 +2,8 @@ import { useModalContext } from "components/Modal/Modal";
 import { useCallback } from "react";
 import Delegater from ".";
 import { Props } from ".";
-import Transactor, { TxProps } from "../Transactor";
+import Transactor from "../Transactor";
+import { TxProps } from "../types";
 import DelegaterForm from "./DelegaterForm";
 
 export default function useDelegater(org: string) {

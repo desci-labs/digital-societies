@@ -1,8 +1,9 @@
 import { useModalContext } from "components/Modal/Modal";
-import Transactor, { TxProps } from "components/Transactors/Transactor";
+import Transactor from "components/Transactors/Transactor";
 import { useCallback } from "react";
 import MetadataUpdater from ".";
 import { Props } from ".";
+import { TxProps } from "../types";
 import AssociatedDataForm from "./AssociatedDataForm";
 
 export default function useMetaDetails(address: string, org: string) {

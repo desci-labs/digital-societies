@@ -17,7 +17,7 @@ export default function useIsWindowVisible() {
 
   useEffect(() => {
     if (!isVisibilitySupported()) return;
-    setVisibility((visible) => isWindowVisible());
+    setVisibility(() => isWindowVisible());
     document.addEventListener("visibilitychange", listener);
   }, [listener]);
 

@@ -7,16 +7,14 @@ import { useNetwork, useProvider, useSigner } from "wagmi";
 import DesocManagerInterface from "../constants/abis/DesocManager.json";
 import DesocInterface from "../constants/abis/Desoc.json";
 import { Desoc } from "constants/types/Desoc";
-import { Desoc__factory } from "constants/types/factories/Desoc__factory";
-import { DesocManager__factory } from "constants/types/factories/DesocManager__factory";
 import { useEffect, useState } from "react";
+
+const getDefaultProvider = (chainId?: number) =>
+  new ethers.providers.JsonRpcProvider(RPC_URLS[chainId ?? DEFAULT_CHAIN]);
 
 export const useDefaultProvider = () => {
   const { chain } = useNetwork();
-  const DEFAULT_PROVIDER = new ethers.providers.JsonRpcProvider(
-    RPC_URLS[chain?.id ?? DEFAULT_CHAIN]
-  );
-  return DEFAULT_PROVIDER;
+  return getDefaultProvider(chain?.id);
 };
 
 export const useFactoryContract = (): DesocManager | undefined => {
@@ -28,13 +26,12 @@ export const useFactoryContract = (): DesocManager | undefined => {
 
   useEffect(() => {
     if (!address) return;
-    setContract(
-      DesocManager__factory.getContract(
-        address!,
-        DesocManagerInterface.abi,
-        signer! || provider
-      ) as DesocManager
+    const c = new ethers.Contract(
+      address,
+      DesocManagerInterface.abi,
+      signer ?? provider ?? getDefaultProvider()
     );
+    setContract(c as DesocManager);
   }, [address, provider, signer]);
 
   return contract;
@@ -58,10 +55,11 @@ export const useTokenContract = () => {
   const provider = useProvider();
 
   return (address: string): Desoc => {
-    return Desoc__factory.getContract(
-      address!,
+    const c = new ethers.Contract(
+      address,
       DesocInterface.abi,
-      signer!
-    ).connect(signer! || provider) as Desoc;
+      signer ?? provider ?? getDefaultProvider()
+    );
+    return c.connect(signer || provider) as Desoc;
   };
 };

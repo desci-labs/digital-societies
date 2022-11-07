@@ -11,7 +11,10 @@ import CredentialLauncher from ".";
 import { LaunchMode } from "../types";
 import AttestationForm from "./Form";
 
-export type Props = { org: Org | PendingOrg; mode: LaunchMode };
+export type Props = JSX.IntrinsicAttributes & {
+  org: Org | PendingOrg;
+  mode: LaunchMode;
+};
 
 export default function AttestationPrompt({ org, mode }: Props) {
   const stage = useGetTxStage();

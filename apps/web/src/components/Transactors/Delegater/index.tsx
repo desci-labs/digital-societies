@@ -4,7 +4,7 @@ import { DelegaterValues } from "../types";
 import { delegaterSchema } from "../schema";
 import { FC } from "react";
 
-export type Props = { org: string; Form: FC };
+export type Props = JSX.IntrinsicAttributes & { org: string; Form: FC };
 
 export default function Delegater({ org, Form }: Props) {
   if (!org) throw Error("org data is required");

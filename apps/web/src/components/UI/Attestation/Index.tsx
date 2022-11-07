@@ -23,12 +23,13 @@ export function AttestationList({
     [attestations]
   );
   if (isLoading) return <Loader />;
+  if (!org) return null; // TODO: Render skeleten list
 
   return (
     <div className="container mx-auto pt-2 mt-10 px-2 lg:px-0">
       <div className="flex w-full justify-between">
         <h1 className="text-left heading-2">Attestations</h1>
-        {showUpdater && <AttestationUpdater desoc={org!} />}
+        {showUpdater && <AttestationUpdater desoc={org} />}
       </div>
       {noData && (
         <p className="font-normal text-sm mt-2">

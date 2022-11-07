@@ -7,13 +7,13 @@ const getClassName = ({
   activeClassName,
   isActive,
 }: {
-  className: string;
-  activeClassName: string;
-  isActive: boolean;
+  className?: string;
+  activeClassName?: string;
+  isActive?: boolean;
 }) => {
-  return `text-darker hover:text-neutrals-gray-3 dark:hover:text-neutrals-gray-7 border-b-2 border-transparent hover:border-black dark:hover:border-white ${className} ${
-    isActive ? `dark:text-white font-bold ${activeClassName}` : ""
-  }`;
+  return `text-darker hover:text-neutrals-gray-3 dark:hover:text-neutrals-gray-7 border-b-2 border-transparent hover:border-black dark:hover:border-white ${
+    className ?? ""
+  } ${isActive ? `dark:text-white font-bold ${activeClassName}` : ""}`;
 };
 
 export default function NavLink(
@@ -36,8 +36,8 @@ export default function NavLink(
     <Link href={props.href}>
       <a
         className={getClassName({
-          className: props.className!,
-          activeClassName: props.activeClassName!,
+          className: props.className,
+          activeClassName: props.activeClassName,
           isActive,
         })}
       >
@@ -59,8 +59,8 @@ export function ExternalLink(
       target="_blank"
       rel="noreferrer"
       className={getClassName({
-        className: props.className!,
-        activeClassName: props.activeClassName!,
+        className: props.className,
+        activeClassName: props.activeClassName,
         isActive: false,
       })}
     >

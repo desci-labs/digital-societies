@@ -1,5 +1,12 @@
 import { FileObject } from "components/FileDropzone/types";
+import { FC } from "react";
 import { AttestationType } from "services/attestations/types";
+
+export type TxProps<T extends JSX.IntrinsicAttributes> = {
+  inModal?: boolean;
+  Content: FC<T>;
+  contentProps: T;
+};
 
 type Meta = {
   name: string;

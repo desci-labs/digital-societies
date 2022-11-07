@@ -1,5 +1,6 @@
 import { useModalContext } from "components/Modal/Modal";
-import Transactor, { TxProps } from "components/Transactors/Transactor";
+import Transactor from "components/Transactors/Transactor";
+import { TxProps } from "components/Transactors/types";
 import Popup from "components/UI/Popup/Index";
 import { useCallback } from "react";
 import { Org, PendingOrg } from "services/orgs/types";

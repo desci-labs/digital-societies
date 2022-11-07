@@ -1,5 +1,4 @@
 import { FileObject } from "components/FileDropzone/types";
-import { resolveIpfsURL } from "helper";
 import Image from "next/image";
 import { useEffect } from "react";
 

@@ -1,11 +1,13 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useAccount } from "wagmi";
 import { Metadata, MetadataValues } from "../types";
 import { metadataSchema } from "../schema";
 import { FC } from "react";
 
-export type Props = { Form: FC; metadata?: Metadata | MetadataValues };
+export type Props = JSX.IntrinsicAttributes & {
+  Form: FC;
+  metadata?: Metadata | MetadataValues;
+};
 
 export default function Launcher(props: Props) {
   const methods = useForm<MetadataValues>({

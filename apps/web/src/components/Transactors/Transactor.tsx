@@ -1,16 +1,18 @@
 import Icon from "components/Icons/Icons";
 import { useModalContext } from "components/Modal/Modal";
-import { FC } from "react";
 import { useDispatch } from "react-redux";
 import { useGetTxStage } from "services/transaction/hooks";
 import { setStage } from "services/transaction/transactionSlice";
 import { Step } from "services/transaction/types";
+import { TxProps } from "./types";
 
-export default function Transactor<C>(props: TxProps<C>) {
+export default function Transactor<C extends JSX.IntrinsicAttributes>(
+  props: TxProps<C>
+) {
   const { hideModal } = useModalContext();
   const stage = useGetTxStage();
   const dispatch = useDispatch();
-  const formProps: any = { ...props.contentProps };
+  const formProps: C = { ...props.contentProps };
 
   function closePrompt() {
     if ([Step.success, Step.error, Step.preview].includes(stage.step)) {
@@ -41,9 +43,3 @@ export default function Transactor<C>(props: TxProps<C>) {
     </div>
   );
 }
-
-export type TxProps<T> = {
-  inModal?: boolean;
-  Content: FC<T>;
-  contentProps: T;
-};

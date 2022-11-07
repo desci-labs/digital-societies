@@ -6,7 +6,7 @@ export interface Contract {
   address: string;
   name: string;
   type: Contracts;
-  artifact: any;
+  artifact: JSON;
   chainId: ChainIDs | SupportedChainId;
 }
 

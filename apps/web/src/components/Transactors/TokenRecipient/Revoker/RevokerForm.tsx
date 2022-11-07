@@ -1,4 +1,3 @@
-// RevokerForm
 import { IssuerValues } from "components/Transactors/types";
 import { CardContainer } from "components/UI/Index";
 import { Table, TBody, THead } from "components/UI/Table";
@@ -7,7 +6,6 @@ import {
   useGetAttestation,
   useGetAttestationTokens,
 } from "services/attestations/hooks";
-import { Attestation, PendingAttestation } from "services/attestations/types";
 import RevokeItem from "./RevokeItem";
 import ToolBar from "./ToolBar";
 
@@ -17,7 +15,11 @@ export function RevokerForm() {
     getValues("org"),
     getValues("attestation")
   );
-  const tokens = useGetAttestationTokens(attestation!.address, attestation!.id);
+  const tokens = useGetAttestationTokens(
+    attestation?.address || "",
+    attestation?.id ?? 0
+  );
+
   if (!attestation) return null;
 
   const getRows = () => {

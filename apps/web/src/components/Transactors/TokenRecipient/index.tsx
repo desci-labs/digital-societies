@@ -5,7 +5,10 @@ import { issuerSchema } from "../schema";
 import { FC } from "react";
 import { Attestation, PendingAttestation } from "services/attestations/types";
 
-export type Props = { attestation: Attestation | PendingAttestation; Form: FC };
+export type Props = JSX.IntrinsicAttributes & {
+  attestation: Attestation | PendingAttestation;
+  Form: FC;
+};
 
 export default function Issuer({ attestation, Form }: Props) {
   if (!attestation) throw Error("Credential data is required");

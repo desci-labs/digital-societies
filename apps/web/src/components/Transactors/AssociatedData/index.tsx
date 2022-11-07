@@ -5,7 +5,11 @@ import { offchainMetaSchema } from "components/Transactors/schema";
 import { useAccountMetadata } from "services/api/hooks";
 import { AssociatedDataUpdate } from "services/api/types";
 
-export type Props = { address: string; org: string; Form: FC };
+export type Props = JSX.IntrinsicAttributes & {
+  address: string;
+  org: string;
+  Form: FC;
+};
 
 export default function MetadataUpdater({ address, org, Form }: Props) {
   if (!address) throw Error("user address is required");

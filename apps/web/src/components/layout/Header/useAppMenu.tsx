@@ -8,13 +8,15 @@ import {
 } from "react";
 
 const AppMenuContext = createContext(false);
-const AppMenuContextUpdater = createContext({ toggleMenu: (event: any) => {} });
+const AppMenuContextUpdater = createContext({
+  toggleMenu: () => {},
+});
 
 export default function AppMenuProvider({ children }: { children: ReactNode }) {
   const [opened, setOpened] = useState(true);
   const windowSize = useWindowSize();
 
-  const toggleMenu = (_event: any) => {
+  const toggleMenu = () => {
     setOpened(!opened);
   };
 
@@ -22,7 +24,6 @@ export default function AppMenuProvider({ children }: { children: ReactNode }) {
     if (!windowSize) return;
     if (windowSize.width >= 768) return setOpened(true);
     if (windowSize.width <= 767) return setOpened(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [windowSize]);
 
   return (

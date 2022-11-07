@@ -29,7 +29,7 @@ export default function CredentialDetails() {
 
   const org = useGetOrg(address);
 
-  const showLauncher = useCredenter(org!, "update");
+  const showLauncher = useCredenter(org, "update");
 
   const metadata = useMemo(
     () => credential?.metadata ?? org?.metadata,

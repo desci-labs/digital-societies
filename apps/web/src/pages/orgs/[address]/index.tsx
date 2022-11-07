@@ -6,7 +6,7 @@ import useDashboard from "hooks/useDashboard";
 
 export default function DesocDetailsPage() {
   const address = useRouterAddress();
-  const { hasAccess, org: adminOrg } = useDashboard();
+  const { org: adminOrg } = useDashboard();
 
   const org = useGetOrg(address as string);
 

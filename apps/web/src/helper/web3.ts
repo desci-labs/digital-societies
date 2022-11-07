@@ -1,6 +1,5 @@
 import {
   AttestationMetadataValues,
-  Metadata,
   MetadataValues,
 } from "components/Transactors/types";
 import { resolveIpfsURL } from "helper";

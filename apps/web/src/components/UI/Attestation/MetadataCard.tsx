@@ -1,6 +1,5 @@
 import { VerifiedBadgeIcon } from "assets/svg";
 import {
-  AttestationMetadata,
   AttestationMetadataValues,
   Metadata,
   MetadataValues,
