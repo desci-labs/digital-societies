@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import {
   useGetSelectedTokens,
   useResetTokenRecipients,
-  useSetTokenRecipients,
 } from "services/admin/hooks";
 import {
   removeTokens,
@@ -40,12 +39,13 @@ export default function useUpdateTokenRecipients(address: string) {
   const attestation = getValues("attestation");
 
   async function getPayload(addresses: string[], credential: number) {
-    let tokenId = await tokenContract?.totalSupply();
+    const tokenId = await tokenContract?.totalSupply();
     const tokenIds: AttestationToken[] = addresses.map((owner, idx) => ({
       org: address,
       tokenId: tokenId.toNumber() + 1 + idx,
       attestation: credential,
       dateIssued: Date.now(),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       issuer: account!,
       owner: owner,
       active: true,
@@ -57,6 +57,7 @@ export default function useUpdateTokenRecipients(address: string) {
   }
 
   async function issueAttestation() {
+    if (!account) return;
     const addresses = tokenRecipients
       .filter((t) => t.is_added && !t.tokenId)
       .map((recipients) => recipients.address);
@@ -87,7 +88,8 @@ export default function useUpdateTokenRecipients(address: string) {
       });
       reset();
       resetState();
-    } catch (e: any) {
+    } catch (err: unknown) {
+      const e = err as Error & { data: { message: string } };
       console.log("Error ", e?.data?.message, e?.message);
       if (payload !== undefined) {
         dispatch(

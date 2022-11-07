@@ -11,7 +11,7 @@ import {
 import fallbackImg from "assets/fallback.png";
 
 export const resolveIpfsURL = (hash: string) =>
-  `${W3S_IPFS_GATEWAY?.trim()}${hash}`;
+  `${W3S_IPFS_GATEWAY.trim()}${hash}`;
 
 export const getBytesFromCIDString = (input: string) => {
   const cid = CID.parse(input);
@@ -30,12 +30,15 @@ export const getCIDStringFromBytes = async (hex: string) => {
   return cid.toString();
 };
 
-export async function asyncMap<T, E>(arr: E[], predicate: any): Promise<T[]> {
+export async function asyncMap<T, E>(
+  arr: E[],
+  predicate: (value: E, index?: number, array?: E[]) => Promise<T>
+): Promise<T[]> {
   const results = await Promise.all(arr.map(predicate));
   return results as T[];
 }
 
-export const shortenText = (text: string, charCount: number = 100) =>
+export const shortenText = (text: string, charCount = 100) =>
   text.length > charCount ? `${text.substring(0, charCount)}...` : text;
 
 export const shortenAddress = (address: string) => shortenText(address, 10);
@@ -54,7 +57,7 @@ export function maskAddress(addr?: string) {
 export const getImageURL = (image: string | FileObject) => {
   if (!image) return fallbackImg;
   if (typeof image === "string") {
-    if (image.startsWith(W3S_IPFS_GATEWAY!.trim())) return image;
+    if (image.startsWith(W3S_IPFS_GATEWAY.trim())) return image;
     const cid = CID.parse(image);
     if (cid) return resolveIpfsURL(cid.toString());
     return "";

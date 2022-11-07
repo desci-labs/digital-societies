@@ -1,7 +1,7 @@
 import { ReactNode, FC } from "react";
 
 export type Handler = () => void;
-export type Opener = <T = {}>(
+export type Opener = <T = Record<string, unknown>>(
   Content: FC<T>,
   props: T & { isDismissDisabled?: false }
 ) => void;

@@ -4,6 +4,7 @@ import { Web3Storage, getFilesFromPath } from "web3.storage";
 import { PinDataRes } from "./type";
 import busboy from "busboy";
 import path from "path";
+import { WEB3_STORAGE_TOKEN } from "config/Index";
 
 export const config = {
   api: {
@@ -16,18 +17,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
     status = 200;
 
   try {
-    const client = new Web3Storage({ token: process.env.WEB3_STORAGE_TOKEN! });
+    const client = new Web3Storage({ token: WEB3_STORAGE_TOKEN });
 
     const bb = busboy({ headers: req.headers });
     const fileList: string[] = [];
-    bb.on("file", async (name, file, info) => {
+    bb.on("file", async (name, file) => {
       const filepath = path.join("/tmp", `${name}`);
       fs.writeFileSync(filepath, "");
       file.pipe(fs.createWriteStream(filepath));
       fileList.push(filepath);
     });
 
-    bb.on("error", (err: any) => {
+    bb.on("error", (err: unknown) => {
       res.status(400).send({
         status: "error",
         message: "Error pinning file to ipfs",
@@ -37,24 +38,24 @@ async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
 
     bb.on("close", async () => {
       const uploads = [];
-      for (let filepath of fileList) {
+      for (const filepath of fileList) {
         const files = await getFilesFromPath(filepath);
         const cid = await client.put(files, { wrapWithDirectory: false });
         console.log("cid", cid);
-        fs.unlink(filepath, (err) => {});
+        fs.unlink(filepath, () => {});
         uploads.push(cid);
       }
 
       res.status(200).send(uploads);
     });
     req.pipe(bb);
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.log("pining file Error", e);
     status = 500;
     responseBody = {
       status: "error",
       message: "Error pinning file to ipfs",
-      error: e.toString(),
+      error: e?.toString(),
     };
     res.status(status).json(responseBody);
   }

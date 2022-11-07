@@ -72,7 +72,7 @@ function EditButton(props: { desoc: string; onClick: () => void }) {
   );
 }
 
-function OverlayWrapper(props: PropsWithChildren<{}>) {
+function OverlayWrapper(props: PropsWithChildren) {
   return (
     <div className="bg-black bg-opacity-50 opacity-0 w-full py-2 absolute top-0 left-0 z-10 group-hover:opacity-100 transition duration-200">
       {props.children}

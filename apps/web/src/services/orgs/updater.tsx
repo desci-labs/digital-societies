@@ -41,7 +41,7 @@ export default function FactoryUpdater() {
     if (!contract) return null;
     const admin = await contract.getRoleMember(DEFAULT_ADMIN_ROLE, 0);
     const delegates = await getDelegates(contract);
-    let cid = await contract.contractURI();
+    const cid = await contract.contractURI();
     const metadata = (await queryIpfsURL(cid)) as Metadata;
     const verified =
       (await managerContract?.verified(contract.address)) ?? false;
