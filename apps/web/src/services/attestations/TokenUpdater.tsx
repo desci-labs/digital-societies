@@ -27,28 +27,28 @@ export default function TokenUpdater() {
   async function getRevokedToken(
     contract: Desoc,
     token: AttestationToken
-  ): Promise<RevokedAttestationToken | null> {
+  ): Promise<RevokedAttestationToken | undefined> {
     const filter = await contract.filters.Revoked(null, token.owner);
     const evts = await contract.queryFilter(filter);
     const evt = evts.find(
       (evt) => evt.args.tokenId.toNumber() == token.tokenId
     );
 
-    if (!evt) return null;
+    if (evt) {
+      const block = await provider.getBlock(evt.blockNumber);
 
-    const block = await provider.getBlock(evt.blockNumber);
-
-    return {
-      ...token,
-      active: false,
-      revokedBy: evt.args.owner ?? evt.args?.[1],
-      dateRevoked: block.timestamp * 1000,
-    };
+      return {
+        ...token,
+        active: false,
+        revokedBy: evt.args.owner ?? evt.args?.[1],
+        dateRevoked: block.timestamp * 1000,
+      };
+    }
   }
 
   async function getTokenInfofromEvent(
     event: ethers.Event
-  ): Promise<AttestationTokens | null> {
+  ): Promise<AttestationTokens | undefined> {
     const contract = getContract(event.address);
     const block = await provider.getBlock(event.blockNumber);
     const issuer = event.args?.mintedBy ?? event.args?.[0];
@@ -56,7 +56,7 @@ export default function TokenUpdater() {
     const tokenId =
       event.args?.tokenId.toString() ?? event.args?.[2].toNumber();
     const attestation = event.args?.tokenType ?? event.args?.[3];
-    const uri = await contract.tokenURI(tokenId);
+    // const uri = await contract.tokenURI(tokenId);
 
     const token: AttestationToken = {
       org: event.address,
@@ -81,11 +81,14 @@ export default function TokenUpdater() {
   async function transformEventsToTokens(events: ethers.Event[]) {
     const address = events[0]?.address;
     if (!events.length) return null;
-    const tokens = await asyncMap<AttestationToken, ethers.Event>(
+    const tokens = await asyncMap<AttestationTokens | undefined, ethers.Event>(
       events,
       getTokenInfofromEvent
     );
-    return { address, data: tokens.filter(Boolean) };
+    return {
+      address,
+      data: tokens.filter(Boolean) as AttestationTokens[],
+    };
   }
 
   const indexAttestationTokens = useCallback(
