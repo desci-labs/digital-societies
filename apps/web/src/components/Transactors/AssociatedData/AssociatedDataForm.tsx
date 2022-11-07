@@ -43,6 +43,9 @@ export default function AssociatedDataForm() {
           Error: {error}
         </span>
       )}
+      <span className="text-states-error text-md inline-block font-light">
+        * This data is private and optional (accessible to admin & delegates)
+      </span>
       <>
         {ASSOCIATED_SOCIALS.map((name) => (
           <InputRow htmlFor={name} label={name} className="text-sm" key={name}>
