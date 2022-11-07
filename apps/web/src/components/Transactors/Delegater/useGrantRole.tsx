@@ -13,6 +13,7 @@ import {
 import { Step } from "services/transaction/types";
 import useTxUpdator from "services/transaction/updators";
 import { DelegaterValues } from "../types";
+import { CustomDataError } from "services/api/types";
 
 export default function useGrantRole(address: string) {
   const { showModal } = useModalContext();
@@ -48,7 +49,8 @@ export default function useGrantRole(address: string) {
 
       dispatch(setFormLoading(false));
       updateTx({ step: Step.success, txHash: tx.hash, message: "" });
-    } catch (e: any) {
+    } catch (err: unknown) {
+      const e = err as CustomDataError;
       dispatch(setFormLoading(false));
       dispatch(removeDelegate({ org: address, delegate: metadata.delegate }));
       updateTx({

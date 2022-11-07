@@ -6,3 +6,5 @@ export type AssociatedDataInsert =
   Database["public"]["Tables"]["associated_metadata"]["Insert"];
 export type AssociatedDataUpdate =
   Database["public"]["Tables"]["associated_metadata"]["Update"];
+
+export type CustomDataError = Error & { data: { message: string } };

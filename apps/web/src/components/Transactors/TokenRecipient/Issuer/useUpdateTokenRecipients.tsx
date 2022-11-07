@@ -7,6 +7,7 @@ import {
   useGetSelectedTokens,
   useResetTokenRecipients,
 } from "services/admin/hooks";
+import { CustomDataError } from "services/api/types";
 import {
   removeTokens,
   setTokens,
@@ -61,7 +62,7 @@ export default function useUpdateTokenRecipients(address: string) {
     const addresses = tokenRecipients
       .filter((t) => t.is_added && !t.tokenId)
       .map((recipients) => recipients.address);
-    console.log("tokens", addresses);
+
     let payload = undefined;
 
     try {
@@ -89,7 +90,7 @@ export default function useUpdateTokenRecipients(address: string) {
       reset();
       resetState();
     } catch (err: unknown) {
-      const e = err as Error & { data: { message: string } };
+      const e = err as CustomDataError;
       console.log("Error ", e?.data?.message, e?.message);
       if (payload !== undefined) {
         dispatch(

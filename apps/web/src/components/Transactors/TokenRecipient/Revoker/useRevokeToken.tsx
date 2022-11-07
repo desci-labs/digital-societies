@@ -8,10 +8,7 @@ import {
   useGetSelectedTokens,
   useResetTokenRecipients,
 } from "services/admin/hooks";
-import {
-  removeTokens,
-  updateTokens,
-} from "services/attestations/attestationSlice";
+import { updateTokens } from "services/attestations/attestationSlice";
 import { useGetAttestationTokens } from "services/attestations/hooks";
 import { AttestationToken } from "services/attestations/types";
 import { useGetTxState } from "services/transaction/hooks";
@@ -39,7 +36,7 @@ export default function useRevokeToken() {
   );
 
   async function revoke() {
-    if (!tokenContract) return;
+    if (!tokenContract || !account) return;
     const tokens = selectedTokens
       .filter((t) => t.is_deleted && t.tokenId)
       .map((t) => t.tokenId) as number[];
@@ -60,7 +57,7 @@ export default function useRevokeToken() {
           tokens: tokensToUpdate.map((token) => ({
             ...token,
             active: false,
-            revokedBy: account!,
+            revokedBy: account,
             owner: token.owner,
             dateRevoked: Date.now(),
           })),
@@ -83,7 +80,7 @@ export default function useRevokeToken() {
         txHash: tx.hash,
         message: "Token revoked",
       });
-    } catch (e: any) {
+    } catch (e: unknown) {
       dispatch(
         updateTokens({ address: orgContractAddress, tokens: tokensToUpdate })
       );

@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { AssociatedDataInsert } from "services/api/types";
+import { AssociatedDataInsert, CustomDataError } from "services/api/types";
 import { supabase } from "services/database/superbase/superbaseClient";
+
 export const config = {
   api: {
     bodyParser: true,
@@ -30,8 +31,8 @@ async function handler(
         .json({ message: error.message, status: "error" });
 
     return res.status(status).json({ status: "success" });
-  } catch (e: any) {
-    console.log("e", e);
+  } catch (err: unknown) {
+    const e = err as CustomDataError;
     status = 500;
     responseBody = {
       status: "error",

@@ -7,6 +7,7 @@ import { useFactoryContract } from "hooks/useContract";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { CustomDataError } from "services/api/types";
 import { setOrg } from "services/orgs/orgSlice";
 import { PendingOrg } from "services/orgs/types";
 import { useGetTxState } from "services/transaction/hooks";
@@ -86,7 +87,8 @@ export default function useLaunch() {
       });
       dispatch(setFormLoading(false));
       lunchCallback(address);
-    } catch (e: any) {
+    } catch (err: unknown) {
+      const e = err as CustomDataError;
       console.log("Error ", e);
       updateTx({ step: Step.error, message: "Unable to complete deployment" });
       dispatch(setFormLoading(false));

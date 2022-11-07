@@ -1,5 +1,5 @@
+import { W3S_IPFS_GATEWAY } from "api/constants";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { W3S_IPFS_GATEWAY } from "./constants";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   let status = 200;

@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { Web3Storage, getFilesFromPath } from "web3.storage";
 import path from "path";
 import fs from "fs";
-import { PinDataRes } from "./type";
+import { PinDataRes } from "api/type";
 
 export const config = {
   api: {

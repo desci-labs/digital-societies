@@ -4,6 +4,7 @@ import { DELEGATE_ROLE } from "constants/roles";
 import { maskAddress } from "helper";
 import { useTokenContract } from "hooks/useContract";
 import { useDispatch } from "react-redux";
+import { CustomDataError } from "services/api/types";
 import { addDelegate, removeDelegate } from "services/orgs/orgSlice";
 import { useGetTxState } from "services/transaction/hooks";
 import { setFormLoading } from "services/transaction/transactionSlice";
@@ -39,7 +40,8 @@ export default function useRemoveDelegate(address: string) {
         message: `Role revoked for ${maskAddress(delegate.toLowerCase())}`,
       });
       dispatch(setFormLoading(false));
-    } catch (e: any) {
+    } catch (err: unknown) {
+      const e = err as CustomDataError;
       console.log("Error ", e?.data?.message, e?.message);
       dispatch(setFormLoading(false));
       dispatch(addDelegate({ org: address, delegate: delegate }));

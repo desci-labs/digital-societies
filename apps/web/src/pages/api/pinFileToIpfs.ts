@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import fs from "fs";
 import { Web3Storage, getFilesFromPath } from "web3.storage";
-import { PinDataRes } from "./type";
 import busboy from "busboy";
 import path from "path";
 import { WEB3_STORAGE_TOKEN } from "config/Index";
+import { PinDataRes } from "api/type";
 
 export const config = {
   api: {

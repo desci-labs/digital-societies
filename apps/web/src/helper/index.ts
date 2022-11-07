@@ -1,7 +1,7 @@
 import { CID } from "multiformats/cid";
 import { base16 } from "multiformats/bases/base16";
 import { FileObject } from "components/FileDropzone/types";
-import { W3S_IPFS_GATEWAY } from "pages/api/constants";
+import { W3S_IPFS_GATEWAY } from "api/constants";
 import {
   AttestationMetadata,
   AttestationMetadataValues,

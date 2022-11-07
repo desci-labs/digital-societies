@@ -30,6 +30,7 @@ export default function useUpdate(address: string) {
   });
 
   async function run(metadata: MetadataValues) {
+    if (!org) return;
     try {
       dispatch(setFormLoading(true));
       updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
@@ -62,8 +63,8 @@ export default function useUpdate(address: string) {
         previewLink: { href: `/orgs/${address}`, caption: "Preview" },
       });
       dispatch(setFormLoading(false));
-    } catch (e: any) {
-      dispatch(setOrg(org!));
+    } catch (err: unknown) {
+      dispatch(setOrg(org));
       updateTx({ step: Step.error, message: "Error updating metadata!!!" });
       dispatch(setFormLoading(false));
       dispatch(setFormError({ title: `Error updating ${metadata.name}` }));
