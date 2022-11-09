@@ -1,7 +1,7 @@
 ds-test/=apps/contracts/lib/forge-std/lib/ds-test/src/
 forge-std/=apps/contracts/lib/forge-std/src/
 gsn/=apps/contracts/lib/gsn/
+@opengsn/=apps/contracts/../../node_modules/@opengsn
 openzeppelin-contracts/=apps/contracts/lib/openzeppelin-contracts/
 @openzeppelin/=apps/contracts/lib/openzeppelin-contracts/
 src/=apps/contracts/src/
-hardhat/=node_modules/hardhat/

@@ -1,35 +1,37 @@
-Install Foundry:
+## Desoc Contracts
+This repository contains the core smart contracts for the DeSoc OSS collective.
 
-```
-curl -L https://foundry.paradigm.xyz | bash && foundryup
-source /home/USERNAME/.bashrc
-foundryup
-```
-
-Build
-
-```
-forge build
+### setup
+Install [foundry](https://book.getfoundry.sh/getting-started/installation) locally
+```bash
+cd apps/contracts
+yarn install
+yarn remapping-transform # generates foundry import remappings
 ```
 
-Note: you may get warnings for unused variables, but these are safe to ignore
+**Note:** duplicate the .env.example file and rename to .env, update the env variables specified
+### Local deployment
+```bash
+# start local foundry node
+Anvil
 
-Test
-
+# run deploy script
+yarn deploy
 ```
-# run all tests
-forge test
-
-# run specific test (match pattern)
-forge test -m testMint
-```
-
-Flatten contract
-```
-forge flatten src/DesocManager.sol --output flatten.sol
+### Testing
+Test both gasless and regular flows
+```bash
+yarn test
 ```
 
-Send Transaction with **cast**
-```
- cast send [to]  "verify(address)" "0xa5a83de9294eafc131fEf448c3ea7b11282379C0" --private-key=[PRIVATE_KEY] --rpc-url=[RPC_URL] --chain=goerli
-```
+### Desoc Interfaces
+
+1. cd into apps/contracts
+2. make changes
+3. forge build or forge test
+4. if your VSCode paths for solidity show errors, run `npm run build` or `remap.sh` to remap the paths to the root of the monorepo
+   VSCode solidity paths are handled using apps/contracts/package.json (`npm run build` inside apps/contracts folders)
+
+
+# Gas report snaphots
+![Gas reports](https://github.com/desci-labs/soulbound/blob/dev/gasreport.png?raw=true)
