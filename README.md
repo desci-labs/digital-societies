@@ -1,6 +1,6 @@
 # DeSoc OSS collective
 
 ## Apps
-Desoc Smart contracts: **apps/contracts**
+Contracts: see [`apps/contracts`](./apps/contracts)
 
-Desoc Interface: **apps/web**
+Interface: see [``apps/web``](./apps/web)
