@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { ExternalLinkSquare } from "assets/svg";
 import Icon from "components/Icons/Icons";
 import { AttestationFormValues } from "components/Transactors/types";
 import { getImageURL } from "helper";
@@ -27,12 +28,12 @@ export default function Preview() {
         onClick={() => updateTx({ step: Step.form })}
         className="app-text mb-5 border border-neutrals-gray-6 hover:bg-tint-primary-dark hover:border-tint-primary-dark hover:text-white "
       >
-        {"<<"} Back to form{" "}
+        {"<<"} Back{" "}
       </Button>
       <div className="badge-details-container bg-white h-80 w-180 pb-3">
         <div className="header flex items-center justify-between w-full mb-2 px-4 py-2">
           <span className="block text-black text-2xl font-bold">
-            {org?.metadata.name} / {name}
+            {org?.metadata.name}
           </span>
           <Icon type="Close" size={30} className="text-neutrals-gray-2" />
         </div>
@@ -42,21 +43,28 @@ export default function Preview() {
               <img src={getImageURL(image) as string} alt="" />
             </div>
             <div>
-              {attestationType && (
-                <span className="badge-type">{attestationType}</span>
-              )}
+              <span className="block text-black text-2xl font-bold">
+                {name}
+              </span>
+              <span className="badge-type app-text">
+                Badge Type:
+                <b>{attestationType}</b>
+              </span>
               <span className="desc">{description}</span>
             </div>
           </div>
           <div className="links">
             <a className="link" href="##" target="_blank" rel="noopener">
-              View SBT holders
+              View holders
+              <ExternalLinkSquare />
             </a>
             <a className="link" href="##" target="_blank" rel="noopener">
-              View SBT specification
+              More info
+              <ExternalLinkSquare />
             </a>
             <a className="link" href="##" target="_blank" rel="noopener">
-              Etherscan transaction
+              Txn
+              <ExternalLinkSquare />
             </a>
           </div>
         </div>

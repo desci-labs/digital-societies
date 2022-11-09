@@ -8,16 +8,21 @@
   border-bottom: 1px solid #f8f8f8;
 }
 .badge-details-container .links {
-  margin-top: 5px;
+  margin: 1.5rem 0 0;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 10px;
 }
 
 .badge-details-container .links a.link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   padding: 5px 15px;
-  background-color: #0088cc;
-  color: #ffffff;
+  background-color: #E9E9E9;
+  color: #434343;
+  font-size: 14px;
 }
 
 .badge-details-container .badge-details-content {
@@ -35,15 +40,13 @@
   word-wrap: break-word;
   color: #000000;
   font-size: 15px;
+  font-style: italic;
 }
 
 .badge-details-container .badge-details-content .badge-type {
-  display: block;
-  margin-bottom: 5px;
-  padding: 3px 15px;
-  color: #ffffff;
-  background-color: #0088cc;
-  width: max-content;
+  margin-bottom: 2px;
+  text-decoration: underline;
+  color: #000000;
 }
 
 .badge-details-container .badge-details-content .badge-image {
@@ -55,8 +58,8 @@
 }
 
 .badge-details-container .badge-details-content .badge-image > img {
-  min-width: 80px;
-  max-width: 80px;
+  min-width: 90px;
+  max-width: 90px;
   border-radius: 50%;
 }
 
