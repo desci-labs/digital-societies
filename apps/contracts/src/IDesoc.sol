@@ -66,8 +66,7 @@ interface IDesoc is IERC721 {
     /**
      * @dev DEFAULT_ADMIN_ROLE can update the ipfs of a token type
      */
-    function updateTypeURI(uint16 _tokenType, string memory _typeURI_)
-        external;
+    function updateTypeURI(uint16 _tokenType, string memory _typeURI_) external;
 
     /**
      * @dev Update the token type assigned to a tokenId
