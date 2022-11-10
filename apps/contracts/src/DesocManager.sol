@@ -12,8 +12,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 /// @custom:experimental This is an experimental contract for DeSci Labs (https://desci.com).
 contract DesocManager is ERC2771Recipient {
     address public owner;
-    mapping (address => bool) public verified;
-    
+    mapping(address => bool) public verified;
+
     event TokenCreated(address indexed token, address indexed owner);
     event Verified(address indexed org);
     event Refuted(address indexed org);
@@ -32,7 +32,7 @@ contract DesocManager is ERC2771Recipient {
         string memory _name,
         string memory _symbol,
         string memory _metadata
-    ) external returns(address token) {
+    ) external returns (address token) {
         bytes memory code = abi.encodePacked(
             type(Desoc).creationCode,
             abi.encode(_name, _symbol, _metadata, _msgSender())
@@ -51,12 +51,15 @@ contract DesocManager is ERC2771Recipient {
     /// @dev Add an organisation's Desoc contract to the verified mapping
     /// @param org address of the Desoc smart contract
     function verify(address org) external {
-        require(IDesoc(org).supportsInterface(type(IDesoc).interfaceId) == true, "IDesoc interface not supported");
+        require(
+            IDesoc(org).supportsInterface(type(IDesoc).interfaceId) == true,
+            "IDesoc interface not supported"
+        );
         require(_msgSender() == owner, "UnAuthorized");
         verified[org] = true;
         emit Verified(org);
     }
-    
+
     /// @notice Refute an organisation's verification
     /// @dev Remove an organisation's Desoc contract to the verified mapping
     /// @param org address of the Desoc smart contract
