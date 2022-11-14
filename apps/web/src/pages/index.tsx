@@ -3,9 +3,9 @@ import type { NextPage } from "next";
 
 const Home: NextPage = () => {
   return (
-    <div className="py-0 px-10">
+    <section className="py-0 px-10">
       <DesocList />
-    </div>
+    </section>
   );
 };
 
