@@ -8,7 +8,7 @@ export default function NetworkGuard(props: PropsWithChildren) {
   const { chain } = useNetwork();
   const { isConnected } = useAccount();
 
-  if (!chain?.id || (!SUPPORTED_CHAIN_IDS.includes(chain?.id) && isConnected))
+  if (isConnected && (!chain?.id || !SUPPORTED_CHAIN_IDS.includes(chain?.id)))
     return (
       <div className="h-104 w-full flex justify-center items-center">
         <CardContainer className="flex flex-col justify-center items-center gap-5 shadow-none w-88 py-10">
