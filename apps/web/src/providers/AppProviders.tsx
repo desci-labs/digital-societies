@@ -15,6 +15,7 @@ import TokenUpdater from "services/attestations/TokenUpdater";
 import AttestationUpdater from "services/attestations/updater";
 import AppMenuProvider from "components/layout/Header/useAppMenu";
 import { useTheme } from "next-themes";
+import FormViewProvider from "context/useFormView";
 
 function Updaters() {
   return (
@@ -47,9 +48,11 @@ function AppProviders({ children }: PropsWithChildren<unknown>) {
         <RainbowKitProvider theme={getTheme()} chains={chains}>
           <BlockNumberProvider>
             <Updaters />
-            <ModalProvider classes="p-3 bg-black bg-opacity-50 backdrop-blur-xl fixed top-0 right-0 bottom-0 left-0 z-50 grid place-items-center">
-              <AppMenuProvider>{children}</AppMenuProvider>
-            </ModalProvider>
+            <FormViewProvider>
+              <ModalProvider classes="p-3 bg-black bg-opacity-50 backdrop-blur-xl fixed top-0 right-0 bottom-0 left-0 z-50 grid place-items-center">
+                <AppMenuProvider>{children}</AppMenuProvider>
+              </ModalProvider>
+            </FormViewProvider>
           </BlockNumberProvider>
         </RainbowKitProvider>
       </WagmiConfig>

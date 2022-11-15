@@ -1,11 +1,10 @@
 import { useMemo } from "react";
 import Preview from "components/UI/Attestation/Preview";
 import { Org, PendingOrg } from "services/orgs/types";
-import { useGetTxStage } from "services/transaction/hooks";
-import { Step } from "services/transaction/types";
 import CredentialLauncher from ".";
 import { LaunchMode } from "../types";
 import AttestationForm from "./Form";
+import { useGetFormView } from "context/useFormView";
 
 export type Props = JSX.IntrinsicAttributes & {
   org: Org | PendingOrg;
@@ -13,19 +12,19 @@ export type Props = JSX.IntrinsicAttributes & {
 };
 
 export default function AttestationPrompt({ org, mode }: Props) {
-  const stage = useGetTxStage();
-
+  const formView = useGetFormView();
+  console.log("view", formView);
   const view = useMemo(() => {
-    switch (stage.step) {
-      case Step.form:
+    switch (formView) {
+      case "form":
         return <AttestationForm />;
-      // case Step.preview :
-      //   return <Preview />;
+      case "preview":
+        return <Preview />;
       default:
-        return <AttestationForm />;
+        throw new Error("Unexpected value");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stage]);
+  }, [formView]);
 
   return <CredentialLauncher org={org} Form={view} mode={mode} />;
 }

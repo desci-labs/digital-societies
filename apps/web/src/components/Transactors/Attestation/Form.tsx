@@ -18,8 +18,7 @@ import { useGetTxStage } from "services/transaction/hooks";
 import { useModalContext } from "components/Modal/Modal";
 import Button from "components/UI/Button/Index";
 import { attestationTypes } from "../constants";
-import useTxUpdator from "services/transaction/updators";
-import { Step } from "services/transaction/types";
+import { useSetFormView } from "context/useFormView";
 
 export default function AttestationForm() {
   const {
@@ -37,12 +36,12 @@ export default function AttestationForm() {
     parseInt(id as string)
   );
   const stage = useGetTxStage();
-  const { updateTx } = useTxUpdator();
   const banner = watch("banner");
   const logo = watch("image");
   const mode = watch("mode");
   const attestationType = watch("attestationType");
   const isUpdateMode = mode === "update";
+  const { setView } = useSetFormView();
 
   const canDisable = useMemo(() => !isDirty || isLoading, [isDirty, isLoading]);
 
@@ -63,7 +62,7 @@ export default function AttestationForm() {
       <div className="flex justify-end items-center w-full">
         <Button
           type="button"
-          // onClick={() => updateTx({ step: Step.preview })}
+          onClick={() => setView("preview")}
           className="app-text border border-neutrals-gray-6 hover:bg-tint-primary-dark hover:border-tint-primary-dark hover:text-white "
         >
           Preview {">>"}{" "}

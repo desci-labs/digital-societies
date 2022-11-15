@@ -2,30 +2,29 @@
 import { ExternalLinkSquare } from "assets/svg";
 import Icon from "components/Icons/Icons";
 import { AttestationFormValues } from "components/Transactors/types";
+import { useSetFormView } from "context/useFormView";
 import { getImageURL } from "helper";
 import useRouterAddress from "hooks/useRouterAddress";
 import { useFormContext } from "react-hook-form";
 import { useGetOrg } from "services/orgs/hooks";
-import { Step } from "services/transaction/types";
-import useTxUpdator from "services/transaction/updators";
 import Button from "../Button/Index";
 
 export default function Preview() {
   const orgAddress = useRouterAddress();
   const org = useGetOrg(orgAddress);
-  const { updateTx } = useTxUpdator();
   const { getValues } = useFormContext<AttestationFormValues>();
   const name = getValues("name");
   const image = getValues("image");
   const attestationType = getValues("attestationType");
   const description =
     getValues("description") || "Add a description to view it here!";
+  const { setView } = useSetFormView();
 
   return (
     <div className="p-4">
       <Button
         type="button"
-        onClick={() => updateTx({ step: Step.form })}
+        onClick={() => setView("form")}
         className="app-text mb-5 border border-neutrals-gray-6 hover:bg-tint-primary-dark hover:border-tint-primary-dark hover:text-white "
       >
         {"<<"} Back{" "}
