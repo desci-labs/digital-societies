@@ -15,7 +15,7 @@ export default function Transactor<C extends JSX.IntrinsicAttributes>(
   const formProps: C = { ...props.contentProps };
 
   function closePrompt() {
-    if ([Step.success, Step.error, Step.preview].includes(stage.step)) {
+    if ([Step.success, Step.error].includes(stage.step)) {
       dispatch(setStage({ step: Step.form }));
     }
     hideModal();

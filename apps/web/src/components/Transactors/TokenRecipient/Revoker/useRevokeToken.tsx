@@ -24,6 +24,7 @@ export default function useRevokeToken() {
   const getContract = useTokenContract();
   const { showModal } = useModalContext();
   const { form_loading } = useGetTxState();
+  console.log("loading", form_loading);
   const resetState = useResetTokenRecipients();
   const selectedTokens = useGetSelectedTokens();
   const { getValues, reset } = useFormContext<IssuerValues>();

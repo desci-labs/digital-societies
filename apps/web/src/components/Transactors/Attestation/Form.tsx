@@ -63,7 +63,7 @@ export default function AttestationForm() {
       <div className="flex justify-end items-center w-full">
         <Button
           type="button"
-          onClick={() => updateTx({ step: Step.preview })}
+          // onClick={() => updateTx({ step: Step.preview })}
           className="app-text border border-neutrals-gray-6 hover:bg-tint-primary-dark hover:border-tint-primary-dark hover:text-white "
         >
           Preview {">>"}{" "}

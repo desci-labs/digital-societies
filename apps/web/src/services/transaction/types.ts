@@ -6,7 +6,6 @@ export enum Step {
   broadcast = "broadcast",
   success = "success",
   error = "error",
-  preview = "preview",
 }
 
 export type FormError =
@@ -65,14 +64,9 @@ export type ErrorStage = {
   txInfo?: never;
   details?: never;
 };
-export type PreviewStage = {
-  step: Step.preview;
-  message?: string;
-};
 
 export type Stage =
   | InitialStage
-  | PreviewStage
   | SubmitStage
   | BroadcastStage
   | SuccessStage

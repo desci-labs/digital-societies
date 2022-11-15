@@ -26,9 +26,11 @@ const slice = createSlice({
       state.form_loading = false;
     },
     resetTxFormState: (state) => {
-      state.form_error = "";
-      state.form_loading = false;
+      state.form_error = initialState.form_error;
+      state.form_loading = initialState.form_loading;
+      state.stage = initialState.stage;
     },
+
     setStage: (state, { payload }: PayloadAction<Stage>) => {
       state.stage = payload;
     },

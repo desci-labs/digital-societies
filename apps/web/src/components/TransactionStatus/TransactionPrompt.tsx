@@ -3,7 +3,7 @@ import { useModalContext } from "components/Modal/Modal";
 import { useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { useGetTxStage } from "services/transaction/hooks";
-import { setStage } from "services/transaction/transactionSlice";
+import { resetTxFormState } from "services/transaction/transactionSlice";
 import { Step } from "services/transaction/types";
 import ErrorPop from "./Error";
 import Processing from "./Processing";
@@ -31,8 +31,8 @@ export default function TransactionPrompt() {
   }, [stage]);
 
   function closePrompt() {
-    if (stage.step === Step.success || stage.step === Step.error) {
-      dispatch(setStage({ step: Step.form }));
+    if ([Step.success, Step.error].includes(stage.step)) {
+      dispatch(resetTxFormState());
     }
     hideModal();
   }

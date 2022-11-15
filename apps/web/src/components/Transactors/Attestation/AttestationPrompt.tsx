@@ -1,9 +1,5 @@
-import ErrorPop from "components/TransactionStatus/Error";
-import Processing from "components/TransactionStatus/Processing";
-import Submit from "components/TransactionStatus/Submit";
-import Success from "components/TransactionStatus/Success";
-import Preview from "components/UI/Attestation/Preview";
 import { useMemo } from "react";
+import Preview from "components/UI/Attestation/Preview";
 import { Org, PendingOrg } from "services/orgs/types";
 import { useGetTxStage } from "services/transaction/hooks";
 import { Step } from "services/transaction/types";
@@ -23,18 +19,10 @@ export default function AttestationPrompt({ org, mode }: Props) {
     switch (stage.step) {
       case Step.form:
         return <AttestationForm />;
-      case Step.preview:
-        return <Preview />;
-      case Step.success:
-        return <Success {...stage} />;
-      case Step.broadcast:
-        return <Processing {...stage} />;
-      case Step.submit:
-        return <Submit {...stage} />;
-      case Step.error:
-        return <ErrorPop {...stage} />;
+      // case Step.preview :
+      //   return <Preview />;
       default:
-        throw new Error("Invalid prompt");
+        return <AttestationForm />;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stage]);
