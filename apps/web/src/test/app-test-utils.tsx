@@ -6,7 +6,6 @@ import {
 } from "@testing-library/react";
 import AppProviders from "providers/AppProviders";
 import { ReactElement } from "react";
-
 export function render(
   ui: ReactElement,
   options?: Omit<RenderOptions, "wrapper">
