@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import fs from "fs";
-import { Web3Storage, getFilesFromPath } from "web3.storage";
+import { Web3Storage, getFilesFromPath, Filelike } from "web3.storage";
 import busboy from "busboy";
 import path from "path";
 import { WEB3_STORAGE_TOKEN } from "config/Index";
@@ -39,9 +39,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
     bb.on("close", async () => {
       const uploads = [];
       for (const filepath of fileList) {
-        const files = await getFilesFromPath(filepath);
+        const files = (await getFilesFromPath(filepath)) as Iterable<Filelike>;
         const cid = await client.put(files, { wrapWithDirectory: false });
-        console.log("cid", cid);
         fs.unlink(filepath, () => {});
         uploads.push(cid);
       }
