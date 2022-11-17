@@ -117,7 +117,6 @@ const slice = createSlice({
       state,
       { payload }: PayloadAction<{ tokenIds: number[]; address: string }>
     ) => {
-      console.log("remove ", payload);
       state.tokens[payload.address] = state.tokens[payload.address].filter(
         (token) => {
           if (payload.tokenIds.includes(token.tokenId)) return true;

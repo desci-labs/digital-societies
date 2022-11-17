@@ -4,8 +4,13 @@ module.exports = {
   // on node 14.x coverage provider v8 offers good speed and more or less good report
   coverageProvider: "v8",
   collectCoverageFrom: [
-    "**/*.{js,jsx,ts,tsx}",
-    "!**/*.d.ts",
+    // "**/*.{js,jsx,ts,tsx}",
+    // "!**/*.d.ts",
+    "utils/*.ts",
+    "components/**/*.tsx",
+    "pages/**/*.tsx",
+    "hooks/**/*.ts",
+    // Ignore untestable files
     "!**/node_modules/**",
     "!<rootDir>/out/**",
     "!<rootDir>/.next/**",
@@ -29,7 +34,7 @@ module.exports = {
     // Handle module aliases
     // "^@/components/(.*)$": "<rootDir>/components/$1",
   },
-  setupFilesAfterEnv: ["./jest.setup.ts"],
+  setupFilesAfterEnv: ["./jest.setup.ts", "<rootDir>/jest-shim.ts"],
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],

@@ -5,7 +5,7 @@ import {
   setRecipients,
   toggleDeleteExistingRecipient,
   undoAddRecipient,
-} from "./tokenUpdator";
+} from "./reducer";
 import { AttestationTokenRecipient } from "./types";
 
 export const useGetSelectedTokens = () => {
