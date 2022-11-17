@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Web3Storage, getFilesFromPath } from "web3.storage";
+import { Web3Storage, getFilesFromPath, Filelike } from "web3.storage";
 import path from "path";
 import fs from "fs";
 import { PinDataRes } from "api/type";
@@ -21,7 +21,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
 
     const filePath = path.join(tmpDir, "metadata.json");
     fs.writeFileSync(filePath, req.body);
-    const files = await getFilesFromPath(filePath);
+    const files = (await getFilesFromPath(filePath)) as Iterable<Filelike>;
     const cid = await client.put(files, { wrapWithDirectory: false });
     await fs.unlinkSync(filePath);
     return res.status(status).json(cid);
