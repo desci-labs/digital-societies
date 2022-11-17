@@ -15,7 +15,6 @@ describe("Render homepage screen", () => {
     );
   });
   it("renders a heading", async () => {
-    // render(<Home />);
     const { render } = await getPage({ route: "/" });
     render();
   });
