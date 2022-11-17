@@ -1,4 +1,5 @@
 import "@testing-library/jest-dom/extend-expect";
+import "whatwg-fetch";
 
 /**
  * NOTE: We use this to mock window.watchMedia on jest
