@@ -37,6 +37,7 @@ export default function DesocList() {
           <MetadataCard
             key={idx}
             link={`orgs/${org.address}`}
+            banner={org.metadata.banner}
             metadata={org.metadata}
             verified={org.verified}
             bannerClass="h-40"

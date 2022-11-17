@@ -1,4 +1,5 @@
 import { VerifiedBadgeIcon } from "assets/svg";
+import { FileObject } from "components/FileDropzone/types";
 import {
   AttestationMetadataValues,
   Metadata,
@@ -14,6 +15,7 @@ export type MetaCardProps<M> = {
   containerClass?: string;
   bannerClass?: string;
   verified?: boolean;
+  banner: string | FileObject;
 };
 
 export function MetadataCard<
@@ -31,9 +33,9 @@ export function MetadataCard<
       }`}
     >
       <div className={`relative ${props.bannerClass || "h-32"}`}>
-        <ImageBanner src={getImageURL(props.metadata?.banner)} />
+        <ImageBanner src={getImageURL(props.banner)} />
         <RoundedLogo
-          src={getImageURL(props.metadata?.image || props.metadata?.banner)}
+          src={getImageURL(props.metadata?.image || props.banner)}
           className="w-12 h-12 left-3 -bottom-5"
         />
       </div>

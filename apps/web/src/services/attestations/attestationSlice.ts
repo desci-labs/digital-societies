@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { compareMetadata } from "helper";
+import { compareAttestationMetadata } from "helper";
 import {
   Attestation,
   AttestationMap,
@@ -38,7 +38,10 @@ const slice = createSlice({
 
           if (data.cid !== prev.cid) return true;
           // check diff in metadata
-          const canUpdate = compareMetadata(prev.metadata, data.metadata);
+          const canUpdate = compareAttestationMetadata(
+            prev.metadata,
+            data.metadata
+          );
           return canUpdate;
         });
 
@@ -77,7 +80,10 @@ const slice = createSlice({
       } else {
         const canUpdate =
           prev.cid !== payload.attestation.cid ||
-          compareMetadata(prev.metadata, payload.attestation.metadata);
+          compareAttestationMetadata(
+            prev.metadata,
+            payload.attestation.metadata
+          );
 
         if (canUpdate) {
           state.attestations[payload.address] = state.attestations[
@@ -117,7 +123,6 @@ const slice = createSlice({
       state,
       { payload }: PayloadAction<{ tokenIds: number[]; address: string }>
     ) => {
-      console.log("remove ", payload);
       state.tokens[payload.address] = state.tokens[payload.address].filter(
         (token) => {
           if (payload.tokenIds.includes(token.tokenId)) return true;

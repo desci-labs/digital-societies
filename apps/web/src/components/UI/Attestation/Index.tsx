@@ -41,6 +41,7 @@ export function AttestationList({
           {attestations.map((attestation, idx) => (
             <MetadataCard
               key={idx}
+              banner={org.metadata.banner}
               metadata={attestation.metadata}
               verified={org?.verified}
               link={`/attestations/${attestation.id}?address=${attestation.address}`}

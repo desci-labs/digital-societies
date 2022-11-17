@@ -19,9 +19,7 @@ async function pinFile(form: FormData): Promise<CIDString[]> {
   return result;
 }
 
-export async function pinMetadataToIpfs(
-  metadata: MetadataValues | AttestationMetadataValues
-) {
+export async function pinMetadataToIpfs(metadata: MetadataValues) {
   let imageHash: string = metadata.banner.ipfsURL,
     logoHash: string = metadata.image.ipfsURL;
 
@@ -49,6 +47,34 @@ export async function pinMetadataToIpfs(
   }
 
   const meta = { ...metadata, banner: imageHash, image: logoHash };
+  const metaRes = await fetch("/api/pinJsonToIpfs", {
+    method: "POST",
+    body: JSON.stringify(meta),
+  });
+  const CIDString = (await metaRes.json()) as CIDString;
+  const ipfsURL = resolveIpfsURL(CIDString); // getBytesFromCIDString(CIDString)
+  return { ipfsURL, CIDString };
+}
+
+export async function pinAttestationMetadata(
+  metadata: AttestationMetadataValues
+) {
+  let logoHash = metadata.image.ipfsURL;
+  if (metadata.image?.file && metadata.image?.file.size > 0) {
+    const formdata = new FormData();
+    formdata.append("logo", metadata.image.name);
+    formdata.append(metadata.image.name, metadata.image.file);
+
+    const res = await pinFile(formdata);
+    logoHash = resolveIpfsURL(res[0]);
+  }
+
+  // TODO: Validate to check valid CIDString
+  if (typeof logoHash !== "string") {
+    throw Error("Error pinning uploading files");
+  }
+
+  const meta = { ...metadata, image: logoHash };
   const metaRes = await fetch("/api/pinJsonToIpfs", {
     method: "POST",
     body: JSON.stringify(meta),

@@ -2,7 +2,7 @@
 import { useModalContext } from "components/Modal/Modal";
 import TransactionPrompt from "components/TransactionStatus/TransactionPrompt";
 import { BigNumber } from "ethers";
-import { pinMetadataToIpfs } from "helper/web3";
+import { pinAttestationMetadata } from "helper/web3";
 import { useTokenContract } from "hooks/useContract";
 import { useFormContext } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -41,7 +41,7 @@ export default function useAttestationForm(address: string, tokenType: number) {
       updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
 
       const { mode, ...meta } = metadata;
-      const { ipfsURL } = await pinMetadataToIpfs(meta);
+      const { ipfsURL } = await pinAttestationMetadata(meta);
 
       updateTx({ step: Step.submit, message: "Confirming transaction..." });
 
@@ -96,7 +96,7 @@ export default function useAttestationForm(address: string, tokenType: number) {
       showModal(TransactionPrompt, {});
 
       const { mode, ...meta } = metadata;
-      const { ipfsURL } = await pinMetadataToIpfs(meta);
+      const { ipfsURL } = await pinAttestationMetadata(meta);
       const update = {
         ...attestation,
         cid: ipfsURL,

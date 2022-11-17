@@ -1,5 +1,5 @@
 import { CID } from "multiformats/cid";
-import { base16 } from "multiformats/bases/base16";
+// import { base16 } from "multiformats/bases/base16";
 import { FileObject } from "components/FileDropzone/types";
 import { W3S_IPFS_GATEWAY } from "api/constants";
 import {
@@ -8,27 +8,27 @@ import {
   Metadata,
   MetadataValues,
 } from "components/Transactors/types";
-import fallbackImg from "assets/fallback.png";
+// import fallbackImg from "assets/fallback.png";
 
 export const resolveIpfsURL = (hash: string) =>
   `${W3S_IPFS_GATEWAY.trim()}${hash}`;
 
-export const getBytesFromCIDString = (input: string) => {
-  const cid = CID.parse(input);
-  const base16Str = base16.encode(cid.bytes);
-  const hexEncoded =
-    "0x" + (base16Str.length % 2 === 0 ? base16Str : "0" + base16Str);
-  return hexEncoded;
-};
+// export const getBytesFromCIDString = (input: string) => {
+//   const cid = CID.parse(input);
+//   const base16Str = base16.encode(cid.bytes);
+//   const hexEncoded =
+//     "0x" + (base16Str.length % 2 === 0 ? base16Str : "0" + base16Str);
+//   return hexEncoded;
+// };
 
-export const getCIDStringFromBytes = async (hex: string) => {
-  hex = hex.substring(2); // remove 0x
-  hex = hex.length % 2 === 0 ? hex.substring(1) : hex;
+// export const getCIDStringFromBytes = async (hex: string) => {
+//   hex = hex.substring(2); // remove 0x
+//   hex = hex.length % 2 === 0 ? hex.substring(1) : hex;
 
-  const bytes = base16.decode(hex);
-  const cid = CID.decode(bytes);
-  return cid.toString();
-};
+//   const bytes = base16.decode(hex);
+//   const cid = CID.decode(bytes);
+//   return cid.toString();
+// };
 
 export async function asyncMap<T, E>(
   arr: E[],
@@ -55,7 +55,7 @@ export function maskAddress(addr?: string) {
 }
 
 export const getImageURL = (image: string | FileObject) => {
-  if (!image) return fallbackImg;
+  if (!image) return "";
   if (typeof image === "string") {
     if (image.startsWith(W3S_IPFS_GATEWAY.trim())) return image;
     const cid = CID.parse(image);
@@ -101,13 +101,7 @@ const toBase64 = (file: File): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-export const compareMetadata = <
-  M extends
-    | Metadata
-    | MetadataValues
-    | AttestationMetadataValues
-    | AttestationMetadata
->(
+export const compareMetadata = <M extends Metadata | MetadataValues>(
   old: M,
   meta: M
 ): boolean => {
@@ -123,6 +117,29 @@ export const compareMetadata = <
 
   if (typeof old.image === "string" && old.image !== meta.image) return true;
   if (typeof old.banner === "string" && old.banner !== meta.banner) return true;
+
+  if (typeof old.image == "object" || typeof meta.image === "object")
+    return true;
+
+  return false;
+};
+
+export const compareAttestationMetadata = <
+  M extends AttestationMetadata | AttestationMetadataValues
+>(
+  old: M,
+  meta: M
+): boolean => {
+  if (
+    old.name !== meta.name ||
+    old.description !== meta.description ||
+    old.external_link !== meta.external_link
+  )
+    return true;
+
+  if (typeof old.image !== typeof meta.image) return true;
+
+  if (typeof old.image === "string" && old.image !== meta.image) return true;
 
   if (typeof old.image == "object" || typeof meta.image === "object")
     return true;

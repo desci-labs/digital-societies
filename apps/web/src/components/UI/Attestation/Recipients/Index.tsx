@@ -32,10 +32,7 @@ export default function TokenRecipients({
                 <Cell className="p-2 h-full">
                   <div className="w-10 h-10 relative bg-gradient rounded-full">
                     <Image
-                      src={getImageURL(
-                        attestation?.metadata?.image ??
-                          attestation?.metadata?.banner
-                      )}
+                      src={getImageURL(attestation?.metadata?.image)}
                       layout="fill"
                       objectFit="cover"
                       objectPosition="center"

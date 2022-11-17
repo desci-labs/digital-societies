@@ -33,10 +33,7 @@ export function RevokedTokens({
               <Cell className="flex justify-start p-2">
                 <div className="w-10 h-10 relative bg-gradient rounded-full">
                   <Image
-                    src={getImageURL(
-                      attestation?.metadata?.image ||
-                        attestation.metadata.banner
-                    )}
+                    src={getImageURL(attestation?.metadata?.image)}
                     layout="fill"
                     objectFit="cover"
                     objectPosition="center"
