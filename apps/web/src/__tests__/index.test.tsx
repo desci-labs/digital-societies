@@ -1,6 +1,5 @@
 import * as nextRouter from "next/router";
 import { NextRouter } from "next/router";
-import Home from "pages";
 import { getPage } from "next-page-tester";
 
 afterEach(() => {
