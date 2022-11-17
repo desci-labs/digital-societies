@@ -32,7 +32,10 @@ export default function CredentialDetails() {
   const showLauncher = useCredenter(org, "update");
 
   const metadata = useMemo(
-    () => credential?.metadata ?? org?.metadata,
+    () =>
+      credential?.metadata
+        ? { ...credential?.metadata, banner: org?.metadata.banner }
+        : org?.metadata,
     [credential, org]
   );
   const hasAccess = useIsAdminOrDelegate(org?.address ?? "");
@@ -46,6 +49,7 @@ export default function CredentialDetails() {
         address={credential.address}
         verified={org?.verified || false}
         metadata={credential.metadata}
+        banner={metadata.banner ?? ""}
         showUpdater={hasAccess}
         onUpdateClick={showLauncher}
       />

@@ -30,10 +30,6 @@ export default function CredentialLauncher({ org, Form, mode }: Props) {
       description: metadata.description,
       attestationType:
         credential?.metadata?.attestationType || attestationTypes[0],
-      banner:
-        typeof metadata.banner === "string"
-          ? { ipfsURL: metadata.banner }
-          : metadata.banner,
       image:
         typeof metadata.image === "string"
           ? { ipfsURL: metadata.image }

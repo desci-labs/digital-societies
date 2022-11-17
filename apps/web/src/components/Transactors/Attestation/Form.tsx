@@ -36,7 +36,6 @@ export default function AttestationForm() {
     parseInt(id as string)
   );
   const stage = useGetTxStage();
-  const banner = watch("banner");
   const logo = watch("image");
   const mode = watch("mode");
   const attestationType = watch("attestationType");
@@ -104,7 +103,7 @@ export default function AttestationForm() {
           {...register("external_link")}
         />
       </InputRow>
-      <InputRow htmlFor="banner" label="Banner">
+      {/* <InputRow htmlFor="banner" label="Banner">
         <ErrorMessage
           errors={errors}
           name="banner"
@@ -122,7 +121,7 @@ export default function AttestationForm() {
           disabled={isLoading}
           hasError={!!errors.banner}
         />
-      </InputRow>
+      </InputRow> */}
       <InputRow htmlFor="image" label="SBT badge image">
         <ErrorMessage
           errors={errors}

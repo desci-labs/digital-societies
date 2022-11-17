@@ -18,6 +18,7 @@ export default function DesocDetails(props: {
   return (
     <ContentGrid>
       <MetaDetails
+        banner={props.desoc.metadata.banner}
         metadata={props.desoc.metadata}
         address={props.desoc.address}
         verified={props.desoc.verified}

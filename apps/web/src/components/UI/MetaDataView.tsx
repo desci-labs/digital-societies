@@ -1,4 +1,5 @@
 import { VerifiedBadgeIcon } from "assets/svg";
+import { FileObject } from "components/FileDropzone/types";
 import Icon from "components/Icons/Icons";
 import {
   AttestationMetadata,
@@ -17,6 +18,7 @@ type MetaViewProps = {
   verified: boolean;
   showUpdater?: boolean;
   onUpdateClick?: () => void;
+  banner: string | FileObject;
   metadata:
     | Metadata
     | MetadataValues
@@ -34,7 +36,7 @@ export default function MetaDataView(props: MetaViewProps) {
           </div>
         </OverlayWrapper>
         <ImageBanner
-          src={getImageURL(props.metadata.banner)}
+          src={getImageURL(props.banner)}
           alt={props.metadata.name}
         />
         <RoundedLogo

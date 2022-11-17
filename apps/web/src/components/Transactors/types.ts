@@ -28,7 +28,7 @@ export type MetadataValues = Meta & {
 
 export type AttestationMetadataValues = Omit<
   MetadataValues,
-  "symbol" | "acronym"
+  "symbol" | "acronym" | "banner"
 > & { attestationType: AttestationType };
 export type AttestationMetadata = AttestationMetadataValues & WithUploadedFiles;
 export interface IssuerValues {
