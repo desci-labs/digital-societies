@@ -42,8 +42,8 @@ jobs:
           yarn build
       - uses: actions/upload-artifact@v2
         with:
-          name: build
-          path: build
+          name: .next
+          path: .next
           if-no-files-found: error
 
       - uses: actions/cache@v3
@@ -69,8 +69,8 @@ jobs:
 
       - uses: actions/download-artifact@v2
         with:
-          name: build
-          path: build
+          name: .next
+          path: .next
 
       - uses: actions/cache@v3
         id: cypress-cache
