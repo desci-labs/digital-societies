@@ -1,4 +1,3 @@
-import { render, screen, waitForLoadingToFinish } from "test/test-utils";
 import * as nextRouter from "next/router";
 import { NextRouter } from "next/router";
 import Home from "pages";
@@ -22,6 +21,6 @@ describe("Render homepage screen", () => {
 
     // expect(heading).toBeInTheDocument();
     // expect(true).toBe(true);
-    expect(true).equal(true);
+    // expect(true).equal(true);
   });
 });
