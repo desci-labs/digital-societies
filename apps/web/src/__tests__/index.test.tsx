@@ -19,13 +19,9 @@ describe("Render homepage screen", () => {
     // render(<Home />);
     const { render } = await getPage({ route: "/" });
     render();
-    console.log(screen.debug());
-    // waitForLoadingToFinish();
-    // const heading = screen.getByRole("heading", {
-    //   name: /welcome to next\.js!/i,
-    // });
 
     // expect(heading).toBeInTheDocument();
-    expect(true).toBe(true);
+    // expect(true).toBe(true);
+    expect(true).equal(true);
   });
 });

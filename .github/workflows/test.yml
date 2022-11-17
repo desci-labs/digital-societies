@@ -36,7 +36,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
-      - run: yarn prepare
 
       - run: |
           cd apps/web
@@ -55,7 +54,7 @@ jobs:
       - if: steps.cypress-cache.outputs.cache-hit != 'true'
         run: |
           cd apps/web
-          yarn cypress install
+          yarn cy:install
 
   cypress-test-matrix:
     needs: cypress-build
@@ -81,7 +80,7 @@ jobs:
       - if: steps.cypress-cache.outputs.cache-hit != 'true'
         run: |
           cd apps/web
-          yarn cypress install
+          yarn cy:install
 
       - uses: cypress-io/github-action@v4
         with:
