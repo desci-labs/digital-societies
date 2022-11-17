@@ -18,9 +18,5 @@ describe("Render homepage screen", () => {
     // render(<Home />);
     const { render } = await getPage({ route: "/" });
     render();
-
-    // expect(heading).toBeInTheDocument();
-    // expect(true).toBe(true);
-    // expect(true).equal(true);
   });
 });
