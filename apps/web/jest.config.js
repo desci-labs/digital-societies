@@ -10,6 +10,7 @@ module.exports = {
     "components/**/*.tsx",
     "pages/**/*.tsx",
     "hooks/**/*.ts",
+    "service/**/*.ts",
     // Ignore untestable files
     "!**/node_modules/**",
     "!<rootDir>/out/**",
@@ -37,7 +38,11 @@ module.exports = {
   setupFilesAfterEnv: ["./jest.setup.ts", "<rootDir>/jest-shim.ts"],
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],
+  testPathIgnorePatterns: [
+    "<rootDir>/node_modules/",
+    "<rootDir>/.next/",
+    "<rootDir>/cypress/",
+  ],
   testEnvironment: "jest-environment-jsdom",
   transform: {
     // Use babel-jest to transpile tests with the next/babel preset
