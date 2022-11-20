@@ -24,7 +24,9 @@ jobs:
           cache: "yarn"
 
       - name: Install dependencies
-        run: yarn install
+        run: |
+          cd apps/web
+          yarn install
 
       - name: Integration Test
         run: |
@@ -37,9 +39,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
 
-      - run: |
-          cd apps/web
-          yarn build
+      - run: yarn build
       - uses: actions/upload-artifact@v2
         with:
           name: build
