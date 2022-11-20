@@ -28,9 +28,6 @@ module.exports = {
     // Handle image imports
     // https://jestjs.io/docs/webpack#handling-static-assets
     "^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg)$/i": `<rootDir>/__mocks__/fileMock.js`,
-
-    // Handle module aliases
-    // "^@/components/(.*)$": "<rootDir>/components/$1",
   },
   setupFilesAfterEnv: ["./jest.setup.ts", "<rootDir>/jest-shim.ts"],
   // Add more setup options before each test is run

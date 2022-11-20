@@ -32,74 +32,36 @@ jobs:
         run: |
           cd apps/web
           yarn test
-    
-  cypress-build:
+  cypress-test:
+    name: "E2E Test"
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup
 
-      - run: |
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: |
+          cd apps/web
           yarn install
-          yarn build
-      - uses: actions/upload-artifact@v2
-        with:
-          name: build
-          path: apps/web/.next
-          if-no-files-found: error
 
-      - uses: actions/cache@v3
-        id: cypress-cache
-        with:
-          path: /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-cypress-${{ hashFiles('node_modules/cypress') }}
-      - if: steps.cypress-cache.outputs.cache-hit != 'true'
+      - name: Cypress Test
         run: |
           cd apps/web
-          yarn cy:install
-
-  cypress-test-matrix:
-    needs: cypress-build
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        containers: [1, 2]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup
-
-      - uses: actions/download-artifact@v2
-        with:
-          name: build
-          path: apps/web/.next
-
-      - uses: actions/cache@v3
-        id: cypress-cache
-        with:
-          path: /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-cypress-${{ hashFiles('node_modules/cypress') }}
-      - if: steps.cypress-cache.outputs.cache-hit != 'true'
-        run: |
-          cd apps/web
-          yarn cy:install
-
-      - uses: cypress-io/github-action@v4
-        with:
-          path: apps/web
-          install: true
-          start: yarn dev
-          wait-on: 'http://localhost:3000'
-          browser: chrome
-          record: true
-          parallel: true
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          cypress run --browser chrome --e2e --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
+    env:
+      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # Included as a single job to check against for cypress test success, as cypress runs in a matrix.
   cypress-tests:
-    needs: cypress-test-matrix
+    needs: cypress-test
     runs-on: ubuntu-latest
     steps:
       - run: echo 'Finished cypress tests https\://dashboard.cypress.io/projects/1kt3ev'
