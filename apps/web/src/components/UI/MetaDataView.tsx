@@ -39,10 +39,12 @@ export default function MetaDataView(props: MetaViewProps) {
           src={getImageURL(props.banner)}
           alt={props.metadata.name}
         />
-        <RoundedLogo
-          src={getImageURL(props.metadata.image)}
-          alt={props.metadata.name}
-        />
+        <div className="container mx-auto relative">
+          <RoundedLogo
+            src={getImageURL(props.metadata.image)}
+            alt={props.metadata.name}
+          />
+        </div>
       </div>
       <div className="container mx-auto mt-12 px-2 lg:px-0">
         <div className="flex gap-2 items-center mb-2">
