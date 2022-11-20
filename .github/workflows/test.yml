@@ -1,0 +1,68 @@
+name: Test
+
+on:
+  push:
+   paths:
+        - "apps/web/**"
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  test:
+    name: "Test codebase"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: |
+          cd apps/web
+          yarn install
+
+      - name: Integration Test
+        run: |
+          cd apps/web
+          yarn test
+  cypress-test:
+    name: "E2E Test"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: |
+          cd apps/web
+          yarn install
+
+      - name: Cypress Test
+        run: |
+          cd apps/web
+          yarn install
+          yarn test:e2e:run
+    env:
+      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Included as a single job to check against for cypress test success, as cypress runs in a matrix.
+  cypress-tests:
+    needs: cypress
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Finished cypress tests https\://dashboard.cypress.io/projects/1kt3ev'

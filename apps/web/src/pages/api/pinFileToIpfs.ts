@@ -41,7 +41,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<PinDataRes>) {
       for (const filepath of fileList) {
         const files = (await getFilesFromPath(filepath)) as Iterable<Filelike>;
         const cid = await client.put(files, { wrapWithDirectory: false });
-        console.log("cid", cid);
         fs.unlink(filepath, () => {});
         uploads.push(cid);
       }
