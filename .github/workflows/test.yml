@@ -54,7 +54,8 @@ jobs:
       - name: Cypress Test
         run: |
           cd apps/web
-          cypress run --browser chrome --e2e --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
+          yarn install
+          yarn test:e2e:run
     env:
       CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
