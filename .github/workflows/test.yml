@@ -64,7 +64,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        containers: [1]
+        containers: [1, 2]
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
@@ -86,6 +86,7 @@ jobs:
 
       - uses: cypress-io/github-action@v4
         with:
+          run: cd apps/web
           install: true
           start: yarn dev
           wait-on: 'http://localhost:3000'
