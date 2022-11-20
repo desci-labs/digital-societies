@@ -86,7 +86,7 @@ jobs:
 
       - uses: cypress-io/github-action@v4
         with:
-          run: cd apps/web
+          path: apps/web
           install: true
           start: yarn dev
           wait-on: 'http://localhost:3000'

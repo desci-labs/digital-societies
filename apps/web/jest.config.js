@@ -23,7 +23,6 @@ module.exports = {
     "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
 
     // Handle CSS imports (without CSS modules)
-    // "^.+\\.(css|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
     "^.+\\.(css|sass|scss)$": "identity-obj-proxy",
 
     // Handle image imports
