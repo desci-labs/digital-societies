@@ -31,9 +31,6 @@ export default function Header() {
         <NavLink href="/" className="hidden sm:block">
           Explore
         </NavLink>
-        <ExternalLink href="https://sbt.desci.com/" className="hidden sm:block">
-          Forum
-        </ExternalLink>
         {showDashboard && (
           <NavLink
             href={`/dashboard/${org?.address}`}
@@ -42,6 +39,9 @@ export default function Header() {
             Dashboard
           </NavLink>
         )}
+        <ExternalLink href="https://sbt.desci.com/" className="hidden sm:block">
+          Forum
+        </ExternalLink>
       </div>
       <div className="flex gap-2 items-center">
         {!hide && !showDashboard && (
