@@ -12,14 +12,17 @@ export default function useFilteredOrg() {
   const filteredList = useMemo(() => {
     const sanitizedText =
       sanitizeRegexSearchText(debouncedSearchText).toLowerCase();
-    return orgList.filter(
-      (org) =>
-        org.address.toLowerCase().search(sanitizedText) !== -1 ||
-        org.admin.toLowerCase().search(sanitizedText) !== -1 ||
-        org.metadata.name.toLocaleLowerCase().search(sanitizedText) !== -1 ||
-        org.metadata?.description.toLocaleLowerCase().search(sanitizedText) !==
-          -1
-    );
+    return orgList
+      .filter(
+        (org) =>
+          org.address.toLowerCase().search(sanitizedText) !== -1 ||
+          org.admin.toLowerCase().search(sanitizedText) !== -1 ||
+          org.metadata.name.toLocaleLowerCase().search(sanitizedText) !== -1 ||
+          org.metadata?.description
+            .toLocaleLowerCase()
+            .search(sanitizedText) !== -1
+      )
+      .sort((orgA, orgB) => Number(orgB.verified) - Number(orgA.verified));
   }, [debouncedSearchText, orgList]);
 
   function handleSearchTextChange(text: string) {
