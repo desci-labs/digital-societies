@@ -1,4 +1,4 @@
-import "@rainbow-me/rainbowkit/styles.css";
+// import "@rainbow-me/rainbowkit/styles.css";
 import { WagmiConfig } from "wagmi";
 import {
   RainbowKitProvider,
@@ -14,7 +14,7 @@ import FactoryUpdater from "services/orgs/updater";
 import TokenUpdater from "services/attestations/TokenUpdater";
 import AttestationUpdater from "services/attestations/updater";
 import AppMenuProvider from "components/layout/Header/useAppMenu";
-import { ThemeProvider, useTheme } from "next-themes";
+import { useTheme } from "next-themes";
 import FormViewProvider from "context/useFormView";
 import { Provider } from "react-redux";
 import { store, persistor } from "store/store";
@@ -45,30 +45,29 @@ function AppProviders({ children }: PropsWithChildren<unknown>) {
       : lightTheme({
           accentColor: "#28AAC4",
           accentColorForeground: "#ffffff",
+          overlayBlur: "large",
         });
 
   return (
     <ErrorBoundary FallbackComponent={AppFallback}>
-      <ThemeProvider attribute="class">
-        <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            <TransactionProvider>
-              <WagmiConfig client={client}>
-                <RainbowKitProvider theme={getTheme()} chains={chains}>
-                  <BlockNumberProvider>
-                    <Updaters />
-                    <FormViewProvider>
-                      <ModalProvider classes="p-3 bg-black bg-opacity-50 backdrop-blur-xl fixed top-0 right-0 bottom-0 left-0 z-50 grid place-items-center">
-                        <AppMenuProvider>{children}</AppMenuProvider>
-                      </ModalProvider>
-                    </FormViewProvider>
-                  </BlockNumberProvider>
-                </RainbowKitProvider>
-              </WagmiConfig>
-            </TransactionProvider>
-          </PersistGate>
-        </Provider>
-      </ThemeProvider>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <TransactionProvider>
+            <WagmiConfig client={client}>
+              <RainbowKitProvider theme={getTheme()} chains={chains}>
+                <BlockNumberProvider>
+                  <Updaters />
+                  <FormViewProvider>
+                    <ModalProvider classes="p-3 bg-black bg-opacity-50 backdrop-blur-xl fixed top-0 right-0 bottom-0 left-0 z-50 grid place-items-center">
+                      <AppMenuProvider>{children}</AppMenuProvider>
+                    </ModalProvider>
+                  </FormViewProvider>
+                </BlockNumberProvider>
+              </RainbowKitProvider>
+            </WagmiConfig>
+          </TransactionProvider>
+        </PersistGate>
+      </Provider>
     </ErrorBoundary>
   );
 }

@@ -78,7 +78,6 @@ function MenuTrigger() {
 
 function ThemeTogger() {
   const { resolvedTheme, setTheme } = useTheme();
-
   return (
     <div className="flex items-center rounded-lg">
       <Button
