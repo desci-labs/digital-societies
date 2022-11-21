@@ -6,14 +6,14 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-describe("Render homepage screen", () => {
+describe("Render App", () => {
   beforeEach(() => {
     const useRouter = jest.spyOn(nextRouter, "useRouter");
     useRouter.mockImplementation(
       () => ({ route: "/", pathname: "/" } as NextRouter)
     );
   });
-  it("renders a heading", async () => {
+  it("Render explore page", async () => {
     const { render } = await getPage({ route: "/" });
     render();
   });

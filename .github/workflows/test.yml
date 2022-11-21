@@ -32,7 +32,7 @@ jobs:
         run: |
           cd apps/web
           yarn test
-  cypress-test:
+  cypress:
     name: "E2E Test"
     runs-on: ubuntu-latest
 
