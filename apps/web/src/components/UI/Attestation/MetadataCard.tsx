@@ -1,6 +1,7 @@
 import { VerifiedBadgeIcon } from "assets/svg";
 import { FileObject } from "components/FileDropzone/types";
 import {
+  AttestationMetadata,
   AttestationMetadataValues,
   Metadata,
   MetadataValues,
@@ -19,7 +20,11 @@ export type MetaCardProps<M> = {
 };
 
 export function MetadataCard<
-  M extends AttestationMetadataValues | Metadata | MetadataValues
+  M extends
+    | AttestationMetadataValues
+    | AttestationMetadata
+    | Metadata
+    | MetadataValues
 >(props: MetaCardProps<M>) {
   const router = useRouter();
 
