@@ -1,4 +1,5 @@
 ## Desoc Contracts
+[![main](https://github.com/desci-labs/soulbound/actions/workflows/contracts.yml/badge.svg)](https://github.com/desci-labs/soulbound/actions/workflows/contracts.yml)
 This repository contains the core smart contracts for the DeSoc OSS collective.
 
 ### setup
