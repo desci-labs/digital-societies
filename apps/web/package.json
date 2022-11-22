@@ -11,7 +11,7 @@
     "lint:fix": "eslint --fix",
     "type-check": "tsc --pretty --noEmit",
     "cy:install": "cypress install",
-    "cy:run": "cypress run --browser chrome --e2e --record --key $CYPRESS_RECORD_KEY",
+    "cy:run": "cypress run --browser chrome --e2e",
     "cy:open": "cypress open --browser chrome --e2e",
     "start:cli": "cross-env BROWSER=none next dev",
     "test:e2e": "start-server-and-test start:cli http://localhost:3000 cy:open",

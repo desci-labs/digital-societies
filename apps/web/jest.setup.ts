@@ -11,6 +11,7 @@ import "mock-match-media/jest-setup";
  * Mock rainbowkit
  * see here: https://github.com/rainbow-me/rainbowkit/issues/461#issuecomment-1190043830
  */
+jest.setTimeout(10000);
 jest.mock("@rainbow-me/rainbowkit", () => ({
   ConnectButton: {
     Custom: jest.fn(),

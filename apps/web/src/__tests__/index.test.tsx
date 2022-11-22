@@ -5,16 +5,26 @@ import { getPage } from "next-page-tester";
 afterEach(() => {
   jest.restoreAllMocks();
 });
-
 describe("Render App", () => {
   beforeEach(() => {
     const useRouter = jest.spyOn(nextRouter, "useRouter");
     useRouter.mockImplementation(
-      () => ({ route: "/", pathname: "/" } as NextRouter)
+      () =>
+        ({
+          route: "/",
+          pathname: "/s",
+        } as NextRouter)
     );
   });
-  it("Render explore page", async () => {
-    const { render } = await getPage({ route: "/" });
+
+  it("Default page test", async () => {
+    const { render } = await getPage({
+      route: "/",
+      useApp: false,
+      dotenvFile: `${process.cwd()}/.env.local`,
+      nextRoot: `${process.cwd()}`,
+      wrappers: `${process.cwd()}/src/test/page-wrapper.tsx`,
+    });
     render();
   });
 });

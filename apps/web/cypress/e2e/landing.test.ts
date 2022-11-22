@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { errors } from "../support/e2e";
 
 describe("Landing Page", () => {
@@ -5,17 +6,11 @@ describe("Landing Page", () => {
 
   it("loads explore page", () => {
     cy.findByRole("navigation").within(() => {
-      cy.findByRole("link", { name: /explore/i }).click();
+      cy.findByRole("link", { name: /explore/i }).should("exist");
+    });
+    cy.findByRole("navigation").within(() => {
+      cy.findByRole("link", { name: /forum/i }).should("exist");
     });
     cy.screenshot();
   });
-
-  // it("redirects to url /swap", () => {
-  //   cy.url().should("include", "/swap");
-  // });
-
-  // it("allows navigation to pool", () => {
-  //   cy.get("#pool-nav-link").click();
-  //   cy.url().should("include", "/pool");
-  // });
 });
