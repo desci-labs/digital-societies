@@ -11,10 +11,7 @@ import { CustomDataError } from "services/api/types";
 import { setOrg } from "services/orgs/reducer";
 import { PendingOrg } from "services/orgs/types";
 import { useGetTxState } from "services/transaction/hooks";
-import {
-  setFormError,
-  setFormLoading,
-} from "services/transaction/transactionSlice";
+import { setFormError, setFormLoading } from "services/transaction/reducer";
 import { Step } from "services/transaction/types";
 import useTxUpdator from "services/transaction/updators";
 import { useAccount } from "wagmi";

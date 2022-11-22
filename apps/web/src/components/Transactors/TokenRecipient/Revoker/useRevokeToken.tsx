@@ -12,7 +12,7 @@ import { updateTokens } from "services/attestations/reducer";
 import { useGetAttestationTokens } from "services/attestations/hooks";
 import { AttestationToken } from "services/attestations/types";
 import { useGetTxState } from "services/transaction/hooks";
-import { setFormLoading } from "services/transaction/transactionSlice";
+import { setFormLoading } from "services/transaction/reducer";
 import { Step } from "services/transaction/types";
 import useTxUpdator from "services/transaction/updators";
 import { useAccount } from "wagmi";

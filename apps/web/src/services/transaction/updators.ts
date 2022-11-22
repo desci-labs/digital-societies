@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { setStage } from "./transactionSlice";
+import { setStage } from "./reducer";
 import { StageUpdator } from "./types";
 
 export default function useTxUpdator() {

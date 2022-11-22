@@ -10,10 +10,7 @@ import { setAttestation } from "services/attestations/reducer";
 import { useGetAttestation } from "services/attestations/hooks";
 import { PendingAttestation } from "services/attestations/types";
 import { useGetTxState } from "services/transaction/hooks";
-import {
-  setFormError,
-  setFormLoading,
-} from "services/transaction/transactionSlice";
+import { setFormError, setFormLoading } from "services/transaction/reducer";
 import { Step } from "services/transaction/types";
 import useTxUpdator from "services/transaction/updators";
 import { useAccount } from "wagmi";

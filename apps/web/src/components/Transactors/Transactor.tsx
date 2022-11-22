@@ -2,7 +2,7 @@ import Icon from "components/Icons/Icons";
 import { useModalContext } from "components/Modal/Modal";
 import { useDispatch } from "react-redux";
 import { useGetTxStage } from "services/transaction/hooks";
-import { setStage } from "services/transaction/transactionSlice";
+import { setStage } from "services/transaction/reducer";
 import { Step } from "services/transaction/types";
 import { TxProps } from "./types";
 

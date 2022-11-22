@@ -1,9 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useIsAdminOrDelegate } from "services/orgs/hooks";
-import {
-  setFormError,
-  setFormLoading,
-} from "services/transaction/transactionSlice";
+import { setFormError, setFormLoading } from "services/transaction/reducer";
 import { AssociatedDataInsert, AssociatedDataUpdate } from "services/api/types";
 import {
   defaultErrorMsg,

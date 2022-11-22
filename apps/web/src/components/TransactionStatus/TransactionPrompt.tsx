@@ -3,7 +3,7 @@ import { useModalContext } from "components/Modal/Modal";
 import { useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { useGetTxStage } from "services/transaction/hooks";
-import { resetTxFormState } from "services/transaction/transactionSlice";
+import { resetTxFormState } from "services/transaction/reducer";
 import { Step } from "services/transaction/types";
 import ErrorPop from "./Error";
 import Processing from "./Processing";

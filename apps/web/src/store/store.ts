@@ -9,7 +9,7 @@ import storage from "redux-persist/lib/storage";
 import attestationSlice from "services/attestations/reducer";
 import orgSlice from "services/orgs/reducer";
 import thunk from "redux-thunk";
-import transactionSlice from "services/transaction/transactionSlice";
+import transactionSlice from "services/transaction/reducer";
 import { adminReducers } from "services/admin/root";
 import { api } from "services/api";
 

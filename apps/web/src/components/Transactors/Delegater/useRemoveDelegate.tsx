@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { CustomDataError } from "services/api/types";
 import { addDelegate, removeDelegate } from "services/orgs/reducer";
 import { useGetTxState } from "services/transaction/hooks";
-import { setFormLoading } from "services/transaction/transactionSlice";
+import { setFormLoading } from "services/transaction/reducer";
 import { Step } from "services/transaction/types";
 import useTxUpdator from "services/transaction/updators";
 

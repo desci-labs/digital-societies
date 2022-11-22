@@ -2,7 +2,7 @@ import Icon from "components/Icons/Icons";
 import { useModalContext } from "components/Modal/Modal";
 import Button from "components/UI/Button/Index";
 import { useDispatch } from "react-redux";
-import { setStage } from "services/transaction/transactionSlice";
+import { setStage } from "services/transaction/reducer";
 import { Step } from "services/transaction/types";
 
 export default function ErrorPop({ message }: { message: string }) {
