@@ -8,7 +8,7 @@ import useCredenter from "components/Transactors/Attestation/useCredenter";
 import { RevokedTokens } from "components/UI/Attestation/RevokedTokens";
 import MetaDataView from "components/UI/MetaDataView";
 import { RevokerForm } from "components/Transactors/TokenRecipient/Revoker/RevokerForm";
-import Issuer from "components/Transactors/TokenRecipient";
+import AuthenticatedTokenRecipient from "components/Transactors/TokenRecipient";
 import TokenRecipients from "components/UI/Attestation/Recipients/Index";
 
 export default function CredentialDetails() {
@@ -56,7 +56,10 @@ export default function CredentialDetails() {
       {!hasAccess && <TokenRecipients attestation={credential} />}
       {hasAccess && (
         <>
-          <Issuer Form={RevokerForm} attestation={credential} />
+          <AuthenticatedTokenRecipient
+            Form={RevokerForm}
+            attestation={credential}
+          />
           <RevokedTokens attestation={credential} />
         </>
       )}

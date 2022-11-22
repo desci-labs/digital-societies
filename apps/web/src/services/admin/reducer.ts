@@ -17,7 +17,7 @@ const slice = createSlice({
     ) => {
       const recipient = state.find((r) => r.address === payload);
       if (!recipient) return;
-      recipient.is_deleted = recipient.is_deleted;
+      recipient.is_deleted = !recipient.is_deleted;
     },
     addRecipient: (
       state,
