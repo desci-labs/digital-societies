@@ -6,7 +6,7 @@ import useBlockNumber from "hooks/useBlockNumber";
 import { useFactoryContract, useTokenContract } from "hooks/useContract";
 import { DEFAULT_ADMIN_ROLE, DELEGATE_ROLE } from "constants/roles";
 import { useDispatch } from "react-redux";
-import { setIsLoading, setOrgs } from "./orgSlice";
+import { setIsLoading, setOrgs } from "./reducer";
 import { Org } from "./types";
 import { Metadata } from "components/Transactors/types";
 import { useGetOrgs } from "./hooks";

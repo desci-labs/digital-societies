@@ -8,7 +8,7 @@ import useBlockNumber from "hooks/useBlockNumber";
 import { useTokenContract } from "hooks/useContract";
 import { useGetOrgs } from "services/orgs/hooks";
 import { AttestationMap, Attestation } from "./types";
-import { setAttestations, setIsLoading } from "./attestationSlice";
+import { setAttestations, setIsLoading } from "./reducer";
 import { AttestationMetadata } from "components/Transactors/types";
 import { FACTORY_DEPLOY_BLOCK } from "constants/web3";
 import { Desoc } from "constants/types";

@@ -3,7 +3,7 @@ import TransactionPrompt from "components/TransactionStatus/TransactionPrompt";
 import { DELEGATE_ROLE } from "constants/roles";
 import { useTokenContract } from "hooks/useContract";
 import { useDispatch } from "react-redux";
-import { addDelegate, removeDelegate } from "services/orgs/orgSlice";
+import { addDelegate, removeDelegate } from "services/orgs/reducer";
 import { useGetOrg } from "services/orgs/hooks";
 import { useGetTxState } from "services/transaction/hooks";
 import {

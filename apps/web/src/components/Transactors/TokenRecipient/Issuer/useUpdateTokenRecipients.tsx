@@ -8,10 +8,7 @@ import {
   useResetTokenRecipients,
 } from "services/admin/hooks";
 import { CustomDataError } from "services/api/types";
-import {
-  removeTokens,
-  setTokens,
-} from "services/attestations/attestationSlice";
+import { removeTokens, setTokens } from "services/attestations/reducer";
 import {
   AttestationToken,
   AttestationToTokenMap,

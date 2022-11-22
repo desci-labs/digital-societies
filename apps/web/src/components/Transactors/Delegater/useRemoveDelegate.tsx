@@ -5,7 +5,7 @@ import { maskAddress } from "helper";
 import { useTokenContract } from "hooks/useContract";
 import { useDispatch } from "react-redux";
 import { CustomDataError } from "services/api/types";
-import { addDelegate, removeDelegate } from "services/orgs/orgSlice";
+import { addDelegate, removeDelegate } from "services/orgs/reducer";
 import { useGetTxState } from "services/transaction/hooks";
 import { setFormLoading } from "services/transaction/transactionSlice";
 import { Step } from "services/transaction/types";

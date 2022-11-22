@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { CustomDataError } from "services/api/types";
-import { setOrg } from "services/orgs/orgSlice";
+import { setOrg } from "services/orgs/reducer";
 import { PendingOrg } from "services/orgs/types";
 import { useGetTxState } from "services/transaction/hooks";
 import {

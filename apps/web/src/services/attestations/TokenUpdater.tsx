@@ -12,7 +12,7 @@ import {
   AttestationToTokenMap,
   RevokedAttestationToken,
 } from "./types";
-import { setTokens } from "./attestationSlice";
+import { setTokens } from "./reducer";
 import { FACTORY_DEPLOY_BLOCK } from "constants/web3";
 import { Desoc } from "constants/types";
 

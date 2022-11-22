@@ -6,7 +6,7 @@ import { useTokenContract } from "hooks/useContract";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useGetOrg } from "services/orgs/hooks";
-import { setOrg } from "services/orgs/orgSlice";
+import { setOrg } from "services/orgs/reducer";
 import { PendingOrg } from "services/orgs/types";
 import { useGetTxState } from "services/transaction/hooks";
 import {

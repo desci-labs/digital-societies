@@ -8,7 +8,7 @@ import {
   useGetSelectedTokens,
   useResetTokenRecipients,
 } from "services/admin/hooks";
-import { updateTokens } from "services/attestations/attestationSlice";
+import { updateTokens } from "services/attestations/reducer";
 import { useGetAttestationTokens } from "services/attestations/hooks";
 import { AttestationToken } from "services/attestations/types";
 import { useGetTxState } from "services/transaction/hooks";

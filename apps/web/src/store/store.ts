@@ -6,8 +6,8 @@ import {
   PersistedState,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import attestationSlice from "services/attestations/attestationSlice";
-import orgSlice from "services/orgs/orgSlice";
+import attestationSlice from "services/attestations/reducer";
+import orgSlice from "services/orgs/reducer";
 import thunk from "redux-thunk";
 import transactionSlice from "services/transaction/transactionSlice";
 import { adminReducers } from "services/admin/root";

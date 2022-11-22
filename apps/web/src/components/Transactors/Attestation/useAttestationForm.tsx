@@ -6,7 +6,7 @@ import { pinAttestationMetadata } from "helper/web3";
 import { useTokenContract } from "hooks/useContract";
 import { useFormContext } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { setAttestation } from "services/attestations/attestationSlice";
+import { setAttestation } from "services/attestations/reducer";
 import { useGetAttestation } from "services/attestations/hooks";
 import { PendingAttestation } from "services/attestations/types";
 import { useGetTxState } from "services/transaction/hooks";
