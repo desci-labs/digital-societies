@@ -55,7 +55,7 @@ jobs:
         run: |
           cd apps/web
           yarn install
-          yarn test:e2e:run
+          yarn test:e2e:run:ci
     env:
       CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
