@@ -1,5 +1,8 @@
 import { attestationTypes } from "components/Transactors/constants";
-import { AttestationMetadataValues } from "components/Transactors/types";
+import {
+  AttestationMetadata,
+  AttestationMetadataValues,
+} from "components/Transactors/types";
 
 export type AttestationToken = {
   org: string;
@@ -9,6 +12,8 @@ export type AttestationToken = {
   issuer: string;
   owner: string;
   active: true;
+  dateRevoked?: never;
+  revokedBy?: never;
 };
 
 export type RevokedAttestationToken = {
@@ -20,6 +25,7 @@ export type RevokedAttestationToken = {
   owner: string;
   active: false;
   revokedBy: string;
+  dateIssued?: never;
 };
 
 export type AttestationTokens = AttestationToken | RevokedAttestationToken;
@@ -38,7 +44,7 @@ type AttestationMeta = {
 
 export type Attestation = AttestationMeta & {
   pending?: never;
-  metadata: AttestationMetadataValues;
+  metadata: AttestationMetadata;
 };
 export type PendingAttestation = AttestationMeta & {
   pending: boolean;

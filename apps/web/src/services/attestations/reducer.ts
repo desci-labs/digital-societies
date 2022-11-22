@@ -125,8 +125,8 @@ const slice = createSlice({
     ) => {
       state.tokens[payload.address] = state.tokens[payload.address].filter(
         (token) => {
-          if (payload.tokenIds.includes(token.tokenId)) return true;
-          return false;
+          if (payload.tokenIds.includes(token.tokenId)) return false;
+          return true;
         }
       );
     },

@@ -30,7 +30,10 @@ export type AttestationMetadataValues = Omit<
   MetadataValues,
   "symbol" | "acronym" | "banner"
 > & { attestationType: AttestationType };
-export type AttestationMetadata = AttestationMetadataValues & WithUploadedFiles;
+
+export type AttestationMetadata = Omit<Meta, "symbol" | "acronym"> & {
+  attestationType: AttestationType;
+} & { image: string };
 export interface IssuerValues {
   org: string;
   address: string;

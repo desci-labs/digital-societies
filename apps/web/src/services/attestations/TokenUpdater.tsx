@@ -38,7 +38,11 @@ export default function TokenUpdater() {
       const block = await provider.getBlock(evt.blockNumber);
 
       return {
-        ...token,
+        org: token.org,
+        tokenId: token.tokenId,
+        attestation: token.attestation,
+        issuer: token.issuer,
+        owner: token.owner,
         active: false,
         revokedBy: evt.args.owner ?? evt.args?.[1],
         dateRevoked: block.timestamp * 1000,

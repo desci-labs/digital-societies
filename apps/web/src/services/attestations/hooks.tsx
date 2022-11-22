@@ -8,7 +8,6 @@ export function useGetAttestationState() {
 
 export function useGetAttestations(address: string) {
   const { attestations } = useGetter((state) => state.attestations);
-  console.log(JSON.stringify(attestations));
   return attestations[address]?.filter((c) => c.metadata !== null) ?? [];
 }
 

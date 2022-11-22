@@ -56,7 +56,10 @@ export default function useRevokeToken() {
         updateTokens({
           address: orgContractAddress,
           tokens: tokensToUpdate.map((token) => ({
-            ...token,
+            org: token.org,
+            tokenId: token.tokenId,
+            attestation: token.attestation,
+            issuer: token.issuer,
             active: false,
             revokedBy: account,
             owner: token.owner,
