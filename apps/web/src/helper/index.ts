@@ -1,5 +1,4 @@
 import { CID } from "multiformats/cid";
-// import { base16 } from "multiformats/bases/base16";
 import { FileObject } from "components/FileDropzone/types";
 import { W3S_IPFS_GATEWAY } from "api/constants";
 import {
@@ -8,27 +7,9 @@ import {
   Metadata,
   MetadataValues,
 } from "components/Transactors/types";
-// import fallbackImg from "assets/fallback.png";
 
 export const resolveIpfsURL = (hash: string) =>
   `${W3S_IPFS_GATEWAY.trim()}${hash}`;
-
-// export const getBytesFromCIDString = (input: string) => {
-//   const cid = CID.parse(input);
-//   const base16Str = base16.encode(cid.bytes);
-//   const hexEncoded =
-//     "0x" + (base16Str.length % 2 === 0 ? base16Str : "0" + base16Str);
-//   return hexEncoded;
-// };
-
-// export const getCIDStringFromBytes = async (hex: string) => {
-//   hex = hex.substring(2); // remove 0x
-//   hex = hex.length % 2 === 0 ? hex.substring(1) : hex;
-
-//   const bytes = base16.decode(hex);
-//   const cid = CID.decode(bytes);
-//   return cid.toString();
-// };
 
 export async function asyncMap<T, E>(
   arr: E[],
@@ -70,37 +51,6 @@ export const getImageURL = (image: string | FileObject) => {
     : "";
   return url;
 };
-
-// TODO: clean up unused imports and functions
-export const flattenMetadata = async (
-  metadata: MetadataValues
-): Promise<MetadataValues> => {
-  const meta = { ...metadata };
-
-  try {
-    if (metadata.banner.file) {
-      const image = await toBase64(metadata.banner.file);
-      meta.banner.base64 = image;
-    }
-
-    if (metadata.image.file) {
-      const logo = await toBase64(metadata.banner.file);
-      meta.image.base64 = logo;
-    }
-
-    return meta;
-  } catch (e) {
-    return metadata;
-  }
-};
-
-const toBase64 = (file: File): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
 
 export const compareMetadata = <M extends Metadata | MetadataValues>(
   old: M,
