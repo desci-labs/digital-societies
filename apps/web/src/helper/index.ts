@@ -71,6 +71,7 @@ export const getImageURL = (image: string | FileObject) => {
   return url;
 };
 
+// TODO: clean up unused imports and functions
 export const flattenMetadata = async (
   metadata: MetadataValues
 ): Promise<MetadataValues> => {

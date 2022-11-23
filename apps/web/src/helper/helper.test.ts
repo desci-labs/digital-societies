@@ -1,4 +1,5 @@
-import { maskAddress, shortenAddress, shortenText } from "helper";
+import { W3S_IPFS_GATEWAY } from "api/constants";
+import { getImageURL, maskAddress, shortenAddress, shortenText } from "helper";
 
 describe("Helper functions", () => {
   describe("shorten text and address", () => {
@@ -29,6 +30,22 @@ describe("Helper functions", () => {
       const masked = "0xe8...4E88";
       const shortened = maskAddress(address);
       expect(shortened).toEqual(masked);
+    });
+  });
+
+  describe("Resolve Image url", () => {
+    const cid = "bafkreiay36go5cuxpoitjjxwlauiyf6rygk5d544z7noapqfwwb3yyuyyy";
+    const w3sImageUrl = "";
+
+    it("Resolves empty string", () => {
+      const result = getImageURL("");
+      expect(result).toEqual("");
+    });
+
+    it("Resolves CID string", () => {
+      const result = getImageURL(cid);
+      console.log(result);
+      expect(result).toEqual(`${W3S_IPFS_GATEWAY}${cid}`);
     });
   });
 });

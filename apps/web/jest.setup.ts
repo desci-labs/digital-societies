@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom/extend-expect";
 import "whatwg-fetch";
-
+import next from "next";
+next({ dev: true });
 /**
  * NOTE: We use this to mock window.watchMedia on jest
  * docs: https://www.npmjs.com/package/mock-match-media#jest
