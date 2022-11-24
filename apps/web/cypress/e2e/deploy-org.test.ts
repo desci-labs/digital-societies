@@ -4,14 +4,17 @@ import { mockOrg } from "../fixtures/data";
 describe("Create an organisation", () => {
   beforeEach(() => cy.visit("/"));
 
-  it("loads explore page", () => {
+  it("Fills the launch form and submits", () => {
     cy.findByRole("navigation").within(() => {
       cy.findByRole("button", {
         name: /connect wallet/i,
       }).click();
     });
     cy.findByText("Injected Wallet").click();
-    cy.findByRole("link", { name: /Launch an organisation/i }).click();
+
+    cy.findByRole("navigation").within(() => {
+      cy.findByRole("link", { name: /Launch an organisation/i }).click();
+    });
     cy.findByRole("textbox", { name: /name/i }).type(mockOrg.metadata.name);
     cy.findByRole("textbox", { name: /symbol/i }).type(mockOrg.metadata.symbol);
     cy.findByRole("textbox", { name: /description/i }).type(
