@@ -33,7 +33,7 @@ export default function Dropzone<T extends FieldValues>(props: Props<T>) {
     ${props.value ? "border-neutrals-gray-5" : "border-regent-gray"}
     ${props.hasError ? "border-red-400" : ""}
     `;
-  console.log({ ...getRootProps({ className }) });
+
   return (
     <div {...getRootProps({ className })} data-cy={`${props.name}-dropzone`}>
       <input id={props.name} {...getInputProps()} name={props.name} />

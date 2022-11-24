@@ -11,6 +11,8 @@ describe("Landing Page", () => {
     });
 
     cy.findByRole("main").within(() => {
+      cy.wait(10000);
+
       // check if loader has been removed
       cy.findByLabelText("/loading/i").should("not.exist");
 

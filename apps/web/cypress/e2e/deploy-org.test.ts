@@ -32,5 +32,8 @@ describe("Create an organisation", () => {
         action: "drag-drop",
       }
     );
+    cy.findByRole("button", {
+      name: /deploy organisation/i,
+    }).click();
   });
 });
