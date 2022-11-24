@@ -33,10 +33,10 @@ export default function Dropzone<T extends FieldValues>(props: Props<T>) {
     ${props.value ? "border-neutrals-gray-5" : "border-regent-gray"}
     ${props.hasError ? "border-red-400" : ""}
     `;
-
+  console.log({ ...getRootProps({ className }) });
   return (
-    <div {...getRootProps({ className })}>
-      <input id={props.name} {...getInputProps()} />
+    <div {...getRootProps({ className })} data-cy={`${props.name}-dropzone`}>
+      <input id={props.name} {...getInputProps()} name={props.name} />
       <DropzoneInner value={props.value} />
     </div>
   );
@@ -44,7 +44,7 @@ export default function Dropzone<T extends FieldValues>(props: Props<T>) {
 
 function DropzoneInner({ value }: { value: FileObject; className?: string }) {
   return (
-    <label className="block flex flex-col gap-2 items-start" htmlFor="image">
+    <div className="block flex flex-col gap-2 items-start">
       <div className="text-neutrals-gray-5">
         {value?.file && (
           <span className="block text-center my-1 font-bold capitalize text-neutrals-gray-7">
@@ -58,6 +58,6 @@ function DropzoneInner({ value }: { value: FileObject; className?: string }) {
           Choose an image or drag it here.
         </span>
       </div>
-    </label>
+    </div>
   );
 }

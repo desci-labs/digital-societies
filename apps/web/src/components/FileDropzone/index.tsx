@@ -15,6 +15,7 @@ export default function FileDropzone<T extends FieldValues>(
         return (
           <Dropzone
             {...props}
+            name={props.name}
             value={value}
             maxFiles={1}
             maxSize={TWENTY_FIVE_MB}
