@@ -21,10 +21,16 @@ import "@testing-library/cypress/add-commands";
 
 // import * as Testserver from "../../src/test/server/test-server"
 import { ByRoleMatcher, ByRoleOptions } from "@testing-library/react";
+import { injected } from "./ethereum";
+import assert = require("assert");
+import { wagmiStore } from "../fixtures/wagmi-store";
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
+    interface ApplicationWindow {
+      ethereum: typeof injected;
+    }
     interface Chainable {
       findByRole(role: ByRoleMatcher, options?: ByRoleOptions): Chainable<void>;
       findAllByRole(
@@ -33,8 +39,56 @@ declare global {
       ): Chainable<void>;
       // interceptRequest(type: string, route: string, ...args: any[])
     }
+    interface VisitOptions {
+      serviceWorker?: true;
+    }
   }
 }
+
+// sets up the injected provider to be a mock ethereum provider with the given mnemonic/index
+// eslint-disable-next-line no-undef
+Cypress.Commands.overwrite(
+  "visit",
+  (
+    original,
+    url: string | Partial<Cypress.VisitOptions>,
+    options?: Partial<Cypress.VisitOptions>
+  ) => {
+    assert(typeof url === "string");
+
+    cy.intercept(
+      "/service-worker.js",
+      options?.serviceWorker ? undefined : { statusCode: 404 }
+    ).then(() => {
+      original({
+        ...options,
+        url:
+          (url.startsWith("/") && url.length > 2 && !url.startsWith("/#")
+            ? `/#${url}`
+            : url) + "?chain=goerli",
+        onBeforeLoad(win) {
+          options?.onBeforeLoad?.(win);
+          win.localStorage.clear();
+          win.localStorage.setItem("wagmi.store", wagmiStore);
+          win.localStorage.setItem("wagmi.wallet", '"metaMask"');
+          // win.localStorage.setItem("wagmi.injected.shimDisconnect", "true");
+          // win.localStorage.setItem("wagmi.connected", "true");
+
+          win.ethereum = injected;
+        },
+      });
+    });
+  }
+);
+
+beforeEach(() => {
+  // Infura security policies are based on Origin headers.
+  // These are stripped by cypress because chromeWebSecurity === false; this adds them back in.
+  cy.intercept(/infura.io/, (res) => {
+    res.headers["origin"] = "http://localhost:3000";
+    res.continue();
+  });
+});
 
 export const errors = {};
 
