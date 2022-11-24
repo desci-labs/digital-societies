@@ -38,5 +38,8 @@ describe("Create an organisation", () => {
     cy.findByRole("button", {
       name: /deploy organisation/i,
     }).click();
+    cy.findByRole("status", {
+      name: /rotating\-lines\-loading/i,
+    });
   });
 });

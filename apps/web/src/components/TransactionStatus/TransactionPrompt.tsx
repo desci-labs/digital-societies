@@ -38,7 +38,11 @@ export default function TransactionPrompt() {
   }
 
   return (
-    <div className="min-w-120 p-5 relative bg-white app-bg text-neutrals-gray-7 rounded-md overflow-scroll fixed-center z-20 min-h-120 max-h-200 scroll-hidden will-change-transform animate-scaleIn">
+    <div
+      role="dialog"
+      aria-modal="true"
+      className="min-w-120 p-5 relative bg-white app-bg text-neutrals-gray-7 rounded-md overflow-scroll fixed-center z-20 min-h-120 max-h-200 scroll-hidden will-change-transform animate-scaleIn"
+    >
       <div className="flex justify-end absolute right-0 top-0">
         <button
           onClick={closePrompt}

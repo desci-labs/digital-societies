@@ -23,6 +23,8 @@ export default function Transactor<C extends JSX.IntrinsicAttributes>(
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
       className={`w-full max-w-max  md:min-w-160 px-10 relative ${
         props.inModal
           ? "bg-white app-bg rounded-md overflow-scroll pt-2 m-5 fixed-center z-20 relative max-h-80 scroll-hidden will-change-transform animate-scaleIn"
