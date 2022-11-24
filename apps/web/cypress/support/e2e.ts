@@ -42,6 +42,10 @@ declare global {
         role: ByRoleMatcher,
         options?: ByRoleOptions
       ): Chainable<void>;
+      findByText(
+        id: Matcher,
+        options?: SelectorMatcherOptions
+      ): Chainable<void>;
       findByLabelText(
         id: Matcher,
         options?: SelectorMatcherOptions

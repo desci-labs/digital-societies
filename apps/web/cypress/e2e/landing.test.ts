@@ -17,5 +17,13 @@ describe("Landing Page", () => {
       // check if search box is present
       cy.findByRole("searchbox").should("exist");
     });
+
+    cy.findByRole("navigation").within(() => {
+      cy.findByRole("button", {
+        name: /connect wallet/i,
+      }).should("exist");
+    });
+    // cy.findByText("Injected Wallet").click();
+    // cy.findByRole("link", { name: /Launch an organisation/i }).should("exist");
   });
 });
