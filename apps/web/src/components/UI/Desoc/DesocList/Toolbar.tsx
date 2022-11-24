@@ -13,6 +13,7 @@ export default function Toolbar(props: {
         <Input
           placeholder="search"
           id="orgSearch"
+          type="search"
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             props.onhSearchTextChange(e.target.value)
           }

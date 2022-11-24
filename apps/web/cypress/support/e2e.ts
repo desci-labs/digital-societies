@@ -14,13 +14,18 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import "./commands";
+// import "./commands";
 
 import "cypress-hmr-restarter";
 import "@testing-library/cypress/add-commands";
 
 // import * as Testserver from "../../src/test/server/test-server"
-import { ByRoleMatcher, ByRoleOptions } from "@testing-library/react";
+import {
+  ByRoleMatcher,
+  ByRoleOptions,
+  Matcher,
+  SelectorMatcherOptions,
+} from "@testing-library/react";
 import { injected } from "./ethereum";
 import assert = require("assert");
 import { wagmiStore } from "../fixtures/wagmi-store";
@@ -36,6 +41,10 @@ declare global {
       findAllByRole(
         role: ByRoleMatcher,
         options?: ByRoleOptions
+      ): Chainable<void>;
+      findByLabelText(
+        id: Matcher,
+        options?: SelectorMatcherOptions
       ): Chainable<void>;
       // interceptRequest(type: string, route: string, ...args: any[])
     }

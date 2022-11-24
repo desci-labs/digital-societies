@@ -35,6 +35,4 @@
 //     }
 //   }
 // }
-// export default {};
-// import "web3.storage";
 export {};
