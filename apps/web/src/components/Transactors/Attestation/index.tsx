@@ -1,7 +1,7 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AttestationFormValues, LaunchMode } from "../types";
-import { metadataSchema } from "../schema";
+import { sbtMetadataSchema } from "../schema";
 import { Org, PendingOrg } from "services/orgs/types";
 import Popup from "components/UI/Popup/Index";
 import { useGetAttestation } from "services/attestations/hooks";
@@ -36,7 +36,7 @@ export default function CredentialLauncher({ org, Form, mode }: Props) {
           : metadata.image,
       external_link: metadata.external_link,
     },
-    resolver: yupResolver(metadataSchema),
+    resolver: yupResolver(sbtMetadataSchema),
   });
 
   if (org.pending) {

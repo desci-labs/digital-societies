@@ -43,7 +43,7 @@ export default function AttestationForm() {
   const { setView } = useSetFormView();
 
   const canDisable = useMemo(() => !isDirty || isLoading, [isDirty, isLoading]);
-
+  console.log("DEBUG:", isValid, isDirty, isLoading);
   useEffect(() => {
     if (isUpdateMode && !id) {
       hideModal();
@@ -103,25 +103,6 @@ export default function AttestationForm() {
           {...register("external_link")}
         />
       </InputRow>
-      {/* <InputRow htmlFor="banner" label="Banner">
-        <ErrorMessage
-          errors={errors}
-          name="banner"
-          as="span"
-          className="text-xs text-left text-red-400 font-semibold m-0"
-        />
-        <ImagePreview
-          image={banner}
-          className="rounded-xl"
-          wrapperClassName="h-32"
-        />
-        <FileDropzone<MetadataValues>
-          name="banner"
-          className="h-10"
-          disabled={isLoading}
-          hasError={!!errors.banner}
-        />
-      </InputRow> */}
       <InputRow htmlFor="image" label="SBT badge image">
         <ErrorMessage
           errors={errors}
@@ -141,7 +122,6 @@ export default function AttestationForm() {
           hasError={!!errors.image}
         />
       </InputRow>
-      {/* <Button type="button" onClick={() => updateTx({ step: Step.preview })} className="mt-4 w-full app-text border border-neutrals-gray-6 hover:bg-tint-primary hover:border-tint-primary hover:text-white ">Preview {">>"} </Button> */}
       <Button
         disabled={canDisable || !isValid}
         type="submit"

@@ -3,7 +3,12 @@ import { isAddress } from "ethers/lib/utils";
 import { AssociatedDataUpdate } from "services/api/types";
 import * as Yup from "yup";
 import Lazy from "yup/lib/Lazy";
-import { DelegaterValues, IssuerValues, MetadataValues } from "./types";
+import {
+  AttestationMetadataValues,
+  DelegaterValues,
+  IssuerValues,
+  MetadataValues,
+} from "./types";
 
 const VALID_MIME_TYPES = ["image/jpeg", "image/png", "image/webp"];
 export const TWENTY_FIVE_MB = 25e6;
@@ -60,6 +65,15 @@ const metadataShape: SchemaShape<MetadataValues> = {
   image: FILE_SCHEMA.required(),
 };
 export const metadataSchema = Yup.object(metadataShape);
+
+const attestationMetadataShape: SchemaShape<AttestationMetadataValues> = {
+  name: Yup.string().required(),
+  description: Yup.string().required(),
+  attestationType: Yup.string().required(),
+  external_link: Yup.string().url("Invalid url").required("Field is required"),
+  image: FILE_SCHEMA.required(),
+};
+export const sbtMetadataSchema = Yup.object(attestationMetadataShape);
 
 const issuerShape: SchemaShape<IssuerValues> = {
   address: ADDRES_SCHEMA.required(),
