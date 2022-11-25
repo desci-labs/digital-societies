@@ -36,7 +36,7 @@ export default function Dropzone<T extends FieldValues>(props: Props<T>) {
 
   return (
     <div {...getRootProps({ className })} data-cy={`${props.name}-dropzone`}>
-      <input id={props.name} {...getInputProps()} name={props.name} />
+      <input {...getInputProps()} />
       <DropzoneInner value={props.value} />
     </div>
   );

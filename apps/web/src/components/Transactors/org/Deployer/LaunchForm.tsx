@@ -60,7 +60,7 @@ export default function LaunchForm() {
           {...register("external_link")}
         />
       </InputRow>
-      <InputRow label="banner">
+      <InputRow labelText="banner">
         <ErrorMessage
           errors={errors}
           name="banner"
@@ -79,7 +79,7 @@ export default function LaunchForm() {
           hasError={!!errors.banner}
         />
       </InputRow>
-      <InputRow label="image">
+      <InputRow labelText="image">
         <ErrorMessage
           errors={errors}
           name="image"
