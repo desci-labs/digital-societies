@@ -271,7 +271,7 @@ contract DesocTest is DesocManager, Test {
         (admin);
 
         vm.expectRevert(
-            "AccessControl: account 0xb4c79dab8f259c7aee6e5b2aa729821864227e84 is missing role 0x0000000000000000000000000000000000000000000000000000000000000000"
+            "AccessControl: account 0xb4c79dab8f259c7aee6e5b2aa729821864227e84 is missing role 0x663244bfd3de81cc055674c09ade24d4646b75863d5d9dd77d1544f2eb5acc26"
         );
 
         sbt.updateTypeURI(_type, metadataURI);
@@ -293,7 +293,7 @@ contract DesocTest is DesocManager, Test {
     function testCannotSetContractURI() public {
         changePrank(sina);
         vm.expectRevert(
-            "AccessControl: account 0x075edf3ae919fbef9933f666bb0a95c6b80b04ed is missing role 0x0000000000000000000000000000000000000000000000000000000000000000"
+            "AccessControl: account 0x075edf3ae919fbef9933f666bb0a95c6b80b04ed is missing role 0x663244bfd3de81cc055674c09ade24d4646b75863d5d9dd77d1544f2eb5acc26"
         );
         sbt.setContractURI(metadataURI);
     }

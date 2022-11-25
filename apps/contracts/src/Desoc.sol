@@ -31,8 +31,8 @@ contract Desoc is ERC721, AccessControlEnumerable, IDesoc {
         factory = msg.sender;
         _contractURI = _metadata;
         _setRoleAdmin(DELEGATE_ROLE, DEFAULT_ADMIN_ROLE);
-        _grantRole(DELEGATE_ROLE, _admin);
         _grantRole(DEFAULT_ADMIN_ROLE, _admin);
+        _grantRole(DELEGATE_ROLE, _admin);
     }
 
     /// @notice Return the content identify for a credential
@@ -111,12 +111,12 @@ contract Desoc is ERC721, AccessControlEnumerable, IDesoc {
     }
 
     /// @notice Only admin can update a credential's data
-    /// @dev DEFAULT_ADMIN_ROLE can update the ipfs of a token type
+    /// @dev DELEGATE_ROLE can update the ipfs of a token type
     /// @param _tokenType token type to update
     /// @param _typeURI_ new ipfs hash or uri to be set for _tokenType
     function updateTypeURI(uint16 _tokenType, string memory _typeURI_)
         external
-        onlyRole(DEFAULT_ADMIN_ROLE)
+        onlyRole(DELEGATE_ROLE)
     {
         require(_typeExists(_tokenType), "Invalid SB type");
         require(bytes(_typeURI_).length > 0, "Invalid typeURI");
@@ -143,7 +143,7 @@ contract Desoc is ERC721, AccessControlEnumerable, IDesoc {
     /// @param contractURI_ ipfs hash or URI of the new metadata
     function setContractURI(string memory contractURI_)
         external
-        onlyRole(DEFAULT_ADMIN_ROLE)
+        onlyRole(DELEGATE_ROLE)
     {
         _contractURI = contractURI_;
     }

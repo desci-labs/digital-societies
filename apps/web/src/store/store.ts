@@ -26,11 +26,15 @@ const migrations = {
     console.log("migrate, ", state);
     return {} as PersistedState; // reset all state, except version
   },
+  2: (state: PersistedState) => {
+    console.log("migrate, ", state);
+    return {} as PersistedState; // reset all state, except version
+  },
 };
 
 const persistConfig = {
   key: "root",
-  version: 1,
+  version: 2,
   storage,
   migrate: createMigrate(migrations),
   blacklist: ["transaction", "admin", api.reducerPath],
