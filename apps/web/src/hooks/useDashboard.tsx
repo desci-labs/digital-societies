@@ -4,7 +4,9 @@ import useRouterAddress from "./useRouterAddress";
 
 function useConnectedUserDesoc(address = "") {
   const orgs = useGetOrgs();
-  return orgs.filter((org) => org.admin === address);
+  return orgs.filter(
+    (org) => org.admin === address || org.delegates.includes(address)
+  );
 }
 
 export default function useDashboard() {
