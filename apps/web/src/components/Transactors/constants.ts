@@ -1,6 +1,6 @@
 export const attestationTypes = [
   "Commitment",
   "Credentials",
-  "Social group",
+  "Affiliation",
   "Achievement",
 ] as const;
