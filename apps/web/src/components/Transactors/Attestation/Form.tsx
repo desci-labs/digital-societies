@@ -68,8 +68,8 @@ export default function AttestationForm() {
         </Button>
       </div>
       <InputRow
-        htmlFor="attestationType"
-        label="Attestation type"
+        label="attestationType"
+        labelText="Attestation type"
         className="text-sm"
       >
         <SelectInput
@@ -80,17 +80,17 @@ export default function AttestationForm() {
           className="mb-0 outline-none"
         />
       </InputRow>
-      <InputRow htmlFor="name" label="Name:">
+      <InputRow label="name" labelText="Name">
         <Input
           id="name"
           placeholder="Organisation name (e.g Ethereum foundation)"
           {...register("name")}
         />
       </InputRow>
-      <InputRow htmlFor="description" label="Description:">
+      <InputRow label="description" labelText="Description">
         <Textarea id="description" {...register("description")} />
       </InputRow>
-      <InputRow htmlFor="external_link" label={`Link to ${attestationType}`}>
+      <InputRow label="external_link" labelText={`Link to ${attestationType}`}>
         <ErrorMessage
           errors={errors}
           name="external_link"
@@ -103,7 +103,7 @@ export default function AttestationForm() {
           {...register("external_link")}
         />
       </InputRow>
-      <InputRow htmlFor="image" label="SBT badge image">
+      <InputRow labelText="SBT badge image">
         <ErrorMessage
           errors={errors}
           name="image"

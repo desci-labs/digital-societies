@@ -43,24 +43,24 @@ export default function UpdateForm() {
       title="Update Organisation"
       className="form"
     >
-      <InputRow htmlFor="name" label="Name:">
+      <InputRow label="name" labelText="Name:">
         <Input
           id="name"
           placeholder="Organisation name (e.g Ethereum foundation)"
           {...register("name")}
         />
       </InputRow>
-      <InputRow htmlFor="symbol" label="Symbol">
+      <InputRow label="symbol" labelText="Symbol">
         <Input
           id="symbol"
           placeholder="Organisation symbol (e.g ETF)"
           {...register("symbol")}
         />
       </InputRow>
-      <InputRow htmlFor="description" label="Description:">
+      <InputRow label="description" labelText="Description">
         <Textarea id="description" {...register("description")} />
       </InputRow>
-      <InputRow htmlFor="external_link" label="External link">
+      <InputRow label="external_link" labelText="External link">
         <ErrorMessage
           errors={errors}
           name="external_link"
@@ -73,7 +73,7 @@ export default function UpdateForm() {
           {...register("external_link")}
         />
       </InputRow>
-      <InputRow htmlFor="banner" label="Banner">
+      <InputRow labelText="Banner">
         <ErrorMessage
           errors={errors}
           name="banner"
@@ -92,7 +92,7 @@ export default function UpdateForm() {
           hasError={!!errors.banner}
         />
       </InputRow>
-      <InputRow htmlFor="image" label="Logo">
+      <InputRow labelText="Logo">
         <ErrorMessage
           errors={errors}
           name="image"

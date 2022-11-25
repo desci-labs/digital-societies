@@ -48,7 +48,12 @@ export default function AssociatedDataForm() {
       </span>
       <>
         {ASSOCIATED_SOCIALS.map((name) => (
-          <InputRow htmlFor={name} label={name} className="text-sm" key={name}>
+          <InputRow
+            labelText={name}
+            label={name}
+            className="text-sm"
+            key={name}
+          >
             <ErrorMessage
               errors={errors}
               name={name}
@@ -70,7 +75,7 @@ export default function AssociatedDataForm() {
           </InputRow>
         ))}
       </>
-      <InputRow htmlFor="notes" label="Notes">
+      <InputRow label="notes" labelText="Notes">
         <Textarea
           id="notes"
           {...register("metadata.notes")}

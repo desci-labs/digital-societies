@@ -33,10 +33,10 @@ export default function DelegaterForm() {
       description="Grant Delegate role"
       className="form"
     >
-      <InputRow htmlFor="org" label="Organisation" className="text-sm">
+      <InputRow label="org" labelText="Organisation" className="text-sm">
         <Input {...register("org")} disabled />
       </InputRow>
-      <InputRow htmlFor="delegate" label="address" className="text-sm">
+      <InputRow label="delegate" labelText="address" className="text-sm">
         <ErrorMessage
           errors={errors}
           name="delegate"

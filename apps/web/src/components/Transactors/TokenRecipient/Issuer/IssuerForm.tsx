@@ -36,8 +36,8 @@ export default function IssuerForm() {
       onSubmit={() => {}}
     >
       <InputRow
-        htmlFor="attestation"
-        label="Select attestation"
+        label="attestation"
+        labelText="Select attestation"
         className="text-sm"
       >
         <SelectInput<Attestation | PendingAttestation>
@@ -54,7 +54,7 @@ export default function IssuerForm() {
         ))}
       </div>
 
-      <InputRow htmlFor="address">
+      <InputRow label="address">
         <LabelText text="Add recipient" />
         <ErrorMessage
           errors={errors}

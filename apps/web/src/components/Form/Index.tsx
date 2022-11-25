@@ -7,22 +7,23 @@ declare module "react" {
 }
 
 export type InputRowProps = PropsWithChildren<{
-  htmlFor: string;
+  labelText?: string;
   label?: string;
   className?: string;
 }>;
 
 export function InputRow(props: InputRowProps) {
   return (
-    <label
+    <div
       className={`block flex flex-col gap-2 items-start mt-5 ${
         props.className ?? ""
       }`}
-      htmlFor={props.htmlFor}
     >
-      {props.label && <LabelText text={props.label} />}
+      {props.labelText && (
+        <LabelText label={props.label} text={props.labelText} />
+      )}
       {props.children}
-    </label>
+    </div>
   );
 }
 
@@ -54,19 +55,22 @@ export const Textarea = forwardRef<
 
 export function LabelText({
   text,
+  label,
   classes,
 }: {
   text: string;
+  label?: string;
   classes?: string;
 }) {
   return (
-    <span
+    <label
       className={`text-lg text-darker cursor-pointer font-semibold capitalize ${
         classes ?? ""
       }`}
+      htmlFor={label}
     >
       {text}
-    </span>
+    </label>
   );
 }
 
