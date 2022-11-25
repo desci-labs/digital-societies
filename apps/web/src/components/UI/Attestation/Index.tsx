@@ -33,7 +33,7 @@ export function AttestationList({
       </div>
       {noData && (
         <p className="font-normal text-sm mt-2">
-          This Desoc has no attestations
+          This society has no attestations
         </p>
       )}
       {attestations && (
