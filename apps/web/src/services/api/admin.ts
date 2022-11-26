@@ -1,26 +1,32 @@
 import { api } from ".";
 import { tags } from "./tags";
-import { SocietyDataInsert, SocietyDataRow, SocietyDataUpdate } from "./types";
+import {
+  ApiResponse,
+  QueryParams,
+  SocietyDataInsert,
+  SocietyDataRow,
+  SocietyDataUpdate,
+} from "./types";
 
-type ApiResponse = { status: string; message?: string };
-type QueryParams = { address?: string };
 export const defaultErrorMsg = "We encountered an error saving the data";
 
 const adminApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getSocieties: builder.query<SocietyDataRow[], QueryParams>({
-      query: ({ address }) => {
-        return {
-          method: "GET",
-          url: `admin/society`,
-          params: {
-            address,
-          },
-        };
-      },
-      extraOptions: { maxRetries: 5 },
-      providesTags: [tags.society],
-    }),
+    getSocieties: builder.query<SocietyDataRow[] | SocietyDataRow, QueryParams>(
+      {
+        query: ({ address }) => {
+          return {
+            method: "GET",
+            url: `admin/society`,
+            params: {
+              address,
+            },
+          };
+        },
+        extraOptions: { maxRetries: 5 },
+        providesTags: [tags.society],
+      }
+    ),
     insertSociety: builder.mutation<ApiResponse, SocietyDataInsert>({
       query: (data) => {
         return {

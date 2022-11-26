@@ -24,7 +24,9 @@ export function useGetOrgSetting(address: string) {
   return useMemo(
     () => ({
       isLoading,
-      data: data && data.find((meta) => meta.address === address),
+      data: Array.isArray(data)
+        ? data.find((meta) => meta.address === address)
+        : data,
     }),
     [data, isLoading, address]
   );

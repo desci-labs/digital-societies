@@ -56,8 +56,8 @@ export interface Database {
           id: number;
           created_at?: string | null;
           updated_at?: string | null;
-          address: string;
-          disabled: boolean;
+          address?: string;
+          disabled?: boolean;
         };
       };
     };
