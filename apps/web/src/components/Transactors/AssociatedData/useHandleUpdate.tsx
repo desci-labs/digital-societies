@@ -5,7 +5,7 @@ import { AssociatedDataInsert, AssociatedDataUpdate } from "services/api/types";
 import {
   defaultErrorMsg,
   useSaveMetadataMutation,
-} from "services/api/associatedMetadata";
+} from "services/api/offchainMeta";
 import { useState } from "react";
 import { useModalContext } from "components/Modal/Modal";
 import Success from "components/ModalViews/Success";

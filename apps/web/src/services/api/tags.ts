@@ -1,4 +1,4 @@
 export enum tags {
   meta = "meta",
-  org = "org",
+  society = "society",
 }
