@@ -10,6 +10,7 @@ import { useMobileMenu, useSetMobileMenu } from "./useAppMenu";
 import useDashboard from "hooks/useDashboard";
 import Link from "next/link";
 import Icon from "components/Icons/Icons";
+import useAdmin from "hooks/useAdmin";
 
 export default function Header() {
   const { isConnected } = useAccount();
@@ -42,6 +43,7 @@ export default function Header() {
         <ExternalLink href="https://sbt.desci.com/" className="hidden sm:block">
           Forum
         </ExternalLink>
+        <AdminNavLink />
       </div>
       <div className="flex gap-2 items-center">
         {!hide && !showDashboard && (
@@ -62,6 +64,18 @@ export default function Header() {
       </div>
       <MobileMenu />
     </nav>
+  );
+}
+
+function AdminNavLink() {
+  const hasAccess = useAdmin();
+
+  if (!hasAccess) return null;
+
+  return (
+    <NavLink href={`/admin`} className="hidden sm:block">
+      Admin
+    </NavLink>
   );
 }
 
@@ -124,6 +138,7 @@ function MobileMenu() {
             <NavLink href={`/dashboard/${org?.address}`}>Dashboard</NavLink>
           </li>
         )}
+        <AdminNavLink />
         {!hide && !showDashboard && (
           <li className="block text-sm px-2 py-4 hover:bg-primary-over  hover:text-black transition duration-300">
             <NavLink
