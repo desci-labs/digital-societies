@@ -16,7 +16,7 @@ describe("Helper functions", () => {
     it("shortens text after 100 characters", () => {
       const text100 =
         "We are an Open Source collective building tools to foster a vibrant future for decentralised societi...";
-      const shortened = shortenText(text);
+      const shortened = shortenText(text, 100);
       expect(shortened).toEqual(text100);
     });
 
