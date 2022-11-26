@@ -10,7 +10,7 @@ export type Props = JSX.IntrinsicAttributes & {
   Form: FC;
 };
 
-export default function Issuer({ attestation, Form }: Props) {
+export default function TokenRecipientEditor({ attestation, Form }: Props) {
   if (!attestation) throw Error("Credential data is required");
 
   const methods = useForm<IssuerValues>({

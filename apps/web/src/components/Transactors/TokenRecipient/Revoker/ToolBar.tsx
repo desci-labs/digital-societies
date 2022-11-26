@@ -13,7 +13,7 @@ export default function ToolBar(props: {
   );
   return (
     <div className="flex justify-between items-center mb-5 text-neutrals-gray-7">
-      <h1 className="text-left heading-2">Recipients</h1>
+      <h1 className="text-left heading-2 pl-2">Recipients</h1>
       <div className="flex gap-2">
         {!isDeletedMode && <Updater attestation={props.attestation} />}
         {isDeletedMode && <RevokerAction />}

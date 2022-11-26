@@ -21,7 +21,7 @@ export default function TokenRecipients({
   return (
     <CardContainer>
       <div className="flex justify-between items-center mb-5 text-neutrals-gray-7">
-        <h1 className="text-left heading-2">Recipients</h1>
+        <h1 className="text-left heading-2 pl-2">Recipients</h1>
       </div>
       <Table>
         <THead rows={getRows()} />

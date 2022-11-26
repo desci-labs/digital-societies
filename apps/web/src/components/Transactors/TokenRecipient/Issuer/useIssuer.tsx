@@ -2,7 +2,7 @@ import { useModalContext } from "components/Modal/Modal";
 import { TxProps } from "components/Transactors/types";
 import { useCallback } from "react";
 import { Attestation, PendingAttestation } from "services/attestations/types";
-import Issuer, { Props } from "..";
+import Issuer, { Props } from "../TokenRecipientEditor";
 import Transactor from "../../Transactor";
 import IssuerForm from "./IssuerForm";
 

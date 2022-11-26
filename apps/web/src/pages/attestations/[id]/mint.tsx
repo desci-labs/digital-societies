@@ -1,5 +1,5 @@
 import Loader from "components/Loader";
-import Issuer from "components/Transactors/TokenRecipient";
+import Issuer from "components/Transactors/TokenRecipient/TokenRecipientEditor";
 import IssuerForm from "components/Transactors/TokenRecipient/Issuer/IssuerForm";
 import { useGetAttestation } from "services/attestations/hooks";
 import type { NextPage } from "next";

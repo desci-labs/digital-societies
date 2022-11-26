@@ -19,7 +19,7 @@ export async function asyncMap<T, E>(
   return results as T[];
 }
 
-export const shortenText = (text: string, charCount = 100) =>
+export const shortenText = (text: string, charCount = 150) =>
   text.length > charCount ? `${text.substring(0, charCount)}...` : text;
 
 export const shortenAddress = (address: string) => shortenText(address, 10);
