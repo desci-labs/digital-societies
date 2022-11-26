@@ -37,6 +37,29 @@ export interface Database {
           metadata: Omit<AssociatedDataValues, "owner">;
         };
       };
+      societies_manager: {
+        Row: {
+          id: number;
+          created_at: string | null;
+          updated_at: string | null;
+          address: string;
+          disabled: boolean;
+        };
+        Insert: {
+          id?: number;
+          created_at?: string | null;
+          updated_at?: string | null;
+          address: string;
+          disabled: boolean;
+        };
+        Update: {
+          id: number;
+          created_at?: string | null;
+          updated_at?: string | null;
+          address: string;
+          disabled: boolean;
+        };
+      };
     };
     Views: {
       [_ in never]: never;

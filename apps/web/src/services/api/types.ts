@@ -7,4 +7,11 @@ export type AssociatedDataInsert =
 export type AssociatedDataUpdate =
   Database["public"]["Tables"]["associated_metadata"]["Update"];
 
+export type SocietyDataRow =
+  Database["public"]["Tables"]["societies_manager"]["Row"];
+export type SocietyDataInsert =
+  Database["public"]["Tables"]["societies_manager"]["Insert"];
+export type SocietyDataUpdate =
+  Database["public"]["Tables"]["societies_manager"]["Update"];
+
 export type CustomDataError = Error & { data: { message: string } };
