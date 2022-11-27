@@ -46,7 +46,6 @@ export default function Preview() {
                 {name}
               </span>
               <span className="badge-type app-text">
-                Badge Type:
                 <b>{attestationType}</b>
               </span>
               <span className="desc">{description}</span>
