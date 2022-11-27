@@ -48,7 +48,7 @@ export default function Header() {
           <NavLink
             href="/launch"
             activeClassName="dark:border-white border-black text-black dark:text-white"
-            className="text-sm border border-regent-gray text-neutrals-gray-5 hover:text-neutrals-gray-1 dark:hover:text-neutrals-gray-7 p-2 duration-200"
+            className="text-sm border border-neutrals-gray-4 text-neutrals-gray-5 hover:text-neutrals-gray-1 dark:hover:text-neutrals-gray-7 p-2 duration-200"
           >
             Launch an organisation
           </NavLink>
@@ -124,12 +124,15 @@ function MobileMenu() {
             <NavLink href={`/dashboard/${org?.address}`}>Dashboard</NavLink>
           </li>
         )}
+        <ExternalLink href="https://sbt.desci.com/" className="sm:hidden ml-2">
+          Forum
+        </ExternalLink>
         {!hide && !showDashboard && (
           <li className="block text-sm px-2 py-4 hover:bg-primary-over  hover:text-black transition duration-300">
             <NavLink
               href="/launch"
               activeClassName="dark:border-white border-black text-black dark:text-white"
-              className="text-sm border border-regent-gray text-neutrals-gray-5 hover:text-neutrals-gray-1 dark:hover:text-neutrals-gray-7 p-2 duration-200"
+              className="text-sm border border-neutrals-gray-4 text-neutrals-gray-5 hover:text-neutrals-gray-1 dark:hover:text-neutrals-gray-7 p-2 duration-200"
             >
               Launch an organisation
             </NavLink>
