@@ -44,7 +44,7 @@ export function AssociatedDataEditor(props: {
       className={`bg-transparent bg-white bg-opacity-0 px-0 py-0 w-10 outline-0`}
     >
       <Icon
-        type="Eye"
+        type="Edit"
         size={18}
         tabIndex={0}
         focusable
