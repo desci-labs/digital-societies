@@ -16,13 +16,14 @@ export default function useFilteredOrg() {
       sanitizeRegexSearchText(debouncedSearchText).toLowerCase();
 
     return orgList
-      .filter(
-        (org) =>
-          Array.isArray(societies) &&
-          !societies.find(
-            (society) =>
-              society.address === org.address && society.disabled === true
-          )
+      .filter((org) =>
+        !societies
+          ? true
+          : Array.isArray(societies) &&
+            !societies.find(
+              (society) =>
+                society.address === org.address && society.disabled === true
+            )
       )
       .filter(
         (org) =>
