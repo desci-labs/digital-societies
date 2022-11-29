@@ -14,7 +14,7 @@ export function ToggleVisibility(props: { address: string }) {
   const { data: society, isLoading } = useGetOrgSetting(props.address);
   const [insertSociety, { isLoading: isInserting }] =
     useInsertSocietyMutation();
-  const [updateSociety, { isLoading: isUpdating }] = useUpdateSocietyMutation();
+  const [updateSociety] = useUpdateSocietyMutation();
   const { showModal } = useModalContext();
 
   const trigger = async () => {
@@ -52,7 +52,7 @@ export function ToggleVisibility(props: { address: string }) {
   return (
     <Button
       onClick={trigger}
-      disabled={isLoading || isInserting || isUpdating}
+      disabled={isLoading || isInserting}
       className={`bg-transparent bg-white bg-opacity-0 px-0 py-0 w-10 outline-0`}
     >
       {society?.disabled ? (

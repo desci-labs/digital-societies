@@ -57,7 +57,7 @@ export interface Database {
           created_at?: string | null;
           updated_at?: string | null;
           address?: string;
-          disabled?: boolean;
+          disabled: boolean;
         };
       };
     };
