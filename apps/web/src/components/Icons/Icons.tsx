@@ -12,6 +12,7 @@ import {
   BsDiscord,
   BsExclamationCircle,
   BsEye,
+  BsEyeSlash,
   BsFacebook,
   BsFillBrightnessHighFill,
   BsFillMoonFill,
@@ -66,6 +67,7 @@ export type IconTypes =
   | "User"
   | "Loader"
   | "Eye"
+  | "EyeSlash"
   | "Plus"
   | "Undo"
   | "Ethereum"
@@ -104,6 +106,7 @@ export const iconList: { [key in IconTypes]: IconType } = {
   Loader: RiLoader5Fill,
   Clipboard: HiOutlineClipboard,
   Eye: BsEye,
+  EyeSlash: BsEyeSlash,
   Undo: CgUndo,
   GitBook: SiGitbook,
   Plus: AiOutlinePlus,

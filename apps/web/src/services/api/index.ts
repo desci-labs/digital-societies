@@ -12,6 +12,6 @@ const baseQueryWithRetry = retry(baseQuery, {
 export const api = createApi({
   reducerPath: "desocApi",
   baseQuery: baseQueryWithRetry,
-  tagTypes: [tags.meta],
+  tagTypes: [tags.meta, tags.society],
   endpoints: () => ({}),
 });

@@ -10,6 +10,7 @@ import { useMobileMenu, useSetMobileMenu } from "./useAppMenu";
 import useDashboard from "hooks/useDashboard";
 import Link from "next/link";
 import Icon from "components/Icons/Icons";
+import useAdmin from "hooks/useAdmin";
 
 export default function Header() {
   const { isConnected } = useAccount();
@@ -39,6 +40,7 @@ export default function Header() {
             Dashboard
           </NavLink>
         )}
+        <AdminNavLink />
         <ExternalLink href="https://sbt.desci.com/" className="hidden sm:block">
           Forum
         </ExternalLink>
@@ -62,6 +64,24 @@ export default function Header() {
       </div>
       <MobileMenu />
     </nav>
+  );
+}
+
+function AdminNavLink(props: { mobile?: boolean }) {
+  const hasAccess = useAdmin();
+
+  if (!hasAccess) return null;
+
+  if (props.mobile)
+    return (
+      <li className="block text-sm px-2 py-4 hover:bg-primary-over hover:text-black transition duration-300">
+        <NavLink href={`/admin`}>Admin</NavLink>
+      </li>
+    );
+  return (
+    <NavLink href={`/admin`} className="hidden sm:block">
+      Admin
+    </NavLink>
   );
 }
 
@@ -124,9 +144,10 @@ function MobileMenu() {
             <NavLink href={`/dashboard/${org?.address}`}>Dashboard</NavLink>
           </li>
         )}
-        <ExternalLink href="https://sbt.desci.com/" className="sm:hidden ml-2">
-          Forum
-        </ExternalLink>
+        <AdminNavLink mobile />
+        <li className="block text-sm px-2 py-4 hover:bg-primary-over hover:text-black transition duration-300">
+          <ExternalLink href="https://sbt.desci.com/">Forum</ExternalLink>
+        </li>
         {!hide && !showDashboard && (
           <li className="block text-sm px-2 py-4 hover:bg-primary-over  hover:text-black transition duration-300">
             <NavLink

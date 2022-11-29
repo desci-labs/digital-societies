@@ -15,3 +15,5 @@ export type SocietyDataUpdate =
   Database["public"]["Tables"]["societies_manager"]["Update"];
 
 export type CustomDataError = Error & { data: { message: string } };
+export type ApiResponse = { status: string; message?: string };
+export type QueryParams = { address?: string };

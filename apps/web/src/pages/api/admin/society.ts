@@ -71,7 +71,7 @@ async function putHandler(
         ? (JSON.parse(req.body) as SocietyDataUpdate)
         : (req.body as SocietyDataUpdate);
 
-    if (!body.id) throw Error("Invalid data");
+    if (!body.id) throw Error("Invalid input data");
     const { error, status } = await supabase
       .from("societies_manager")
       .update(body);
