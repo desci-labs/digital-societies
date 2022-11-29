@@ -21,6 +21,7 @@ import { store, persistor } from "store/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { ErrorBoundary } from "react-error-boundary";
 import AppFallback from "components/Fallback/AppFallback";
+import LayoutProvider from "hooks/usePageScroll";
 
 function Updaters() {
   return (
@@ -59,7 +60,9 @@ function AppProviders({ children }: PropsWithChildren<unknown>) {
                   <Updaters />
                   <FormViewProvider>
                     <ModalProvider classes="p-3 bg-black bg-opacity-50 backdrop-blur-xl fixed top-0 right-0 bottom-0 left-0 z-50 grid place-items-center">
-                      <AppMenuProvider>{children}</AppMenuProvider>
+                      <LayoutProvider>
+                        <AppMenuProvider>{children}</AppMenuProvider>
+                      </LayoutProvider>
                     </ModalProvider>
                   </FormViewProvider>
                 </BlockNumberProvider>
