@@ -7,6 +7,7 @@ import { Form, Input, InputRow, Textarea } from "components/Form/Index";
 import { MetadataValues } from "../../types";
 import ImagePreview from "components/UI/ImagePreview";
 import Button from "components/UI/Button/Index";
+import RichTextEditor from "components/RichTextEditor/RichTextEditor";
 
 export default function LaunchForm() {
   const {
@@ -46,6 +47,9 @@ export default function LaunchForm() {
       </InputRow>
       <InputRow label="description" labelText="Description">
         <Textarea id="description" {...register("description")} />
+      </InputRow>
+      <InputRow label="description" labelText="Description">
+        <RichTextEditor {...register("description")} />
       </InputRow>
       <InputRow label="external_link" labelText="External link">
         <ErrorMessage
