@@ -91,3 +91,8 @@ body.modal-open {
     @apply app-text hover:text-white dark:hover:text-white;
   }
 }
+
+/* hide ReactQuill editor clipboard UI*/
+.ql-clipboard {
+  display: none;
+}

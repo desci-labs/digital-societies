@@ -1,6 +1,7 @@
 import { VerifiedBadgeIcon } from "assets/svg";
 import { FileObject } from "components/FileDropzone/types";
 import Icon from "components/Icons/Icons";
+import RichTextRenderer from "components/RichTextRenderer/RichTextRenderer";
 import {
   AttestationMetadata,
   AttestationMetadataValues,
@@ -60,6 +61,7 @@ export default function MetaDataView(props: MetaViewProps) {
         <span className="text-lg block mb-2 text-left text-neutrals-gray-5">
           {props.metadata.description}
         </span>
+        <RichTextRenderer text="<p>This is a rich text <b>renderer</b></p>" />
       </div>
     </div>
   );
