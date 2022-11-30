@@ -17,14 +17,17 @@ export default function Launcher(props: Props) {
       name: props?.metadata?.name ?? "",
       symbol: props?.metadata?.symbol ?? props?.metadata?.acronym,
       description: props?.metadata?.description ?? "",
+      properties: {
+        description: props.metadata?.properties?.description ?? "",
+      },
       banner:
         typeof props?.metadata?.banner === "string"
           ? { ipfsURL: props?.metadata.banner }
-          : {},
+          : props.metadata?.banner,
       image:
         typeof props?.metadata?.image === "string"
           ? { ipfsURL: props?.metadata?.image }
-          : {},
+          : props.metadata?.image,
       external_link: props?.metadata?.external_link,
     },
     resolver: yupResolver(metadataSchema),

@@ -1,16 +1,21 @@
-import ReactQuill, { UnprivilegedEditor } from "react-quill";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Toolbar from "./Toolbar";
 import { EditorProps } from "./types";
 import "react-quill/dist/quill.snow.css";
+import dynamic from "next/dynamic";
+const ReactQuill = dynamic(() => import("react-quill"), {
+  ssr: false,
+});
 
 export default function Editor(props: EditorProps) {
   const handleChange = (
     value: string,
     _delta: any,
     _source: any,
-    _editor: UnprivilegedEditor
+    editor: any
   ) => {
-    console.log("value: ", value);
+    const text = editor.getText();
+    props?.onRawTextChanged?.(text);
     props.onChange(value);
   };
   const modules = {
@@ -34,6 +39,8 @@ export default function Editor(props: EditorProps) {
     "link",
   ];
 
+  if (!document) return null;
+
   return (
     <>
       <Toolbar />
@@ -41,6 +48,7 @@ export default function Editor(props: EditorProps) {
         className="w-full"
         theme="snow"
         value={props.value}
+        placeholder="Write a detailed description about your society"
         onChange={handleChange}
         modules={modules}
         formats={formats}

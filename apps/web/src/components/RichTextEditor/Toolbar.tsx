@@ -5,8 +5,8 @@ const renderOptions = (formatData: MultiFormats) => {
   return (
     <select className={className}>
       <option selected></option>
-      {options.map((value) => {
-        return <option value={value}></option>;
+      {options.map((value, i) => {
+        return <option value={value} key={i}></option>;
       })}
     </select>
   );
@@ -18,9 +18,9 @@ const renderSingle = (formatData: Format) => {
 
 const Toolbar = () => (
   <div id="toolbar">
-    {formats.map((classes) => {
+    {formats.map((classes, idx) => {
       return (
-        <span className="ql-formats">
+        <span className="ql-formats" key={idx}>
           {classes.map((formatData) => {
             return formatData?.options
               ? renderOptions(formatData as MultiFormats)

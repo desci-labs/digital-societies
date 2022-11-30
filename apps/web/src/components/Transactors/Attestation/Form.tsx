@@ -43,7 +43,6 @@ export default function AttestationForm() {
   const { setView } = useSetFormView();
 
   const canDisable = useMemo(() => !isDirty || isLoading, [isDirty, isLoading]);
-  console.log("DEBUG:", isValid, isDirty, isLoading);
   useEffect(() => {
     if (isUpdateMode && !id) {
       hideModal();

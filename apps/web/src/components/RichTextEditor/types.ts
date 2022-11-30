@@ -8,6 +8,7 @@ export type BaseProps<T extends FieldValues> = {
 };
 
 export type EditorProps = {
-  onChange: (...args: any[]) => void;
+  onChange: (...args: unknown[]) => void;
+  onRawTextChanged?: (text: string) => void;
   value: string;
 };

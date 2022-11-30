@@ -8,6 +8,7 @@ import {
   DelegaterValues,
   IssuerValues,
   MetadataValues,
+  MetaProperties,
 } from "./types";
 
 const VALID_MIME_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -56,6 +57,10 @@ const ADDRES_SCHEMA = Yup.mixed<string>().test({
   },
 });
 
+const metadataPropertiesSchema: SchemaShape<MetaProperties> = {
+  description: Yup.string().required(),
+};
+
 const metadataShape: SchemaShape<MetadataValues> = {
   name: Yup.string().required(),
   symbol: Yup.string().optional(),
@@ -63,6 +68,7 @@ const metadataShape: SchemaShape<MetadataValues> = {
   external_link: Yup.string().url("Invalid url").required("Field is required"),
   banner: FILE_SCHEMA.required(),
   image: FILE_SCHEMA.required(),
+  properties: Yup.object(metadataPropertiesSchema),
 };
 export const metadataSchema = Yup.object(metadataShape);
 
@@ -72,6 +78,7 @@ const attestationMetadataShape: SchemaShape<AttestationMetadataValues> = {
   attestationType: Yup.string().required(),
   external_link: Yup.string().url("Invalid url").required("Field is required"),
   image: FILE_SCHEMA.required(),
+  properties: Yup.object(metadataPropertiesSchema).required(),
 };
 export const sbtMetadataSchema = Yup.object(attestationMetadataShape);
 

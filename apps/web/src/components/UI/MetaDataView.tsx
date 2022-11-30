@@ -27,6 +27,24 @@ type MetaViewProps = {
     | AttestationMetadataValues;
 };
 
+function Description(props: {
+  metadata:
+    | Metadata
+    | MetadataValues
+    | AttestationMetadata
+    | AttestationMetadataValues;
+}) {
+  if (props.metadata?.properties?.description) {
+    return <RichTextRenderer text={props.metadata?.properties?.description} />;
+  }
+
+  return (
+    <span className="text-lg block mb-2 text-left text-neutrals-gray-5">
+      {props.metadata.description}
+    </span>
+  );
+}
+
 export default function MetaDataView(props: MetaViewProps) {
   return (
     <div className="w-full">
@@ -58,10 +76,15 @@ export default function MetaDataView(props: MetaViewProps) {
             />
           )}
         </div>
-        <span className="text-lg block mb-2 text-left text-neutrals-gray-5">
-          {props.metadata.description}
-        </span>
-        <RichTextRenderer text="<p>This is a rich text <b>renderer</b></p>" />
+        <Description metadata={props.metadata} />
+        {/* {!props.metadata?.properties?.description && (
+          <span className="text-lg block mb-2 text-left text-neutrals-gray-5">
+            {props.metadata.description}
+          </span>
+        )}
+        {props.metadata?.properties?.description && (
+          <RichTextRenderer text={props.metadata.properties.description} />
+        )} */}
       </div>
     </div>
   );

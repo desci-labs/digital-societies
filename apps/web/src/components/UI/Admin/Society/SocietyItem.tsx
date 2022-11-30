@@ -11,7 +11,9 @@ export default function SocietyItem(props: { org: Org | PendingOrg }) {
   return (
     <Row
       className={`border-none table-row ${
-        society?.disabled ? "bg-states-error line-through" : ""
+        society?.disabled
+          ? "bg-neutrals-gray-2 dark:bg-neutrals-gray-6 bg-opacity-20 line-through"
+          : ""
       }`}
     >
       <Cell className="flex justify-start p-2">
