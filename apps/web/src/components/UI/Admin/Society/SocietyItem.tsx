@@ -4,7 +4,7 @@ import { getImageURL } from "helper";
 import Image from "next/image";
 import { useGetOrgSetting } from "services/api/hooks";
 import { Org, PendingOrg } from "services/orgs/types";
-import { ToggleVisibility } from "./ActionButtons";
+import { ToggleVerification, ToggleVisibility } from "./ActionButtons";
 
 export default function SocietyItem(props: { org: Org | PendingOrg }) {
   const { data: society } = useGetOrgSetting(props.org.address);
@@ -30,8 +30,9 @@ export default function SocietyItem(props: { org: Org | PendingOrg }) {
       <Cell>
         <AddressCopier address={props.org.address} />
       </Cell>
-      <Cell>
+      <Cell className="flex items-center">
         <ToggleVisibility address={props.org.address} />
+        <ToggleVerification society={props.org} />
       </Cell>
     </Row>
   );

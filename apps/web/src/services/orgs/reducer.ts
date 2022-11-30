@@ -40,7 +40,10 @@ const slice = createSlice({
       const prev = state.data.find((org) => org.address === payload.address);
       if (!prev) {
         state.data.push(payload);
-      } else if (prev.pending && payload.metadata) {
+      } else if (
+        prev.verified !== payload.verified ||
+        (prev.pending && payload.metadata)
+      ) {
         state.data = state.data.map((org) => {
           if (org.address === payload.address) return payload;
           return org;
