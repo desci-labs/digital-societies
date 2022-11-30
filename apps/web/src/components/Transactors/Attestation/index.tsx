@@ -28,6 +28,7 @@ export default function CredentialLauncher({ org, Form, mode }: Props) {
       mode,
       name: metadata.name,
       description: metadata.description,
+      properties: { description: metadata?.properties?.description ?? "" },
       attestationType:
         credential?.metadata?.attestationType || attestationTypes[0],
       image:
