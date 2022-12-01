@@ -1,4 +1,3 @@
-import Loader from "components/Loader";
 import { useGetAttestation } from "services/attestations/hooks";
 import { useGetOrg, useIsAdminOrDelegate } from "services/orgs/hooks";
 import { useRouter } from "next/router";
