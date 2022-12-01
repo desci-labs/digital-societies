@@ -1,8 +1,11 @@
-import Loader from "components/Loader";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import ContentLoader from "components/ContentLoader/ContentLoader";
 import Link from "next/link";
 import { useAccount } from "wagmi";
-import { MetadataCard } from "../../Attestation/MetadataCard";
+import {
+  MetadataCard,
+  MetadataCardPlaceholder,
+} from "../../Attestation/MetadataCard";
 import Toolbar from "./Toolbar";
 import useFilteredOrg from "./useFilteredOrg";
 
@@ -17,7 +20,7 @@ export default function DesocList() {
   } = useFilteredOrg();
 
   if (isLoading) {
-    return <Loader className="h-screen" />;
+    return <SkeletonPlaceholder />;
   }
 
   if (isEmpty) {
@@ -73,6 +76,16 @@ function NoContent() {
       ) : (
         <ConnectButton showBalance={false} />
       )}
+    </div>
+  );
+}
+
+function SkeletonPlaceholder() {
+  return (
+    <div className="container mx-auto place-content-stretch place-items-center grid p-4 pt-0 mt-8 gap-5">
+      <ContentLoader className="my-8 min-w-80 w-80 h-16" />
+      <MetadataCardPlaceholder />
+      <MetadataCardPlaceholder />
     </div>
   );
 }
