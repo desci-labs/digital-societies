@@ -83,7 +83,7 @@ export function MetadataCardPlaceholder() {
         <ContentLoader className="w-32 h-4 mt-4" />
         <ContentLoader className="w-80 h-6 mt-4" />
         <div className="flex items-center justify-center">
-          <ContentLoader className="w-36 h-12 mt-4 rounded-md" />
+          <ContentLoader className="w-36 h-10 mt-4 rounded-md" />
         </div>
       </div>
     </div>

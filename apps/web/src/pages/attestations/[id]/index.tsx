@@ -10,6 +10,7 @@ import MetaDataView from "components/UI/MetaDataView";
 import { RevokerForm } from "components/Transactors/TokenRecipient/Revoker/RevokerForm";
 import TokenRecipientEditor from "components/Transactors/TokenRecipient/TokenRecipientEditor";
 import TokenRecipients from "components/UI/Attestation/Recipients/Index";
+import { Placeholder } from "components/UI/Desoc/DesocDetails";
 
 export default function CredentialDetails() {
   const router = useRouter();
@@ -40,8 +41,7 @@ export default function CredentialDetails() {
   );
   const hasAccess = useIsAdminOrDelegate(org?.address ?? "");
 
-  if (!credential) return <Loader className="h-screen" />;
-  if (!metadata) return null;
+  if (!credential || !metadata) return <Placeholder />;
 
   return (
     <ContentGrid>
