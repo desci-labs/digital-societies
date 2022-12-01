@@ -9,7 +9,8 @@ export default function useFilteredOrg() {
   const [searchText, setSearchText] = useState("");
   const { data: orgList, isLoading } = useGetOrgState();
   const [debouncedSearchText, isDebouncing] = useDebouncer(searchText, DELAY);
-  const { data: societies } = useGetSocietiesQuery({}, {});
+  const { data: societies, isLoading: isLoadingSettings } =
+    useGetSocietiesQuery({}, {});
 
   const filteredList = useMemo(() => {
     const sanitizedText =
@@ -45,7 +46,7 @@ export default function useFilteredOrg() {
     searchText,
     handleSearchTextChange,
     filteredList,
-    isLoading,
+    isLoading: isLoading || isLoadingSettings,
     isDebouncing,
     isEmpty: orgList.length === 0 && isLoading === false,
   };

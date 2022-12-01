@@ -15,7 +15,6 @@ import { ApiResponse } from "services/api/types";
 import { useGetOrg } from "services/orgs/hooks";
 import { setOrg } from "services/orgs/reducer";
 import { Org, PendingOrg } from "services/orgs/types";
-// import { setFormLoading } from "services/transaction/reducer";
 import { Step } from "services/transaction/types";
 import useTxUpdator from "services/transaction/updators";
 
@@ -52,6 +51,7 @@ function useVerification(address: string) {
       setIsSubmitting(false);
     }
   };
+
   const refute = async () => {
     if (!org || !contract) return;
     try {
