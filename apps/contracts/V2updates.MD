@@ -17,7 +17,6 @@ This contract holds all desoc and attestation details flowing within the protoco
 ### features
 - holds a mapping of recognized desoc (added by factory contract on deployment)
 - holds a mapping of attestations ``mapping(hash => uri)`` where hash = uint(desocAddress + attestationId)
-  Attestation holds { uri: attestation metadata uri on ipfs} or string (uri)
 - has a setAttestation(attestationId, uri)
 - setDelegate(delegate)
 - removeDelegate(delegate)
