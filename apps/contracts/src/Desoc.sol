@@ -81,7 +81,6 @@ contract Desoc is IDesoc, Ownable, ERC721 {
         external
         onlyDelegates
     {
-        // require(_typeExists(_tokenType), "Invalid SB type");
         for (uint256 i = 0; i < _to.length; ) {
             mint(_to[i], _tokenType);
 
@@ -128,20 +127,6 @@ contract Desoc is IDesoc, Ownable, ERC721 {
         typeToURI[attestationId] = uri;
         metadataHolder.updateAttestation(attestationId, uri);
     }
-
-    /// @notice Admin or Delegates can re-assign a new credential to a user
-    /// @dev Update the token type assigned to a tokenId
-    /// @param _tokenId token Id to be updated
-    /// @param _tokenType new token type to be assigned
-    // function updateTokenIdType(uint256 _tokenId, uint16 _tokenType)
-    //     external
-    //     onlyRole(DELEGATE_ROLE)
-    // {
-    //     require(_typeExists(_tokenType), "Invalid SB type");
-    //     require(_exists(_tokenId), "FORBIDDEN: Invalid tokenId");
-    //     tokenIdToType[_tokenId] = _tokenType;
-    //     emit TokenIdTypeUpdated(_tokenId, _tokenType);
-    // }
 
     /// @notice set a new metadata uri for this contract (organisation)
     /// @dev update the metadata uri for this contract
