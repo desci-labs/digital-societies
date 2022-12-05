@@ -20,7 +20,7 @@ export default function Layout({ children }: PropsWithChildren) {
   return (
     <div className="app-bg h-screen overflow-y-scroll" ref={handleRef}>
       <Head>
-        <title>Deciety</title>
+        <title>DeSoc Tools</title>
         <meta
           name="description"
           content="Deciety | Tooling for Desoc by Desci Labs"
