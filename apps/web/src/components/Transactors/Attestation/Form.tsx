@@ -3,13 +3,7 @@ import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import FileDropzone from "components/FileDropzone";
-import {
-  Form,
-  Input,
-  InputRow,
-  SelectInput,
-  Textarea,
-} from "components/Form/Index";
+import { Form, Input, InputRow, SelectInput } from "components/Form/Index";
 import { useGetOrg } from "services/orgs/hooks";
 import { AttestationFormValues, MetadataValues } from "../types";
 import ImagePreview from "components/UI/ImagePreview";
@@ -89,13 +83,6 @@ export default function AttestationForm() {
       </InputRow>
       <InputRow label="description" labelText="Description">
         <RichTextEditor {...register("properties.description")} />
-      </InputRow>
-      <InputRow label="description" labelText="Summary">
-        <Textarea
-          id="description"
-          {...register("description")}
-          disabled={true}
-        />
       </InputRow>
       <InputRow label="external_link" labelText={`Link to ${attestationType}`}>
         <ErrorMessage

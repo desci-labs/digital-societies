@@ -2,7 +2,7 @@ import FileDropzone from "components/FileDropzone";
 import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { Form, Input, InputRow, Textarea } from "components/Form/Index";
+import { Form, Input, InputRow } from "components/Form/Index";
 import { MetadataValues } from "../../types";
 import ImagePreview from "components/UI/ImagePreview";
 import useUpdate from "./useUpdate";
@@ -60,13 +60,6 @@ export default function UpdateForm() {
       </InputRow>
       <InputRow label="description" labelText="Description">
         <RichTextEditor {...register("properties.description")} />
-      </InputRow>
-      <InputRow label="description" labelText="Summary">
-        <Textarea
-          id="description"
-          {...register("description")}
-          disabled={true}
-        />
       </InputRow>
       <InputRow label="external_link" labelText="External link">
         <ErrorMessage
