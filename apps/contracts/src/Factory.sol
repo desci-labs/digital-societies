@@ -102,7 +102,7 @@ contract Factory is ERC2771Recipient {
         require(msg.sender == owner || !paused(), "Paused!");
         bytes memory code = abi.encodePacked(
             type(Desoc).creationCode,
-            abi.encode(_name, _symbol, _contractUri, _msgSender())
+            abi.encode(_name, _symbol, _contractUri, _msgSender(), metadataHolderAddress)
         );
         bytes32 salt = keccak256(abi.encodePacked(_msgSender()));
         assembly {

@@ -68,13 +68,14 @@ contract MetadataHolder is IMetaHolder, Ownable {
     function issueAttestation(
         uint16 attestationId,
         uint256 tokenId,
-        address recipient
+        address recipient,
+        address issuedBy
     ) external onlyValidSociety {
         require(
             isValidAttestation(_msgSender(), attestationId),
             "Invalid attestation"
         );
-        emit Issued(_msgSender(), recipient, attestationId, tokenId);
+        emit Issued(_msgSender(), recipient, issuedBy, attestationId, tokenId);
     }
 
     /**

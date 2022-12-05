@@ -10,6 +10,7 @@
 - delegates can disable an attestation
 - delegates can enable an attestation
 - has a function isAttestationValid
+- admin should be able to transfer ownership to another admin
 
 ## MetaHolder contract
 This contract holds all desoc and attestation details flowing within the protocol
@@ -37,3 +38,7 @@ _______
 - admin can create an attestation anything after deployment and mark it as the delegate role type
 - once marked, all holders of that attestation become delegates and can perform actions on behalf of the admin.
 - if no attestation is marked as delegate, the check passes only if msg.sender is the admin
+
+## updating the attestation linked to a tokenId 
+Is this a valid use case and should the feature be retained?
+In a case where the delegate mistakenly assigns a wrong attestation to the wallet address, he or she can update the attestation linked to the tokenID instead of revoking and minting to a different attestation.

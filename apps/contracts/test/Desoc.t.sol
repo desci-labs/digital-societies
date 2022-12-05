@@ -230,38 +230,38 @@ contract DesocTest is DesocManager, Test {
         sbt.revoke(1);
     }
 
-    function testUpdateTokenIdType() public {
-        uint16 _type = _mintTokenType();
-        uint16 _type2 = _mintTokenType();
-        assertEq(
-            keccak256(abi.encodePacked(sbt.typeURI(_type))),
-            keccak256(abi.encodePacked(metadataURI))
-        );
+    // function testUpdateTokenIdType() public {
+    //     uint16 _type = _mintTokenType();
+    //     uint16 _type2 = _mintTokenType();
+    //     assertEq(
+    //         keccak256(abi.encodePacked(sbt.typeURI(_type))),
+    //         keccak256(abi.encodePacked(metadataURI))
+    //     );
 
-        sbt.updateTypeURI(_type2, metadataURI2);
+    //     sbt.updateTypeURI(_type2, metadataURI2);
 
-        sbt.mint(alice, _type2);
-        sbt.updateTokenIdType(1, _type2);
+    //     sbt.mint(alice, _type2);
+    //     sbt.updateTokenIdType(1, _type2);
 
-        assertEq(
-            keccak256(abi.encodePacked(sbt.tokenURI(1))),
-            keccak256(abi.encodePacked(metadataURI2))
-        );
-    }
+    //     assertEq(
+    //         keccak256(abi.encodePacked(sbt.tokenURI(1))),
+    //         keccak256(abi.encodePacked(metadataURI2))
+    //     );
+    // }
 
-    function testCannotUpdateInvalidTokenType() public {
-        // Try to update a non-existent type
-        vm.expectRevert("Invalid SB type");
-        sbt.updateTokenIdType(1, 2);
-    }
+    // function testCannotUpdateInvalidTokenType() public {
+    //     // Try to update a non-existent type
+    //     vm.expectRevert("Invalid SB type");
+    //     sbt.updateTokenIdType(1, 2);
+    // }
 
-    function testCannotUpdateInvalidTokenIdType() public {
-        uint16 _type = _mintTokenType();
+    // function testCannotUpdateInvalidTokenIdType() public {
+    //     uint16 _type = _mintTokenType();
 
-        // Try to update a non-existent type
-        vm.expectRevert("FORBIDDEN: Invalid tokenId");
-        sbt.updateTokenIdType(2, _type);
-    }
+    //     // Try to update a non-existent type
+    //     vm.expectRevert("FORBIDDEN: Invalid tokenId");
+    //     sbt.updateTokenIdType(2, _type);
+    // }
 
     function testCannotUpdateTypeURI() public {
         uint16 _type = _mintTokenType();

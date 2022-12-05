@@ -4,7 +4,6 @@ pragma solidity 0.8.17;
 
 import "@openzeppelin/contracts/interfaces/IERC165.sol";
 
-
 interface IMetaHolder is IERC165 {
     /**
      * @dev Emitted when a new attestation `attestationId` with uri `uri` is minted on Desoc `society`
@@ -20,20 +19,12 @@ interface IMetaHolder is IERC165 {
      * @dev Emitted when a new token `tokenId` is minted to attestation `attestationId`
      */
     event Issued(
-        address society,
-        address recipient,
+        address indexed society,
+        address indexed recipient,
+        address indexed issuedBy,
         uint16 attestationId,
         uint256 tokenId
     );
-
-    /**
-     * @dev Emitted when a new tokens `tokenIds` is minted to attestation `attestationId`
-     */
-    // event IssueAttestations(
-    //     address society,
-    //     uint16 attestationId,
-    //     uint256[] tokenIds
-    // );
 
     /**
      * @dev Emitted when `tokenId` token which belongs to `owner` is revoked by `revokedBy`.
@@ -43,11 +34,6 @@ interface IMetaHolder is IERC165 {
         address indexed owner,
         address indexed revokedBy
     );
-
-    /**
-     * @dev Emitted when tokens `tokenId` are revoked or burned
-     */
-    event RevokedTokens(uint16[] tokenIds);
 
     // setFactoryAddress - only owner
     /**
@@ -60,7 +46,6 @@ interface IMetaHolder is IERC165 {
      */
     function addSociety(address society, string calldata uri) external;
 
-    // updateSociety(uri) - isValidSociety
     /**
      * @dev external function called by factory contract to add a newly deployed society
      */
@@ -70,34 +55,23 @@ interface IMetaHolder is IERC165 {
     /**
      * @dev update attestation token uri
      */
-    function updateAttestation(uint16 attestationId, string calldata uri) external;
+    function updateAttestation(uint16 attestationId, string calldata uri)
+        external;
 
-    // addRecipient(uint16 type, address recipient) -> isValidSociety
+    // issueAttestation(uint16 type, address recipient) -> isValidSociety
     /**
      * @dev issue a new attestation to `recipient`
      */
     function issueAttestation(
         uint16 attestationId,
         uint256 tokenId,
-        address recipient
+        address recipient,
+        address issuedBy
     ) external;
 
-    // addRecipients(uint16 type, address[] recipients) -> isValidSociety
-    /**
-     * @dev Issue a new attestation `recipients`
-     */
-    // function addRecipients(uint16 attestationId, uint256[] tokenIds, address[] calldata recipients)
-    //     external;
-
-    // revokeToken(uint256 tokenId) -> isValidSociety
-    /**
-     * @dev revoke token of Id `tokenId`
-     */
-    function revokeToken(uint256 tokenId, address owner, address revokedBy) external;
-
-    // revokeToken(uint256 tokenId[]) -> isValidSociety
-    /**
-     * @dev revoke tokens in the array of `tokenIds`
-     */
-    // function revokeTokens(uint256[] calldata tokenIds) external;
+    function revokeToken(
+        uint256 tokenId,
+        address _owner,
+        address revokedBy
+    ) external;
 }
