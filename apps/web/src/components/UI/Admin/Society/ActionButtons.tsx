@@ -98,7 +98,7 @@ export function ToggleVerification(props: { society: Org | PendingOrg }) {
 }
 
 export function ToggleVisibility(props: { address: string }) {
-  const { data: society, isLoading } = useGetOrgSetting(props.address);
+  const { data: society } = useGetOrgSetting(props.address);
   const [insertSociety, { isLoading: isInserting }] =
     useInsertSocietyMutation();
   const [updateSociety] = useUpdateSocietyMutation();
@@ -139,7 +139,7 @@ export function ToggleVisibility(props: { address: string }) {
   return (
     <Button
       onClick={trigger}
-      disabled={isLoading || isInserting}
+      disabled={isInserting}
       className={`bg-transparent bg-white bg-opacity-0 px-0 py-0 w-10 outline-0`}
     >
       {society?.disabled ? (

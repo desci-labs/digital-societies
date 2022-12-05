@@ -8,12 +8,17 @@ export type TxProps<T extends JSX.IntrinsicAttributes> = {
   contentProps: T;
 };
 
+export type MetaProperties = {
+  description: string;
+};
+
 type Meta = {
   name: string;
   symbol: string;
   acronym?: string;
   description: string;
   external_link: string;
+  properties: MetaProperties;
 };
 
 type WithUploadedFiles = {

@@ -34,6 +34,7 @@ export default function useLaunch() {
   };
 
   async function launch(metadata: MetadataValues) {
+    console.log("metadata", metadata);
     try {
       if (!factoryContract) return;
       if (!issuer) return;

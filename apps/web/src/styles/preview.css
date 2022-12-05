@@ -60,6 +60,7 @@
 .badge-details-container .badge-details-content .badge-image > img {
   min-width: 90px;
   max-width: 90px;
+  min-height: 90px;
   border-radius: 50%;
 }
 

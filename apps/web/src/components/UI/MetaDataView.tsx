@@ -1,6 +1,7 @@
 import { VerifiedBadgeIcon } from "assets/svg";
 import { FileObject } from "components/FileDropzone/types";
 import Icon from "components/Icons/Icons";
+import RichTextRenderer from "components/RichTextRenderer/RichTextRenderer";
 import {
   AttestationMetadata,
   AttestationMetadataValues,
@@ -25,6 +26,24 @@ type MetaViewProps = {
     | AttestationMetadata
     | AttestationMetadataValues;
 };
+
+function Description(props: {
+  metadata:
+    | Metadata
+    | MetadataValues
+    | AttestationMetadata
+    | AttestationMetadataValues;
+}) {
+  if (props.metadata?.properties?.description) {
+    return <RichTextRenderer text={props.metadata?.properties?.description} />;
+  }
+
+  return (
+    <span className="text-lg block mb-2 text-left text-neutrals-gray-5">
+      {props.metadata.description}
+    </span>
+  );
+}
 
 export default function MetaDataView(props: MetaViewProps) {
   return (
@@ -57,9 +76,15 @@ export default function MetaDataView(props: MetaViewProps) {
             />
           )}
         </div>
-        <span className="text-lg block mb-2 text-left text-neutrals-gray-5">
-          {props.metadata.description}
-        </span>
+        <Description metadata={props.metadata} />
+        {/* {!props.metadata?.properties?.description && (
+          <span className="text-lg block mb-2 text-left text-neutrals-gray-5">
+            {props.metadata.description}
+          </span>
+        )}
+        {props.metadata?.properties?.description && (
+          <RichTextRenderer text={props.metadata.properties.description} />
+        )} */}
       </div>
     </div>
   );

@@ -19,6 +19,7 @@ import { useModalContext } from "components/Modal/Modal";
 import Button from "components/UI/Button/Index";
 import { attestationTypes } from "../constants";
 import { useSetFormView } from "context/useFormView";
+import RichTextEditor from "components/RichTextEditor/RichTextEditor";
 
 export default function AttestationForm() {
   const {
@@ -43,7 +44,6 @@ export default function AttestationForm() {
   const { setView } = useSetFormView();
 
   const canDisable = useMemo(() => !isDirty || isLoading, [isDirty, isLoading]);
-  console.log("DEBUG:", isValid, isDirty, isLoading);
   useEffect(() => {
     if (isUpdateMode && !id) {
       hideModal();
@@ -88,7 +88,14 @@ export default function AttestationForm() {
         />
       </InputRow>
       <InputRow label="description" labelText="Description">
-        <Textarea id="description" {...register("description")} />
+        <RichTextEditor {...register("properties.description")} />
+      </InputRow>
+      <InputRow label="description" labelText="Summary">
+        <Textarea
+          id="description"
+          {...register("description")}
+          disabled={true}
+        />
       </InputRow>
       <InputRow label="external_link" labelText={`Link to ${attestationType}`}>
         <ErrorMessage

@@ -9,6 +9,7 @@ import useUpdate from "./useUpdate";
 import { useRouter } from "next/router";
 import { useModalContext } from "components/Modal/Modal";
 import Button from "components/UI/Button/Index";
+import RichTextEditor from "components/RichTextEditor/RichTextEditor";
 
 export default function UpdateForm() {
   const {
@@ -58,7 +59,14 @@ export default function UpdateForm() {
         />
       </InputRow>
       <InputRow label="description" labelText="Description">
-        <Textarea id="description" {...register("description")} />
+        <RichTextEditor {...register("properties.description")} />
+      </InputRow>
+      <InputRow label="description" labelText="Summary">
+        <Textarea
+          id="description"
+          {...register("description")}
+          disabled={true}
+        />
       </InputRow>
       <InputRow label="external_link" labelText="External link">
         <ErrorMessage

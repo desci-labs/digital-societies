@@ -1,0 +1,14 @@
+import { FieldValues, Path } from "react-hook-form";
+
+export type BaseProps<T extends FieldValues> = {
+  name: Path<T>;
+  className?: string;
+  disabled?: boolean;
+  hasError?: boolean;
+};
+
+export type EditorProps = {
+  onChange: (...args: unknown[]) => void;
+  onRawTextChanged?: (text: string) => void;
+  value: string;
+};

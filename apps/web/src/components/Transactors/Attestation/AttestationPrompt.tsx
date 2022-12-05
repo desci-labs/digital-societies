@@ -13,7 +13,6 @@ export type Props = JSX.IntrinsicAttributes & {
 
 export default function AttestationPrompt({ org, mode }: Props) {
   const formView = useGetFormView();
-  console.log("view", formView);
   const view = useMemo(() => {
     switch (formView) {
       case "form":
