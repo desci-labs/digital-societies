@@ -3,7 +3,6 @@ pragma solidity 0.8.17;
 import "src/Desoc.sol";
 import "gsn/packages/contracts/src/ERC2771Recipient.sol";
 import "gsn/packages/contracts/src/forwarder/Forwarder.sol";
-import "@openzeppelin/contracts/security/Pausable.sol";
 
 import "./interfaces/IMetaHolder.sol";
 

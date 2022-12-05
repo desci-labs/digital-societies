@@ -4,6 +4,11 @@ pragma solidity 0.8.17;
 import "./interfaces/IMetaHolder.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+/// @title An experimental implementation of an event logging smart contract for Desoc Oss Protocol
+/// @author DeSoc OSS collective
+/// @notice This contract is linked to the factory and other sbt contracts for the purpose of event logging
+/// @dev All functions are subject to changes in the future.
+/// @custom:experimental This is an experimental contract.
 contract MetadataHolder is IMetaHolder, Ownable {
     address private factoryAddress;
     mapping(address => bool) private _societies;
@@ -41,16 +46,22 @@ contract MetadataHolder is IMetaHolder, Ownable {
         emit SocietyUpdated(society, uri);
     }
 
-    /**
-     * @dev external function called by factory contract to add a newly deployed society
-     */
+    /// @inheritdoc IMetaHolder
+    function updateAdmin(address admin) external onlyValidSociety {
+        emit AdminUpdated(_msgSender(), admin);
+    }
+
+    /// @inheritdoc IMetaHolder
+    function updateDelegate(uint16 attestationId) external onlyValidSociety {
+        emit DelegatesUpdated(_msgSender(), attestationId);
+    }
+
+    /// @inheritdoc IMetaHolder
     function updateSociety(string calldata uri) external onlyValidSociety {
         emit SocietyUpdated(_msgSender(), uri);
     }
 
-    /**
-     * @dev update attestation token uri
-     */
+    /// @inheritdoc IMetaHolder
     function updateAttestation(uint16 attestationId, string calldata uri)
         external
         onlyValidSociety
@@ -62,9 +73,7 @@ contract MetadataHolder is IMetaHolder, Ownable {
         emit AttestationUpdated(_msgSender(), attestationId, uri);
     }
 
-    /**
-     * @dev issue a new attestation to `recipient`
-     */
+    /// @inheritdoc IMetaHolder
     function issueAttestation(
         uint16 attestationId,
         uint256 tokenId,
@@ -78,9 +87,7 @@ contract MetadataHolder is IMetaHolder, Ownable {
         emit Issued(_msgSender(), recipient, issuedBy, attestationId, tokenId);
     }
 
-    /**
-     * @dev revoke token of Id `tokenId`
-     */
+    /// @inheritdoc IMetaHolder
     function revokeToken(
         uint256 tokenId,
         address _owner,

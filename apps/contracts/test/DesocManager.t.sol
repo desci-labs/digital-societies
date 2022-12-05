@@ -48,7 +48,7 @@ contract DesocManagerTest is Test {
         deploySBT();
         assertEq(sbt.totalSupply(), 0);
         assertEq(sbt.balanceOf(admin), 0);
-        assertEq(sbt.hasRole(sbt.DEFAULT_ADMIN_ROLE(), admin), true);
+        assertEq(sbt.owner(), admin);
         assertEq(sbt.contractURI(), ipfsURI);
         vm.stopPrank();(admin);
     }

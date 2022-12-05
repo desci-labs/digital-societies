@@ -54,48 +54,48 @@ contract DesocTest is DesocManager, Test {
         assertEq(sbt.symbol(), symbol);
     }
 
-    function testAdminRole() public {
-        uint256 delegateRoleCount = sbt.getRoleMemberCount(sbt.DELEGATE_ROLE());
-        uint256 adminRoleCount = sbt.getRoleMemberCount(
-            sbt.DEFAULT_ADMIN_ROLE()
-        );
+    // function testAdminRole() public {
+    //     uint256 delegateRoleCount = sbt.getRoleMemberCount(sbt.DELEGATE_ROLE());
+    //     uint256 adminRoleCount = sbt.getRoleMemberCount(
+    //         sbt.DEFAULT_ADMIN_ROLE()
+    //     );
 
-        assertTrue(adminRoleCount == 1);
-        assertTrue(delegateRoleCount == 1);
-        assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), admin), true);
-        assertEq(sbt.hasRole(sbt.DEFAULT_ADMIN_ROLE(), admin), true);
-    }
+    //     assertTrue(adminRoleCount == 1);
+    //     assertTrue(delegateRoleCount == 1);
+    //     assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), admin), true);
+    //     assertEq(sbt.hasRole(sbt.DEFAULT_ADMIN_ROLE(), admin), true);
+    // }
 
-    function testAddDelegates() public {
-        sbt.grantRole(sbt.DELEGATE_ROLE(), alice);
-        sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
+    // function testAddDelegates() public {
+    //     sbt.grantRole(sbt.DELEGATE_ROLE(), alice);
+    //     sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
 
-        uint256 delegateRoleCount = sbt.getRoleMemberCount(sbt.DELEGATE_ROLE());
+    //     uint256 delegateRoleCount = sbt.getRoleMemberCount(sbt.DELEGATE_ROLE());
 
-        assertEq(delegateRoleCount, 3);
-        assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), sina), true);
-        assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), alice), true);
-    }
+    //     assertEq(delegateRoleCount, 3);
+    //     assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), sina), true);
+    //     assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), alice), true);
+    // }
 
-    function testRemoveDelegates() public {
-        sbt.grantRole(sbt.DELEGATE_ROLE(), alice);
-        sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
+    // function testRemoveDelegates() public {
+    //     sbt.grantRole(sbt.DELEGATE_ROLE(), alice);
+    //     sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
 
-        uint256 delegateRoleCount = sbt.getRoleMemberCount(sbt.DELEGATE_ROLE());
+    //     uint256 delegateRoleCount = sbt.getRoleMemberCount(sbt.DELEGATE_ROLE());
 
-        assertEq(delegateRoleCount, 3);
-        assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), sina), true);
-        assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), alice), true);
+    //     assertEq(delegateRoleCount, 3);
+    //     assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), sina), true);
+    //     assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), alice), true);
 
-        sbt.revokeRole(sbt.DELEGATE_ROLE(), alice);
-        sbt.revokeRole(sbt.DELEGATE_ROLE(), sina);
+    //     sbt.revokeRole(sbt.DELEGATE_ROLE(), alice);
+    //     sbt.revokeRole(sbt.DELEGATE_ROLE(), sina);
 
-        delegateRoleCount = sbt.getRoleMemberCount(sbt.DELEGATE_ROLE());
+    //     delegateRoleCount = sbt.getRoleMemberCount(sbt.DELEGATE_ROLE());
 
-        assertEq(delegateRoleCount, 1);
-        assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), sina), false);
-        assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), alice), false);
-    }
+    //     assertEq(delegateRoleCount, 1);
+    //     assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), sina), false);
+    //     assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), alice), false);
+    // }
 
     function testTokenUriIsTypeURI() public {
         uint16 _type = _mintTokenType();
@@ -174,32 +174,32 @@ contract DesocTest is DesocManager, Test {
         }
     }
 
-    function testDelegateMintSBToken() public {
-        sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
+    // function testDelegateMintSBToken() public {
+    //     sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
 
-        changePrank(sina);
+    //     changePrank(sina);
 
-        uint16 _type = _mintTokenType();
-        sbt.mint(alice, _type);
+    //     uint16 _type = _mintTokenType();
+    //     sbt.mint(alice, _type);
 
-        assertEq(sbt.balanceOf(alice), 1);
-        assertEq(sbt.ownerOf(1), alice);
-    }
+    //     assertEq(sbt.balanceOf(alice), 1);
+    //     assertEq(sbt.ownerOf(1), alice);
+    // }
 
-    function testDelegateRevokeSBToken() public {
-        sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
+    // function testDelegateRevokeSBToken() public {
+    //     sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
 
-        changePrank(sina);
-        uint16 _type = _mintTokenType();
-        sbt.mint(alice, _type);
+    //     changePrank(sina);
+    //     uint16 _type = _mintTokenType();
+    //     sbt.mint(alice, _type);
 
-        assertEq(sbt.balanceOf(alice), 1);
-        assertEq(sbt.ownerOf(1), alice);
+    //     assertEq(sbt.balanceOf(alice), 1);
+    //     assertEq(sbt.ownerOf(1), alice);
 
-        sbt.revoke(1);
+    //     sbt.revoke(1);
 
-        assertEq(sbt.balanceOf(alice), 0);
-    }
+    //     assertEq(sbt.balanceOf(alice), 0);
+    // }
 
     function testCannotMintSBToken() public {
         uint16 _type = _mintTokenType();

@@ -9,6 +9,16 @@ interface IMetaHolder is IERC165 {
      * @dev Emitted when a new attestation `attestationId` with uri `uri` is minted on Desoc `society`
      */
     event SocietyUpdated(address society, string uri);
+   
+    /**
+     * @dev Emitted when a new admin `admin` is assigned on Desoc `society`
+     */
+    event AdminUpdated(address society, address admin);
+    
+    /**
+     * @dev Emitted when an attestation of ID `attestationId` is marked as the delegate role attestation
+     */
+    event DelegatesUpdated(address society, uint16 attestationId);
 
     /**
      * @dev Emitted when a new attestation `attestationId` with uri `uri` is minted on Desoc `society`
@@ -35,7 +45,6 @@ interface IMetaHolder is IERC165 {
         address indexed revokedBy
     );
 
-    // setFactoryAddress - only owner
     /**
      * @dev set the desoc manager/factory contract address
      */
@@ -50,15 +59,23 @@ interface IMetaHolder is IERC165 {
      * @dev external function called by factory contract to add a newly deployed society
      */
     function updateSociety(string calldata uri) external;
+   
+    /**
+     * @dev external function called by a Desoc contract log it's updated admin
+     */
+    function updateAdmin(address admin) external;
+   
+    /**
+     * @dev external function called by a Desoc contract log it's updated delegate attestation
+     */
+    function updateDelegate(uint16 attestationId) external;
 
-    // updateAttestation(uint16 type, string uri) -> isValidSociety
     /**
      * @dev update attestation token uri
      */
     function updateAttestation(uint16 attestationId, string calldata uri)
         external;
 
-    // issueAttestation(uint16 type, address recipient) -> isValidSociety
     /**
      * @dev issue a new attestation to `recipient`
      */
