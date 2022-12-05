@@ -69,7 +69,6 @@ export default function Header() {
 
 function AdminNavLink(props: { mobile?: boolean }) {
   const hasAccess = useAdmin();
-
   if (!hasAccess) return null;
 
   if (props.mobile)

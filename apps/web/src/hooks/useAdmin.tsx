@@ -13,7 +13,6 @@ export default function useAdmin() {
   }
 
   useEffect(() => {
-    if (!account || !desocManager) return;
     getAdmin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, desocManager]);
