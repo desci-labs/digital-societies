@@ -4,17 +4,18 @@ import "src/Desoc.sol";
 import "gsn/packages/contracts/src/ERC2771Recipient.sol";
 import "gsn/packages/contracts/src/forwarder/Forwarder.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
 
 /// @title An experimental implementation of a soul-bound token (SBT) Factory smart contract
 /// @author Oloyede Shadrach Temitayo (@oloyedeshadrach)
 /// @notice You can use this contract to deploy a SBT contract for your organisation
 /// @dev All functions are subject to changes in the future.
 /// @custom:experimental This is an experimental contract for DeSci Labs (https://desci.com).
-contract DesocManager is ERC2771Recipient {
+contract DesocManager is ERC2771Recipient, Pausable {
     address public owner;
     mapping(address => bool) public verified;
 
-    event TokenCreated(address indexed token, address indexed owner);
+    event Deployed(address indexed token, address indexed owner, string contractUri);
     event Verified(address indexed org);
     event Refuted(address indexed org);
 
@@ -33,6 +34,8 @@ contract DesocManager is ERC2771Recipient {
         string memory _symbol,
         string memory _metadata
     ) external returns (address token) {
+        // only owner can deploy desoc when contract is paused
+        require(msg.sender == owner() || !paused(), "Paused!");
         bytes memory code = abi.encodePacked(
             type(Desoc).creationCode,
             abi.encode(_name, _symbol, _metadata, _msgSender())
@@ -44,7 +47,7 @@ contract DesocManager is ERC2771Recipient {
                 revert(0, 0)
             }
         }
-        emit TokenCreated(token, _msgSender());
+        emit Deployed(token, _msgSender());
     }
 
     /// @notice Verify an organisation

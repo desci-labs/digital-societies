@@ -1,9 +1,9 @@
-pragma solidity 0.8.13;
+pragma solidity 0.8.17;
 //SPDX-License-Identifier: MIT
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
-import "./IDesoc.sol";
+import "./interfaces/IDesoc.sol";
 
 /// @title An experimental implementation of a soul-bound token (SBT) smart contract
 /// @author Oloyede Shadrach Temitayo (@oloyedeshadrach)
