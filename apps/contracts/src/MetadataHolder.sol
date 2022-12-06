@@ -10,7 +10,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 /// @dev All functions are subject to changes in the future.
 /// @custom:experimental This is an experimental contract.
 contract MetadataHolder is IMetaHolder, Ownable {
-    address private factoryAddress;
+    address public factoryAddress;
     mapping(address => bool) private _societies;
     mapping(bytes32 => bool) private _attestations;
 

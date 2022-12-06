@@ -40,30 +40,7 @@ contract Factory is ERC2771Recipient {
         _setTrustedForwarder(forwarder);
     }
 
-    /**
-     * @dev Modifier to make a function callable only when the contract is not paused.
-     *
-     * Requirements:
-     *
-     * - The contract must not be paused.
-     */
-    modifier whenNotPaused() {
-        require(_paused == false, "Paused");
-        _;
-    }
-
-    /**
-     * @dev Modifier to make a function callable only when the contract is paused.
-     *
-     * Requirements:
-     *
-     * - The contract must be paused.
-     */
-    modifier whenPaused() {
-        require(_paused == true, "Not paused");
-        _;
-    }
-
+    
     function pause() external {
         require(_msgSender() == owner, "unauthorized");
         _paused = true;

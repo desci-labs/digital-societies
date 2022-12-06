@@ -28,11 +28,13 @@ contract Desoc is IDesoc, Ownable, ERC721 {
         string memory _name,
         string memory _symbol,
         string memory _metadata,
+        address _owner,
         address _metadataHolderAddress
     ) ERC721(_name, _symbol) {
         factory = msg.sender;
         _contractURI = _metadata;
         metadataHolder = IMetaHolder(_metadataHolderAddress);
+        transferOwnership(_owner);
     }
 
     modifier onlyDelegates() {
