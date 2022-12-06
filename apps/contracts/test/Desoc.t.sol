@@ -2,15 +2,22 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
-import {DesocManager} from "src/DesocManager.sol";
+import {Factory} from "src/Factory.sol";
 import {Desoc} from "src/Desoc.sol";
 import {console} from "forge-std/console.sol";
 import {Utils} from "./Utils/Utils.sol";
+import { MetadataHolder } from "src/MetadataHolder.sol";
 
-contract DesocTest is DesocManager, Test {
+// TODO: TESTS
+//* Test contract ownership transfer
+//* test new delegate attestation logic
+//*
+
+contract DesocTest is Test {
     Desoc sbt;
+    Factory factory;
     Utils internal utils;
-
+    address private metadataHolderAddress;
     address internal admin;
     address internal alice;
     address internal sina;
@@ -23,7 +30,6 @@ contract DesocTest is DesocManager, Test {
     string public metadataURI2 =
         "https://w3s.link/ipfs/bafkreidszg5xvxxkhen4nyfyhz6ooueohcyo2yfgysi4ccqmxgioys65dy";
 
-    constructor() DesocManager(_forwarder) {}
 
     function setUp() public {
         utils = new Utils();
@@ -39,7 +45,10 @@ contract DesocTest is DesocManager, Test {
         vm.label(sina, "Sina");
         vm.label(bob, "Bob");
 
-        vm.startPrank(admin);
+        factory = new Factory(_forwarder);
+        MetadataHolder meta = new MetadataHolder(address(factory));
+        metadataHolderAddress = address(meta);
+        factory.setMetaAddress(metadataHolderAddress);
         deploySBT();
     }
 
@@ -47,24 +56,16 @@ contract DesocTest is DesocManager, Test {
         string memory name = "Desci Labs";
         string memory symbol = "DSI";
 
-        address deployed = this.deployToken(name, symbol, metadataURI);
+        address deployed = factory.deployToken(name, symbol, metadataURI);
         sbt = Desoc(deployed);
 
         assertEq(sbt.name(), name);
         assertEq(sbt.symbol(), symbol);
+        assertEq(sbt.owner(), address(this));
     }
 
-    // function testAdminRole() public {
-    //     uint256 delegateRoleCount = sbt.getRoleMemberCount(sbt.DELEGATE_ROLE());
-    //     uint256 adminRoleCount = sbt.getRoleMemberCount(
-    //         sbt.DEFAULT_ADMIN_ROLE()
-    //     );
-
-    //     assertTrue(adminRoleCount == 1);
-    //     assertTrue(delegateRoleCount == 1);
-    //     assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), admin), true);
-    //     assertEq(sbt.hasRole(sbt.DEFAULT_ADMIN_ROLE(), admin), true);
-    // }
+    function testAdminRole() public {
+    }
 
     // function testAddDelegates() public {
     //     sbt.grantRole(sbt.DELEGATE_ROLE(), alice);
@@ -97,8 +98,8 @@ contract DesocTest is DesocManager, Test {
     //     assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), alice), false);
     // }
 
-    function testTokenUriIsTypeURI() public {
-        uint16 _type = _mintTokenType();
+    function testTokenUriIsAttestationURI() public {
+        uint16 _type = _createAttestation();
         sbt.mint(alice, _type);
         string memory tokenUri = sbt.tokenURI(1);
         string memory typeUri = sbt.typeURI(_type);
@@ -109,7 +110,7 @@ contract DesocTest is DesocManager, Test {
     }
 
     function testMint() public {
-        uint16 _type = _mintTokenType();
+        uint16 _type = _createAttestation();
         sbt.mint(alice, _type);
 
         assertEq(sbt.balanceOf(alice), 1);
@@ -117,7 +118,7 @@ contract DesocTest is DesocManager, Test {
     }
 
     function tesCannotIssueCredentialTwice() public {
-        uint16 _type = _mintTokenType();
+        uint16 _type = _createAttestation();
         sbt.mint(alice, _type);
         vm.expectRevert(
             bytes(string(abi.encodePacked("Duplicate credential")))
@@ -126,7 +127,7 @@ contract DesocTest is DesocManager, Test {
     }
 
     function testAdminRevokeSBToken() public {
-        uint16 _type = _mintTokenType();
+        uint16 _type = _createAttestation();
         sbt.mint(alice, _type);
 
         assertEq(sbt.balanceOf(alice), 1);
@@ -138,7 +139,7 @@ contract DesocTest is DesocManager, Test {
     }
 
     function testBatchMint() public {
-        uint16 _tokenType = _mintTokenType();
+        uint16 _tokenType = _createAttestation();
         address[] memory users = new address[](10);
         users = utils.createUsers(10);
 
@@ -153,7 +154,7 @@ contract DesocTest is DesocManager, Test {
     }
 
     function testBatchRevoke() public {
-        uint16 _tokenType = _mintTokenType();
+        uint16 _tokenType = _createAttestation();
         address[] memory users = new address[](10);
         users = utils.createUsers(10);
 
@@ -179,7 +180,7 @@ contract DesocTest is DesocManager, Test {
 
     //     changePrank(sina);
 
-    //     uint16 _type = _mintTokenType();
+    //     uint16 _type = _createAttestation();
     //     sbt.mint(alice, _type);
 
     //     assertEq(sbt.balanceOf(alice), 1);
@@ -190,7 +191,7 @@ contract DesocTest is DesocManager, Test {
     //     sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
 
     //     changePrank(sina);
-    //     uint16 _type = _mintTokenType();
+    //     uint16 _type = _createAttestation();
     //     sbt.mint(alice, _type);
 
     //     assertEq(sbt.balanceOf(alice), 1);
@@ -202,7 +203,7 @@ contract DesocTest is DesocManager, Test {
     // }
 
     function testCannotMintSBToken() public {
-        uint16 _type = _mintTokenType();
+        uint16 _type = _createAttestation();
         vm.stopPrank();
         (admin);
         vm.expectRevert(
@@ -219,7 +220,7 @@ contract DesocTest is DesocManager, Test {
     }
 
     function testCannotRevokeSBToken() public {
-        uint16 _type = _mintTokenType();
+        uint16 _type = _createAttestation();
         sbt.mint(alice, _type);
 
         changePrank(sina);
@@ -230,8 +231,8 @@ contract DesocTest is DesocManager, Test {
         sbt.revoke(1);
     }
 
-    function testCannotUpdateTypeURI() public {
-        uint16 _type = _mintTokenType();
+    function testCannotUpdateAttestationURI() public {
+        uint16 _type = _createAttestation();
         sbt.mint(alice, _type);
 
         vm.stopPrank();
@@ -241,15 +242,15 @@ contract DesocTest is DesocManager, Test {
             "AccessControl: account 0xb4c79dab8f259c7aee6e5b2aa729821864227e84 is missing role 0x663244bfd3de81cc055674c09ade24d4646b75863d5d9dd77d1544f2eb5acc26"
         );
 
-        sbt.updateTypeURI(_type, metadataURI);
+        sbt.updateAttestationURI(_type, metadataURI);
     }
 
     function testCannotSetInvalidTypeURI() public {
-        uint16 _type = _mintTokenType();
+        uint16 _type = _createAttestation();
         sbt.mint(alice, _type);
 
         vm.expectRevert("Invalid typeURI");
-        sbt.updateTypeURI(_type, "");
+        sbt.updateAttestationURI(_type, "");
     }
 
     function testSetContractURI() public {
@@ -266,9 +267,9 @@ contract DesocTest is DesocManager, Test {
     }
 
     function testUpdateTokenType() public {
-        uint16 _tokenType = _mintTokenType();
-        uint16 _tokenType2 = _mintTokenType();
-        sbt.updateTypeURI(_tokenType2, metadataURI2);
+        uint16 _tokenType = _createAttestation();
+        uint16 _tokenType2 = _createAttestation();
+        sbt.updateAttestationURI(_tokenType2, metadataURI2);
         assertTrue(
             keccak256(abi.encodePacked(sbt.typeURI(_tokenType))) ==
                 keccak256(abi.encodePacked(metadataURI))
@@ -279,8 +280,8 @@ contract DesocTest is DesocManager, Test {
         );
     }
 
-    function _mintTokenType() internal returns (uint16 _tokenType) {
-        sbt.mintTokenType(metadataURI);
+    function _createAttestation() internal returns (uint16 _tokenType) {
+        sbt.createAttestation(metadataURI);
         _tokenType = sbt.totalTypes();
         assertTrue(_tokenType > 0);
         assertTrue(

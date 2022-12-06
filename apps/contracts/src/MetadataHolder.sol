@@ -15,12 +15,12 @@ contract MetadataHolder is IMetaHolder, Ownable {
     mapping(bytes32 => bool) private _attestations;
 
     modifier onlyFactoryContract() {
-        require(_msgSender() == factoryAddress, "unauthorized");
+        require(_msgSender() == factoryAddress, "unauthorized: factory only");
         _;
     }
 
     modifier onlyValidSociety() {
-        require(_societies[_msgSender()], "unauthorized");
+        require(_societies[_msgSender()], "unauthorized: desoc only");
         _;
     }
 

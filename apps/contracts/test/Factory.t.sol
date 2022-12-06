@@ -5,7 +5,7 @@ import "forge-std/Test.sol";
 import {console} from "forge-std/console.sol";
 import {Factory} from "src/Factory.sol";
 import {Desoc} from "src/Desoc.sol";
-import { MetadataHolder } from "src/MetadataHolder.sol";
+import {MetadataHolder} from "src/MetadataHolder.sol";
 import {Utils} from "./Utils/Utils.sol";
 
 contract FactoryTest is Test {
@@ -31,11 +31,11 @@ contract FactoryTest is Test {
 
         factory = new Factory(_forwarder);
         metaHolder = new MetadataHolder(address(factory));
+        factory.setMetaAddress(address(metaHolder));
         deploySBT();
     }
 
     function deploySBT() internal {
-        assertTrue(factory.paused() == false);
         string memory name = "Desci Labs";
         string memory symbol = "DSI";
 
@@ -51,13 +51,10 @@ contract FactoryTest is Test {
     }
 
     function testDeployedSBT() public {
-        // vm.startPrank(admin);
-        // deploySBT();
         assertEq(sbt.totalSupply(), 0);
         assertEq(sbt.balanceOf(admin), 0);
         assertEq(sbt.owner(), address(this));
         assertEq(sbt.contractURI(), ipfsURI);
-        // vm.stopPrank();(admin);s
     }
 
     function testSetMetaHolderAddress() public {
@@ -99,7 +96,7 @@ contract FactoryTest is Test {
     function testAdminDeployWhenPaused() public {
         factory.pause();
         assertEq(factory.paused(), true);
-         address deployed = factory.deployToken(
+        factory.deployToken(
             "Nemesis",
             "Nms",
             ipfsURI
@@ -110,7 +107,7 @@ contract FactoryTest is Test {
         factory.pause();
         assertEq(factory.paused(), true);
         vm.startPrank(user1);
-         address deployed = factory.deployToken(
+        factory.deployToken(
             "Nemesis",
             "Nms",
             ipfsURI

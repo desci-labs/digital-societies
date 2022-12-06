@@ -40,21 +40,23 @@ contract Factory is ERC2771Recipient {
         _setTrustedForwarder(forwarder);
     }
 
-    
     function pause() external {
-        require(_msgSender() == owner, "unauthorized");
+        require(_msgSender() == owner, "unauthorized: only owner");
         _paused = true;
         emit Paused(_msgSender());
     }
 
     function unpause() external {
-        require(_msgSender() == owner, "unauthorized");
+        require(_msgSender() == owner, "unauthorized: only owner");
         _paused = false;
         emit Unpaused(_msgSender());
     }
 
     function setMetaAddress(address _metaAddress) external {
-        require(_msgSender() == owner, "unauthorized");
+        require(
+            _msgSender() == owner,
+            "unauthorized: only owner"
+        );
         require(
             IMetaHolder(_metaAddress).supportsInterface(
                 type(IMetaHolder).interfaceId
@@ -78,7 +80,13 @@ contract Factory is ERC2771Recipient {
         require(msg.sender == owner || !paused(), "Paused!");
         bytes memory code = abi.encodePacked(
             type(Desoc).creationCode,
-            abi.encode(_name, _symbol, _contractUri, _msgSender(), metadataHolderAddress)
+            abi.encode(
+                _name,
+                _symbol,
+                _contractUri,
+                _msgSender(),
+                metadataHolderAddress
+            )
         );
         bytes32 salt = keccak256(abi.encodePacked(_msgSender()));
         assembly {
@@ -87,6 +95,7 @@ contract Factory is ERC2771Recipient {
                 revert(0, 0)
             }
         }
+        IMetaHolder(metadataHolderAddress).addSociety(token, _contractUri);
         emit Deployed(token, _msgSender(), _contractUri);
     }
 

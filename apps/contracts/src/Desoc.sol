@@ -68,7 +68,7 @@ contract Desoc is IDesoc, Ownable, ERC721 {
     /// @dev Mints a new token type that can be issued to users
     /// @dev The new type is linked to a new ipfs hash linked to it's metadata
     /// @param uri is the uri (ipfs hash) of the metadata associated to this mint
-    function mintTokenType(string calldata uri) external onlyDelegates {
+    function createAttestation(string calldata uri) external onlyDelegates {
         require(bytes(uri).length > 0, "Invalid typeURI");
         totalTypes++;
         typeToURI[totalTypes] = uri;
@@ -120,7 +120,7 @@ contract Desoc is IDesoc, Ownable, ERC721 {
     /// @dev DELEGATE_ROLE can update the ipfs of a token type
     /// @param attestationId token type to update
     /// @param uri new ipfs hash or uri to be set for attestationId
-    function updateTypeURI(uint16 attestationId, string memory uri)
+    function updateAttestationURI(uint16 attestationId, string memory uri)
         external
         onlyDelegates
     {
