@@ -64,39 +64,27 @@ contract DesocTest is Test {
         assertEq(sbt.owner(), address(this));
     }
 
-    function testAdminRole() public {
+    function testTransferOwnership() public {
     }
 
-    // function testAddDelegates() public {
-    //     sbt.grantRole(sbt.DELEGATE_ROLE(), alice);
-    //     sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
+    function testSetDelegateRole() public {
+    }
 
-    //     uint256 delegateRoleCount = sbt.getRoleMemberCount(sbt.DELEGATE_ROLE());
+    function testRemoveDelegateRole() public {
+    }
 
-    //     assertEq(delegateRoleCount, 3);
-    //     assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), sina), true);
-    //     assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), alice), true);
-    // }
+    function testFailUpdateDelegateRole() public {
+    }
 
-    // function testRemoveDelegates() public {
-    //     sbt.grantRole(sbt.DELEGATE_ROLE(), alice);
-    //     sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
+    function testFailDelegatesUpdateDelegateRole() public {
+    }
 
-    //     uint256 delegateRoleCount = sbt.getRoleMemberCount(sbt.DELEGATE_ROLE());
-
-    //     assertEq(delegateRoleCount, 3);
-    //     assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), sina), true);
-    //     assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), alice), true);
-
-    //     sbt.revokeRole(sbt.DELEGATE_ROLE(), alice);
-    //     sbt.revokeRole(sbt.DELEGATE_ROLE(), sina);
-
-    //     delegateRoleCount = sbt.getRoleMemberCount(sbt.DELEGATE_ROLE());
-
-    //     assertEq(delegateRoleCount, 1);
-    //     assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), sina), false);
-    //     assertEq(sbt.hasRole(sbt.DELEGATE_ROLE(), alice), false);
-    // }
+    function testDelegateCreateAttestation() public {
+    }
+    function testDelegateIssueSbt() public {
+    }
+    function testDelegateRevokeSbt() public {
+    }
 
     function testTokenUriIsAttestationURI() public {
         uint16 _type = _createAttestation();
@@ -175,72 +163,29 @@ contract DesocTest is Test {
         }
     }
 
-    // function testDelegateMintSBToken() public {
-    //     sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
-
-    //     changePrank(sina);
-
-    //     uint16 _type = _createAttestation();
-    //     sbt.mint(alice, _type);
-
-    //     assertEq(sbt.balanceOf(alice), 1);
-    //     assertEq(sbt.ownerOf(1), alice);
-    // }
-
-    // function testDelegateRevokeSBToken() public {
-    //     sbt.grantRole(sbt.DELEGATE_ROLE(), sina);
-
-    //     changePrank(sina);
-    //     uint16 _type = _createAttestation();
-    //     sbt.mint(alice, _type);
-
-    //     assertEq(sbt.balanceOf(alice), 1);
-    //     assertEq(sbt.ownerOf(1), alice);
-
-    //     sbt.revoke(1);
-
-    //     assertEq(sbt.balanceOf(alice), 0);
-    // }
-
-    function testCannotMintSBToken() public {
+    function testFailMintSBToken() public {
         uint16 _type = _createAttestation();
-        vm.stopPrank();
-        (admin);
-        vm.expectRevert(
-            bytes(
-                string(
-                    abi.encodePacked(
-                        "AccessControl: account 0xb4c79dab8f259c7aee6e5b2aa729821864227e84 is missing role 0x663244bfd3de81cc055674c09ade24d4646b75863d5d9dd77d1544f2eb5acc26"
-                    )
-                )
-            )
-        );
-
+        vm.startPrank(admin);
         sbt.mint(alice, _type);
+        vm.stopPrank();(admin);
     }
 
-    function testCannotRevokeSBToken() public {
+    function testFailRevokeSBToken() public {
         uint16 _type = _createAttestation();
         sbt.mint(alice, _type);
 
+        // switch signer to sina
         changePrank(sina);
 
-        vm.expectRevert(
-            "AccessControl: account 0x075edf3ae919fbef9933f666bb0a95c6b80b04ed is missing role 0x663244bfd3de81cc055674c09ade24d4646b75863d5d9dd77d1544f2eb5acc26"
-        );
         sbt.revoke(1);
     }
 
-    function testCannotUpdateAttestationURI() public {
+    function testFailUpdateAttestationURI() public {
         uint16 _type = _createAttestation();
         sbt.mint(alice, _type);
 
-        vm.stopPrank();
-        (admin);
-
-        vm.expectRevert(
-            "AccessControl: account 0xb4c79dab8f259c7aee6e5b2aa729821864227e84 is missing role 0x663244bfd3de81cc055674c09ade24d4646b75863d5d9dd77d1544f2eb5acc26"
-        );
+        // switch signer to admin address
+        changePrank(admin);
 
         sbt.updateAttestationURI(_type, metadataURI);
     }
@@ -258,11 +203,8 @@ contract DesocTest is Test {
         assertEq(sbt.contractURI(), metadataURI);
     }
 
-    function testCannotSetContractURI() public {
+    function testFailSetContractURI() public {
         changePrank(sina);
-        vm.expectRevert(
-            "AccessControl: account 0x075edf3ae919fbef9933f666bb0a95c6b80b04ed is missing role 0x663244bfd3de81cc055674c09ade24d4646b75863d5d9dd77d1544f2eb5acc26"
-        );
         sbt.setContractURI(metadataURI);
     }
 
@@ -281,7 +223,7 @@ contract DesocTest is Test {
     }
 
     function _createAttestation() internal returns (uint16 _tokenType) {
-        sbt.createAttestation(metadataURI);
+        sbt.createAttestation(metadataURI, false);
         _tokenType = sbt.totalTypes();
         assertTrue(_tokenType > 0);
         assertTrue(
@@ -289,5 +231,10 @@ contract DesocTest is Test {
                 keccak256(abi.encodePacked(metadataURI))
         );
         _tokenType;
+    }
+    function _createDelegateSbt() internal returns (uint16 attestationId) {
+        sbt.createAttestation(metadataURI, true);
+        uint16 attestationId = sbt.totalTypes();
+        attestationId;
     }
 }

@@ -1,10 +1,10 @@
 pragma solidity 0.8.17;
 //SPDX-License-Identifier: MIT
 
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "./interfaces/IDesoc.sol";
 import "./interfaces/IMetaHolder.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 
 /// @title An experimental implementation of a soul-bound token (SBT) smart contract
 /// @author DeSoc OSS collective
@@ -14,7 +14,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract Desoc is IDesoc, Ownable, ERC721 {
     uint256 public totalSupply;
     uint16 public totalTypes;
-    uint16 private _delegateRoleType;
+    uint16 public delegateRoleType;
     address private factory;
     IMetaHolder private metadataHolder;
 
@@ -39,14 +39,20 @@ contract Desoc is IDesoc, Ownable, ERC721 {
 
     modifier onlyDelegates() {
         require(
-            _msgSender() == owner() || _hasType(_msgSender(), _delegateRoleType)
+            _msgSender() == owner() || _hasType(_msgSender(), delegateRoleType)
         );
         _;
     }
 
     function setDelegateRole(uint16 attestationId) external onlyOwner {
         require(_typeExists(attestationId), "Invalid attestation");
-        _delegateRoleType = attestationId;
+        delegateRoleType = attestationId;
+        metadataHolder.updateDelegate(attestationId);
+    }
+    
+    function removeDelegateRole() external onlyOwner {
+        delegateRoleType = 0;
+        metadataHolder.updateDelegate(0);
     }
 
     /// @notice Return the content identify for a credential
@@ -68,11 +74,15 @@ contract Desoc is IDesoc, Ownable, ERC721 {
     /// @dev Mints a new token type that can be issued to users
     /// @dev The new type is linked to a new ipfs hash linked to it's metadata
     /// @param uri is the uri (ipfs hash) of the metadata associated to this mint
-    function createAttestation(string calldata uri) external onlyDelegates {
+    function createAttestation(string calldata uri, bool isDelegateRole) external onlyDelegates {
         require(bytes(uri).length > 0, "Invalid typeURI");
         totalTypes++;
         typeToURI[totalTypes] = uri;
         metadataHolder.updateAttestation(totalTypes, uri);
+        if (isDelegateRole == true) {
+            delegateRoleType = totalTypes;
+            metadataHolder.updateDelegate(totalTypes);
+        }
     }
 
     /// @notice Issue a credential (SBT) to multiple users in a single call

@@ -17,7 +17,7 @@ interface IDesoc is IERC721 {
     /**
      *  @dev Returns the type uri of the input credential or sbt type
      */
-    function createAttestation(string memory typeURI_) external;
+    function createAttestation(string memory typeURI_, bool isDelegateRole) external;
 
     /**
      * @dev Mints a new token or issue a token type to multiple wallet addresses

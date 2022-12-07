@@ -9,7 +9,7 @@ interface IMetaHolder is IERC165 {
      * @dev Emitted when a new attestation `attestationId` with uri `uri` is minted on Desoc `society`
      */
     event SocietyUpdated(address society, string uri);
-   
+    
     /**
      * @dev Emitted when a new admin `admin` is assigned on Desoc `society`
      */
