@@ -11,8 +11,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 /// @custom:experimental This is an experimental contract.
 contract MetadataHolder is IMetaHolder, Ownable {
     address public factoryAddress;
-    mapping(address => bool) private _societies;
-    mapping(bytes32 => bool) private _attestations;
+    mapping(address => bool) public societies;
+    mapping(bytes32 => bool) public attestations;
 
     modifier onlyFactoryContract() {
         require(_msgSender() == factoryAddress, "unauthorized: factory only");
@@ -20,7 +20,7 @@ contract MetadataHolder is IMetaHolder, Ownable {
     }
 
     modifier onlyValidSociety() {
-        require(_societies[_msgSender()], "unauthorized: desoc only");
+        require(societies[_msgSender()], "unauthorized: desoc only");
         _;
     }
 
@@ -42,7 +42,7 @@ contract MetadataHolder is IMetaHolder, Ownable {
         external
         onlyFactoryContract
     {
-        _societies[society] = true;
+        societies[society] = true;
         emit SocietyUpdated(society, uri);
     }
 
@@ -68,7 +68,7 @@ contract MetadataHolder is IMetaHolder, Ownable {
     {
         if (!isValidAttestation(_msgSender(), attestationId)) {
             bytes32 id = keccak256(abi.encode(_msgSender(), attestationId));
-            _attestations[id] = true;
+            attestations[id] = true;
         }
         emit AttestationUpdated(_msgSender(), attestationId, uri);
     }
@@ -107,7 +107,7 @@ contract MetadataHolder is IMetaHolder, Ownable {
     }
 
     function isValidSociety(address society) public view returns (bool) {
-        return _societies[society];
+        return societies[society];
     }
 
     function isValidAttestation(address society, uint16 attestationId)
@@ -116,6 +116,6 @@ contract MetadataHolder is IMetaHolder, Ownable {
         returns (bool)
     {
         bytes32 id = keccak256(abi.encode(society, attestationId));
-        return _attestations[id];
+        return attestations[id];
     }
 }

@@ -58,135 +58,171 @@ contract BaseSetup is Test {
         sbt = Desoc(deployed);
     }
 
-    function _createAttestation() internal returns (uint16 _tokenType) {
+    function createAttestation() internal returns (uint16 _tokenType) {
         sbt.createAttestation(metadataURI, false);
         _tokenType = sbt.totalTypes();
         return _tokenType;
     }
 
-    function _createDelegateSbt() internal returns (uint16 attestationId) {
+    function createDelegateSbt() internal returns (uint16 attestationId) {
         sbt.createAttestation(metadataURI, true);
         uint16 attestationId = sbt.totalTypes();
         return attestationId;
     }
 
-    function _createDelegate() internal returns (address delegate) {
-        uint16 delegateRoleId = _createDelegateSbt();
-        sbt.mint(delegate1, delegateRoleId);
-        return delegate1;
+    function createDelegate(address delegate) internal {
+        uint16 delegateRoleId = createDelegateSbt();
+        sbt.mint(delegate, delegateRoleId);
     }
 
-    function _AddDelegate(address delegate) internal {
-        sbt.mint(delegate1, sbt.delegateRoleId());
+    function AddDelegate(address delegate) internal {
+        sbt.mint(delegate, sbt.delegateRoleId());
     }
 }
 
-contract TestSetup is BaseSetup {
-    function setUp() public virtual override {
-        emit log_named_string("TestSetup: ", "constructor called");
+contract MetadataHolderTest is BaseSetup {
+    function setUp() public override {
         BaseSetup.setUp();
     }
 
-    function TransferOwnership() public {
-        sbt.transferOwnership(admin);
-        assertEq(sbt.owner(), admin);
-    }
-
-    function UpdateDelegateRoleId() public {
-        uint16 roleId = _createDelegateSbt();
-        assertEq(sbt.delegateRoleId(), roleId);
-        uint16 attestationId = _createAttestation();
-        sbt.setDelegateRole(attestationId);
-        assertEq(sbt.delegateRoleId(), attestationId);
-        assertEq(sbt.totalTypes(), 2);
-    }
-
-    function RemoveDelegateRole() public {
-        uint16 roleId = _createDelegateSbt();
-        sbt.removeDelegateRole();
-        assertEq(sbt.delegateRoleId(), 0);
-    }
-
-    function Mint() public {
-        uint16 _type = _createAttestation();
-        sbt.mint(alice, _type);
-
-        assertEq(sbt.balanceOf(alice), 1);
-        assertEq(sbt.ownerOf(1), alice);
-    }
-
-    function RevokeSBToken() public {
-        uint16 _type = _createAttestation();
-        sbt.mint(alice, _type);
-
-        assertEq(sbt.balanceOf(alice), 1);
-        assertEq(sbt.ownerOf(1), alice);
-
-        sbt.revoke(1);
-
-        assertEq(sbt.balanceOf(alice), 0);
-    }
-
-    function BatchMint() public {
-        uint16 _tokenType = _createAttestation();
-        address[] memory users = new address[](10);
-        users = utils.createUsers(10);
-
-        sbt.batchMint(users, _tokenType);
-
-        assertEq(sbt.totalSupply(), 10);
-
-        for (uint256 i = 0; i < users.length; i++) {
-            assertEq(sbt.balanceOf(users[i]), 1);
-            assertEq(sbt.ownerOf(i + 1), users[i]);
-        }
-    }
-
-    function BatchRevoke() public {
-        uint16 _tokenType = _createAttestation();
-        address[] memory users = new address[](10);
-        users = utils.createUsers(10);
-
-        sbt.batchMint(users, _tokenType);
-        uint256 len = sbt.totalSupply();
-
-        assertEq(users.length, len);
-
-        uint256[] memory tokens = new uint256[](len);
-        for (uint256 i = 0; i < len; i++) {
-            tokens[i] = i + 1;
-        }
-        emit log_named_array("tokens: ", tokens);
-        sbt.batchRevoke(tokens);
-
-        for (uint256 i = 0; i < users.length; i++) {
-            assertEq(sbt.balanceOf(users[i]), 0);
-        }
-    }
-
-    function UpdateTokenType() public {
-        uint16 _tokenType = _createAttestation();
-        uint16 _tokenType2 = _createAttestation();
-        sbt.updateAttestationURI(_tokenType2, metadataURI2);
-        assertTrue(
-            keccak256(abi.encodePacked(sbt.typeURI(_tokenType))) ==
-                keccak256(abi.encodePacked(metadataURI))
-        );
-        assertTrue(
-            keccak256(abi.encodePacked(sbt.typeURI(_tokenType2))) ==
-                keccak256(abi.encodePacked(metadataURI2))
-        );
-    }
-}
-
-contract MetadataHolderTest is TestSetup {
-    function setUp() public override {
-        TestSetup.setUp();
-    }
-
     function testMetadataHolderInit() public {
-        emit log_named_address("factory", factory.owner());
-        emit log_named_address("desoc", sbt.owner());
-        emit log_named_address("meta", meta.owner());
+        assertEq(meta.factoryAddress(), address(factory));
+        assertEq(meta.societies(address(sbt)), true);
+        // assert no attestation has been added to meta contract
+        bytes32 id = keccak256(abi.encode(address(sbt), 1));
+        assertEq(meta.attestations(id), false);
+    }
+
+    function testSetNewFactory() public {
+        Factory newFactory = new Factory(_forwarder);
+        meta.setFactoryAddress(address(newFactory));
+    }
+
+    function testFailSetNewFactory() public {
+        Factory newFactory = new Factory(_forwarder);
+        vm.startPrank(admin);
+        meta.setFactoryAddress(address(newFactory));
+    }
+
+    function testAddNewSociety() public {
+        string memory name = "Desci Labs2";
+        string memory symbol = "DSI";
+        address expectedSbtAddress = 0x9d26Cb74E787CE508eAe4eB34E5c6F32B20ceF8f;
+        vm.expectCall(
+            address(meta),
+            abi.encodeCall(meta.addSociety, (expectedSbtAddress, metadataURI))
+        );
+        address deployed = factory.deployToken(name, symbol, metadataURI);
+        assertEq(meta.societies(expectedSbtAddress), true);
+    }
+
+    function testFailAddNewSociety() public {
+        string memory name = "Desci Labs2";
+        string memory symbol = "DSI";
+        Desoc society = new Desoc(
+            name,
+            symbol,
+            metadataURI,
+            address(this),
+            address(meta)
+        );
+        meta.addSociety(address(society), metadataURI);
+    }
+
+    function testSetDelegateRole() public {
+        vm.expectCall(address(meta), abi.encodeCall(meta.updateDelegate, (1)));
+        uint16 roleId = createDelegateSbt();
+        bytes32 id = keccak256(abi.encode(address(sbt), roleId));
+        assertEq(meta.attestations(id), true);
+    }
+
+    function testFailSetDelegateRole() public {
+        meta.updateDelegate(1);
+    }
+
+    function testUpdateAdmin() public {
+        vm.expectCall(address(meta), abi.encodeCall(meta.updateAdmin, (admin)));
+        sbt.transferOwnership(admin);
+    }
+
+    function testFailUpdateAdmin() public {
+        vm.startPrank(admin);
+        meta.updateAdmin(admin);
+    }
+
+    function testUpdateAttestation() public {
+        uint16 attestationId = createAttestation();
+        bytes32 id = keccak256(abi.encode(address(sbt), attestationId));
+        assertEq(meta.attestations(id), true);
+        vm.expectCall(
+            address(meta),
+            abi.encodeCall(
+                meta.updateAttestation,
+                (attestationId, metadataURI2)
+            )
+        );
+        sbt.updateAttestationURI(attestationId, metadataURI2);
+    }
+
+    function testFailUpdateAttestation() public {
+        uint16 attestationId = createAttestation();
+        bytes32 id = keccak256(abi.encode(address(sbt), attestationId));
+        assertEq(meta.attestations(id), true);
+        vm.expectCall(
+            address(meta),
+            abi.encodeCall(
+                meta.updateAttestation,
+                (attestationId, metadataURI2)
+            )
+        );
+        meta.updateAttestation(attestationId, metadataURI2);
+    }
+
+    function testIssueSbt() public {
+        uint16 attestationId = createAttestation();
+        vm.expectCall(
+            address(meta),
+            abi.encodeCall(
+                meta.issueAttestation,
+                (attestationId, 1, alice, address(this))
+            )
+        );
+        sbt.mint(alice, attestationId);
+    }
+    function testFailIssueSbt() public {
+        uint16 attestationId = createAttestation();
+        vm.expectCall(
+            address(meta),
+            abi.encodeCall(
+                meta.issueAttestation,
+                (attestationId, 1, alice, address(this))
+            )
+        );
+        meta.issueAttestation(attestationId, 1, alice, address(this));
+    }
+
+    function testRevokeSbt() public {
+        uint16 attestationId = createAttestation();
+        sbt.mint(alice, attestationId);
+        vm.expectCall(
+            address(meta),
+            abi.encodeCall(
+                meta.revokeToken,
+                (1, alice, address(this))
+            )
+        );
+        sbt.revoke(1);
+    }
+    function testFailRevokeSbt() public {
+        uint16 attestationId = createAttestation();
+        sbt.mint(alice, attestationId);
+        vm.expectCall(
+            address(meta),
+            abi.encodeCall(
+                meta.revokeToken,
+                (1, alice, address(this))
+            )
+        );
+        meta.revokeToken(1, alice, address(this));
     }
 }
