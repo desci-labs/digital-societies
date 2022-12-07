@@ -24,7 +24,7 @@ contract MetadataHolder is IMetaHolder, Ownable {
         _;
     }
 
-    constructor(address _factoryAddress) Ownable() {
+    constructor(address _factoryAddress) {
         factoryAddress = _factoryAddress;
     }
 

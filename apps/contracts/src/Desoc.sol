@@ -34,7 +34,7 @@ contract Desoc is IDesoc, Ownable, ERC721 {
         factory = msg.sender;
         _contractURI = _metadata;
         metadataHolder = IMetaHolder(_metadataHolderAddress);
-        transferOwnership(_owner);
+        _transferOwnership(_owner);
     }
 
     modifier onlyDelegates() {

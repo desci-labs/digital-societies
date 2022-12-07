@@ -11,6 +11,7 @@ import {MetadataHolder} from "src/MetadataHolder.sol";
 contract BaseSetup is Test {
     Desoc sbt;
     Factory factory;
+    MetadataHolder meta;
     Utils internal utils;
     address private metadataHolderAddress;
     address internal admin;
@@ -26,7 +27,7 @@ contract BaseSetup is Test {
     string public metadataURI2 =
         "https://w3s.link/ipfs/bafkreidszg5xvxxkhen4nyfyhz6ooueohcyo2yfgysi4ccqmxgioys65dy";
 
-    function setUp() public {
+    function setUp() public virtual {
         utils = new Utils();
         address[] memory users = new address[](5);
         users = utils.createUsers(5);
@@ -43,7 +44,7 @@ contract BaseSetup is Test {
         vm.label(delegate2, "delegate2");
 
         factory = new Factory(_forwarder);
-        MetadataHolder meta = new MetadataHolder(address(factory));
+        meta = new MetadataHolder(address(factory));
         metadataHolderAddress = address(meta);
         factory.setMetaAddress(metadataHolderAddress);
         deploySBT();
@@ -55,20 +56,11 @@ contract BaseSetup is Test {
 
         address deployed = factory.deployToken(name, symbol, metadataURI);
         sbt = Desoc(deployed);
-
-        assertEq(sbt.name(), name);
-        assertEq(sbt.symbol(), symbol);
-        assertEq(sbt.owner(), address(this));
     }
 
     function _createAttestation() internal returns (uint16 _tokenType) {
         sbt.createAttestation(metadataURI, false);
         _tokenType = sbt.totalTypes();
-        assertTrue(_tokenType > 0);
-        assertTrue(
-            keccak256(abi.encodePacked((sbt.typeURI(_tokenType)))) ==
-                keccak256(abi.encodePacked(metadataURI))
-        );
         return _tokenType;
     }
 
@@ -89,29 +81,18 @@ contract BaseSetup is Test {
     }
 }
 
-contract DesocTest is BaseSetup {
-
-    function setUp() public {
-       BaseSetup.setUp();
+contract TestSetup is BaseSetup {
+    function setUp() public virtual override {
+        emit log_named_string("TestSetup: ", "constructor called");
+        BaseSetup.setUp();
     }
 
-    function testTransferOwnership() public {
+    function TransferOwnership() public {
         sbt.transferOwnership(admin);
         assertEq(sbt.owner(), admin);
     }
 
-    function testFailTransferOwnership() public {
-        vm.startPrank(admin);
-        sbt.transferOwnership(admin);
-        assertEq(sbt.owner(), address(this));
-    }
-
-    function testCreateDelegateAttestation() public {
-        uint16 roleId = _createDelegateSbt();
-        assertEq(sbt.delegateRoleId(), roleId);
-    }
-
-    function testUpdateDelegateRoleId() public {
+    function UpdateDelegateRoleId() public {
         uint16 roleId = _createDelegateSbt();
         assertEq(sbt.delegateRoleId(), roleId);
         uint16 attestationId = _createAttestation();
@@ -120,66 +101,13 @@ contract DesocTest is BaseSetup {
         assertEq(sbt.totalTypes(), 2);
     }
 
-    function testRemoveDelegateRole() public {
+    function RemoveDelegateRole() public {
         uint16 roleId = _createDelegateSbt();
         sbt.removeDelegateRole();
         assertEq(sbt.delegateRoleId(), 0);
     }
 
-    function testFailUpdateDelegateRole() public {
-        uint16 roleId = _createDelegateSbt();
-        assertEq(sbt.delegateRoleId(), roleId);
-        uint16 attestationId = _createAttestation();
-        vm.startPrank(admin);
-        sbt.setDelegateRole(attestationId);
-        assertEq(sbt.delegateRoleId(), roleId);
-    }
-
-    function testFailDelegatesUpdateDelegateRole() public {
-        _createDelegate();
-        vm.startPrank(delegate1);
-        uint16 id = _createAttestation();
-        sbt.setDelegateRole(id);
-    }
-
-    function testDelegateCreateAttestation() public {
-        _createDelegate();
-        vm.startPrank(delegate1);
-        _createAttestation();
-    }
-
-    function testDelegateIssueSbt() public {
-        _createDelegate();
-        vm.startPrank(delegate1);
-        uint16 attestationId = _createAttestation();
-        sbt.mint(sina, attestationId);
-        assertEq(sbt.balanceOf(sina), 1);
-        assertEq(sbt.tokenIdToType(2), attestationId);
-    }
-
-    function testDelegateRevokeSbt() public {
-        _createDelegate();
-        vm.startPrank(delegate1);
-        sbt.mint(sina, sbt.delegateRoleId());
-        sbt.mint(alice, sbt.delegateRoleId());
-        sbt.revoke(2);
-        sbt.revoke(3);
-        assertEq(sbt.balanceOf(sina), 0);
-        assertEq(sbt.balanceOf(alice), 0);
-    }
-
-    function testTokenUriIsAttestationURI() public {
-        uint16 _type = _createAttestation();
-        sbt.mint(alice, _type);
-        string memory tokenUri = sbt.tokenURI(1);
-        string memory typeUri = sbt.typeURI(_type);
-        assertTrue(
-            keccak256(abi.encodePacked(tokenUri)) ==
-                keccak256(abi.encodePacked(typeUri))
-        );
-    }
-
-    function testMint() public {
+    function Mint() public {
         uint16 _type = _createAttestation();
         sbt.mint(alice, _type);
 
@@ -187,16 +115,7 @@ contract DesocTest is BaseSetup {
         assertEq(sbt.ownerOf(1), alice);
     }
 
-    function tesCannotIssueCredentialTwice() public {
-        uint16 _type = _createAttestation();
-        sbt.mint(alice, _type);
-        vm.expectRevert(
-            bytes(string(abi.encodePacked("Duplicate credential")))
-        );
-        sbt.mint(alice, _type);
-    }
-
-    function testAdminRevokeSBToken() public {
+    function RevokeSBToken() public {
         uint16 _type = _createAttestation();
         sbt.mint(alice, _type);
 
@@ -208,7 +127,7 @@ contract DesocTest is BaseSetup {
         assertEq(sbt.balanceOf(alice), 0);
     }
 
-    function testBatchMint() public {
+    function BatchMint() public {
         uint16 _tokenType = _createAttestation();
         address[] memory users = new address[](10);
         users = utils.createUsers(10);
@@ -223,7 +142,7 @@ contract DesocTest is BaseSetup {
         }
     }
 
-    function testBatchRevoke() public {
+    function BatchRevoke() public {
         uint16 _tokenType = _createAttestation();
         address[] memory users = new address[](10);
         users = utils.createUsers(10);
@@ -245,53 +164,7 @@ contract DesocTest is BaseSetup {
         }
     }
 
-    function testFailMintSBToken() public {
-        uint16 _type = _createAttestation();
-        vm.startPrank(admin);
-        sbt.mint(alice, _type);
-        vm.stopPrank();
-        (admin);
-    }
-
-    function testFailRevokeSBToken() public {
-        uint16 _type = _createAttestation();
-        sbt.mint(alice, _type);
-
-        // switch signer to sina
-        changePrank(sina);
-
-        sbt.revoke(1);
-    }
-
-    function testFailUpdateAttestationURI() public {
-        uint16 _type = _createAttestation();
-        sbt.mint(alice, _type);
-
-        // switch signer to admin address
-        changePrank(admin);
-
-        sbt.updateAttestationURI(_type, metadataURI);
-    }
-
-    function testCannotSetInvalidTypeURI() public {
-        uint16 _type = _createAttestation();
-        sbt.mint(alice, _type);
-
-        vm.expectRevert("Invalid typeURI");
-        sbt.updateAttestationURI(_type, "");
-    }
-
-    function testSetContractURI() public {
-        sbt.setContractURI(metadataURI);
-        assertEq(sbt.contractURI(), metadataURI);
-    }
-
-    function testFailSetContractURI() public {
-        changePrank(sina);
-        sbt.setContractURI(metadataURI);
-    }
-
-    function testUpdateTokenType() public {
+    function UpdateTokenType() public {
         uint16 _tokenType = _createAttestation();
         uint16 _tokenType2 = _createAttestation();
         sbt.updateAttestationURI(_tokenType2, metadataURI2);
@@ -303,5 +176,17 @@ contract DesocTest is BaseSetup {
             keccak256(abi.encodePacked(sbt.typeURI(_tokenType2))) ==
                 keccak256(abi.encodePacked(metadataURI2))
         );
-    } 
+    }
+}
+
+contract MetadataHolderTest is TestSetup {
+    function setUp() public override {
+        TestSetup.setUp();
+    }
+
+    function testMetadataHolderInit() public {
+        emit log_named_address("factory", factory.owner());
+        emit log_named_address("desoc", sbt.owner());
+        emit log_named_address("meta", meta.owner());
+    }
 }
