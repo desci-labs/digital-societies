@@ -44,12 +44,17 @@ contract Desoc is IDesoc, Ownable, ERC721 {
         _;
     }
 
+    /// @notice Update the attestation dedicated to Desoc delegates
+    /// @dev update the delegate role ID and notifies the MetadataHolder
+    /// @param attestationId token type ID to get to set as delegateRoleId
     function setDelegateRole(uint16 attestationId) external onlyOwner {
         require(_typeExists(attestationId), "Invalid attestation");
         delegateRoleId = attestationId;
         metadataHolder.updateDelegate(attestationId);
     }
     
+    /// @notice Remove the delegate role attestation
+    /// @dev Reset the delegateRoleId to zero and notifies the MetadataHolder
     function removeDelegateRole() external onlyOwner {
         delegateRoleId = 0;
         metadataHolder.updateDelegate(0);
