@@ -12,9 +12,9 @@ import "./interfaces/IMetaHolder.sol";
 /// @dev All functions are subject to changes in the future.
 /// @custom:experimental This is an experimental contract.
 contract Desoc is IDesoc, Ownable, ERC721 {
-    uint256 public totalSupply;
     uint16 public totalTypes;
-    uint16 public delegateRoleType;
+    uint16 public delegateRoleId;
+    uint256 public totalSupply;
     address private factory;
     IMetaHolder private metadataHolder;
 
@@ -39,19 +39,19 @@ contract Desoc is IDesoc, Ownable, ERC721 {
 
     modifier onlyDelegates() {
         require(
-            _msgSender() == owner() || _hasType(_msgSender(), delegateRoleType)
+            _msgSender() == owner() || _hasType(_msgSender(), delegateRoleId)
         );
         _;
     }
 
     function setDelegateRole(uint16 attestationId) external onlyOwner {
         require(_typeExists(attestationId), "Invalid attestation");
-        delegateRoleType = attestationId;
+        delegateRoleId = attestationId;
         metadataHolder.updateDelegate(attestationId);
     }
     
     function removeDelegateRole() external onlyOwner {
-        delegateRoleType = 0;
+        delegateRoleId = 0;
         metadataHolder.updateDelegate(0);
     }
 
@@ -80,7 +80,7 @@ contract Desoc is IDesoc, Ownable, ERC721 {
         typeToURI[totalTypes] = uri;
         metadataHolder.updateAttestation(totalTypes, uri);
         if (isDelegateRole == true) {
-            delegateRoleType = totalTypes;
+            delegateRoleId = totalTypes;
             metadataHolder.updateDelegate(totalTypes);
         }
     }

@@ -6,12 +6,7 @@ import {Factory} from "src/Factory.sol";
 import {Desoc} from "src/Desoc.sol";
 import {console} from "forge-std/console.sol";
 import {Utils} from "./Utils/Utils.sol";
-import { MetadataHolder } from "src/MetadataHolder.sol";
-
-// TODO: TESTS
-//* Test contract ownership transfer
-//* test new delegate attestation logic
-//*
+import {MetadataHolder} from "src/MetadataHolder.sol";
 
 contract DesocTest is Test {
     Desoc sbt;
@@ -21,7 +16,8 @@ contract DesocTest is Test {
     address internal admin;
     address internal alice;
     address internal sina;
-    address internal bob;
+    address internal delegate1;
+    address internal delegate2;
 
     address internal _forwarder = 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9;
 
@@ -30,20 +26,21 @@ contract DesocTest is Test {
     string public metadataURI2 =
         "https://w3s.link/ipfs/bafkreidszg5xvxxkhen4nyfyhz6ooueohcyo2yfgysi4ccqmxgioys65dy";
 
-
     function setUp() public {
         utils = new Utils();
-        address[] memory users = new address[](4);
-        users = utils.createUsers(4);
+        address[] memory users = new address[](5);
+        users = utils.createUsers(5);
 
         admin = users[0];
         alice = users[1];
-        bob = users[2];
-        sina = users[3];
+        sina = users[2];
+        delegate1 = users[3];
+        delegate2 = users[4];
         vm.label(admin, "Admin");
         vm.label(alice, "Alice");
         vm.label(sina, "Sina");
-        vm.label(bob, "Bob");
+        vm.label(delegate1, "delegate1");
+        vm.label(delegate2, "delegate2");
 
         factory = new Factory(_forwarder);
         MetadataHolder meta = new MetadataHolder(address(factory));
@@ -65,25 +62,76 @@ contract DesocTest is Test {
     }
 
     function testTransferOwnership() public {
+        sbt.transferOwnership(admin);
+        assertEq(sbt.owner(), admin);
     }
 
-    function testSetDelegateRole() public {
+    function testFailTransferOwnership() public {
+        vm.startPrank(admin);
+        sbt.transferOwnership(admin);
+        assertEq(sbt.owner(), address(this));
+    }
+
+    function testCreateDelegateAttestation() public {
+        uint16 roleId = _createDelegateSbt();
+        assertEq(sbt.delegateRoleId(), roleId);
+    }
+
+    function testUpdateDelegateRoleId() public {
+        uint16 roleId = _createDelegateSbt();
+        assertEq(sbt.delegateRoleId(), roleId);
+        uint16 attestationId = _createAttestation();
+        sbt.setDelegateRole(attestationId);
+        assertEq(sbt.delegateRoleId(), attestationId);
+        assertEq(sbt.totalTypes(), 2);
     }
 
     function testRemoveDelegateRole() public {
+        uint16 roleId = _createDelegateSbt();
+        sbt.removeDelegateRole();
+        assertEq(sbt.delegateRoleId(), 0);
     }
 
     function testFailUpdateDelegateRole() public {
+        uint16 roleId = _createDelegateSbt();
+        assertEq(sbt.delegateRoleId(), roleId);
+        uint16 attestationId = _createAttestation();
+        vm.startPrank(admin);
+        sbt.setDelegateRole(attestationId);
+        assertEq(sbt.delegateRoleId(), roleId);
     }
 
     function testFailDelegatesUpdateDelegateRole() public {
+        _createDelegate();
+        vm.startPrank(delegate1);
+        uint16 id = _createAttestation();
+        sbt.setDelegateRole(id);
     }
 
     function testDelegateCreateAttestation() public {
+        _createDelegate();
+        vm.startPrank(delegate1);
+        _createAttestation();
     }
+
     function testDelegateIssueSbt() public {
+        _createDelegate();
+        vm.startPrank(delegate1);
+        uint16 attestationId = _createAttestation();
+        sbt.mint(sina, attestationId);
+        assertEq(sbt.balanceOf(sina), 1);
+        assertEq(sbt.tokenIdToType(2), attestationId);
     }
+
     function testDelegateRevokeSbt() public {
+        _createDelegate();
+        vm.startPrank(delegate1);
+        sbt.mint(sina, sbt.delegateRoleId());
+        sbt.mint(alice, sbt.delegateRoleId());
+        sbt.revoke(2);
+        sbt.revoke(3);
+        assertEq(sbt.balanceOf(sina), 0);
+        assertEq(sbt.balanceOf(alice), 0);
     }
 
     function testTokenUriIsAttestationURI() public {
@@ -167,7 +215,8 @@ contract DesocTest is Test {
         uint16 _type = _createAttestation();
         vm.startPrank(admin);
         sbt.mint(alice, _type);
-        vm.stopPrank();(admin);
+        vm.stopPrank();
+        (admin);
     }
 
     function testFailRevokeSBToken() public {
@@ -230,11 +279,22 @@ contract DesocTest is Test {
             keccak256(abi.encodePacked((sbt.typeURI(_tokenType)))) ==
                 keccak256(abi.encodePacked(metadataURI))
         );
-        _tokenType;
+        return _tokenType;
     }
+
     function _createDelegateSbt() internal returns (uint16 attestationId) {
         sbt.createAttestation(metadataURI, true);
         uint16 attestationId = sbt.totalTypes();
-        attestationId;
+        return attestationId;
+    }
+
+    function _createDelegate() internal returns (address delegate) {
+        uint16 delegateRoleId = _createDelegateSbt();
+        sbt.mint(delegate1, delegateRoleId);
+        return delegate1;
+    }
+
+    function _AddDelegate(address delegate) internal {
+        sbt.mint(delegate1, sbt.delegateRoleId());
     }
 }
