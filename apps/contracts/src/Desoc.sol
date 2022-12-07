@@ -52,7 +52,7 @@ contract Desoc is IDesoc, Ownable, ERC721 {
         delegateRoleId = attestationId;
         metadataHolder.updateDelegate(attestationId);
     }
-    
+
     /// @notice Remove the delegate role attestation
     /// @dev Reset the delegateRoleId to zero and notifies the MetadataHolder
     function removeDelegateRole() external onlyOwner {
@@ -79,7 +79,10 @@ contract Desoc is IDesoc, Ownable, ERC721 {
     /// @dev Mints a new token type that can be issued to users
     /// @dev The new type is linked to a new ipfs hash linked to it's metadata
     /// @param uri is the uri (ipfs hash) of the metadata associated to this mint
-    function createAttestation(string calldata uri, bool isDelegateRole) external onlyDelegates {
+    function createAttestation(string calldata uri, bool isDelegateRole)
+        external
+        onlyDelegates
+    {
         require(bytes(uri).length > 0, "Invalid typeURI");
         totalTypes++;
         typeToURI[totalTypes] = uri;
@@ -196,7 +199,7 @@ contract Desoc is IDesoc, Ownable, ERC721 {
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(ERC721,IERC165)
+        override(ERC721, IERC165)
         returns (bool)
     {
         return
@@ -210,6 +213,16 @@ contract Desoc is IDesoc, Ownable, ERC721 {
         typeToOwner[tokenIdToType[_tokenId]][_owner] = false;
         delete tokenIdToType[_tokenId];
         metadataHolder.revokeToken(_tokenId, _owner, msg.sender);
+    }
+
+    /// @inheritdoc Ownable
+    function transferOwnership(address newOwner) public override onlyOwner {
+        require(
+            newOwner != address(0),
+            "Ownable: new owner is the zero address"
+        );
+        _transferOwnership(newOwner);
+        metadataHolder.updateAdmin(newOwner);
     }
 
     //@notice a function that gets called before any token is transferred. Forces the owner to only be able to revoke the token.
