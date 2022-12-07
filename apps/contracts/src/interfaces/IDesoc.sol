@@ -35,11 +35,6 @@ interface IDesoc is IERC721 {
     function updateAttestationURI(uint16 attestationId, string memory uri) external;
 
     /**
-     * @dev Update the token type assigned to a tokenId
-     */
-    // function updateTokenIdType(uint256 _tokenId, uint16 _tokenType) external;
-
-    /**
      * @dev update the metadata uri for this contract
      */
     function setContractURI(string calldata uri) external;
