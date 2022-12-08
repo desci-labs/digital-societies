@@ -8,6 +8,7 @@ typechain-types
 #Hardhat files
 cache
 artifacts
+cache_hardhat
 
 
 node_modules

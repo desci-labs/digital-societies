@@ -5,15 +5,4 @@ source .env
 # ** change --chain-id to network of choice
 # ** change contract address to deployed contract also
 
-# forge verify-contract --chain-id <chain-id> --compiler-version v0.8.15 <contract-address> src/SBFactory.sol:SBFactory $ETHERSCAN_KEY
-forge verify-contract --chain-id 5 --compiler-version v0.8.13 0x03Bf48e556628cBAd725f38bC7cA9af074c86709 src/DesocManager.sol:DesocManager $ETHERSCAN_KEY
-
-# code to verify DesocPaymaster.sol
-# npx hardhat verify --network goerli 0x16A1900eF832cfD84a3584cC63ddE30BA5fd3086
-# forge verify-contract --chain-id 5 --compiler-version v0.8.15 0xda497347D894Fdb9D2DB43192e65A99371747c5C src/DesocPaymaster.sol:DesocPaymaster $ETHERSCAN_KEY
-
-# code to verify SBFactory
-# forge verify-contract --chain-id 5 --compiler-version v0.8.13 --constructor-args "0000000000000000000000007a95fa73250dc53556d264522150a940d4c50238" 0xfEa9425A4566c9FecC81271fD48eFA57c92faA34 src/SBFactoryV2.sol:SBFactoryV2 $ETHERSCAN_KEY
-
-# check verification
-# forge verify-check hxtctu17dqawwfjjvlwzr9i5imrnbc3ywysxgttlhwtmnyatin $ETHERSCAN_KEY
+forge verify-contract --watch --chain-id 5 --compiler-version "0.8.17+commit.8df45f5f" --optimizer-runs 200 0x69301853f23a924258Db97A955454ac71d07e528 src/Factory.sol:Factory $ETHERSCAN_KEY --constructor-args $(cast abi-encode "constructor(address)" "0x7A95fA73250dc53556d264522150A940d4C50238")
