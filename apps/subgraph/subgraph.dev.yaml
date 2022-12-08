@@ -1,0 +1,41 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: MetadataHolder
+    network: ganache
+    source:
+      address: "0xF0cB9886197a28a4Fe926CED4F6582a1DA17973d"
+      abi: MetadataHolder
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - AdminUpdated
+        - AttestationUpdated
+        - DelegatesUpdated
+        - Issued
+        - OwnershipTransferred
+        - Revoked
+        - SocietyUpdated
+      abis:
+        - name: MetadataHolder
+          file: ./abis/MetadataHolder.json
+      eventHandlers:
+        - event: AdminUpdated(address,address)
+          handler: handleAdminUpdated
+        - event: AttestationUpdated(address,uint16,string)
+          handler: handleAttestationUpdated
+        - event: DelegatesUpdated(address,uint16)
+          handler: handleDelegatesUpdated
+        - event: Issued(indexed address,indexed address,indexed address,uint16,uint256)
+          handler: handleIssued
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Revoked(indexed uint256,indexed address,indexed address)
+          handler: handleRevoked
+        - event: SocietyUpdated(address,string)
+          handler: handleSocietyUpdated
+      file: ./src/metadata-holder.ts

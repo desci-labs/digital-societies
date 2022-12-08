@@ -1,0 +1,67 @@
+type AdminUpdated @entity(immutable: true) {
+  id: Bytes!
+  society: Bytes! # address
+  admin: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type AttestationUpdated @entity(immutable: true) {
+  id: Bytes!
+  society: Bytes! # address
+  attestationId: Int! # uint16
+  uri: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type DelegatesUpdated @entity(immutable: true) {
+  id: Bytes!
+  society: Bytes! # address
+  attestationId: Int! # uint16
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Issued @entity(immutable: true) {
+  id: Bytes!
+  society: Bytes! # address
+  recipient: Bytes! # address
+  issuedBy: Bytes! # address
+  attestationId: Int! # uint16
+  tokenId: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type OwnershipTransferred @entity(immutable: true) {
+  id: Bytes!
+  previousOwner: Bytes! # address
+  newOwner: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Revoked @entity(immutable: true) {
+  id: Bytes!
+  tokenId: BigInt! # uint256
+  owner: Bytes! # address
+  revokedBy: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type SocietyUpdated @entity(immutable: true) {
+  id: Bytes!
+  society: Bytes! # address
+  uri: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
