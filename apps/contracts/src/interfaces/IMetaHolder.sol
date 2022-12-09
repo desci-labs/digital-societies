@@ -9,21 +9,25 @@ interface IMetaHolder is IERC165 {
      * @dev Emitted when a new attestation `attestationId` with uri `uri` is minted on Desoc `society`
      */
     event SocietyUpdated(address society, string uri);
-    
+
     /**
      * @dev Emitted when a new admin `admin` is assigned on Desoc `society`
      */
     event AdminUpdated(address society, address admin);
-    
+
     /**
      * @dev Emitted when an attestation of ID `attestationId` is marked as the delegate role attestation
      */
-    event DelegatesUpdated(address society, uint16 attestationId);
+    event DelegatesUpdated(address society, uint256 attestationId);
 
     /**
      * @dev Emitted when a new attestation `attestationId` with uri `uri` is minted on Desoc `society`
      */
-    event AttestationUpdated(address society, uint16 attestationId, string uri);
+    event AttestationUpdated(
+        address society,
+        uint256 attestationId,
+        string uri
+    );
 
     /**
      * @dev Emitted when a new token `tokenId` is minted to attestation `attestationId`
@@ -32,7 +36,7 @@ interface IMetaHolder is IERC165 {
         address indexed society,
         address indexed recipient,
         address indexed issuedBy,
-        uint16 attestationId,
+        uint256 attestationId,
         uint256 tokenId
     );
 
@@ -41,8 +45,9 @@ interface IMetaHolder is IERC165 {
      */
     event Revoked(
         uint256 indexed tokenId,
-        address indexed owner,
-        address indexed revokedBy
+        uint256 indexed attestationId,
+        address indexed revokedBy,
+        address _owner
     );
 
     /**
@@ -59,35 +64,39 @@ interface IMetaHolder is IERC165 {
      * @dev external function called by factory contract to add a newly deployed society
      */
     function updateSociety(string calldata uri) external;
-   
+
     /**
      * @dev external function called by a Desoc contract log it's updated admin
      */
     function updateAdmin(address admin) external;
-   
+
     /**
      * @dev external function called by a Desoc contract log it's updated delegate attestation
      */
-    function updateDelegate(uint16 attestationId) external;
+    function updateDelegate(uint256 attestationId) external;
 
     /**
      * @dev update attestation token uri
      */
-    function updateAttestation(uint16 attestationId, string calldata uri)
+    function updateAttestation(uint256 attestationId, string calldata uri)
         external;
 
     /**
      * @dev issue a new attestation to `recipient`
      */
     function issueAttestation(
-        uint16 attestationId,
+        uint256 attestationId,
         uint256 tokenId,
         address recipient,
         address issuedBy
     ) external;
 
+    /**
+     * @dev Revoke a tokenId `tokenId` of attestation `attestationId` which was owned by `_owner`
+     */
     function revokeToken(
         uint256 tokenId,
+        uint256 attestationId,
         address _owner,
         address revokedBy
     ) external;

@@ -52,7 +52,7 @@ contract MetadataHolder is IMetaHolder, Ownable {
     }
 
     /// @inheritdoc IMetaHolder
-    function updateDelegate(uint16 attestationId) external onlyValidSociety {
+    function updateDelegate(uint256 attestationId) external onlyValidSociety {
         emit DelegatesUpdated(_msgSender(), attestationId);
     }
 
@@ -62,7 +62,7 @@ contract MetadataHolder is IMetaHolder, Ownable {
     }
 
     /// @inheritdoc IMetaHolder
-    function updateAttestation(uint16 attestationId, string calldata uri)
+    function updateAttestation(uint256 attestationId, string calldata uri)
         external
         onlyValidSociety
     {
@@ -75,7 +75,7 @@ contract MetadataHolder is IMetaHolder, Ownable {
 
     /// @inheritdoc IMetaHolder
     function issueAttestation(
-        uint16 attestationId,
+        uint256 attestationId,
         uint256 tokenId,
         address recipient,
         address issuedBy
@@ -90,10 +90,11 @@ contract MetadataHolder is IMetaHolder, Ownable {
     /// @inheritdoc IMetaHolder
     function revokeToken(
         uint256 tokenId,
+        uint256 attestationId,
         address _owner,
         address revokedby
     ) external onlyValidSociety {
-        emit Revoked(tokenId, _owner, revokedby);
+        // emit Revoked(tokenId, attestationId, revokedby, _owner);
     }
 
     /// @inheritdoc IERC165
@@ -110,7 +111,7 @@ contract MetadataHolder is IMetaHolder, Ownable {
         return societies[society];
     }
 
-    function isValidAttestation(address society, uint16 attestationId)
+    function isValidAttestation(address society, uint256 attestationId)
         public
         view
         returns (bool)

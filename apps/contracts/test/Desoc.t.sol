@@ -73,29 +73,29 @@ contract DesocTest is Test {
     }
 
     function testCreateDelegateAttestation() public {
-        uint16 roleId = _createDelegateSbt();
+        uint256 roleId = _createDelegateSbt();
         assertEq(sbt.delegateRoleId(), roleId);
     }
 
     function testUpdateDelegateRoleId() public {
-        uint16 roleId = _createDelegateSbt();
+        uint256 roleId = _createDelegateSbt();
         assertEq(sbt.delegateRoleId(), roleId);
-        uint16 attestationId = _createAttestation();
+        uint256 attestationId = _createAttestation();
         sbt.setDelegateRole(attestationId);
         assertEq(sbt.delegateRoleId(), attestationId);
         assertEq(sbt.totalTypes(), 2);
     }
 
     function testRemoveDelegateRole() public {
-        uint16 roleId = _createDelegateSbt();
+        _createDelegateSbt();
         sbt.removeDelegateRole();
         assertEq(sbt.delegateRoleId(), 0);
     }
 
     function testFailUpdateDelegateRole() public {
-        uint16 roleId = _createDelegateSbt();
+        uint256 roleId = _createDelegateSbt();
         assertEq(sbt.delegateRoleId(), roleId);
-        uint16 attestationId = _createAttestation();
+        uint256 attestationId = _createAttestation();
         vm.startPrank(admin);
         sbt.setDelegateRole(attestationId);
         assertEq(sbt.delegateRoleId(), roleId);
@@ -104,7 +104,7 @@ contract DesocTest is Test {
     function testFailDelegatesUpdateDelegateRole() public {
         _createDelegate();
         vm.startPrank(delegate1);
-        uint16 id = _createAttestation();
+        uint256 id = _createAttestation();
         sbt.setDelegateRole(id);
     }
 
@@ -117,10 +117,10 @@ contract DesocTest is Test {
     function testDelegateIssueSbt() public {
         _createDelegate();
         vm.startPrank(delegate1);
-        uint16 attestationId = _createAttestation();
+        uint256 attestationId = _createAttestation();
         sbt.mint(sina, attestationId);
         assertEq(sbt.balanceOf(sina), 1);
-        assertEq(sbt.tokenIdToType(2), attestationId);
+        assertEq(sbt.tokenIdToAttestation(2), attestationId);
     }
 
     function testDelegateRevokeSbt() public {
@@ -135,10 +135,10 @@ contract DesocTest is Test {
     }
 
     function testTokenUriIsAttestationURI() public {
-        uint16 _type = _createAttestation();
+        uint256 _type = _createAttestation();
         sbt.mint(alice, _type);
         string memory tokenUri = sbt.tokenURI(1);
-        string memory typeUri = sbt.typeURI(_type);
+        string memory typeUri = sbt.attestationMeta(_type);
         assertTrue(
             keccak256(abi.encodePacked(tokenUri)) ==
                 keccak256(abi.encodePacked(typeUri))
@@ -146,7 +146,7 @@ contract DesocTest is Test {
     }
 
     function testMint() public {
-        uint16 _type = _createAttestation();
+        uint256 _type = _createAttestation();
         sbt.mint(alice, _type);
 
         assertEq(sbt.balanceOf(alice), 1);
@@ -154,7 +154,7 @@ contract DesocTest is Test {
     }
 
     function tesCannotIssueCredentialTwice() public {
-        uint16 _type = _createAttestation();
+        uint256 _type = _createAttestation();
         sbt.mint(alice, _type);
         vm.expectRevert(
             bytes(string(abi.encodePacked("Duplicate credential")))
@@ -163,7 +163,7 @@ contract DesocTest is Test {
     }
 
     function testAdminRevokeSBToken() public {
-        uint16 _type = _createAttestation();
+        uint256 _type = _createAttestation();
         sbt.mint(alice, _type);
 
         assertEq(sbt.balanceOf(alice), 1);
@@ -175,7 +175,7 @@ contract DesocTest is Test {
     }
 
     function testBatchMint() public {
-        uint16 _tokenType = _createAttestation();
+        uint256 _tokenType = _createAttestation();
         address[] memory users = new address[](10);
         users = utils.createUsers(10);
 
@@ -190,7 +190,7 @@ contract DesocTest is Test {
     }
 
     function testBatchRevoke() public {
-        uint16 _tokenType = _createAttestation();
+        uint256 _tokenType = _createAttestation();
         address[] memory users = new address[](10);
         users = utils.createUsers(10);
 
@@ -212,7 +212,7 @@ contract DesocTest is Test {
     }
 
     function testFailMintSBToken() public {
-        uint16 _type = _createAttestation();
+        uint256 _type = _createAttestation();
         vm.startPrank(admin);
         sbt.mint(alice, _type);
         vm.stopPrank();
@@ -220,7 +220,7 @@ contract DesocTest is Test {
     }
 
     function testFailRevokeSBToken() public {
-        uint16 _type = _createAttestation();
+        uint256 _type = _createAttestation();
         sbt.mint(alice, _type);
 
         // switch signer to sina
@@ -230,7 +230,7 @@ contract DesocTest is Test {
     }
 
     function testFailUpdateAttestationURI() public {
-        uint16 _type = _createAttestation();
+        uint256 _type = _createAttestation();
         sbt.mint(alice, _type);
 
         // switch signer to admin address
@@ -240,10 +240,10 @@ contract DesocTest is Test {
     }
 
     function testCannotSetInvalidTypeURI() public {
-        uint16 _type = _createAttestation();
+        uint256 _type = _createAttestation();
         sbt.mint(alice, _type);
 
-        vm.expectRevert("Invalid typeURI");
+        vm.expectRevert("empty uri");
         sbt.updateAttestationURI(_type, "");
     }
 
@@ -258,43 +258,47 @@ contract DesocTest is Test {
     }
 
     function testUpdateTokenType() public {
-        uint16 _tokenType = _createAttestation();
-        uint16 _tokenType2 = _createAttestation();
+        uint256 _tokenType = _createAttestation();
+        uint256 _tokenType2 = _createAttestation();
         sbt.updateAttestationURI(_tokenType2, metadataURI2);
         assertTrue(
-            keccak256(abi.encodePacked(sbt.typeURI(_tokenType))) ==
+            keccak256(abi.encodePacked(sbt.attestationMeta(_tokenType))) ==
                 keccak256(abi.encodePacked(metadataURI))
         );
         assertTrue(
-            keccak256(abi.encodePacked(sbt.typeURI(_tokenType2))) ==
+            keccak256(abi.encodePacked(sbt.attestationMeta(_tokenType2))) ==
                 keccak256(abi.encodePacked(metadataURI2))
         );
     }
 
-    function _createAttestation() internal returns (uint16 _tokenType) {
+    function _createAttestation() internal returns (uint256 _tokenType) {
         sbt.createAttestation(metadataURI, false);
-        _tokenType = sbt.totalTypes();
+        _tokenType = uint256(
+            keccak256(abi.encode(address(sbt), sbt.totalTypes()))
+        );
         assertTrue(_tokenType > 0);
         assertTrue(
-            keccak256(abi.encodePacked((sbt.typeURI(_tokenType)))) ==
+            keccak256(abi.encodePacked((sbt.attestationMeta(_tokenType)))) ==
                 keccak256(abi.encodePacked(metadataURI))
         );
         return _tokenType;
     }
 
-    function _createDelegateSbt() internal returns (uint16 attestationId) {
+    function _createDelegateSbt() internal returns (uint256 attestationId) {
         sbt.createAttestation(metadataURI, true);
-        uint16 attestationId = sbt.totalTypes();
+        attestationId = uint256(
+            keccak256(abi.encode(address(sbt), sbt.totalTypes()))
+        );
         return attestationId;
     }
 
     function _createDelegate() internal returns (address delegate) {
-        uint16 delegateRoleId = _createDelegateSbt();
+        uint256 delegateRoleId = _createDelegateSbt();
         sbt.mint(delegate1, delegateRoleId);
         return delegate1;
     }
 
-    function _AddDelegate(address delegate) internal {
+    function _AddDelegate() internal {
         sbt.mint(delegate1, sbt.delegateRoleId());
     }
 }
