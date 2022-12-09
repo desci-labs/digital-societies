@@ -8,18 +8,16 @@ dataSources:
     source:
       address: "0xF0cB9886197a28a4Fe926CED4F6582a1DA17973d"
       abi: MetadataHolder
+      startBlock: 8098503
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - AdminUpdated
-        - AttestationUpdated
-        - DelegatesUpdated
-        - Issued
-        - OwnershipTransferred
-        - Revoked
-        - SocietyUpdated
+        - Society
+        - Attestation
+        - Token
+        - User
       abis:
         - name: MetadataHolder
           file: ./abis/MetadataHolder.json

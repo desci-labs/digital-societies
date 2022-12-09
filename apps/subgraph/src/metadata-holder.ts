@@ -5,119 +5,91 @@ import {
   Issued as IssuedEvent,
   OwnershipTransferred as OwnershipTransferredEvent,
   Revoked as RevokedEvent,
-  SocietyUpdated as SocietyUpdatedEvent
-} from "../generated/MetadataHolder/MetadataHolder"
-import {
-  AdminUpdated,
-  AttestationUpdated,
-  DelegatesUpdated,
-  Issued,
-  OwnershipTransferred,
-  Revoked,
-  SocietyUpdated
-} from "../generated/schema"
+  SocietyUpdated as SocietyUpdatedEvent,
+} from "../generated/MetadataHolder/MetadataHolder";
+import { Attestation, Society, Token } from "../generated/schema";
 
 export function handleAdminUpdated(event: AdminUpdatedEvent): void {
-  let entity = new AdminUpdated(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.society = event.params.society
-  entity.admin = event.params.admin
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
+  let society = Society.load(event.params.society);
+  if (!society) {
+    society = new Society(event.params.society);
+  }
+  society.admin = event.params.admin;
+  society.updatedAt = event.block.timestamp;
+  society.save();
 }
 
 export function handleAttestationUpdated(event: AttestationUpdatedEvent): void {
-  let entity = new AttestationUpdated(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.society = event.params.society
-  entity.attestationId = event.params.attestationId
-  entity.uri = event.params.uri
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
+  let entity = Attestation.load(
+    event.params.society.concatI32(event.params.attestationId)
+  );
+  if (!entity) {
+    entity = new Attestation(
+      event.params.society.concatI32(event.params.attestationId)
+    );
+  }
+  entity.society = event.params.society;
+  entity.attestationId = event.params.attestationId;
+  entity.metadataUri = event.params.uri;
+  entity.createdAt = event.block.timestamp;
+  entity.updatedAt = event.block.timestamp;
+  entity.save();
 }
 
 export function handleDelegatesUpdated(event: DelegatesUpdatedEvent): void {
-  let entity = new DelegatesUpdated(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.society = event.params.society
-  entity.attestationId = event.params.attestationId
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
+  let entity = Society.load(event.params.society);
+  if (!entity) return;
+  entity.delegateRoleId = event.params.attestationId;
+  entity.save();
 }
 
 export function handleIssued(event: IssuedEvent): void {
-  let entity = new Issued(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.society = event.params.society
-  entity.recipient = event.params.recipient
-  entity.issuedBy = event.params.issuedBy
-  entity.attestationId = event.params.attestationId
-  entity.tokenId = event.params.tokenId
+  let id = event.params.recipient
+    .toHexString()
+    .concat(
+      event.params.attestationId
+        .toString()
+        .concat(event.params.tokenId.toString())
+    );
+  let entity = Token.load(id);
+  if (!entity) {
+    entity = new Token(id);
+  }
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handleOwnershipTransferred(
-  event: OwnershipTransferredEvent
-): void {
-  let entity = new OwnershipTransferred(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.previousOwner = event.params.previousOwner
-  entity.newOwner = event.params.newOwner
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
+  entity.society = event.params.society;
+  entity.issuedBy = event.params.issuedBy;
+  // entity.attestation = event.params.attestationId;
+  entity.tokenId = event.params.tokenId;
+  entity.issuedAt = event.block.timestamp;
+  entity.save();
 }
 
 export function handleRevoked(event: RevokedEvent): void {
-  let entity = new Revoked(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.tokenId = event.params.tokenId
-  entity.owner = event.params.owner
-  entity.revokedBy = event.params.revokedBy
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
+  // let id = event.params.owner
+  //   .toHexString()
+  //   .concat(
+  //     event.params.attestationId
+  //       .toString()
+  //       .concat(event.params.tokenId.toString())
+  //   );
+  // let entity = Token.load(id);
+  // if (!entity) return;
+  // entity.revokedBy = event.params.revokedBy
+  // entity.revokedAt = event.block.timestamp;
+  // entity.save()
 }
 
 export function handleSocietyUpdated(event: SocietyUpdatedEvent): void {
-  let entity = new SocietyUpdated(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.society = event.params.society
-  entity.uri = event.params.uri
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
+  let society = Society.load(event.params.society);
+  if (!society) {
+    society = new Society(event.params.society);
+  }
+  society.verified = false; // query from contract
+  // society.admin = "0x00"; query from contract
+  society.createdAt = event.block.timestamp;
+  society.updatedAt = event.block.timestamp;
+  society.metadataUri = event.params.uri;
+  society.transactionHash = event.transaction.hash;
+  society.delegateRoleId = 0;
+  society.save();
 }
