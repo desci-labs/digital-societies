@@ -21,16 +21,19 @@ async function main() {
 
   const FORWARDER_ADDRESS = process.env.FORWARDER;
   const Factory = await ethers.getContractFactory("Factory");
-  console.log("factory:", Factory.interface);
   const factory = await Factory.deploy(FORWARDER_ADDRESS);
-  console.log("contract:", factory.address);
   await factory.deployed();
   console.log("Factory deployed to: ", factory.address);
 
-  await run(`verify:verify`, {
-    address: factory.address,
-    constructorArguments: [FORWARDER_ADDRESS],
-  });
+  const MetaHolder = await ethers.getContractFactory("MetadataHolder");
+  const meta = await MetaHolder.deploy(factory.address);
+  await meta.deployed();
+  console.log("MetaHolder deployed to: ", meta.address);
+
+  // await run(`verify:verify`, {
+  //   address: factory.address,
+  //   constructorArguments: [FORWARDER_ADDRESS],
+  // });
 }
 
 // We recommend this pattern to be able to use async/await everywhere
