@@ -4,37 +4,35 @@ schema:
 dataSources:
   - kind: ethereum
     name: MetadataHolder
-    network: ganache
+    network: goerli
     source:
       address: "0xF0cB9886197a28a4Fe926CED4F6582a1DA17973d"
       abi: MetadataHolder
+      startBlock: 8098503
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - AdminUpdated
-        - AttestationUpdated
-        - DelegatesUpdated
-        - Issued
-        - OwnershipTransferred
-        - Revoked
-        - SocietyUpdated
+        - Society
+        - Attestation
+        - Token
+        - User
       abis:
         - name: MetadataHolder
           file: ./abis/MetadataHolder.json
       eventHandlers:
         - event: AdminUpdated(address,address)
           handler: handleAdminUpdated
-        - event: AttestationUpdated(address,uint16,string)
+        - event: AttestationUpdated(address,uint256,string)
           handler: handleAttestationUpdated
-        - event: DelegatesUpdated(address,uint16)
+        - event: DelegatesUpdated(address,uint256)
           handler: handleDelegatesUpdated
-        - event: Issued(indexed address,indexed address,indexed address,uint16,uint256)
+        - event: Issued(indexed address,indexed address,indexed address,uint256,uint256)
           handler: handleIssued
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
-        - event: Revoked(indexed uint256,indexed address,indexed address)
+        - event: Revoked(indexed uint256,indexed uint256,indexed address,address)
           handler: handleRevoked
         - event: SocietyUpdated(address,string)
           handler: handleSocietyUpdated

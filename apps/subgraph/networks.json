@@ -3,5 +3,13 @@
     "MetadataHolder": {
       "address": "0xF0cB9886197a28a4Fe926CED4F6582a1DA17973d"
     }
+  },
+  "localhost": {
+    "MetadataHolder": {
+      "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
+    },
+    "Factory": {
+      "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
+    }
   }
 }

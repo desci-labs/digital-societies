@@ -5,14 +5,13 @@ type Society @entity(immutable: false) {
   createdAt: BigInt!
   updatedAt: BigInt
   metadataUri: String!
-  delegateRoleId: Int! # uint16
+  delegateRoleId: BigInt! # uint16
   transactionHash: Bytes!
   attestations: [Attestation!]! @derivedFrom(field: "society")
 }
 
 type Attestation @entity(immutable: false) {
   id: Bytes!
-  attestationId: Int! # uint16
   society: Society!
   createdAt: BigInt!
   updatedAt: BigInt!
@@ -35,71 +34,3 @@ type User @entity(immutable: false) {
   id: Bytes! # address
   tokens: [Token!]! @derivedFrom(field: "owner")
 }
-
-# type AdminUpdated @entity(immutable: true) {
-#   id: Bytes!
-#   society: Bytes! # address
-#   admin: Bytes! # address
-#   blockNumber: BigInt!
-#   blockTimestamp: BigInt!
-#   transactionHash: Bytes!
-# }
-
-# type AttestationUpdated @entity(immutable: true) {
-#   id: Bytes!
-#   society: Bytes! # address
-#   attestationId: Int! # uint16
-#   uri: String! # string
-#   blockNumber: BigInt!
-#   blockTimestamp: BigInt!
-#   transactionHash: Bytes!
-# }
-
-# type DelegatesUpdated @entity(immutable: true) {
-#   id: Bytes!
-#   society: Bytes! # address
-#   attestationId: Int! # uint16
-#   blockNumber: BigInt!
-#   blockTimestamp: BigInt!
-#   transactionHash: Bytes!
-# }
-
-# type Issued @entity(immutable: true) {
-#   id: Bytes!
-#   society: Bytes! # address
-#   recipient: Bytes! # address
-#   issuedBy: Bytes! # address
-#   attestationId: Int! # uint16
-#   tokenId: BigInt! # uint256
-#   blockNumber: BigInt!
-#   blockTimestamp: BigInt!
-#   transactionHash: Bytes!
-# }
-
-# type OwnershipTransferred @entity(immutable: true) {
-#   id: Bytes!
-#   previousOwner: Bytes! # address
-#   newOwner: Bytes! # address
-#   blockNumber: BigInt!
-#   blockTimestamp: BigInt!
-#   transactionHash: Bytes!
-# }
-
-# type Revoked @entity(immutable: true) {
-#   id: Bytes!
-#   tokenId: BigInt! # uint256
-#   owner: Bytes! # address
-#   revokedBy: Bytes! # address
-#   blockNumber: BigInt!
-#   blockTimestamp: BigInt!
-#   transactionHash: Bytes!
-# }
-
-# type SocietyUpdated @entity(immutable: true) {
-#   id: Bytes!
-#   society: Bytes! # address
-#   uri: String! # string
-#   blockNumber: BigInt!
-#   blockTimestamp: BigInt!
-#   transactionHash: Bytes!
-# }

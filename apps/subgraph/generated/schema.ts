@@ -103,13 +103,13 @@ export class Society extends Entity {
     this.set("metadataUri", Value.fromString(value));
   }
 
-  get delegateRoleId(): i32 {
+  get delegateRoleId(): BigInt {
     let value = this.get("delegateRoleId");
-    return value!.toI32();
+    return value!.toBigInt();
   }
 
-  set delegateRoleId(value: i32) {
-    this.set("delegateRoleId", Value.fromI32(value));
+  set delegateRoleId(value: BigInt) {
+    this.set("delegateRoleId", Value.fromBigInt(value));
   }
 
   get transactionHash(): Bytes {
@@ -162,15 +162,6 @@ export class Attestation extends Entity {
 
   set id(value: Bytes) {
     this.set("id", Value.fromBytes(value));
-  }
-
-  get attestationId(): i32 {
-    let value = this.get("attestationId");
-    return value!.toI32();
-  }
-
-  set attestationId(value: i32) {
-    this.set("attestationId", Value.fromI32(value));
   }
 
   get society(): Bytes {

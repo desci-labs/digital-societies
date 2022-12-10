@@ -94,7 +94,7 @@ contract MetadataHolder is IMetaHolder, Ownable {
         address _owner,
         address revokedby
     ) external onlyValidSociety {
-        // emit Revoked(tokenId, attestationId, revokedby, _owner);
+        emit Revoked(tokenId, attestationId, revokedby, _owner);
     }
 
     /// @inheritdoc IERC165

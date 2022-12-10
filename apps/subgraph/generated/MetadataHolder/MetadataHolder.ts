@@ -49,8 +49,8 @@ export class AttestationUpdated__Params {
     return this._event.parameters[0].value.toAddress();
   }
 
-  get attestationId(): i32 {
-    return this._event.parameters[1].value.toI32();
+  get attestationId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
   }
 
   get uri(): string {
@@ -75,8 +75,8 @@ export class DelegatesUpdated__Params {
     return this._event.parameters[0].value.toAddress();
   }
 
-  get attestationId(): i32 {
-    return this._event.parameters[1].value.toI32();
+  get attestationId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
   }
 }
 
@@ -105,8 +105,8 @@ export class Issued__Params {
     return this._event.parameters[2].value.toAddress();
   }
 
-  get attestationId(): i32 {
-    return this._event.parameters[3].value.toI32();
+  get attestationId(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
   }
 
   get tokenId(): BigInt {
@@ -153,12 +153,16 @@ export class Revoked__Params {
     return this._event.parameters[0].value.toBigInt();
   }
 
-  get owner(): Address {
-    return this._event.parameters[1].value.toAddress();
+  get attestationId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
   }
 
   get revokedBy(): Address {
     return this._event.parameters[2].value.toAddress();
+  }
+
+  get _owner(): Address {
+    return this._event.parameters[3].value.toAddress();
   }
 }
 
@@ -227,13 +231,13 @@ export class MetadataHolder extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  isValidAttestation(society: Address, attestationId: i32): boolean {
+  isValidAttestation(society: Address, attestationId: BigInt): boolean {
     let result = super.call(
       "isValidAttestation",
-      "isValidAttestation(address,uint16):(bool)",
+      "isValidAttestation(address,uint256):(bool)",
       [
         ethereum.Value.fromAddress(society),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(attestationId))
+        ethereum.Value.fromUnsignedBigInt(attestationId)
       ]
     );
 
@@ -242,14 +246,14 @@ export class MetadataHolder extends ethereum.SmartContract {
 
   try_isValidAttestation(
     society: Address,
-    attestationId: i32
+    attestationId: BigInt
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "isValidAttestation",
-      "isValidAttestation(address,uint16):(bool)",
+      "isValidAttestation(address,uint256):(bool)",
       [
         ethereum.Value.fromAddress(society),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(attestationId))
+        ethereum.Value.fromUnsignedBigInt(attestationId)
       ]
     );
     if (result.reverted) {
@@ -421,8 +425,8 @@ export class IssueAttestationCall__Inputs {
     this._call = call;
   }
 
-  get attestationId(): i32 {
-    return this._call.inputValues[0].value.toI32();
+  get attestationId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
   }
 
   get tokenId(): BigInt {
@@ -493,12 +497,16 @@ export class RevokeTokenCall__Inputs {
     return this._call.inputValues[0].value.toBigInt();
   }
 
+  get attestationId(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
   get _owner(): Address {
-    return this._call.inputValues[1].value.toAddress();
+    return this._call.inputValues[2].value.toAddress();
   }
 
   get revokedby(): Address {
-    return this._call.inputValues[2].value.toAddress();
+    return this._call.inputValues[3].value.toAddress();
   }
 }
 
@@ -617,8 +625,8 @@ export class UpdateAttestationCall__Inputs {
     this._call = call;
   }
 
-  get attestationId(): i32 {
-    return this._call.inputValues[0].value.toI32();
+  get attestationId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
   }
 
   get uri(): string {
@@ -651,8 +659,8 @@ export class UpdateDelegateCall__Inputs {
     this._call = call;
   }
 
-  get attestationId(): i32 {
-    return this._call.inputValues[0].value.toI32();
+  get attestationId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
   }
 }
 
