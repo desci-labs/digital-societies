@@ -6,10 +6,11 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ subgraph",
-    "create-local": "graph create --node http://localhost:8020/ --network localhost subgraph",
-    "remove-local": "graph remove --node http://localhost:8020/ --network localhost subgraph",
-    "deploy-local": "graph deploy --network localhost --node http://localhost:8020/ --ipfs http://0.0.0.0:5001 subgraph",
+    "run-node": "./run-node.sh",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ desoc",
+    "create-local": "graph create --node http://localhost:8020/ --network localhost desoc",
+    "remove-local": "graph remove --node http://localhost:8020/ --network localhost desoc",
+    "deploy-local": "graph deploy --network localhost --node http://localhost:8020/ --ipfs http://0.0.0.0:5001 desoc",
     "test": "graph test"
   },
   "dependencies": {

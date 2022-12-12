@@ -1,6 +1,6 @@
 import { utils } from "ethers";
 import { network, ethers, run } from "hardhat";
-
+import { Factory } from "../typechain-types/src/Factory";
 async function main() {
   const net = await ethers.provider.getNetwork();
   const chainId = (await net).chainId;
@@ -21,8 +21,9 @@ async function main() {
 
   const FORWARDER_ADDRESS = process.env.FORWARDER;
   const Factory = await ethers.getContractFactory("Factory");
-  const factory = await Factory.deploy(FORWARDER_ADDRESS);
+  const factory: Factory = (await Factory.deploy(FORWARDER_ADDRESS)) as Factory;
   await factory.deployed();
+
   console.log("Factory deployed to: ", factory.address);
 
   const MetaHolder = await ethers.getContractFactory("MetadataHolder");
@@ -30,6 +31,9 @@ async function main() {
   await meta.deployed();
   console.log("MetaHolder deployed to: ", meta.address);
 
+  const tx = await factory.setMetaAddress(meta.address);
+  await tx.wait();
+  console.log("Set meta address in Factory: ", factory.address, meta.address);
   // await run(`verify:verify`, {
   //   address: factory.address,
   //   constructorArguments: [FORWARDER_ADDRESS],

@@ -1,13 +1,13 @@
 import { wrapContract } from "@opengsn/provider/dist/WrapContract";
 import { PAYMASTER_ADDRESS, SB_FACTORY_ADDRESS } from "constants/addresses";
-import { DesocManager } from "constants/types/DesocManager";
 import { DEFAULT_CHAIN, RPC_URLS } from "constants/web3";
 import { Contract, ethers } from "ethers";
 import { useNetwork, useProvider, useSigner } from "wagmi";
-import DesocManagerInterface from "../constants/abis/DesocManager.json";
+import FactoryInterface from "../constants/abis/Factory.json";
 import DesocInterface from "../constants/abis/Desoc.json";
 import { Desoc } from "constants/types/Desoc";
 import { useEffect, useState } from "react";
+import { Factory } from "constants/types/Factory";
 
 const getDefaultProvider = (chainId?: number) =>
   new ethers.providers.JsonRpcProvider(RPC_URLS[chainId ?? DEFAULT_CHAIN]);
@@ -17,8 +17,8 @@ export const useDefaultProvider = () => {
   return getDefaultProvider(chain?.id);
 };
 
-export const useFactoryContract = (): DesocManager | undefined => {
-  const [contract, setContract] = useState<DesocManager>();
+export const useFactoryContract = (): Factory | undefined => {
+  const [contract, setContract] = useState<Factory>();
   const { chain } = useNetwork();
   const { data: signer } = useSigner();
   const provider = useProvider();
@@ -28,11 +28,11 @@ export const useFactoryContract = (): DesocManager | undefined => {
     if (!address) return;
     const c = new ethers.Contract(
       address,
-      DesocManagerInterface.abi,
-      signer ?? provider ?? getDefaultProvider()
+      FactoryInterface.abi,
+      signer ?? provider ?? getDefaultProvider(chain?.id)
     );
-    setContract(c as DesocManager);
-  }, [address, provider, signer]);
+    setContract(c as Factory);
+  }, [address, provider, signer, chain?.id]);
 
   return contract;
 };

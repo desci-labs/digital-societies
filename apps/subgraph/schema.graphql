@@ -1,34 +1,34 @@
 type Society @entity(immutable: false) {
   id: Bytes! # address
   admin: Bytes # address
-  verified: Boolean!
-  createdAt: BigInt!
+  verified: Boolean
+  createdAt: BigInt
   updatedAt: BigInt
   metadataUri: String!
-  delegateRoleId: BigInt! # uint16
-  transactionHash: Bytes!
+  delegateRoleId: BigInt # uint16
+  transactionHash: Bytes
   attestations: [Attestation!]! @derivedFrom(field: "society")
 }
 
 type Attestation @entity(immutable: false) {
   id: Bytes!
   society: Society!
-  createdAt: BigInt!
-  updatedAt: BigInt!
+  createdAt: BigInt
+  updatedAt: BigInt
   metadataUri: String!
   recipients: [Token!]! @derivedFrom(field: "attestation")
 }
 type Token @entity(immutable: false) {
   id: ID!
-  tokenId: BigInt! # uint256
+  tokenId: BigInt # uint256
   owner: User! # address
-  issuedBy: Bytes! # address
-  active: Boolean!
+  issuedBy: Bytes # address
+  active: Boolean
   revokedBy: Bytes # address
   revokedAt: BigInt
-  issuedAt: BigInt!
-  society: Society
-  attestation: Attestation
+  issuedAt: BigInt
+  society: Society!
+  attestation: Attestation!
 }
 type User @entity(immutable: false) {
   id: Bytes! # address

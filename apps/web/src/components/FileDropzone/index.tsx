@@ -11,8 +11,7 @@ export default function FileDropzone<T extends FieldValues>(
     <Controller
       control={control}
       name={props.name}
-      render={({ field: { onChange, value, name } }) => {
-        console.log("changed: ", name, value);
+      render={({ field: { onChange, value } }) => {
         return (
           <Dropzone
             {...props}

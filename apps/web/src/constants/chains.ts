@@ -10,7 +10,7 @@ export enum ChainIds {
 export enum SupportedChainId {
   // MAINNET = 1,
   GOERLI = 5,
-  // LOCALHOST = 1337
+  LOCALHOST = 1337,
 }
 
 export enum ChainIDs {
@@ -19,6 +19,7 @@ export enum ChainIDs {
   RINKEBY = 4,
   GOERLI = 5,
   KOVAN = 42,
+  LOCALHOST = 1337,
 }
 
 /**

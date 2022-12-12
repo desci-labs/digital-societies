@@ -1,3 +1,4 @@
+import { BigInt } from "@graphprotocol/graph-ts";
 import {
   Deployed as DeployedEvent,
   Refuted as RefutedEvent,
@@ -10,7 +11,10 @@ export function handleDeployed(event: DeployedEvent): void {
   entity.admin = event.params.owner;
   entity.metadataUri = event.params.contractUri;
   entity.createdAt = event.block.timestamp;
+  entity.updatedAt = event.block.timestamp;
   entity.transactionHash = event.transaction.hash;
+  entity.verified = false;
+  entity.delegateRoleId = BigInt.zero();
   entity.save();
 }
 

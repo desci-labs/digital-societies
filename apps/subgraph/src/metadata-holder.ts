@@ -7,7 +7,7 @@ import {
   Revoked as RevokedEvent,
   SocietyUpdated as SocietyUpdatedEvent,
 } from "../generated/MetadataHolder/MetadataHolder";
-import { Attestation, Society, Token } from "../generated/schema";
+import { Attestation, Society, Token, User } from "../generated/schema";
 
 export function handleAdminUpdated(event: AdminUpdatedEvent): void {
   let society = Society.load(event.params.society);
@@ -55,7 +55,14 @@ export function handleIssued(event: IssuedEvent): void {
     entity = new Token(id);
   }
 
+  let user = User.load(event.params.recipient);
+  if (!user) {
+    user = new User(event.params.recipient);
+  }
+
   entity.society = event.params.society;
+  entity.owner = event.params.recipient;
+  entity.active = true;
   entity.issuedBy = event.params.issuedBy;
   entity.attestation = Bytes.fromBigInt(event.params.attestationId) as Bytes;
   entity.tokenId = event.params.tokenId;
@@ -74,7 +81,6 @@ export function handleRevoked(event: RevokedEvent): void {
   let entity = Token.load(id);
   if (!entity) return;
   entity.active = false;
-  entity.attestation = Bytes.fromBigInt(event.params.attestationId) as Bytes;
   entity.revokedBy = event.params.revokedBy;
   entity.revokedAt = event.block.timestamp;
   entity.save();
@@ -85,7 +91,6 @@ export function handleSocietyUpdated(event: SocietyUpdatedEvent): void {
   if (!society) {
     society = new Society(event.params.society);
   }
-  society.createdAt = event.block.timestamp;
   society.updatedAt = event.block.timestamp;
   society.metadataUri = event.params.uri;
   society.save();

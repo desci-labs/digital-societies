@@ -68,13 +68,21 @@ export class Society extends Entity {
     this.set("verified", Value.fromBoolean(value));
   }
 
-  get createdAt(): BigInt {
+  get createdAt(): BigInt | null {
     let value = this.get("createdAt");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set createdAt(value: BigInt) {
-    this.set("createdAt", Value.fromBigInt(value));
+  set createdAt(value: BigInt | null) {
+    if (!value) {
+      this.unset("createdAt");
+    } else {
+      this.set("createdAt", Value.fromBigInt(<BigInt>value));
+    }
   }
 
   get updatedAt(): BigInt | null {
@@ -103,22 +111,38 @@ export class Society extends Entity {
     this.set("metadataUri", Value.fromString(value));
   }
 
-  get delegateRoleId(): BigInt {
+  get delegateRoleId(): BigInt | null {
     let value = this.get("delegateRoleId");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set delegateRoleId(value: BigInt) {
-    this.set("delegateRoleId", Value.fromBigInt(value));
+  set delegateRoleId(value: BigInt | null) {
+    if (!value) {
+      this.unset("delegateRoleId");
+    } else {
+      this.set("delegateRoleId", Value.fromBigInt(<BigInt>value));
+    }
   }
 
-  get transactionHash(): Bytes {
+  get transactionHash(): Bytes | null {
     let value = this.get("transactionHash");
-    return value!.toBytes();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
   }
 
-  set transactionHash(value: Bytes) {
-    this.set("transactionHash", Value.fromBytes(value));
+  set transactionHash(value: Bytes | null) {
+    if (!value) {
+      this.unset("transactionHash");
+    } else {
+      this.set("transactionHash", Value.fromBytes(<Bytes>value));
+    }
   }
 
   get attestations(): Array<Bytes> {
@@ -173,22 +197,38 @@ export class Attestation extends Entity {
     this.set("society", Value.fromBytes(value));
   }
 
-  get createdAt(): BigInt {
+  get createdAt(): BigInt | null {
     let value = this.get("createdAt");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set createdAt(value: BigInt) {
-    this.set("createdAt", Value.fromBigInt(value));
+  set createdAt(value: BigInt | null) {
+    if (!value) {
+      this.unset("createdAt");
+    } else {
+      this.set("createdAt", Value.fromBigInt(<BigInt>value));
+    }
   }
 
-  get updatedAt(): BigInt {
+  get updatedAt(): BigInt | null {
     let value = this.get("updatedAt");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set updatedAt(value: BigInt) {
-    this.set("updatedAt", Value.fromBigInt(value));
+  set updatedAt(value: BigInt | null) {
+    if (!value) {
+      this.unset("updatedAt");
+    } else {
+      this.set("updatedAt", Value.fromBigInt(<BigInt>value));
+    }
   }
 
   get metadataUri(): string {
@@ -241,13 +281,21 @@ export class Token extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get tokenId(): BigInt {
+  get tokenId(): BigInt | null {
     let value = this.get("tokenId");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set tokenId(value: BigInt) {
-    this.set("tokenId", Value.fromBigInt(value));
+  set tokenId(value: BigInt | null) {
+    if (!value) {
+      this.unset("tokenId");
+    } else {
+      this.set("tokenId", Value.fromBigInt(<BigInt>value));
+    }
   }
 
   get owner(): Bytes {
@@ -259,13 +307,21 @@ export class Token extends Entity {
     this.set("owner", Value.fromBytes(value));
   }
 
-  get issuedBy(): Bytes {
+  get issuedBy(): Bytes | null {
     let value = this.get("issuedBy");
-    return value!.toBytes();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
   }
 
-  set issuedBy(value: Bytes) {
-    this.set("issuedBy", Value.fromBytes(value));
+  set issuedBy(value: Bytes | null) {
+    if (!value) {
+      this.unset("issuedBy");
+    } else {
+      this.set("issuedBy", Value.fromBytes(<Bytes>value));
+    }
   }
 
   get active(): boolean {
@@ -311,47 +367,39 @@ export class Token extends Entity {
     }
   }
 
-  get issuedAt(): BigInt {
+  get issuedAt(): BigInt | null {
     let value = this.get("issuedAt");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set issuedAt(value: BigInt) {
-    this.set("issuedAt", Value.fromBigInt(value));
+  set issuedAt(value: BigInt | null) {
+    if (!value) {
+      this.unset("issuedAt");
+    } else {
+      this.set("issuedAt", Value.fromBigInt(<BigInt>value));
+    }
   }
 
-  get society(): Bytes | null {
+  get society(): Bytes {
     let value = this.get("society");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
+    return value!.toBytes();
   }
 
-  set society(value: Bytes | null) {
-    if (!value) {
-      this.unset("society");
-    } else {
-      this.set("society", Value.fromBytes(<Bytes>value));
-    }
+  set society(value: Bytes) {
+    this.set("society", Value.fromBytes(value));
   }
 
-  get attestation(): Bytes | null {
+  get attestation(): Bytes {
     let value = this.get("attestation");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
+    return value!.toBytes();
   }
 
-  set attestation(value: Bytes | null) {
-    if (!value) {
-      this.unset("attestation");
-    } else {
-      this.set("attestation", Value.fromBytes(<Bytes>value));
-    }
+  set attestation(value: Bytes) {
+    this.set("attestation", Value.fromBytes(value));
   }
 }
 
