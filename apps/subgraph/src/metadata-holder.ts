@@ -20,9 +20,13 @@ export function handleAdminUpdated(event: AdminUpdatedEvent): void {
 }
 
 export function handleAttestationUpdated(event: AttestationUpdatedEvent): void {
-  let entity = Attestation.load(Bytes.fromBigInt(event.params.attestationId));
+  let entity = Attestation.load(
+    Bytes.fromBigInt(event.params.attestationId) as Bytes
+  );
   if (!entity) {
-    entity = new Attestation(Bytes.fromBigInt(event.params.attestationId));
+    entity = new Attestation(
+      Bytes.fromBigInt(event.params.attestationId) as Bytes
+    );
     entity.createdAt = event.block.timestamp;
   }
   entity.society = event.params.society;
@@ -53,7 +57,7 @@ export function handleIssued(event: IssuedEvent): void {
 
   entity.society = event.params.society;
   entity.issuedBy = event.params.issuedBy;
-  entity.attestation = Bytes.fromBigInt(event.params.attestationId);
+  entity.attestation = Bytes.fromBigInt(event.params.attestationId) as Bytes;
   entity.tokenId = event.params.tokenId;
   entity.issuedAt = event.block.timestamp;
   entity.save();
@@ -70,7 +74,7 @@ export function handleRevoked(event: RevokedEvent): void {
   let entity = Token.load(id);
   if (!entity) return;
   entity.active = false;
-  entity.attestation = Bytes.fromBigInt(event.params.attestationId);
+  entity.attestation = Bytes.fromBigInt(event.params.attestationId) as Bytes;
   entity.revokedBy = event.params.revokedBy;
   entity.revokedAt = event.block.timestamp;
   entity.save();

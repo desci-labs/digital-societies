@@ -18,7 +18,7 @@ export function handleRefuted(event: RefutedEvent): void {
   let entity = Society.load(event.params.org);
 
   if (!entity) {
-    entity = new Society(event.params.org);
+    return;
   }
 
   entity.verified = false;
@@ -30,7 +30,7 @@ export function handleVerified(event: VerifiedEvent): void {
   let entity = Society.load(event.params.org);
 
   if (!entity) {
-    entity = new Society(event.params.org);
+    return;
   }
 
   entity.verified = true;

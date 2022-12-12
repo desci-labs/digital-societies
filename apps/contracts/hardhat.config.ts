@@ -57,6 +57,9 @@ const config: HardhatUserConfig = {
     hardhat: {
       chainId: 1337,
     },
+    localhost: {
+      url: "http://0.0.0.0:8545",
+    },
     development: {
       url: "http://localhost:8545",
     },

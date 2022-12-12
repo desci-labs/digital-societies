@@ -37,3 +37,29 @@ dataSources:
         - event: SocietyUpdated(address,string)
           handler: handleSocietyUpdated
       file: ./src/metadata-holder.ts
+  - kind: ethereum
+    name: Factory
+    network: goerli
+    source:
+      abi: Factory
+      address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Society
+        - Attestation
+        - Token
+        - Users
+      abis:
+        - name: Factory
+          file: ./abis/Factory.json
+      eventHandlers:
+        - event: Deployed(indexed address,indexed address,string)
+          handler: handleDeployed
+        - event: Refuted(indexed address)
+          handler: handleRefuted
+        - event: Verified(indexed address)
+          handler: handleVerified
+      file: ./src/factory.ts
