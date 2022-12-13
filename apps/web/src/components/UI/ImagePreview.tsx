@@ -11,11 +11,13 @@ export default function ImagePreview({
   className?: string;
   wrapperClassName?: string;
 }) {
-  const url = image.ipfsURL
-    ? image.ipfsURL
-    : image.file && image.file?.size > 0
-    ? window.URL.createObjectURL(image.file)
-    : "";
+  console.log("image", image);
+  const url =
+    image && image.ipfsURL
+      ? image.ipfsURL
+      : image.file && image.file?.size > 0
+      ? window.URL.createObjectURL(image.file)
+      : "";
 
   useEffect(() => {
     return () => {

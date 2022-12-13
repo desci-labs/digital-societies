@@ -1,11 +1,10 @@
 import { MetadataValues } from "components/Transactors/types";
+import { forwardRef } from "react";
 import { Controller, FieldValues, useFormContext } from "react-hook-form";
 import Editor from "./Editor";
 import { BaseProps } from "./types";
 
-export default function RichTextEditor<T extends FieldValues>(
-  props: BaseProps<T>
-) {
+function RichTextEditor<T extends FieldValues>(props: BaseProps<T>) {
   const { control } = useFormContext<T>();
   const { setValue } = useFormContext<MetadataValues>();
   return (
@@ -29,3 +28,5 @@ export default function RichTextEditor<T extends FieldValues>(
     />
   );
 }
+
+export default forwardRef<JSX.Element, BaseProps<FieldValues>>(RichTextEditor);
