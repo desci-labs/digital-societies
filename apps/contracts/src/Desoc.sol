@@ -1,46 +1,64 @@
-pragma solidity 0.8.13;
+pragma solidity 0.8.17;
 //SPDX-License-Identifier: MIT
 
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
-import "./IDesoc.sol";
+import "./interfaces/IDesoc.sol";
+import "./interfaces/IMetaHolder.sol";
 
 /// @title An experimental implementation of a soul-bound token (SBT) smart contract
-/// @author Oloyede Shadrach Temitayo (@oloyedeshadrach)
+/// @author DeSoc OSS collective
 /// @notice You can use this contract to issue soul-bound credentials to users or other smart contracts
 /// @dev All functions are subject to changes in the future.
 /// @custom:experimental This is an experimental contract.
-contract Desoc is ERC721, AccessControlEnumerable, IDesoc {
+contract Desoc is IDesoc, Ownable, ERC721 {
+    uint256 public totalTypes;
+    uint256 public delegateRoleId;
     uint256 public totalSupply;
-    uint16 public totalTypes;
     address private factory;
+    IMetaHolder private metadataHolder;
 
     string private _contractURI;
-    bytes32 public constant DELEGATE_ROLE = keccak256("DELEGATES");
 
-    mapping(uint16 => string) private typeToURI;
-    mapping(uint256 => uint16) public tokenIdToType;
-    mapping(uint16 => mapping(address => bool)) public typeToOwner;
+    mapping(uint256 => bool) public attestations;
+    mapping(uint256 => string) public attestationMeta;
+    mapping(uint256 => uint256) public tokenIdToAttestation;
+    mapping(uint256 => mapping(address => bool)) public attestationHolder;
 
     constructor(
         string memory _name,
         string memory _symbol,
         string memory _metadata,
-        address _admin
+        address _owner,
+        address _metadataHolderAddress
     ) ERC721(_name, _symbol) {
         factory = msg.sender;
         _contractURI = _metadata;
-        _setRoleAdmin(DELEGATE_ROLE, DEFAULT_ADMIN_ROLE);
-        _grantRole(DEFAULT_ADMIN_ROLE, _admin);
-        _grantRole(DELEGATE_ROLE, _admin);
+        metadataHolder = IMetaHolder(_metadataHolderAddress);
+        _transferOwnership(_owner);
     }
 
-    /// @notice Return the content identify for a credential
-    /// @dev Returns the type uri of the input credential or sbt type
-    /// @param _type token type ID to get type cid
-    /// @return ipfs cid of the token type
-    function typeURI(uint16 _type) external view returns (string memory) {
-        return typeToURI[_type];
+    modifier onlyDelegates() {
+        require(
+            _msgSender() == owner() || _hasType(_msgSender(), delegateRoleId)
+        );
+        _;
+    }
+
+    /// @notice Update the attestation dedicated to Desoc delegates
+    /// @dev update the delegate role ID and notifies the MetadataHolder
+    /// @param attestationId token type ID to get to set as delegateRoleId
+    function setDelegateRole(uint256 attestationId) external onlyOwner {
+        require(_typeExists(attestationId), "Invalid attestation");
+        delegateRoleId = attestationId;
+        metadataHolder.updateDelegate(attestationId);
+    }
+
+    /// @notice Remove the delegate role attestation
+    /// @dev Reset the delegateRoleId to zero and notifies the MetadataHolder
+    function removeDelegateRole() external onlyOwner {
+        delegateRoleId = 0;
+        metadataHolder.updateDelegate(0);
     }
 
     /// @notice Return the content identify for user's credential
@@ -53,26 +71,33 @@ contract Desoc is ERC721, AccessControlEnumerable, IDesoc {
     /// @notice Mint a new credential type(SBT) for this organisation
     /// @dev Mints a new token type that can be issued to users
     /// @dev The new type is linked to a new ipfs hash linked to it's metadata
-    /// @param typeURI_ is the uri (ipfs hash) of the metadata associated to this mint
-    function mintTokenType(string memory typeURI_)
+    /// @param uri is the uri (ipfs hash) of the metadata associated to this mint
+    function createAttestation(string calldata uri, bool isDelegateRole)
         external
-        onlyRole(DELEGATE_ROLE)
+        onlyDelegates
     {
-        require(bytes(typeURI_).length > 0, "Invalid typeURI");
+        require(bytes(uri).length > 0, "Invalid attestationURI");
         totalTypes++;
-        typeToURI[totalTypes] = typeURI_;
-        emit TypeCreated(totalTypes, msg.sender, typeURI_);
+        uint256 attestationId = uint256(
+            keccak256(abi.encode(address(this), totalTypes))
+        );
+        attestations[attestationId] = true;
+        attestationMeta[attestationId] = uri;
+        metadataHolder.updateAttestation(attestationId, uri);
+        if (isDelegateRole == true) {
+            delegateRoleId = attestationId;
+            metadataHolder.updateDelegate(attestationId);
+        }
     }
 
     /// @notice Issue a credential (SBT) to multiple users in a single call
     /// @dev Mints a new token or issue a token type to multiple wallet addresses
     /// @param _to an array of address to receive minted tokens
     /// @param _tokenType token type to be issued for this mint
-    function batchMint(address[] memory _to, uint16 _tokenType)
+    function batchMint(address[] memory _to, uint256 _tokenType)
         external
-        onlyRole(DELEGATE_ROLE)
+        onlyDelegates
     {
-        // require(_typeExists(_tokenType), "Invalid SB type");
         for (uint256 i = 0; i < _to.length; ) {
             mint(_to[i], _tokenType);
 
@@ -86,22 +111,19 @@ contract Desoc is ERC721, AccessControlEnumerable, IDesoc {
     /// @dev This function allows wallet address to burn their tokens
     /// @param _tokenId Id of the token to be burnt
     function burn(uint256 _tokenId) external {
-        address owner = ownerOf(_tokenId);
-        require(owner == msg.sender, "Only the owner can burn their token");
+        address _owner = ownerOf(_tokenId);
+        require(_owner == msg.sender, "Only the owner can burn their token");
         _burn(_tokenId);
-        // tokenToMinter[_tokenId] = address(0);
-        typeToOwner[tokenIdToType[_tokenId]][msg.sender] = false;
-        tokenIdToType[_tokenId] = 0;
-        emit Revoked(msg.sender, owner, _tokenId);
+        uint256 attestationId = tokenIdToAttestation[_tokenId];
+        attestationHolder[attestationId][_owner] = false;
+        delete tokenIdToAttestation[_tokenId];
+        metadataHolder.revokeToken(_tokenId, attestationId,  _owner, msg.sender);
     }
 
     /// @notice This function allows the admin or delegates to revoke a multiple user's credential
     /// @dev Admin and delegate can revoke ownership of tokens in a single transaction
     /// @param _tokenIds an array of Ids of the tokens to be revoked
-    function batchRevoke(uint256[] memory _tokenIds)
-        external
-        onlyRole(DELEGATE_ROLE)
-    {
+    function batchRevoke(uint256[] memory _tokenIds) external onlyDelegates {
         for (uint256 i = 0; i < _tokenIds.length; ) {
             revoke(_tokenIds[i]);
             unchecked {
@@ -110,92 +132,96 @@ contract Desoc is ERC721, AccessControlEnumerable, IDesoc {
         }
     }
 
-    /// @notice Only admin can update a credential's data
+    /// @notice Only admin or delegates can update a credential's data
     /// @dev DELEGATE_ROLE can update the ipfs of a token type
-    /// @param _tokenType token type to update
-    /// @param _typeURI_ new ipfs hash or uri to be set for _tokenType
-    function updateTypeURI(uint16 _tokenType, string memory _typeURI_)
+    /// @param attestationId token type to update
+    /// @param uri new ipfs hash or uri to be set for attestationId
+    function updateAttestationURI(uint256 attestationId, string memory uri)
         external
-        onlyRole(DELEGATE_ROLE)
+        onlyDelegates
     {
-        require(_typeExists(_tokenType), "Invalid SB type");
-        require(bytes(_typeURI_).length > 0, "Invalid typeURI");
-        typeToURI[_tokenType] = _typeURI_;
-        emit TypeUpdated(_tokenType, _typeURI_);
-    }
-
-    /// @notice Admin or Delegates can re-assign a new credential to a user
-    /// @dev Update the token type assigned to a tokenId
-    /// @param _tokenId token Id to be updated
-    /// @param _tokenType new token type to be assigned
-    function updateTokenIdType(uint256 _tokenId, uint16 _tokenType)
-        external
-        onlyRole(DELEGATE_ROLE)
-    {
-        require(_typeExists(_tokenType), "Invalid SB type");
-        require(_exists(_tokenId), "FORBIDDEN: Invalid tokenId");
-        tokenIdToType[_tokenId] = _tokenType;
-        emit TokenIdTypeUpdated(_tokenId, _tokenType);
+        require(_typeExists(attestationId), "Invalid SB type");
+        require(bytes(uri).length > 0, "empty uri");
+        attestationMeta[attestationId] = uri;
+        metadataHolder.updateAttestation(attestationId, uri);
     }
 
     /// @notice set a new metadata uri for this contract (organisation)
     /// @dev update the metadata uri for this contract
-    /// @param contractURI_ ipfs hash or URI of the new metadata
-    function setContractURI(string memory contractURI_)
-        external
-        onlyRole(DELEGATE_ROLE)
-    {
-        _contractURI = contractURI_;
+    /// @param uri ipfs hash or URI of the new metadata
+    function setContractURI(string calldata uri) external onlyDelegates {
+        _contractURI = uri;
+        metadataHolder.updateSociety(uri);
     }
 
     /// @notice Issue a credential (SBT) to a user
     /// @dev Mints a new token or issue a token type to a wallet addresses
     /// @param _to address to receive minted tokens
-    /// @param _tokenType token type to be issued for this mint
-    function mint(address _to, uint16 _tokenType)
-        public
-        onlyRole(DELEGATE_ROLE)
-    {
-        require(_typeExists(_tokenType), "Invalid SB type");
-        require(!_hasType(_to, _tokenType), "Duplicate credential");
+    /// @param attestationId token type to be issued for this mint
+    function mint(address _to, uint256 attestationId) public onlyDelegates {
+        require(_typeExists(attestationId), "Invalid SB type");
+        require(!_hasType(_to, attestationId), "Duplicate credential");
         totalSupply++;
         _safeMint(_to, totalSupply);
-        tokenIdToType[totalSupply] = _tokenType;
-        typeToOwner[_tokenType][_to] = true;
-        emit Mint(msg.sender, _to, totalSupply, _tokenType);
+        tokenIdToAttestation[totalSupply] = attestationId;
+        attestationHolder[attestationId][_to] = true;
+        metadataHolder.issueAttestation(
+            attestationId,
+            totalSupply,
+            _to,
+            msg.sender
+        );
     }
 
     /// @notice This function allows the admin or delegates to revoke a user's credential or revoke their ownership
     /// @dev Admin and delegate can revoke ownership of token
     /// @param _tokenId Id of the token to be revoked
-    function revoke(uint256 _tokenId) public onlyRole(DELEGATE_ROLE) {
-        address owner = ownerOf(_tokenId);
-        _burn(_tokenId);
-        typeToOwner[tokenIdToType[_tokenId]][owner] = false;
-        // tokenToMinter[_tokenId] = address(0);
-        delete tokenIdToType[_tokenId];
-        emit Revoked(msg.sender, owner, _tokenId);
+    function revoke(uint256 _tokenId) public onlyDelegates {
+        _revoke(_tokenId);
     }
 
     /// @notice Return the content identify for user's credential
     /// @dev Returns the type uri of the input tokenId's credential or type
     /// @param _tokenId token id to get type cid
     /// @return ipfs hash of the token type associated to the input tokenId
-    function tokenURI(uint256 _tokenId) public view override returns (string memory) {
-        return typeToURI[tokenIdToType[_tokenId]];
+    function tokenURI(uint256 _tokenId)
+        public
+        view
+        override
+        returns (string memory)
+    {
+        return attestationMeta[tokenIdToAttestation[_tokenId]];
     }
-    
+
     /// @inheritdoc IERC165
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(AccessControlEnumerable, ERC721, IERC165)
+        override(ERC721, IERC165)
         returns (bool)
     {
         return
             interfaceId == type(IDesoc).interfaceId ||
-            interfaceId == type(IAccessControlEnumerable).interfaceId ||
             super.supportsInterface(interfaceId);
+    }
+
+    function _revoke(uint256 _tokenId) internal {
+        address _owner = ownerOf(_tokenId);
+        _burn(_tokenId);
+        uint256 attestationId = tokenIdToAttestation[_tokenId];
+        attestationHolder[attestationId][_owner] = false;
+        delete tokenIdToAttestation[_tokenId];
+        metadataHolder.revokeToken(_tokenId, attestationId,  _owner, msg.sender);
+    }
+
+    /// @inheritdoc Ownable
+    function transferOwnership(address newOwner) public override onlyOwner {
+        require(
+            newOwner != address(0),
+            "Ownable: new owner is the zero address"
+        );
+        _transferOwnership(newOwner);
+        metadataHolder.updateAdmin(newOwner);
     }
 
     //@notice a function that gets called before any token is transferred. Forces the owner to only be able to revoke the token.
@@ -210,15 +236,15 @@ contract Desoc is ERC721, AccessControlEnumerable, IDesoc {
         );
     }
 
-    function _typeExists(uint16 _type) internal view returns (bool exists) {
-        exists = _type > 0 && _type < totalTypes + 1;
+    function _typeExists(uint256 attestationId) internal view returns (bool) {
+        return attestations[attestationId];
     }
 
-    function _hasType(address owner, uint16 tokenType)
+    function _hasType(address _owner, uint256 tokenType)
         internal
         view
         returns (bool)
     {
-        return typeToOwner[tokenType][owner] == true;
+        return attestationHolder[tokenType][_owner] == true;
     }
 }

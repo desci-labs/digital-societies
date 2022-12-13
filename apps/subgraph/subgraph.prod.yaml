@@ -1,0 +1,65 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: MetadataHolder
+    network: goerli
+    source:
+      address: "0xF0cB9886197a28a4Fe926CED4F6582a1DA17973d"
+      abi: MetadataHolder
+      startBlock: 8098503
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Society
+        - Attestation
+        - Token
+        - User
+      abis:
+        - name: MetadataHolder
+          file: ./abis/MetadataHolder.json
+      eventHandlers:
+        - event: AdminUpdated(address,address)
+          handler: handleAdminUpdated
+        - event: AttestationUpdated(address,uint256,string)
+          handler: handleAttestationUpdated
+        - event: DelegatesUpdated(address,uint256)
+          handler: handleDelegatesUpdated
+        - event: Issued(indexed address,indexed address,indexed address,uint256,uint256)
+          handler: handleIssued
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Revoked(indexed uint256,indexed uint256,indexed address,address)
+          handler: handleRevoked
+        - event: SocietyUpdated(address,string)
+          handler: handleSocietyUpdated
+      file: ./src/metadata-holder.ts
+  - kind: ethereum
+    name: Factory
+    network: goerli
+    source:
+      abi: Factory
+      address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Society
+        - Attestation
+        - Token
+        - Users
+      abis:
+        - name: Factory
+          file: ./abis/Factory.json
+      eventHandlers:
+        - event: Deployed(indexed address,indexed address,string)
+          handler: handleDeployed
+        - event: Refuted(indexed address)
+          handler: handleRefuted
+        - event: Verified(indexed address)
+          handler: handleVerified
+      file: ./src/factory.ts

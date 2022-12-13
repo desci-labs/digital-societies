@@ -10,10 +10,12 @@
     "test": "./test.sh",
     "remapping-transform": "./remap.sh",
     "build": "./build.sh",
-    "deploy": "./deploy.sh",
+    "deploy": "./deploy.sh $GOERLI_RPC_URL",
+    "deploy:local": "./deploy.sh http://0.0.0.0:8545 localhost",
     "deploy-gsn": "./deploy-gsn.sh",
     "verify": "./verify.sh",
-    "clean": "forge clean && npx hardhat clean"
+    "clean": "forge clean && npx hardhat clean",
+    "run-node": "npx hardhat node --hostname 0.0.0.0"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.3",

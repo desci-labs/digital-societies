@@ -1,0 +1,23 @@
+{
+  "name": "subgraph",
+  "version": "1.0.0",
+  "private": true,
+  "license": "ISC",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "run-node": "./run-node.sh",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ desoc",
+    "create-local": "graph create --node http://localhost:8020/ --network localhost desoc",
+    "remove-local": "graph remove --node http://localhost:8020/ --network localhost desoc",
+    "deploy-local": "graph deploy --network localhost --node http://localhost:8020/ --ipfs http://0.0.0.0:5001 desoc",
+    "test": "graph test"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.37.1",
+    "@graphprotocol/graph-ts": "0.28.1"
+  },
+  "devDependencies": {
+    "matchstick-as": "0.5.0"
+  }
+}

@@ -33,9 +33,11 @@ if [ -f "apps/contracts" ]; then
 fi
 
 # copy the required abis to the web/constants/abis
-cp ./out/DesocManager.sol/DesocManager.json ../web/src/constants/abis/
+cp ./out/Factory.sol/Factory.json ../web/src/constants/abis/
+cp ./out/MetadataHolder.sol/MetadataHolder.json ../web/src/constants/abis/
 cp ./out/Desoc.sol/Desoc.json ../web/src/constants/abis/
 
 # generate typescript bindings for contracts
-typechain --target ethers-v5 --out-dir '../web/src/constants/types' './out/DesocManager.sol/DesocManager.json'
+typechain --target ethers-v5 --out-dir '../web/src/constants/types' './out/Factory.sol/Factory.json'
 typechain --target ethers-v5 --out-dir '../web/src/constants/types' './out/Desoc.sol/Desoc.json'
+typechain --target ethers-v5 --out-dir '../web/src/constants/types' './out/MetadataHolder.sol/MetadataHolder.json'

@@ -1,5 +1,5 @@
 import { ChainIDs, SupportedChainId } from "./chains";
-import Factory from "./abis/DesocManager.json";
+import Factory from "./abis/Factory.json";
 import SBToken from "./abis/Desoc.json";
 
 export interface Contract {
@@ -23,6 +23,13 @@ export const contracts = [
     id: Contracts.Factory,
     artifact: Factory.abi,
     chainId: ChainIDs.GOERLI,
+  },
+  {
+    address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    name: "Factory",
+    id: Contracts.Factory,
+    artifact: Factory.abi,
+    chainId: ChainIDs.LOCALHOST,
   },
   {
     address: "",

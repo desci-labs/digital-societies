@@ -26,7 +26,7 @@ function getRemappings() {
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: "0.8.13",
+    version: "0.8.17",
     settings: {
       optimizer: {
         enabled: true,
@@ -57,6 +57,9 @@ const config: HardhatUserConfig = {
     hardhat: {
       chainId: 1337,
     },
+    localhost: {
+      url: "http://0.0.0.0:8545",
+    },
     development: {
       url: "http://localhost:8545",
     },
@@ -77,7 +80,7 @@ const config: HardhatUserConfig = {
   etherscan: {
     // Your API key for Etherscan
     // Obtain one at https://etherscan.io/
-    apiKey: process.env.ETHERSCAN_KEY,
+    apiKey: process.env.ETHERSCAN_API_KEY,
   },
 };
 
