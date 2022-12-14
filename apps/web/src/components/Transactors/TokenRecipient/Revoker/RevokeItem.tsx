@@ -1,5 +1,5 @@
 import AddressCopier from "components/Copier/AddressCopier";
-import { AssociatedDataEditor } from "components/UI/Attestation/Delegates/Triggers";
+import { AssociatedDataTrigger } from "components/Transactors/AssociatedData";
 import { Cell, Row } from "components/UI/Table";
 import { useGetSelectedTokens } from "services/admin/hooks";
 import { AttestationToken } from "services/attestations/types";
@@ -25,7 +25,7 @@ export default function RevokeItem(props: { token: AttestationToken }) {
         <AddressCopier address={props.token.issuer} />
       </Cell>
       <Cell>
-        <AssociatedDataEditor
+        <AssociatedDataTrigger
           org={props.token.org}
           address={props.token.owner}
         />

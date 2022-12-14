@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useCallback, useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { useDispatch } from "react-redux";
@@ -28,7 +29,7 @@ export default function AttestationUpdater() {
     const mintedBy = event.args?.createdBy ?? event.args?.[1];
     const id = event.args?.tokenType ?? event.args?.[0];
     const contract = getContract(event.address) as Desoc;
-    const cid = await contract.typeURI(id);
+    const cid = await contract.attestationMeta(id);
     const metadata = (await queryIpfsURL(cid)) as AttestationMetadata;
     return {
       id,
@@ -59,28 +60,28 @@ export default function AttestationUpdater() {
     }) as Desoc[];
     try {
       const lastQuery = await provider.getBlockNumber();
-      const filters = contracts.map((contract) =>
-        contract.filters.TypeCreated()
-      );
-      const events = await Promise.all(
-        filters.map((filter, i) =>
-          contracts[i].queryFilter(
-            filter,
-            lastUpdated ? lastUpdated - 10 : FACTORY_DEPLOY_BLOCK
-          )
-        )
-      );
-      const results = await Promise.all(
-        events.map(transformEventsToCrendentials)
-      );
+      // const filters = contracts.map((contract) =>
+      //   contract.filters.TypeCreated()
+      // );
+      // const events = await Promise.all(
+      //   filters.map((filter, i) =>
+      //     contracts[i].queryFilter(
+      //       filter,
+      //       lastUpdated ? lastUpdated - 10 : FACTORY_DEPLOY_BLOCK
+      //     )
+      //   )
+      // );
+      // const results = await Promise.all(
+      //   events.map(transformEventsToCrendentials)
+      // );
 
-      const credentials = results.filter(Boolean).reduce((all, credential) => {
-        if (!credential) return all;
-        all[credential.address] = credential.data;
-        return all;
-      }, {} as AttestationMap);
+      // const credentials = results.filter(Boolean).reduce((all, credential) => {
+      //   if (!credential) return all;
+      //   all[credential.address] = credential.data;
+      //   return all;
+      // }, {} as AttestationMap);
 
-      dispatch(setAttestations(credentials));
+      // dispatch(setAttestations(credentials));
       dispatch(setIsLoading(false));
       setLastUpdated(lastQuery);
     } catch (e) {
@@ -89,11 +90,11 @@ export default function AttestationUpdater() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [block, lastUpdated]);
 
-  useEffect(() => {
-    if (block && (lastUpdated === 0 || block - lastUpdated > 10)) {
-      getCredentials();
-    }
-  }, [block, lastUpdated, getCredentials]);
+  // useEffect(() => {
+  //   if (block && (lastUpdated === 0 || block - lastUpdated > 10)) {
+  //     getCredentials();
+  //   }
+  // }, [block, lastUpdated, getCredentials]);
 
   return null;
 }

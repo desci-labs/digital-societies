@@ -1,4 +1,5 @@
 import { W3S_IPFS_GATEWAY } from "api/constants";
+import { Metadata } from "components/Transactors/types";
 import {
   compareMetadata,
   getImageURL,
@@ -61,7 +62,7 @@ describe("Helper functions", () => {
   });
 
   describe("compare metadata", () => {
-    const metaA = {
+    const metaA: Metadata = {
       name: "DeSci Foundation",
       symbol: "DF",
       description:
@@ -71,6 +72,9 @@ describe("Helper functions", () => {
       image:
         "https://w3s.link/ipfs/bafkreihgkhxi6umjfu34jrkxcqbvumb7lqgdskb6lhenerukalhtespnwm",
       external_link: "https://desci.com",
+      properties: {
+        description: "",
+      },
     };
     const metaAVariant = { ...metaA, image: "" };
 

@@ -3,6 +3,9 @@
     {
       "id": 1,
       "metadata": {
+        "properties": {
+          "description": ""
+        },
         "name": "Research Funding",
         "description": "We are building tools to enable scientists to form Autonomous Research Communities (ARCs) that operate on the Ledger of Scientific Record.\n\nARCs select, validate, and curate promising scientific discoveries. Each step of the process is recorded on-chain, creating an immutable and permanent public record.",
         "attestationType": "Achievement",
@@ -20,6 +23,9 @@
     {
       "id": 1,
       "metadata": {
+        "properties": {
+          "description": ""
+        },
         "name": "DeSoc OSS collective member",
         "issuer": "0xe861856C961F853DC47e5F2aD1fa2b9eA20e4E88",
         "acronym": "DeSoc OSS collective member",
@@ -39,6 +45,9 @@
     {
       "id": 1,
       "metadata": {
+        "properties": {
+          "description": ""
+        },
         "name": "Solar punk collective memb4",
         "issuer": "0x855D6DB82BC9941731ef4c8f24EF8F8c2Ba70d57",
         "acronym": "",
@@ -56,6 +65,9 @@
     {
       "id": 2,
       "metadata": {
+        "properties": {
+          "description": ""
+        },
         "name": "Planted a tree in the amazon",
         "description": "The owner of this badges has planted a tree in the amazon. ",
         "attestationType": "Achievement",

@@ -1,7 +1,6 @@
 import Loader from "components/Loader";
 import { AttestationList } from "components/UI/Attestation/Index";
 import { ContentGrid } from "components/UI/Index";
-import { Delegates } from "components/UI/Attestation/Delegates/Delegates";
 import MetaDetails from "components/UI/MetaDataView";
 import { Org, PendingOrg } from "services/orgs/types";
 import useUpdater from "components/Transactors/org/Updator/useUpdater";
@@ -32,12 +31,6 @@ export default function DesocDetails(props: {
         address={props.desoc.address}
         showUpdater={props.showUpdaters}
       />
-      {props.showUpdaters && (
-        <Delegates
-          address={props.desoc.address}
-          showUpdater={props.showUpdaters}
-        />
-      )}
     </ContentGrid>
   );
 }

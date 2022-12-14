@@ -10,6 +10,7 @@
     "lint": "next lint",
     "lint:fix": "eslint --fix",
     "type-check": "tsc --pretty --noEmit",
+    "prepare": "yarn graphql:generate",
     "graphql:generate": "graphql-codegen",
     "cy:install": "cypress install",
     "cy:run": "cypress run --browser chrome --e2e",
@@ -29,12 +30,12 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "npm run type-check"
+      "pre-push": "yarn type-check"
     }
   },
   "lint-staged": {
     "*.@(ts|tsx)": [
-      "npm run lint"
+      "yarn lint"
     ]
   },
   "dependencies": {

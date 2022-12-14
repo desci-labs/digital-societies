@@ -42,10 +42,11 @@ export default function useAttestationForm(address: string, tokenType: number) {
 
       updateTx({ step: Step.submit, message: "Confirming transaction..." });
 
-      const tx = await tokenContract.mintTokenType(ipfsURL);
+      const tx = await tokenContract.createAttestation(ipfsURL, false);
       const typeId = (await tokenContract?.totalTypes()) ?? 0;
+      const attestationId = typeId.add(1).toNumber();
       const attestation: PendingAttestation = {
-        id: typeId + 1,
+        id: attestationId,
         cid: ipfsURL,
         address,
         mintedBy,
@@ -54,7 +55,7 @@ export default function useAttestationForm(address: string, tokenType: number) {
         dateCreated: Date.now(),
       };
       dispatch(setAttestation({ address, attestation }));
-      const previewLink = `/attestations/${typeId + 1}?address=${address}`;
+      const previewLink = `/attestations/${attestationId}`;
       updateTx({
         step: Step.broadcast,
         txHash: tx.hash,
@@ -103,7 +104,7 @@ export default function useAttestationForm(address: string, tokenType: number) {
 
       updateTx({ step: Step.submit, message: "Confirming transaction..." });
 
-      const tx = await tokenContract.updateTypeURI(
+      const tx = await tokenContract.updateAttestationURI(
         BigNumber.from(tokenType).toString(),
         ipfsURL
       );

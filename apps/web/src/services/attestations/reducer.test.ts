@@ -27,6 +27,9 @@ const mockAttestation: Attestation = {
     image:
       "https://w3s.link/ipfs/bafkreihgkhxi6umjfu34jrkxcqbvumb7lqgdskb6lhenerukalhtespnwm",
     external_link: "https://desci.com",
+    properties: {
+      description: "",
+    },
   },
   mintedBy: "0x114EA4c82a0B5d54Ce5697272a2De2e4a14D654C",
   cid: "https://w3s.link/ipfs/bafkreibiaufpjgatkxajg56xjy6kwsglq2vdmxryjsppbb2qmoafusrxny",

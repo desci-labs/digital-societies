@@ -38,6 +38,4 @@ cp ./out/MetadataHolder.sol/MetadataHolder.json ../web/src/constants/abis/
 cp ./out/Desoc.sol/Desoc.json ../web/src/constants/abis/
 
 # generate typescript bindings for contracts
-typechain --target ethers-v5 --out-dir '../web/src/constants/types' './out/Factory.sol/Factory.json'
-typechain --target ethers-v5 --out-dir '../web/src/constants/types' './out/Desoc.sol/Desoc.json'
-typechain --target ethers-v5 --out-dir '../web/src/constants/types' './out/MetadataHolder.sol/MetadataHolder.json'
+typechain --target ethers-v5 --out-dir '../web/src/constants/types' './out/Factory.sol/Factory.json' './out/Desoc.sol/Desoc.json' './out/MetadataHolder.sol/MetadataHolder.json'
