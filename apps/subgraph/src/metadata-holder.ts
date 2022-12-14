@@ -20,16 +20,12 @@ export function handleAdminUpdated(event: AdminUpdatedEvent): void {
 }
 
 export function handleAttestationUpdated(event: AttestationUpdatedEvent): void {
-  let entity = Attestation.load(
-    Bytes.fromBigInt(event.params.attestationId) as Bytes
-  );
+  let entity = Attestation.load(event.params.attestationId.toHexString());
   if (!entity) {
-    entity = new Attestation(
-      Bytes.fromBigInt(event.params.attestationId) as Bytes
-    );
+    entity = new Attestation(event.params.attestationId.toHexString());
     entity.createdAt = event.block.timestamp;
+    entity.society = event.params.society;
   }
-  entity.society = event.params.society;
   entity.metadataUri = event.params.uri;
   entity.updatedAt = event.block.timestamp;
   entity.save();
@@ -38,7 +34,7 @@ export function handleAttestationUpdated(event: AttestationUpdatedEvent): void {
 export function handleDelegatesUpdated(event: DelegatesUpdatedEvent): void {
   let entity = Society.load(event.params.society);
   if (!entity) return;
-  entity.delegateRoleId = event.params.attestationId;
+  entity.delegateRoleId = event.params.attestationId.toHexString();
   entity.save();
 }
 
@@ -51,20 +47,22 @@ export function handleIssued(event: IssuedEvent): void {
         .concat(event.params.tokenId.toString())
     );
   let entity = Token.load(id);
+  let user = User.load(event.params.recipient);
+
   if (!entity) {
     entity = new Token(id);
   }
 
-  let user = User.load(event.params.recipient);
   if (!user) {
     user = new User(event.params.recipient);
+    user.save();
   }
 
   entity.society = event.params.society;
   entity.owner = event.params.recipient;
   entity.active = true;
   entity.issuedBy = event.params.issuedBy;
-  entity.attestation = Bytes.fromBigInt(event.params.attestationId) as Bytes;
+  entity.attestation = event.params.attestationId.toHexString();
   entity.tokenId = event.params.tokenId;
   entity.issuedAt = event.block.timestamp;
   entity.save();

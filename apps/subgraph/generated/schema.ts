@@ -111,20 +111,20 @@ export class Society extends Entity {
     this.set("metadataUri", Value.fromString(value));
   }
 
-  get delegateRoleId(): BigInt | null {
+  get delegateRoleId(): string | null {
     let value = this.get("delegateRoleId");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
-      return value.toBigInt();
+      return value.toString();
     }
   }
 
-  set delegateRoleId(value: BigInt | null) {
+  set delegateRoleId(value: string | null) {
     if (!value) {
       this.unset("delegateRoleId");
     } else {
-      this.set("delegateRoleId", Value.fromBigInt(<BigInt>value));
+      this.set("delegateRoleId", Value.fromString(<string>value));
     }
   }
 
@@ -145,20 +145,20 @@ export class Society extends Entity {
     }
   }
 
-  get attestations(): Array<Bytes> {
+  get attestations(): Array<string> {
     let value = this.get("attestations");
-    return value!.toBytesArray();
+    return value!.toStringArray();
   }
 
-  set attestations(value: Array<Bytes>) {
-    this.set("attestations", Value.fromBytesArray(value));
+  set attestations(value: Array<string>) {
+    this.set("attestations", Value.fromStringArray(value));
   }
 }
 
 export class Attestation extends Entity {
-  constructor(id: Bytes) {
+  constructor(id: string) {
     super();
-    this.set("id", Value.fromBytes(id));
+    this.set("id", Value.fromString(id));
   }
 
   save(): void {
@@ -166,26 +166,24 @@ export class Attestation extends Entity {
     assert(id != null, "Cannot save Attestation entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.BYTES,
-        `Entities of type Attestation must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        id.kind == ValueKind.STRING,
+        `Entities of type Attestation must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("Attestation", id.toBytes().toHexString(), this);
+      store.set("Attestation", id.toString(), this);
     }
   }
 
-  static load(id: Bytes): Attestation | null {
-    return changetype<Attestation | null>(
-      store.get("Attestation", id.toHexString())
-    );
+  static load(id: string): Attestation | null {
+    return changetype<Attestation | null>(store.get("Attestation", id));
   }
 
-  get id(): Bytes {
+  get id(): string {
     let value = this.get("id");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set id(value: Bytes) {
-    this.set("id", Value.fromBytes(value));
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
   }
 
   get society(): Bytes {
@@ -393,13 +391,13 @@ export class Token extends Entity {
     this.set("society", Value.fromBytes(value));
   }
 
-  get attestation(): Bytes {
+  get attestation(): string {
     let value = this.get("attestation");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set attestation(value: Bytes) {
-    this.set("attestation", Value.fromBytes(value));
+  set attestation(value: string) {
+    this.set("attestation", Value.fromString(value));
   }
 }
 

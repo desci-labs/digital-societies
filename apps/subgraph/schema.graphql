@@ -5,13 +5,13 @@ type Society @entity(immutable: false) {
   createdAt: BigInt
   updatedAt: BigInt
   metadataUri: String!
-  delegateRoleId: BigInt # uint16
+  delegateRoleId: ID # uint16
   transactionHash: Bytes
   attestations: [Attestation!]! @derivedFrom(field: "society")
 }
 
 type Attestation @entity(immutable: false) {
-  id: Bytes!
+  id: ID!
   society: Society!
   createdAt: BigInt
   updatedAt: BigInt

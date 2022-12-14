@@ -68,13 +68,11 @@ export default function LaunchForm() {
           as="span"
           className="text-xs text-left text-red-400 font-semibold m-0"
         />
-        {image && (
-          <ImagePreview
-            image={image}
-            className="rounded-xl"
-            wrapperClassName="h-32"
-          />
-        )}
+        <ImagePreview
+          image={image}
+          className="rounded-xl"
+          wrapperClassName="h-32"
+        />
         <FileDropzone<MetadataValues>
           name="banner"
           className="h-10"
@@ -89,13 +87,11 @@ export default function LaunchForm() {
           as="span"
           className="text-xs text-left text-red-400 font-semibold m-0"
         />
-        {logo && (
-          <ImagePreview
-            image={logo}
-            className="rounded-full"
-            wrapperClassName="w-16 h-16"
-          />
-        )}
+        <ImagePreview
+          image={logo}
+          className="rounded-full"
+          wrapperClassName="w-16 h-16"
+        />
         <FileDropzone<MetadataValues>
           name="image"
           className="h-10"

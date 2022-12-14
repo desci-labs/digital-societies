@@ -23,11 +23,11 @@ export default function Launcher(props: Props) {
       banner:
         typeof props?.metadata?.banner === "string"
           ? { ipfsURL: props?.metadata.banner }
-          : props.metadata?.banner,
+          : props.metadata?.banner ?? { ipfsURL: "" },
       image:
         typeof props?.metadata?.image === "string"
           ? { ipfsURL: props?.metadata?.image }
-          : props.metadata?.image,
+          : props.metadata?.image ?? { ipfsURL: "" },
       external_link: props?.metadata?.external_link,
     },
     resolver: yupResolver(metadataSchema),
