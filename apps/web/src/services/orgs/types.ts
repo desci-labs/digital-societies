@@ -8,12 +8,13 @@ export type Revoked = {
 };
 
 export type OrgMeta = {
-  cid: string;
   address: string;
   dateCreated: number;
   delegates: string[];
   admin: string;
   verified: boolean;
+  delegateRoleId?: number;
+  metadataUri: string;
   // tokenURI: string,
 };
 

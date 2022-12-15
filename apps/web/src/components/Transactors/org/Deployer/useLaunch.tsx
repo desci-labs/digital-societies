@@ -66,14 +66,15 @@ export default function useLaunch() {
       );
 
       const preview: PendingOrg = {
-        cid: ipfsURL,
+        metadataUri: ipfsURL,
         metadata,
         address,
         admin: issuer,
-        delegates: [issuer],
+        delegates: [],
         dateCreated: block.timestamp * 1000,
         pending: true,
         verified: false,
+        delegateRoleId: 0,
       };
 
       dispatch(setOrg(preview));

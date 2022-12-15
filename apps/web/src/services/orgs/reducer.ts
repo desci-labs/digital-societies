@@ -21,7 +21,7 @@ const slice = createSlice({
         if (!prev) return true;
         if (prev?.pending === true && data.metadata !== null) return true;
         if (prev.verified !== data.verified) return true;
-        if (data.cid !== prev.cid) return true;
+        if (data.metadataUri !== prev.metadataUri) return true;
         if (data.delegates.length !== prev.delegates.length) return true;
 
         // check diff in metadata

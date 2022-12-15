@@ -39,7 +39,7 @@ export default function useUpdate(address: string) {
 
       const preview = {
         ...org,
-        cid: CIDString,
+        metadataUri: CIDString,
         metadata,
       } as PendingOrg;
 

@@ -12,10 +12,13 @@ import { THEGRAPH_API_ENDPOINT } from "thegraph/config";
 
 export default function FactoryUpdater() {
   const dispatch = useDispatch();
-  const { data, isLoading } = useGetSocietiesQuery({
-    endpoint: THEGRAPH_API_ENDPOINT,
-  });
-  console.log("useGetSocietiesQuery", data);
+  const { data, isLoading } = useGetSocietiesQuery(
+    {
+      endpoint: THEGRAPH_API_ENDPOINT,
+    },
+    {},
+    { staleTime: 6000 }
+  );
 
   async function parseData(
     society: GetSocietiesQuery["societies"][number]
@@ -23,12 +26,12 @@ export default function FactoryUpdater() {
     const metadata = (await queryIpfsURL(society.metadataUri)) as Metadata;
     return {
       metadata,
-      cid: society.metadataUri,
       admin: society.admin,
       delegates: [],
       verified: society.verified ?? false,
       address: society.id,
       dateCreated: 0,
+      metadataUri: society.metadataUri,
     };
   }
 

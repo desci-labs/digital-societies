@@ -26,7 +26,6 @@ export default function DesocList() {
   if (isEmpty) {
     return <NoContent />;
   }
-
   return (
     <div className="container mx-auto w-full mt-5">
       <Toolbar
