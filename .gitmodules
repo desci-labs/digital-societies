@@ -1,3 +1,3 @@
-[submodule "apps/contracts/lib/gsn"]
-	path = apps/contracts/lib/gsn
+[submodule "packages/contracts/lib/gsn"]
+	path = packages/contracts/lib/gsn
 	url = https://github.com/opengsn/gsn

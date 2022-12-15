@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { ethers } from "ethers";
 import { useDispatch } from "react-redux";
 import { useProvider } from "wagmi";
@@ -8,11 +8,10 @@ import { asyncMap } from "helper";
 import useBlockNumber from "hooks/useBlockNumber";
 import { useTokenContract } from "hooks/useContract";
 import { useGetOrgs } from "services/orgs/hooks";
-import { AttestationMap, Attestation } from "./types";
-import { setAttestations, setIsLoading } from "./reducer";
+import { Attestation } from "./types";
+import { setIsLoading } from "./reducer";
 import { AttestationMetadata } from "components/Transactors/types";
-import { FACTORY_DEPLOY_BLOCK } from "constants/web3";
-import { Desoc } from "constants/types";
+import { Desoc } from "@desoc/contracts";
 
 export default function AttestationUpdater() {
   const dispatch = useDispatch();

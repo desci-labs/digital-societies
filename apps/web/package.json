@@ -49,6 +49,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "busboy": "^1.6.0",
+    "@desoc/contracts": "*",
     "ethers": "^5.0.0",
     "formidable": "^2.0.1",
     "graphql": "^16.6.0",

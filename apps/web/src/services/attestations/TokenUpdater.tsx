@@ -15,7 +15,7 @@ import {
 } from "./types";
 import { setTokens } from "./reducer";
 import { FACTORY_DEPLOY_BLOCK } from "constants/web3";
-import { Desoc } from "constants/types";
+// import { Desoc } from "constants/types";
 
 export default function TokenUpdater() {
   const dispatch = useDispatch();

@@ -1,11 +1,13 @@
 {
-  "name": "contracts",
+  "name": "@desoc/contracts",
   "version": "1.0.0",
   "description": "",
   "private": true,
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
   "scripts": {
     "test": "./test.sh",
     "remapping-transform": "./remap.sh",

@@ -3,11 +3,11 @@ import { PAYMASTER_ADDRESS, SB_FACTORY_ADDRESS } from "constants/addresses";
 import { DEFAULT_CHAIN, RPC_URLS } from "constants/web3";
 import { Contract, ethers } from "ethers";
 import { useNetwork, useProvider, useSigner } from "wagmi";
-import FactoryInterface from "../constants/abis/Factory.json";
-import DesocInterface from "../constants/abis/Desoc.json";
-import { Desoc } from "constants/types/Desoc";
+import FactoryInterface from "@desoc/contracts/src/abis/Factory.json";
+import DesocInterface from "@desoc/contracts/src/abis/Desoc.json";
+import { Desoc } from "@desoc/contracts";
 import { useEffect, useState } from "react";
-import { Factory } from "constants/types/Factory";
+import { Factory } from "@desoc/contracts";
 
 const getDefaultProvider = (chainId?: number) =>
   new ethers.providers.JsonRpcProvider(RPC_URLS[chainId ?? DEFAULT_CHAIN]);
