@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useGetSocietiesQuery } from "./admin";
+import { useGetAdminSocietiesQuery } from "./admin";
 import { useGetAccountMetadataQuery } from "./offchainMeta";
 
 export function useAccountMetadata(org: string, owner: string) {
@@ -17,7 +17,7 @@ export function useAccountMetadata(org: string, owner: string) {
 }
 
 export function useGetOrgSetting(address: string) {
-  const { data, isLoading } = useGetSocietiesQuery(
+  const { data, isLoading } = useGetAdminSocietiesQuery(
     { address },
     { skip: !address }
   );

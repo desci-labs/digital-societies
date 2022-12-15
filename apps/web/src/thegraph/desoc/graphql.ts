@@ -1,9 +1,36 @@
 /* eslint-disable */
+import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+
+function fetcher<TData, TVariables>(
+  endpoint: string,
+  requestInit: RequestInit,
+  query: string,
+  variables?: TVariables
+) {
+  return async (): Promise<TData> => {
+    const res = await fetch(endpoint, {
+      method: "POST",
+      ...requestInit,
+      body: JSON.stringify({ query, variables }),
+    });
+
+    const json = await res.json();
+
+    if (json.errors) {
+      const { message } = json.errors[0];
+
+      throw new Error(message);
+    }
+
+    return json.data;
+  };
+}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -627,3 +654,56 @@ export enum _SubgraphErrorPolicy_ {
   /** If the subgraph has indexing errors, data will be omitted. The default. */
   Deny = 'deny'
 }
+
+export type GetSocietiesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetSocietiesQuery = {
+  __typename?: "Query";
+  societies: Array<{
+    __typename?: "Society";
+    admin?: any | null;
+    delegateRoleId?: string | null;
+    id: any;
+    metadataUri: string;
+    verified?: boolean | null;
+    attestations: Array<{
+      __typename?: "Attestation";
+      metadataUri: string;
+      id: string;
+    }>;
+  }>;
+};
+
+export const GetSocietiesDocument = `
+    query getSocieties {
+  societies {
+    admin
+    attestations {
+      metadataUri
+      id
+    }
+    delegateRoleId
+    id
+    metadataUri
+    verified
+  }
+}
+    `;
+export const useGetSocietiesQuery = <
+  TData = GetSocietiesQuery,
+  TError = unknown
+>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables?: GetSocietiesQueryVariables,
+  options?: UseQueryOptions<GetSocietiesQuery, TError, TData>
+) =>
+  useQuery<GetSocietiesQuery, TError, TData>(
+    variables === undefined ? ["getSocieties"] : ["getSocieties", variables],
+    fetcher<GetSocietiesQuery, GetSocietiesQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      GetSocietiesDocument,
+      variables
+    ),
+    options
+  );

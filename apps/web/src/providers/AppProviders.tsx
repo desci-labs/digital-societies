@@ -22,6 +22,9 @@ import { PersistGate } from "redux-persist/integration/react";
 import { ErrorBoundary } from "react-error-boundary";
 import AppFallback from "components/Fallback/AppFallback";
 import LayoutProvider from "hooks/usePageScroll";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function Updaters() {
   return (
@@ -51,26 +54,28 @@ function AppProviders({ children }: PropsWithChildren<unknown>) {
 
   return (
     <ErrorBoundary FallbackComponent={AppFallback}>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <TransactionProvider>
-            <WagmiConfig client={client}>
-              <RainbowKitProvider theme={getTheme()} chains={chains}>
-                <BlockNumberProvider>
-                  <Updaters />
-                  <FormViewProvider>
-                    <ModalProvider classes="p-3 bg-black bg-opacity-50 backdrop-blur-xl fixed top-0 right-0 bottom-0 left-0 z-50 grid place-items-center">
-                      <LayoutProvider>
-                        <AppMenuProvider>{children}</AppMenuProvider>
-                      </LayoutProvider>
-                    </ModalProvider>
-                  </FormViewProvider>
-                </BlockNumberProvider>
-              </RainbowKitProvider>
-            </WagmiConfig>
-          </TransactionProvider>
-        </PersistGate>
-      </Provider>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <TransactionProvider>
+              <WagmiConfig client={client}>
+                <RainbowKitProvider theme={getTheme()} chains={chains}>
+                  <BlockNumberProvider>
+                    <Updaters />
+                    <FormViewProvider>
+                      <ModalProvider classes="p-3 bg-black bg-opacity-50 backdrop-blur-xl fixed top-0 right-0 bottom-0 left-0 z-50 grid place-items-center">
+                        <LayoutProvider>
+                          <AppMenuProvider>{children}</AppMenuProvider>
+                        </LayoutProvider>
+                      </ModalProvider>
+                    </FormViewProvider>
+                  </BlockNumberProvider>
+                </RainbowKitProvider>
+              </WagmiConfig>
+            </TransactionProvider>
+          </PersistGate>
+        </Provider>
+      </QueryClientProvider>
     </ErrorBoundary>
   );
 }

@@ -1,7 +1,7 @@
 import sanitizeRegexSearchText from "helper/sanitizeRegexSearchText";
 import useDebouncer from "hooks/useDebouncer";
 import { useMemo, useState } from "react";
-import { useGetSocietiesQuery } from "services/api/admin";
+import { useGetAdminSocietiesQuery } from "services/api/admin";
 import { useGetOrgState } from "services/orgs/hooks";
 
 const DELAY = 250;
@@ -10,7 +10,7 @@ export default function useFilteredOrg() {
   const { data: orgList, isLoading } = useGetOrgState();
   const [debouncedSearchText, isDebouncing] = useDebouncer(searchText, DELAY);
   const { data: societies, isLoading: isLoadingSettings } =
-    useGetSocietiesQuery({}, {});
+    useGetAdminSocietiesQuery({}, {});
 
   const filteredList = useMemo(() => {
     const sanitizedText =

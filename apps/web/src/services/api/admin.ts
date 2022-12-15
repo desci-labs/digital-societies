@@ -12,21 +12,22 @@ export const defaultErrorMsg = "We encountered an error saving the data";
 
 const adminApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getSocieties: builder.query<SocietyDataRow[] | SocietyDataRow, QueryParams>(
-      {
-        query: ({ address }) => {
-          return {
-            method: "GET",
-            url: `admin/society`,
-            params: {
-              address,
-            },
-          };
-        },
-        extraOptions: { maxRetries: 5 },
-        providesTags: [tags.society],
-      }
-    ),
+    getAdminSocieties: builder.query<
+      SocietyDataRow[] | SocietyDataRow,
+      QueryParams
+    >({
+      query: ({ address }) => {
+        return {
+          method: "GET",
+          url: `admin/society`,
+          params: {
+            address,
+          },
+        };
+      },
+      extraOptions: { maxRetries: 5 },
+      providesTags: [tags.society],
+    }),
     insertSociety: builder.mutation<ApiResponse, SocietyDataInsert>({
       query: (data) => {
         return {
@@ -51,7 +52,7 @@ const adminApi = api.injectEndpoints({
 });
 
 export const {
-  useGetSocietiesQuery,
+  useGetAdminSocietiesQuery,
   useInsertSocietyMutation,
   useUpdateSocietyMutation,
 } = adminApi;

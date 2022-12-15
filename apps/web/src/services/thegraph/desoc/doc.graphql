@@ -1,0 +1,13 @@
+query getSocieties {
+  societies {
+    admin
+    attestations {
+      metadataUri
+      id
+    }
+    delegateRoleId
+    id
+    metadataUri
+    verified
+  }
+}
