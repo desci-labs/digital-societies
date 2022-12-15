@@ -26,13 +26,13 @@
 # yarn install
 
 # Run the build script
-yarn remapping-transform && forge build --force
+# yarn remapping-transform && forge build --force
 
 if [ -f "apps/contracts" ]; then
     cd apps/contracts
 fi
 
-# npx hardhat compile --show-stack-traces
+npx hardhat compile --show-stack-traces
 
 # copy the required abis to the web/constants/abis
 cp ./out/Factory.sol/Factory.json ./src/abis/
