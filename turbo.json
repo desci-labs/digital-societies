@@ -11,7 +11,9 @@
       ]
     },
     "web#build": {
-      "dependsOn": [],
+      "dependsOn": [
+        "@desoc/contracts#build"
+      ],
       "outputs": [],
       "cache": true
     },
