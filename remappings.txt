@@ -1,7 +1,7 @@
-ds-test/=apps/contracts/lib/forge-std/lib/ds-test/src/
-forge-std/=apps/contracts/lib/forge-std/src/
-gsn/=apps/contracts/lib/gsn/
-@opengsn/=apps/contracts/../../node_modules/@opengsn
-openzeppelin-contracts/=apps/contracts/lib/openzeppelin-contracts/
-@openzeppelin/=apps/contracts/lib/openzeppelin-contracts/
-src/=apps/contracts/src/
+ds-test/=packages/contracts/lib/forge-std/lib/ds-test/src/
+forge-std/=packages/contracts/lib/forge-std/src/
+gsn/=packages/contracts/lib/gsn/
+@opengsn/=packages/contracts/../../node_modules/@opengsn
+openzeppelin-contracts/=packages/contracts/lib/openzeppelin-contracts/
+@openzeppelin/=packages/contracts/lib/openzeppelin-contracts/
+src/=packages/contracts/src/
