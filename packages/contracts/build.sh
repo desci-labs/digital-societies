@@ -32,6 +32,8 @@ if [ -f "apps/contracts" ]; then
     cd apps/contracts
 fi
 
+# npx hardhat compile --show-stack-traces
+
 # copy the required abis to the web/constants/abis
 cp ./out/Factory.sol/Factory.json ./src/abis/
 cp ./out/MetadataHolder.sol/MetadataHolder.json ./src/abis/
