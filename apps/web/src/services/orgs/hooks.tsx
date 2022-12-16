@@ -23,9 +23,10 @@ export function useGetDesocMeta(address: string) {
 export function useIsAdmin(address: string) {
   const account = useAccount();
   const org = useGetOrg(address);
-  return org?.admin === account.address;
+  return org?.admin.toLowerCase() === account.address?.toLowerCase();
 }
 
+// TODO: Update logic to tokens where {owner => user, attestationId => org.delegateRoleId}
 export function useIsDelegate(address: string) {
   const { address: user } = useAccount();
   const org = useGetOrg(address);

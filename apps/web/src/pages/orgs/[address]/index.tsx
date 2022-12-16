@@ -17,7 +17,9 @@ export default function DesocDetailsPage() {
   return (
     <DesocDetails
       desoc={org}
-      showUpdaters={org.address === adminOrg?.address}
+      showUpdaters={
+        org.address.toLowerCase() === adminOrg?.address.toLowerCase()
+      }
     />
   );
 }
