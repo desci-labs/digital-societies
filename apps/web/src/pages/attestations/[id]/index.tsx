@@ -13,12 +13,12 @@ import { Placeholder } from "components/UI/Desoc/DesocDetails";
 
 export default function CredentialDetails() {
   const router = useRouter();
-  const [{ address, id }, setRouterQuery] = useState({ address: "", id: 0 });
+  const [{ address, id }, setRouterQuery] = useState({ address: "", id: "" });
   useEffect(() => {
     if (router.isReady) {
       const { id, address } = router.query;
       setRouterQuery({
-        id: parseInt(id as string),
+        id: id as string,
         address: address as string,
       });
     }
@@ -27,7 +27,7 @@ export default function CredentialDetails() {
   const credential = useGetAttestation(address, id);
 
   const org = useGetOrg(address);
-
+  console.log(id, address);
   const showLauncher = useCredenter(org, "update");
 
   const metadata = useMemo(

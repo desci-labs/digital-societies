@@ -11,7 +11,7 @@ export function useGetAttestations(address: string) {
   return attestations[address]?.filter((c) => c.metadata !== null) ?? [];
 }
 
-export function useGetAttestation(address: string, id: number) {
+export function useGetAttestation(address: string, id: string) {
   const attestations = useGetAttestations(address);
   return attestations.find((attestation) => attestation.id === id);
 }
