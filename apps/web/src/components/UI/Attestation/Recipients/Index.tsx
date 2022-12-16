@@ -11,7 +11,7 @@ export default function TokenRecipients({
 }: {
   attestation: Attestation | PendingAttestation;
 }) {
-  const tokens = useGetAttestationTokens(attestation.address, attestation.id);
+  const tokens = useGetAttestationTokens(attestation.society, attestation.id);
   if (!attestation) return null;
 
   const getRows = () => {
@@ -46,9 +46,9 @@ export default function TokenRecipients({
                   <AddressCopier address={token.owner} />
                 </Cell>
                 <Cell>
-                  <AddressCopier address={token.issuer} />
+                  <AddressCopier address={token.issuedBy} />
                 </Cell>
-                <Cell>{new Date(token.dateIssued).toDateString()}</Cell>
+                <Cell>{new Date(token.issuedAt).toDateString()}</Cell>
               </Row>
             ))}
         </TBody>

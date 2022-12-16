@@ -59,3 +59,21 @@ query getDesocAttestations($society: String!) {
     }
   }
 }
+
+query getAttestationTokens($attestation: String) {
+  tokens(where: { attestation: $attestation }) {
+    id
+    tokenId
+    owner {
+      id
+    }
+    active
+    issuedBy
+    issuedAt
+    revokedBy
+    revokedAt
+    society {
+      id
+    }
+  }
+}

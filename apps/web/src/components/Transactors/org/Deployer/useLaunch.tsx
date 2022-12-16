@@ -74,7 +74,7 @@ export default function useLaunch() {
         dateCreated: block.timestamp * 1000,
         pending: true,
         verified: false,
-        delegateRoleId: 0,
+        delegateRoleId: "",
       };
 
       dispatch(setOrg(preview));

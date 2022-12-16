@@ -25,14 +25,14 @@ export default function useAttestationForm(address: string, tokenType: string) {
   const getContract = useTokenContract();
   const tokenContract = getContract(address);
   const attestation = useGetAttestation(address, tokenType);
-  const { address: mintedBy } = useAccount();
+  const { address: account } = useAccount();
   const { showModal } = useModalContext();
   const { watch } = useFormContext<AttestationFormValues>();
   const mode = watch("mode");
 
   async function launch(metadata: AttestationFormValues) {
     try {
-      if (!mintedBy) throw Error("Check wallet connection and try again!!!");
+      if (!account) throw Error("Check wallet connection and try again!!!");
 
       dispatch(setFormLoading(true));
       updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
@@ -89,7 +89,7 @@ export default function useAttestationForm(address: string, tokenType: string) {
   async function update(metadata: AttestationFormValues) {
     try {
       if (!attestation) throw new Error("Attestation data not found");
-      if (!mintedBy) throw Error("Check wallet connection and try again!!!");
+      if (!account) throw Error("Check wallet connection and try again!!!");
 
       dispatch(setFormLoading(true));
       updateTx({ step: Step.submit, message: "Pinning update to IPFS..." });

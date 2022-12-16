@@ -28,20 +28,20 @@ export default function useUpdateTokenRecipients(address: string) {
   const { address: account } = useAccount();
   const { getValues, reset } = useFormContext<IssuerValues>();
   const getContract = useTokenContract();
-  const tokenContract = getContract(getValues("org"));
+  const tokenContract = getContract(getValues("society"));
   const tokenRecipients = useGetSelectedTokens();
   const resetState = useResetTokenRecipients();
   const attestation = getValues("attestation");
 
-  async function getPayload(addresses: string[], credential: number) {
+  async function getPayload(addresses: string[], credential: string) {
     const tokenId = await tokenContract?.totalSupply();
     const tokenIds: AttestationToken[] = addresses.map((owner, idx) => ({
-      org: address,
+      society: address,
       tokenId: tokenId.toNumber() + 1 + idx,
       attestation: credential,
-      dateIssued: Date.now(),
+      issuedAt: Date.now(),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      issuer: account!,
+      issuedBy: account!,
       owner: owner,
       active: true,
     }));

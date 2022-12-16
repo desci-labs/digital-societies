@@ -5,27 +5,27 @@ import {
 } from "components/Transactors/types";
 
 export type AttestationToken = {
-  org: string;
+  society: string;
   tokenId: number;
-  attestation: number;
-  dateIssued: number;
-  issuer: string;
+  attestation: string;
   owner: string;
-  active: true;
-  dateRevoked?: never;
+  active: boolean;
+  issuedBy: string;
+  issuedAt: number;
+  revokedAt?: never;
   revokedBy?: never;
 };
 
 export type RevokedAttestationToken = {
-  org: string;
+  society: string;
   tokenId: number;
-  attestation: number;
-  dateRevoked: number;
-  issuer: string;
+  attestation: string;
   owner: string;
   active: false;
+  issuedBy: string;
+  revokedAt: number;
+  issuedAt: number;
   revokedBy: string;
-  dateIssued?: never;
 };
 
 export type AttestationTokens = AttestationToken | RevokedAttestationToken;
@@ -36,7 +36,6 @@ export type AttestationType = typeof attestationTypes[number];
 
 type AttestationMeta = {
   id: string;
-  mintedBy?: never;
   metadataUri: string;
   society: string;
   createdAt: number;

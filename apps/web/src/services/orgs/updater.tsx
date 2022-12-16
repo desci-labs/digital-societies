@@ -27,7 +27,8 @@ export default function FactoryUpdater() {
     return {
       metadata,
       admin: society.admin,
-      delegates: [],
+      // delegates: [],
+      delegateRoleId: society.delegateRoleId ?? "",
       verified: society.verified ?? false,
       address: society.id,
       dateCreated: 0,

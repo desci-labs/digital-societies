@@ -19,7 +19,7 @@ export default function IssuerForm() {
     formState: { isSubmitting, errors },
   } = useFormContext<IssuerValues>();
   const stage = useGetTxStage();
-  const orgAddress = getValues("org");
+  const orgAddress = getValues("society");
   const metadata = useGetDesocMeta(orgAddress);
   const attestations = useGetAttestations(orgAddress);
   const { issueAttestation, tokenRecipients, isLoading } =

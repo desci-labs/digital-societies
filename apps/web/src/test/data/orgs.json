@@ -8,13 +8,9 @@
       "image": "https://w3s.link/ipfs/bafkreihgkhxi6umjfu34jrkxcqbvumb7lqgdskb6lhenerukalhtespnwm",
       "external_link": "https://desci.com"
     },
-    "cid": "https://w3s.link/ipfs/bafkreid7a4r2gp5py244cjobxpoedhu4sv6cnqktl4hur5rxppnwqkhora",
+    "delegateRoleId": "1",
+    "metadataUri": "https://w3s.link/ipfs/bafkreid7a4r2gp5py244cjobxpoedhu4sv6cnqktl4hur5rxppnwqkhora",
     "admin": "0x114EA4c82a0B5d54Ce5697272a2De2e4a14D654C",
-    "delegates": [
-      "0x114EA4c82a0B5d54Ce5697272a2De2e4a14D654C",
-      "0xa408bacA39E3B6504FDd599e22F9c4E6dbE0e27E",
-      "0x25534A5a53b6C363a9187af33421fe939664F5c7"
-    ],
     "verified": false,
     "address": "0x780E037a5B1d87E99cbBA0d0D3961fC61510Ecbd",
     "dateCreated": 1666533696000
@@ -29,11 +25,9 @@
       "image": "https://w3s.link/ipfs/bafkreiabzcfixvk4ra2k2twki4yc5rfasiibiyj36zum2kse7vhsdrxiz4",
       "external_link": "https://www.desci.com"
     },
-    "cid": "https://w3s.link/ipfs/bafkreieqkjj23auiwa2p4cskyrjxrr3j2ohloerzq6fqrrkhcqrkbwjsxi",
+    "delegateRoleId": "1",
+    "metadataUri": "https://w3s.link/ipfs/bafkreieqkjj23auiwa2p4cskyrjxrr3j2ohloerzq6fqrrkhcqrkbwjsxi",
     "admin": "0xe861856C961F853DC47e5F2aD1fa2b9eA20e4E88",
-    "delegates": [
-      "0xe861856C961F853DC47e5F2aD1fa2b9eA20e4E88"
-    ],
     "verified": true,
     "address": "0x444cbE4ea61Fb7cd085a3044469B4E4a6d43456a",
     "dateCreated": 1666946568000
@@ -48,11 +42,9 @@
       "image": "https://w3s.link/ipfs/bafkreihc5uzbkfdlfagzityuq6bw46bmudoyifddnyhmufez5yy6oujs4u",
       "external_link": "https://en.wikipedia.org/wiki/Solarpunk"
     },
-    "cid": "https://w3s.link/ipfs/bafkreie5elqujlezcaftggvydb3vftomsbimtitxw6krtu5biiranaaivi",
+    "delegateRoleId": "1",
+    "metadataUri": "https://w3s.link/ipfs/bafkreie5elqujlezcaftggvydb3vftomsbimtitxw6krtu5biiranaaivi",
     "admin": "0x855D6DB82BC9941731ef4c8f24EF8F8c2Ba70d57",
-    "delegates": [
-      "0x855D6DB82BC9941731ef4c8f24EF8F8c2Ba70d57"
-    ],
     "verified": true,
     "address": "0x36C6a9b59dE798c354799f1E1E9646D8008A4FB6",
     "dateCreated": 1667146416000
@@ -66,11 +58,9 @@
       "image": "https://w3s.link/ipfs/bafkreibt4ec5hxypa7rwrpx4i2bory3cd736q2g6b7akxtgzvqzq4rwtyq",
       "external_link": "https://protocol.ai/"
     },
-    "cid": "https://w3s.link/ipfs/bafkreiah44ln6raddbni6azb7kderq57dt3pm7eecw72afqcuyjtibwzci",
+    "delegateRoleId": "1",
+    "metadataUri": "https://w3s.link/ipfs/bafkreiah44ln6raddbni6azb7kderq57dt3pm7eecw72afqcuyjtibwzci",
     "admin": "0xa408bacA39E3B6504FDd599e22F9c4E6dbE0e27E",
-    "delegates": [
-      "0xa408bacA39E3B6504FDd599e22F9c4E6dbE0e27E"
-    ],
     "verified": false,
     "address": "0xF95575D20006C42652Bc9a3d4AEc8C8A3AeD80C6",
     "dateCreated": 1667255568000
@@ -84,11 +74,9 @@
       "image": "https://w3s.link/ipfs/bafkreidigkgjrna5ciqqy574x7fa6vdvmljijhcsoydtnchqfkr25wyf4e",
       "external_link": "https://aave.com"
     },
-    "cid": "https://w3s.link/ipfs/bafkreidcl6cs7rsbvia3ayuavdaehknnit2wh3vyc7a6ztg2iszmcm7i2a",
+    "delegateRoleId": "1",
+    "metadataUri": "https://w3s.link/ipfs/bafkreidcl6cs7rsbvia3ayuavdaehknnit2wh3vyc7a6ztg2iszmcm7i2a",
     "admin": "0xa408bacA39E3B6504FDd599e22F9c4E6dbE0e27E",
-    "delegates": [
-      "0xa408bacA39E3B6504FDd599e22F9c4E6dbE0e27E"
-    ],
     "verified": false,
     "address": "0xb8305074Ebfff368E745e011a89A9dF1944951B0",
     "dateCreated": 1667255724000
@@ -102,11 +90,9 @@
       "image": "https://w3s.link/ipfs/bafkreidrhv7avtzkmd2usil3g5lcibsifgtfflahloepdz7l3lc76ggzqe",
       "external_link": "https://aave.com"
     },
-    "cid": "https://w3s.link/ipfs/bafkreieyw4ijoatdyz34cqyftjnqxwwmm4tizfsxpyengodroekxger63a",
+    "delegateRoleId": "1",
+    "metadataUri": "https://w3s.link/ipfs/bafkreieyw4ijoatdyz34cqyftjnqxwwmm4tizfsxpyengodroekxger63a",
     "admin": "0x938c0ECeE4508AAe9F2F7a81f5604B1BE9a6ECa7",
-    "delegates": [
-      "0x938c0ECeE4508AAe9F2F7a81f5604B1BE9a6ECa7"
-    ],
     "verified": false,
     "address": "0xafFfb3B2fEac064f5e1c4Cf09AD719e5597E68D2",
     "dateCreated": 1667257020000

@@ -17,7 +17,7 @@ export default function TokenRecipientEditor({ attestation, Form }: Props) {
     reValidateMode: "onChange",
     mode: "onChange",
     defaultValues: {
-      org: attestation.address,
+      society: attestation.society,
       attestation: attestation.id,
       address: "",
     },

@@ -2,14 +2,20 @@ import { queryIpfsURL } from "api";
 import { AttestationMetadata } from "components/Transactors/types";
 import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setAttestations, setIsLoading } from "services/attestations/reducer";
-import { Attestation } from "services/attestations/types";
+import {
+  setAttestations,
+  setIsLoading,
+  setTokens,
+} from "services/attestations/reducer";
+import { Attestation, AttestationToken } from "services/attestations/types";
 import { THEGRAPH_API_ENDPOINT } from "thegraph/config";
 import {
   QuerySocietiesArgs,
   Society,
   useGetDesocAttestationsQuery,
   GetDesocAttestationsQuery,
+  useGetAttestationTokensQuery,
+  GetAttestationTokensQuery,
 } from "thegraph/desoc/graphql";
 import { thegraphApi } from ".";
 export const defaultErrorMsg = "We encountered an error saving the metadata";
@@ -36,8 +42,7 @@ export function useGetDesocBadges(id: string) {
 
   const { data, isLoading, isError } = useGetDesocAttestationsQuery(
     { endpoint: THEGRAPH_API_ENDPOINT },
-    { society: id },
-    { staleTime: 1000 }
+    { society: id }
   );
 
   const parseData = useCallback(
@@ -71,5 +76,48 @@ export function useGetDesocBadges(id: string) {
   useEffect(() => {
     if (isLoading || isError || !data?.attestations) return;
     processData(data.attestations);
+  }, [data, isLoading, isError, processData]);
+}
+
+export function useGetSbtTokens(attestationId: string) {
+  const dispatch = useDispatch();
+
+  const { data, isLoading, isError } = useGetAttestationTokensQuery(
+    { endpoint: THEGRAPH_API_ENDPOINT },
+    { attestation: attestationId }
+  );
+
+  const parseData = useCallback(
+    async (
+      token: GetAttestationTokensQuery["tokens"][number]
+    ): Promise<AttestationToken> => {
+      return {
+        active: token?.active ?? false,
+        owner: token.owner.id,
+        tokenId: token.tokenId,
+        society: token.society.id,
+        issuedBy: token.issuedBy,
+        issuedAt: token.issuedAt ?? 0 * 1000,
+        revokedAt: token?.revokedAt ?? 0 * 1000,
+        revokedBy: token.revokedBy,
+        attestation: attestationId,
+      };
+    },
+    [attestationId]
+  );
+
+  const processData = useCallback(
+    async (data: GetAttestationTokensQuery["tokens"]) => {
+      const results = await Promise.all(data.map(parseData));
+      if (results.length === 0) return;
+      dispatch(setTokens({ [results[0].society]: results }));
+      dispatch(setIsLoading(false));
+    },
+    [dispatch, parseData]
+  );
+
+  useEffect(() => {
+    if (isLoading || isError || !data?.tokens) return;
+    processData(data.tokens);
   }, [data, isLoading, isError, processData]);
 }

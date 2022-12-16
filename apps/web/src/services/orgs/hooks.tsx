@@ -27,10 +27,11 @@ export function useIsAdmin(address: string) {
 }
 
 // TODO: Update logic to tokens where {owner => user, attestationId => org.delegateRoleId}
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function useIsDelegate(address: string) {
-  const { address: user } = useAccount();
-  const org = useGetOrg(address);
-  return !!org?.delegates.some((member) => member === user);
+  // const { address: user } = useAccount();
+  // const org = useGetOrg(address);
+  return false;
 }
 
 export function useIsAdminOrDelegate(address: string) {

@@ -40,13 +40,13 @@ export type AttestationMetadata = Omit<Meta, "symbol" | "acronym"> & {
   attestationType: AttestationType;
 } & { image: string };
 export interface IssuerValues {
-  org: string;
+  society: string;
   address: string;
-  attestation: number;
+  attestation: string;
 }
 export interface DelegaterValues {
   delegate: string;
-  org: string;
+  society: string;
 }
 
 export const ASSOCIATED_SOCIALS = [

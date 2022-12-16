@@ -12,10 +12,7 @@ const CreateType: NextPage = () => {
   const { address, id } = router.query;
 
   const { isConnected } = useAccount();
-  const attestation = useGetAttestation(
-    address as string,
-    parseInt(id as string)
-  );
+  const attestation = useGetAttestation(address as string, id as string);
 
   if (!attestation) return <Loader />;
 

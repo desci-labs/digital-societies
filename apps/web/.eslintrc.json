@@ -19,5 +19,8 @@
   },
   "globals": {
     "React": "writable"
-  }
+  },
+  "ignorePatterns": [
+    "fragment-masking.ts"
+  ]
 }

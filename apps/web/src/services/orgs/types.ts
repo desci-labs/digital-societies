@@ -10,12 +10,11 @@ export type Revoked = {
 export type OrgMeta = {
   address: string;
   dateCreated: number;
-  delegates: string[];
+  delegates?: never[];
   admin: string;
   verified: boolean;
-  delegateRoleId?: number;
+  delegateRoleId: string;
   metadataUri: string;
-  // tokenURI: string,
 };
 
 export type PendingOrg = OrgMeta & {

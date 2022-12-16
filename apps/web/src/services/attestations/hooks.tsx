@@ -21,7 +21,7 @@ export function useGetTokens(address: string) {
   return tokens[address] ?? [];
 }
 
-export function useGetAttestationTokens(address: string, attestation: number) {
+export function useGetAttestationTokens(address: string, attestation: string) {
   const tokens = useGetTokens(address);
   return tokens.filter(
     (token) => token.attestation === attestation && token.active === true
@@ -30,7 +30,7 @@ export function useGetAttestationTokens(address: string, attestation: number) {
 
 export function useGetRevokedAttestationTokens(
   address: string,
-  attestation: number
+  attestation: string
 ): RevokedAttestationToken[] {
   const tokens = useGetTokens(address);
   return tokens.filter(

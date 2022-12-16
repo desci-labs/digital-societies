@@ -1,7 +1,7 @@
 {
   "0x780E037a5B1d87E99cbBA0d0D3961fC61510Ecbd": [
     {
-      "id": 1,
+      "id": "1",
       "metadata": {
         "properties": {
           "description": ""
@@ -13,15 +13,14 @@
         "image": "https://w3s.link/ipfs/bafkreihgkhxi6umjfu34jrkxcqbvumb7lqgdskb6lhenerukalhtespnwm",
         "external_link": "https://desci.com"
       },
-      "mintedBy": "0x114EA4c82a0B5d54Ce5697272a2De2e4a14D654C",
-      "cid": "https://w3s.link/ipfs/bafkreibiaufpjgatkxajg56xjy6kwsglq2vdmxryjsppbb2qmoafusrxny",
-      "dateCreated": 1666533876000,
-      "address": "0x780E037a5B1d87E99cbBA0d0D3961fC61510Ecbd"
+      "metadataUri": "https://w3s.link/ipfs/bafkreibiaufpjgatkxajg56xjy6kwsglq2vdmxryjsppbb2qmoafusrxny",
+      "createdAt": 1666533876000,
+      "society": "0x780E037a5B1d87E99cbBA0d0D3961fC61510Ecbd"
     }
   ],
   "0x444cbE4ea61Fb7cd085a3044469B4E4a6d43456a": [
     {
-      "id": 1,
+      "id": "1",
       "metadata": {
         "properties": {
           "description": ""
@@ -35,15 +34,14 @@
         "image": "https://w3s.link/ipfs/bafkreiabzcfixvk4ra2k2twki4yc5rfasiibiyj36zum2kse7vhsdrxiz4",
         "external_link": "https://www.notion.so/descilabs/DeSoc-OSS-builder-collective-3a095310c56a4ce7a1e3088a296054c6"
       },
-      "mintedBy": "0xe861856C961F853DC47e5F2aD1fa2b9eA20e4E88",
-      "cid": "https://w3s.link/ipfs/bafkreiei65k2jglncbdhlxljyal2fcqaijkogehw2jzbou6qfuzhjqbo2i",
-      "dateCreated": 1666948008000,
-      "address": "0x444cbE4ea61Fb7cd085a3044469B4E4a6d43456a"
+      "metadataUri": "https://w3s.link/ipfs/bafkreiei65k2jglncbdhlxljyal2fcqaijkogehw2jzbou6qfuzhjqbo2i",
+      "createdAt": 1666948008000,
+      "society": "0x444cbE4ea61Fb7cd085a3044469B4E4a6d43456a"
     }
   ],
   "0x36C6a9b59dE798c354799f1E1E9646D8008A4FB6": [
     {
-      "id": 1,
+      "id": "1",
       "metadata": {
         "properties": {
           "description": ""
@@ -57,13 +55,12 @@
         "image": "https://w3s.link/ipfs/bafkreihc5uzbkfdlfagzityuq6bw46bmudoyifddnyhmufez5yy6oujs4u",
         "external_link": "https://en.wikipedia.org/wiki/Solarpunk"
       },
-      "mintedBy": "0x855D6DB82BC9941731ef4c8f24EF8F8c2Ba70d57",
-      "cid": "https://w3s.link/ipfs/bafkreiazjiwqt3idkisnub46amauf3kix4sntjny2bub5f57hhxb34s64m",
-      "dateCreated": 1667146608000,
-      "address": "0x36C6a9b59dE798c354799f1E1E9646D8008A4FB6"
+      "metadataUri": "https://w3s.link/ipfs/bafkreiazjiwqt3idkisnub46amauf3kix4sntjny2bub5f57hhxb34s64m",
+      "createdAt": 1667146608000,
+      "society": "0x36C6a9b59dE798c354799f1E1E9646D8008A4FB6"
     },
     {
-      "id": 2,
+      "id": "2",
       "metadata": {
         "properties": {
           "description": ""
@@ -75,10 +72,9 @@
         "image": "https://w3s.link/ipfs/bafkreiay36go5cuxpoitjjxwlauiyf6rygk5d544z7noapqfwwb3yyuyyy",
         "external_link": "https://en.wikipedia.org/wiki/Solarpunk"
       },
-      "mintedBy": "0x855D6DB82BC9941731ef4c8f24EF8F8c2Ba70d57",
-      "cid": "https://w3s.link/ipfs/bafkreiadiqhavva2g37l4bcuthk6xjvbmi4x5urenqxjhfgv4ajsutsngq",
-      "dateCreated": 1667932068000,
-      "address": "0x36C6a9b59dE798c354799f1E1E9646D8008A4FB6"
+      "metadataUri": "https://w3s.link/ipfs/bafkreiadiqhavva2g37l4bcuthk6xjvbmi4x5urenqxjhfgv4ajsutsngq",
+      "createdAt": 1667932068000,
+      "society": "0x36C6a9b59dE798c354799f1E1E9646D8008A4FB6"
     }
   ]
 }

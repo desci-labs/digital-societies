@@ -22,7 +22,7 @@ const slice = createSlice({
         if (prev?.pending === true && data.metadata !== null) return true;
         if (prev.verified !== data.verified) return true;
         if (data.metadataUri !== prev.metadataUri) return true;
-        if (data.delegates.length !== prev.delegates.length) return true;
+        // if (data.delegates.length !== prev.delegates.length) return true;
 
         // check diff in metadata
         const canUpdate = compareMetadata(prev.metadata, data.metadata);
@@ -64,32 +64,25 @@ const slice = createSlice({
       state.isLoading = payload;
     },
 
-    addDelegate(
-      state,
-      { payload }: PayloadAction<{ org: string; delegate: string }>
-    ) {
-      const org = state.data.find((item) => item.address === payload.org);
-      if (org?.delegates.includes(payload.delegate)) return;
-      org?.delegates.push(payload.delegate);
-    },
+    // addDelegate(
+    //   state,
+    //   { payload }: PayloadAction<{ org: string; delegate: string }>
+    // ) {
+    //   const org = state.data.find((item) => item.address === payload.org);
+    //   if (org?.delegates.includes(payload.delegate)) return;
+    //   org?.delegates.push(payload.delegate);
+    // },
 
-    removeDelegate(
-      state,
-      { payload }: PayloadAction<{ org: string; delegate: string }>
-    ) {
-      const org = state.data.find((item) => item.address === payload.org);
-      if (!org?.delegates.includes(payload.delegate)) return;
-      org.delegates = org?.delegates.filter((el) => el !== payload.delegate);
-    },
+    // removeDelegate(
+    //   state,
+    //   { payload }: PayloadAction<{ org: string; delegate: string }>
+    // ) {
+    //   const org = state.data.find((item) => item.address === payload.org);
+    //   if (!org?.delegates.includes(payload.delegate)) return;
+    //   org.delegates = org?.delegates.filter((el) => el !== payload.delegate);
+    // },
   },
 });
 
 export default slice.reducer;
-export const {
-  resetOrgs,
-  setOrg,
-  setOrgs,
-  setIsLoading,
-  addDelegate,
-  removeDelegate,
-} = slice.actions;
+export const { resetOrgs, setOrg, setOrgs, setIsLoading } = slice.actions;

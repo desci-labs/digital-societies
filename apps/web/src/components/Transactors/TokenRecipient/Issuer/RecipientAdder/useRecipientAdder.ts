@@ -16,7 +16,7 @@ export default function useRecipientAdder() {
     resetField,
   } = useFormContext<IssuerValues>();
   const existingRecipients = useGetAttestationTokens(
-    getValues("org"),
+    getValues("society"),
     getValues("attestation")
   );
 

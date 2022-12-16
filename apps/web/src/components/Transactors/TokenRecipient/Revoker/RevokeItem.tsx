@@ -22,11 +22,11 @@ export default function RevokeItem(props: { token: AttestationToken }) {
         <AddressCopier address={props.token.owner} />
       </Cell>
       <Cell>
-        <AddressCopier address={props.token.issuer} />
+        <AddressCopier address={props.token.issuedBy} />
       </Cell>
       <Cell>
         <AssociatedDataTrigger
-          org={props.token.org}
+          org={props.token.society}
           address={props.token.owner}
         />
         <SelectRecipient isLoading={false} token={props.token} />

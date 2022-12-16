@@ -28,7 +28,7 @@ export default function useRevokeToken() {
   const resetState = useResetTokenRecipients();
   const selectedTokens = useGetSelectedTokens();
   const { getValues, reset } = useFormContext<IssuerValues>();
-  const orgContractAddress = getValues("org");
+  const orgContractAddress = getValues("society");
   const attestation = getValues("attestation");
   const tokenContract = getContract(orgContractAddress);
   const originalTokens = useGetAttestationTokens(
@@ -56,14 +56,15 @@ export default function useRevokeToken() {
         updateTokens({
           address: orgContractAddress,
           tokens: tokensToUpdate.map((token) => ({
-            org: token.org,
+            society: token.society,
             tokenId: token.tokenId,
             attestation: token.attestation,
-            issuer: token.issuer,
+            issuedBy: token.issuedBy,
+            issuedAt: token.issuedAt,
             active: false,
             revokedBy: account,
             owner: token.owner,
-            dateRevoked: Date.now(),
+            revokedAt: Date.now(),
           })),
         })
       );

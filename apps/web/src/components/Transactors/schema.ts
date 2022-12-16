@@ -85,13 +85,13 @@ export const sbtMetadataSchema = Yup.object(attestationMetadataShape);
 const issuerShape: SchemaShape<IssuerValues> = {
   address: ADDRES_SCHEMA.required(),
   attestation: Yup.number().required(),
-  org: Yup.number().required(),
+  society: Yup.number().required(),
 };
 export const issuerSchema = Yup.object(issuerShape);
 
 const delegaterShape: SchemaShape<DelegaterValues> = {
   delegate: ADDRES_SCHEMA.required(),
-  org: Yup.string().required(),
+  society: Yup.string().required(),
 };
 export const delegaterSchema = Yup.object(delegaterShape);
 

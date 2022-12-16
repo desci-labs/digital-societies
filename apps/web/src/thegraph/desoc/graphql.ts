@@ -667,6 +667,25 @@ export type GetDesocAttestationsQueryVariables = Exact<{
 
 export type GetDesocAttestationsQuery = { __typename?: 'Query', attestations: Array<{ __typename?: 'Attestation', id: string, metadataUri: string, createdAt?: any | null, updatedAt?: any | null, recipients: Array<{ __typename?: 'Token', id: string, tokenId?: any | null, active?: boolean | null, issuedBy?: any | null, issuedAt?: any | null, owner: { __typename?: 'User', id: any }, attestation: { __typename?: 'Attestation', id: string }, society: { __typename?: 'Society', id: any } }> }> };
 
+export type GetAttestationTokensQueryVariables = Exact<{
+  attestation?: InputMaybe<Scalars["String"]>;
+}>;
+
+export type GetAttestationTokensQuery = {
+  __typename?: "Query";
+  tokens: Array<{
+    __typename?: "Token";
+    id: string;
+    tokenId?: any | null;
+    active?: boolean | null;
+    issuedBy?: any | null;
+    issuedAt?: any | null;
+    revokedBy?: any | null;
+    revokedAt?: any | null;
+    owner: { __typename?: "User"; id: any };
+    society: { __typename?: "Society"; id: any };
+  }>;
+};
 
 export const GetSocietiesDocument = `
     query getSocieties {
@@ -772,3 +791,42 @@ export const useGetDesocAttestationsQuery = <
       fetcher<GetDesocAttestationsQuery, GetDesocAttestationsQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetDesocAttestationsDocument, variables),
       options
     );
+export const GetAttestationTokensDocument = `
+    query getAttestationTokens($attestation: String) {
+  tokens(where: {attestation: $attestation}) {
+    id
+    tokenId
+    owner {
+      id
+    }
+    active
+    issuedBy
+    issuedAt
+    revokedBy
+    revokedAt
+    society {
+      id
+    }
+  }
+}
+    `;
+export const useGetAttestationTokensQuery = <
+  TData = GetAttestationTokensQuery,
+  TError = unknown
+>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables?: GetAttestationTokensQueryVariables,
+  options?: UseQueryOptions<GetAttestationTokensQuery, TError, TData>
+) =>
+  useQuery<GetAttestationTokensQuery, TError, TData>(
+    variables === undefined
+      ? ["getAttestationTokens"]
+      : ["getAttestationTokens", variables],
+    fetcher<GetAttestationTokensQuery, GetAttestationTokensQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      GetAttestationTokensDocument,
+      variables
+    ),
+    options
+  );

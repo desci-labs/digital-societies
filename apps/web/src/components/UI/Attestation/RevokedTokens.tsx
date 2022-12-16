@@ -12,7 +12,7 @@ export function RevokedTokens({
   attestation: Attestation | PendingAttestation;
 }) {
   const tokens = useGetRevokedAttestationTokens(
-    attestation.address,
+    attestation.society,
     attestation.id
   );
 
@@ -49,7 +49,7 @@ export function RevokedTokens({
               <Cell>
                 <AddressCopier address={revoked.revokedBy} />
               </Cell>
-              <Cell>{new Date(revoked.dateRevoked).toDateString()}</Cell>
+              <Cell>{new Date(revoked.revokedAt).toDateString()}</Cell>
             </Row>
           ))}
         </TBody>

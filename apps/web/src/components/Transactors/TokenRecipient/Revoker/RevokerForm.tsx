@@ -12,12 +12,12 @@ import ToolBar from "./ToolBar";
 export function RevokerForm() {
   const { getValues } = useFormContext<IssuerValues>();
   const attestation = useGetAttestation(
-    getValues("org"),
+    getValues("society"),
     getValues("attestation")
   );
   const tokens = useGetAttestationTokens(
-    attestation?.address || "",
-    attestation?.id ?? 0
+    attestation?.society || "",
+    attestation?.id ?? ""
   );
 
   if (!attestation) return null;
