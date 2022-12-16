@@ -18,7 +18,7 @@ import { AttestationFormValues, LaunchMode } from "../types";
 
 type Launcher = (metadata: AttestationFormValues) => Promise<void>;
 
-export default function useAttestationForm(address: string, tokenType: number) {
+export default function useAttestationForm(address: string, tokenType: string) {
   const dispatch = useDispatch();
   const { updateTx } = useTxUpdator();
   const { form_loading } = useGetTxState();

@@ -28,7 +28,7 @@ export default function AttestationForm() {
   const org = useGetOrg(address as string);
   const { launch, isLoading } = useAttestationForm(
     org?.address ?? "",
-    parseInt(id as string)
+    id as string
   );
   const stage = useGetTxStage();
   const logo = watch("image");
