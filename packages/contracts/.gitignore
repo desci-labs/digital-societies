@@ -3,7 +3,7 @@ node_modules
 coverage
 coverage.json
 typechain
-typechain-types
+# typechain-types
 out
 
 #Hardhat files
@@ -17,7 +17,7 @@ node_modules
 coverage
 coverage.json
 typechain
-typechain-types
+# typechain-types
 
 #Hardhat files
 cache
@@ -37,7 +37,7 @@ node_modules
 coverage
 coverage.json
 typechain
-typechain-types
+# typechain-types
 
 #Hardhat files
 cache
