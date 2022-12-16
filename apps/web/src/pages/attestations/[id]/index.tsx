@@ -27,7 +27,6 @@ export default function CredentialDetails() {
   const credential = useGetAttestation(address, id);
 
   const org = useGetOrg(address);
-  console.log(id, address);
   const showLauncher = useCredenter(org, "update");
 
   const metadata = useMemo(
