@@ -44,7 +44,7 @@ export function AttestationList({
               banner={org.metadata.banner}
               metadata={attestation.metadata}
               verified={org?.verified}
-              link={`/attestations/${attestation.id}?address=${attestation.address}`}
+              link={`/attestations/${attestation.id}?address=${attestation.society}`}
             />
           ))}
         </div>

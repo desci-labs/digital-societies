@@ -36,7 +36,7 @@ const slice = createSlice({
           if (!prev) return true;
           if (prev?.pending === true && data.metadata !== null) return true;
 
-          if (data.cid !== prev.cid) return true;
+          if (data.metadataUri !== prev.metadataUri) return true;
           // check diff in metadata
           const canUpdate = compareAttestationMetadata(
             prev.metadata,
@@ -79,7 +79,7 @@ const slice = createSlice({
         });
       } else {
         const canUpdate =
-          prev.cid !== payload.attestation.cid ||
+          prev.metadataUri !== payload.attestation.metadataUri ||
           compareAttestationMetadata(
             prev.metadata,
             payload.attestation.metadata

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useModalContext } from "components/Modal/Modal";
 import TransactionPrompt from "components/TransactionStatus/TransactionPrompt";
-import { BigNumber } from "ethers";
+import { BigNumber, utils } from "ethers";
 import { pinAttestationMetadata } from "helper/web3";
 import { useTokenContract } from "hooks/useContract";
 import { useFormContext } from "react-hook-form";
@@ -44,15 +44,17 @@ export default function useAttestationForm(address: string, tokenType: number) {
 
       const tx = await tokenContract.createAttestation(ipfsURL, false);
       const typeId = (await tokenContract?.totalTypes()) ?? 0;
-      const attestationId = typeId.add(1).toNumber();
+      const attestationId = utils.keccak256(
+        utils.defaultAbiCoder.encode(["address", "uint"], [address, typeId])
+      );
+
       const attestation: PendingAttestation = {
-        id: attestationId,
-        cid: ipfsURL,
-        address,
-        mintedBy,
+        id: attestationId.toString(),
+        metadataUri: ipfsURL,
         metadata: meta,
         pending: true,
-        dateCreated: Date.now(),
+        createdAt: Date.now(),
+        society: address,
       };
       dispatch(setAttestation({ address, attestation }));
       const previewLink = `/attestations/${attestationId}`;
@@ -97,7 +99,7 @@ export default function useAttestationForm(address: string, tokenType: number) {
       const { ipfsURL } = await pinAttestationMetadata(meta);
       const update = {
         ...attestation,
-        cid: ipfsURL,
+        metadataUri: ipfsURL,
         metadata: meta,
       } as PendingAttestation;
       dispatch(setAttestation({ address, attestation: update }));

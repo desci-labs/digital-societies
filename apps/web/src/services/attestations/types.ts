@@ -35,11 +35,12 @@ export type AttestationToTokenMap = Record<string, AttestationTokens[]>;
 export type AttestationType = typeof attestationTypes[number];
 
 type AttestationMeta = {
-  id: number;
-  mintedBy: string;
-  cid: string;
-  address: string;
-  dateCreated: number;
+  id: string;
+  mintedBy?: never;
+  metadataUri: string;
+  society: string;
+  createdAt: number;
+  updatedAt?: number;
 };
 
 export type Attestation = AttestationMeta & {

@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
-// import { tags } from "./tags";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.THEGRAPH_API_ENDPOINT,
@@ -12,6 +11,7 @@ const baseQueryWithRetry = retry(baseQuery, {
 export const thegraphApi = createApi({
   reducerPath: "subgraphApi",
   baseQuery: baseQueryWithRetry,
-  // tagTypes: [tags.meta, tags.society],
+  tagTypes: ["Societies"],
+  // tagTypes: [tags.societies, tags.attestations],
   endpoints: () => ({}),
 });

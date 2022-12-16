@@ -1,11 +1,11 @@
-import { useGetOrg, useGetOrgs } from "services/orgs/hooks";
+import { useGetOrgs } from "services/orgs/hooks";
 import { useAccount } from "wagmi";
 import useRouterAddress from "./useRouterAddress";
 
 function useConnectedUserDesoc(address = "") {
   const orgs = useGetOrgs();
   return orgs.filter(
-    (org) => org.admin === address || org.delegates.includes(address)
+    (org) => org.admin.toLowerCase() === address.toLowerCase() // update delegates detection logic
   );
 }
 
@@ -14,10 +14,8 @@ export default function useDashboard() {
   const address = useRouterAddress();
   const orgs = useConnectedUserDesoc(account);
   const hasAccess = orgs.find((o) => o.address === address);
-  const org = useGetOrg(address);
   const currentOrg =
-    orgs.find((o) => o.address === org?.address || o.admin === account) ??
-    orgs.find((o) => o.delegates.includes(account || "")) ??
-    orgs[0];
+    orgs.find((o) => o.address === address || o.admin === account) ?? orgs[0];
+
   return { org: currentOrg, showDashboard: !!currentOrg, hasAccess };
 }

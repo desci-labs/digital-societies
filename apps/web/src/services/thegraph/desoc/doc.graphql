@@ -11,3 +11,51 @@ query getSocieties {
     verified
   }
 }
+
+query AllAttestations {
+  attestations {
+    id
+    recipients {
+      id
+      owner {
+        id
+      }
+      tokenId
+      active
+      issuedBy
+      issuedAt
+      attestation {
+        id
+      }
+      society {
+        id
+      }
+    }
+    metadataUri
+  }
+}
+
+query getDesocAttestations($society: String!) {
+  attestations(where: { society: $society }) {
+    id
+    metadataUri
+    createdAt
+    updatedAt
+    recipients {
+      id
+      owner {
+        id
+      }
+      tokenId
+      active
+      issuedBy
+      issuedAt
+      attestation {
+        id
+      }
+      society {
+        id
+      }
+    }
+  }
+}

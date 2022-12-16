@@ -14,7 +14,6 @@ import { Placeholder } from "components/UI/Desoc/DesocDetails";
 export default function CredentialDetails() {
   const router = useRouter();
   const [{ address, id }, setRouterQuery] = useState({ address: "", id: 0 });
-
   useEffect(() => {
     if (router.isReady) {
       const { id, address } = router.query;
@@ -45,7 +44,7 @@ export default function CredentialDetails() {
   return (
     <ContentGrid>
       <MetaDataView
-        address={credential.address}
+        address={credential.society}
         verified={org?.verified || false}
         metadata={credential.metadata}
         banner={metadata.banner ?? ""}

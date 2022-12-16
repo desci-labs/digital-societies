@@ -21,34 +21,34 @@ export default function AttestationUpdater() {
   const getContract = useTokenContract();
   const [lastUpdated, setLastUpdated] = useState(0);
 
-  async function getCrendentialInfofromEvent(
-    event: ethers.Event
-  ): Promise<Attestation> {
-    const block = await provider.getBlock(event.blockNumber);
-    const mintedBy = event.args?.createdBy ?? event.args?.[1];
-    const id = event.args?.tokenType ?? event.args?.[0];
-    const contract = getContract(event.address) as Desoc;
-    const cid = await contract.attestationMeta(id);
-    const metadata = (await queryIpfsURL(cid)) as AttestationMetadata;
-    return {
-      id,
-      metadata,
-      mintedBy,
-      cid,
-      dateCreated: block.timestamp * 1000,
-      address: contract.address,
-    };
-  }
+  // async function getCrendentialInfofromEvent(
+  //   event: ethers.Event
+  // ): Promise<Attestation> {
+  //   const block = await provider.getBlock(event.blockNumber);
+  //   const mintedBy = event.args?.createdBy ?? event.args?.[1];
+  //   const id = event.args?.tokenType ?? event.args?.[0];
+  //   const contract = getContract(event.address) as Desoc;
+  //   const cid = await contract.attestationMeta(id);
+  //   const metadata = (await queryIpfsURL(cid)) as AttestationMetadata;
+  //   return {
+  //     id,
+  //     metadata,
+  //     mintedBy,
+  //     cid,
+  //     dateCreated: block.timestamp * 1000,
+  //     address: contract.address,
+  //   };
+  // }
 
-  async function transformEventsToCrendentials(events: ethers.Event[]) {
-    const address = events[0]?.address;
-    if (!events.length) return null;
-    const credentials = await asyncMap<Attestation, ethers.Event>(
-      events,
-      getCrendentialInfofromEvent
-    );
-    return { address, data: credentials };
-  }
+  // async function transformEventsToCrendentials(events: ethers.Event[]) {
+  //   const address = events[0]?.address;
+  //   if (!events.length) return null;
+  //   const credentials = await asyncMap<Attestation, ethers.Event>(
+  //     events,
+  //     getCrendentialInfofromEvent
+  //   );
+  //   return { address, data: credentials };
+  // }
 
   const getCredentials = useCallback(async () => {
     if (!block) return;
