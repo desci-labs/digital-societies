@@ -17,7 +17,7 @@ export function RevokedTokens({
   );
 
   const getRows = () => {
-    return ["logo", "TokenId", "recipient", "revoked by", "date revoked"];
+    return ["Badge", "TokenId", "recipient", "revoked by", "date revoked"];
   };
 
   return (

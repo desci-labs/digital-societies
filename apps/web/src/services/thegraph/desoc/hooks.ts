@@ -44,7 +44,6 @@ export function useGetDesocBadges(id: string) {
     { endpoint: THEGRAPH_API_ENDPOINT },
     { society: id }
   );
-  console.log("useGetDesocBadges", id, data, isLoading, isError);
 
   const parseData = useCallback(
     async (
@@ -56,8 +55,8 @@ export function useGetDesocBadges(id: string) {
       return {
         id: attestation.id,
         metadata,
-        createdAt: attestation.createdAt ?? 0 * 1000,
-        updatedAt: attestation.updatedAt ?? 0 * 1000,
+        createdAt: Number(attestation.createdAt ?? 0) * 1000,
+        updatedAt: Number(attestation.updatedAt ?? 0) * 1000,
         society: id,
         metadataUri: attestation.metadataUri,
       };
@@ -87,7 +86,7 @@ export function useGetSbtTokens(attestationId: string) {
     { endpoint: THEGRAPH_API_ENDPOINT },
     { attestation: attestationId }
   );
-  console.log("logs", attestationId, data, isLoading, isError);
+
   const parseData = useCallback(
     async (
       token: GetAttestationTokensQuery["tokens"][number]
@@ -98,8 +97,8 @@ export function useGetSbtTokens(attestationId: string) {
         tokenId: +token.tokenId,
         society: token.society.id,
         issuedBy: token.issuedBy,
-        issuedAt: token.issuedAt ?? 0 * 1000,
-        revokedAt: token?.revokedAt ?? 0 * 1000,
+        issuedAt: Number(token.issuedAt ?? 0) * 1000,
+        revokedAt: Number(token?.revokedAt ?? 0) * 1000,
         revokedBy: token.revokedBy,
         attestation: attestationId,
       };

@@ -22,7 +22,7 @@ export function RevokerForm() {
   if (!attestation) return null;
 
   const getRows = () => {
-    return ["TokenId", "Recipient", "issuer", "Action"];
+    return ["Badge", "TokenId", "Recipient", "issuer", "Date Issued", "Action"];
   };
 
   return (

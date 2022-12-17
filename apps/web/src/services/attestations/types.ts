@@ -12,8 +12,8 @@ export type AttestationToken = {
   active: boolean;
   issuedBy: string;
   issuedAt: number;
-  revokedAt?: never;
-  revokedBy?: never;
+  revokedAt?: number;
+  revokedBy?: number;
 };
 
 export type RevokedAttestationToken = {
