@@ -28,10 +28,10 @@ contract MetadataScript is Script {
     function setUp() public {}
 
     function run() public {
-         vm.broadcast();
-        // address factory = vm.envAddress("Factory");
-        // console.log("factory:", factory);
-        MetadataHolder meta = new MetadataHolder(address(0x69301853f23a924258Db97A955454ac71d07e528));
+        vm.broadcast();
+        MetadataHolder meta = new MetadataHolder(
+            address(0xE14f61D6d62806224a0ec8063FD5bA08b26c28d3)
+        );
         console.log("meta:", address(meta));
         vm.stopBroadcast();
     }
