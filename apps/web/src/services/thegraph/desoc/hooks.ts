@@ -17,7 +17,9 @@ import {
   useGetAttestationTokensQuery,
   GetAttestationTokensQuery,
 } from "thegraph/desoc/graphql";
+import { chainId, useNetwork } from "wagmi";
 import { thegraphApi } from ".";
+import { CHAIN_SUBGRAPH_URL } from "../urls";
 export const defaultErrorMsg = "We encountered an error saving the metadata";
 
 const api = thegraphApi.injectEndpoints({
@@ -39,9 +41,10 @@ export const { useGetSocietiesMutation } = api;
 
 export function useGetDesocBadges(id: string) {
   const dispatch = useDispatch();
+  const { chain } = useNetwork();
 
   const { data, isLoading, isError } = useGetDesocAttestationsQuery(
-    { endpoint: THEGRAPH_API_ENDPOINT },
+    { endpoint: CHAIN_SUBGRAPH_URL[chain?.id ?? chainId.goerli] },
     { society: id }
   );
 
@@ -81,9 +84,10 @@ export function useGetDesocBadges(id: string) {
 
 export function useGetSbtTokens(attestationId: string) {
   const dispatch = useDispatch();
+  const { chain } = useNetwork();
 
   const { data, isLoading, isError } = useGetAttestationTokensQuery(
-    { endpoint: THEGRAPH_API_ENDPOINT },
+    { endpoint: CHAIN_SUBGRAPH_URL[chain?.id ?? chainId.goerli] },
     { attestation: attestationId }
   );
 

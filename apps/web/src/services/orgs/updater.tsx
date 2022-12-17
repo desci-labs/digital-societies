@@ -8,14 +8,14 @@ import {
   GetSocietiesQuery,
   useGetSocietiesQuery,
 } from "thegraph/desoc/graphql";
-import { THEGRAPH_API_ENDPOINT } from "thegraph/config";
+import { CHAIN_SUBGRAPH_URL } from "services/thegraph/urls";
+import { chainId, useNetwork } from "wagmi";
 
 export default function FactoryUpdater() {
   const dispatch = useDispatch();
+  const { chain } = useNetwork();
   const { data, isLoading } = useGetSocietiesQuery(
-    {
-      endpoint: THEGRAPH_API_ENDPOINT,
-    },
+    { endpoint: CHAIN_SUBGRAPH_URL[chain?.id ?? chainId.goerli] },
     {},
     { staleTime: 6000 }
   );
