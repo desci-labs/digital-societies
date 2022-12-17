@@ -15,7 +15,10 @@ import { useGetSbtTokens } from "services/thegraph/desoc/hooks";
 export default function CredentialDetails() {
   const router = useRouter();
   const [{ address, id }, setRouterQuery] = useState({ address: "", id: "" });
+
+  // query subgraph
   useGetSbtTokens(id);
+
   useEffect(() => {
     if (router.isReady) {
       const { id, address } = router.query;

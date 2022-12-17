@@ -19,7 +19,6 @@ export function RevokerForm() {
     attestation?.society || "",
     attestation?.id ?? ""
   );
-
   if (!attestation) return null;
 
   const getRows = () => {

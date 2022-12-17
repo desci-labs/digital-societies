@@ -102,14 +102,14 @@ const slice = createSlice({
           state.tokens[org] = payload[org];
           return;
         }
-
         state.tokens[org] = state.tokens[org].filter((t) => {
           if (
             payload[org].find(
               (data) =>
                 t.tokenId == data.tokenId &&
-                t.attestation === data.attestation &&
-                t.owner === data.owner
+                t.attestation.toLowerCase() ===
+                  data.attestation.toLowerCase() &&
+                t.owner.toLowerCase() === data.owner.toLowerCase()
             )
           ) {
             return false;

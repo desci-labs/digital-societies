@@ -55,8 +55,8 @@ export function useGetDesocBadges(id: string) {
       return {
         id: attestation.id,
         metadata,
-        createdAt: attestation.createdAt,
-        updatedAt: attestation.updatedAt,
+        createdAt: attestation.createdAt ?? 0 * 1000,
+        updatedAt: attestation.updatedAt ?? 0 * 1000,
         society: id,
         metadataUri: attestation.metadataUri,
       };
@@ -94,7 +94,7 @@ export function useGetSbtTokens(attestationId: string) {
       return {
         active: token?.active ?? false,
         owner: token.owner.id,
-        tokenId: token.tokenId,
+        tokenId: +token.tokenId,
         society: token.society.id,
         issuedBy: token.issuedBy,
         issuedAt: token.issuedAt ?? 0 * 1000,
