@@ -41,13 +41,14 @@ export default function useAttestationForm(address: string, tokenType: string) {
       const { ipfsURL } = await pinAttestationMetadata(meta);
 
       updateTx({ step: Step.submit, message: "Confirming transaction..." });
-
       const tx = await tokenContract.createAttestation(ipfsURL, false);
       const typeId = (await tokenContract?.totalTypes()) ?? 0;
       const attestationId = utils.keccak256(
-        utils.defaultAbiCoder.encode(["address", "uint"], [address, typeId])
+        utils.defaultAbiCoder.encode(
+          ["address", "uint"],
+          [address, typeId.add(1)]
+        )
       );
-
       const attestation: PendingAttestation = {
         id: attestationId.toString(),
         metadataUri: ipfsURL,
@@ -57,7 +58,7 @@ export default function useAttestationForm(address: string, tokenType: string) {
         society: address,
       };
       dispatch(setAttestation({ address, attestation }));
-      const previewLink = `/attestations/${attestationId}`;
+      const previewLink = `/attestations/${attestationId}?address=${address}`;
       updateTx({
         step: Step.broadcast,
         txHash: tx.hash,

@@ -69,10 +69,10 @@ const slice = createSlice({
       const prev = state.attestations[payload.address]?.find(
         (cred) => cred.id === payload.attestation.id
       );
-
       if (!prev) {
         state.attestations[payload.address].push(payload.attestation);
       } else if (payload.attestation.metadata && prev.pending) {
+        debugger;
         state.attestations[payload.address].map((cred) => {
           if (cred.id === payload.attestation.id) return payload.attestation;
           return cred;

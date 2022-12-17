@@ -27,7 +27,6 @@ export default function CredentialDetails() {
   }, [router.isReady, router.query]);
 
   const credential = useGetAttestation(address, id);
-
   const org = useGetOrg(address);
   const showLauncher = useCredenter(org, "update");
 
@@ -39,7 +38,6 @@ export default function CredentialDetails() {
     [credential, org]
   );
   const hasAccess = useIsAdminOrDelegate(org?.address ?? "");
-
   if (!credential || !metadata) return <Placeholder />;
 
   return (
