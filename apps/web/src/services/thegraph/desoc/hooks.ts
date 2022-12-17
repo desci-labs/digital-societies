@@ -44,6 +44,7 @@ export function useGetDesocBadges(id: string) {
     { endpoint: THEGRAPH_API_ENDPOINT },
     { society: id }
   );
+  console.log("useGetDesocBadges", id, data, isLoading, isError);
 
   const parseData = useCallback(
     async (
@@ -86,7 +87,7 @@ export function useGetSbtTokens(attestationId: string) {
     { endpoint: THEGRAPH_API_ENDPOINT },
     { attestation: attestationId }
   );
-
+  console.log("logs", attestationId, data, isLoading, isError);
   const parseData = useCallback(
     async (
       token: GetAttestationTokensQuery["tokens"][number]

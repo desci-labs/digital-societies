@@ -10,13 +10,17 @@ import { RevokerForm } from "components/Transactors/TokenRecipient/Revoker/Revok
 import TokenRecipientEditor from "components/Transactors/TokenRecipient/TokenRecipientEditor";
 import TokenRecipients from "components/UI/Attestation/Recipients/Index";
 import { Placeholder } from "components/UI/Desoc/DesocDetails";
-import { useGetSbtTokens } from "services/thegraph/desoc/hooks";
+import {
+  useGetDesocBadges,
+  useGetSbtTokens,
+} from "services/thegraph/desoc/hooks";
 
 export default function CredentialDetails() {
   const router = useRouter();
   const [{ address, id }, setRouterQuery] = useState({ address: "", id: "" });
 
   // query subgraph
+  useGetDesocBadges(address);
   useGetSbtTokens(id);
 
   useEffect(() => {
