@@ -16,6 +16,8 @@ import { setFormLoading } from "services/transaction/reducer";
 import { Step } from "services/transaction/types";
 import useTxUpdator from "services/transaction/updators";
 import { useAccount } from "wagmi";
+import { useGetOrg } from "services/orgs/hooks";
+import { addDelegates, removeDelegates } from "services/orgs/reducer";
 
 export default function useRevokeToken() {
   const dispatch = useDispatch();
@@ -24,17 +26,14 @@ export default function useRevokeToken() {
   const getContract = useTokenContract();
   const { showModal } = useModalContext();
   const { form_loading } = useGetTxState();
-  console.log("loading", form_loading);
   const resetState = useResetTokenRecipients();
   const selectedTokens = useGetSelectedTokens();
   const { getValues, reset } = useFormContext<IssuerValues>();
-  const orgContractAddress = getValues("society");
+  const society = getValues("society");
   const attestation = getValues("attestation");
-  const tokenContract = getContract(orgContractAddress);
-  const originalTokens = useGetAttestationTokens(
-    orgContractAddress,
-    attestation
-  );
+  const tokenContract = getContract(society);
+  const originalTokens = useGetAttestationTokens(society, attestation);
+  const org = useGetOrg(society);
 
   async function revoke() {
     if (!tokenContract || !account) return;
@@ -52,9 +51,13 @@ export default function useRevokeToken() {
       updateTx({ step: Step.submit, message: "Confirm transaction..." });
       showModal(TransactionPrompt, {});
 
+      if (org?.delegateRoleId === attestation) {
+        const delegates = tokensToUpdate.map((t) => t.owner);
+        dispatch(removeDelegates({ org: society, delegates }));
+      }
       dispatch(
         updateTokens({
-          address: orgContractAddress,
+          address: society,
           tokens: tokensToUpdate.map((token) => ({
             society: token.society,
             tokenId: token.tokenId,
@@ -86,9 +89,11 @@ export default function useRevokeToken() {
         message: "Token revoked",
       });
     } catch (e: unknown) {
-      dispatch(
-        updateTokens({ address: orgContractAddress, tokens: tokensToUpdate })
-      );
+      dispatch(updateTokens({ address: society, tokens: tokensToUpdate }));
+      if (org?.delegateRoleId === attestation) {
+        const delegates = tokensToUpdate.map((t) => t.owner);
+        dispatch(addDelegates({ org: society, delegates }));
+      }
       dispatch(setFormLoading(false));
       updateTx({
         step: Step.error,

@@ -13,6 +13,8 @@ import {
   AttestationToken,
   AttestationToTokenMap,
 } from "services/attestations/types";
+import { useGetOrg } from "services/orgs/hooks";
+import { addDelegates } from "services/orgs/reducer";
 import { useGetTxState } from "services/transaction/hooks";
 import { setFormError, setFormLoading } from "services/transaction/reducer";
 import { Step } from "services/transaction/types";
@@ -32,6 +34,7 @@ export default function useUpdateTokenRecipients(address: string) {
   const tokenRecipients = useGetSelectedTokens();
   const resetState = useResetTokenRecipients();
   const attestation = getValues("attestation");
+  const org = useGetOrg(address);
 
   async function getPayload(addresses: string[], credential: string) {
     const tokenId = await tokenContract?.totalSupply();
@@ -57,7 +60,7 @@ export default function useUpdateTokenRecipients(address: string) {
       .filter((t) => t.is_added && !t.tokenId)
       .map((recipients) => recipients.address);
 
-    let payload = undefined;
+    let payload: AttestationToTokenMap | undefined;
 
     try {
       dispatch(setFormLoading(true));
@@ -73,6 +76,11 @@ export default function useUpdateTokenRecipients(address: string) {
 
       // preset issued tokens
       payload = await getPayload(addresses, attestation);
+      if (org?.delegateRoleId === attestation) {
+        const delegates = payload[address].map((t) => t.owner);
+        dispatch(addDelegates({ org: address, delegates }));
+      }
+
       dispatch(setTokens(payload));
       await tx.wait();
       dispatch(setFormLoading(false));
@@ -93,6 +101,10 @@ export default function useUpdateTokenRecipients(address: string) {
             tokenIds: payload[address].map((t) => t.tokenId),
           })
         );
+        if (org?.delegateRoleId === attestation) {
+          const delegates = payload[address].map((t) => t.owner);
+          dispatch(addDelegates({ org: address, delegates }));
+        }
       }
       updateTx({
         step: Step.error,

@@ -77,6 +77,17 @@ const slice = createSlice({
         }
       });
     },
+    removeDelegates(
+      state,
+      { payload }: PayloadAction<{ org: string; delegates: string[] }>
+    ) {
+      const org = state.data.find((item) => item.address === payload.org);
+      if (!org) return;
+      org.delegates = org?.delegates ?? [];
+      org.delegates = org.delegates.filter((delegate) =>
+        payload.delegates.includes(delegate)
+      );
+    },
     addDelegate(
       state,
       { payload }: PayloadAction<{ org: string; delegate: string }>
@@ -106,4 +117,5 @@ export const {
   addDelegate,
   addDelegates,
   removeDelegate,
+  removeDelegates,
 } = slice.actions;
