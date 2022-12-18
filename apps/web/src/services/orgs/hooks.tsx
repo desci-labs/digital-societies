@@ -26,12 +26,11 @@ export function useIsAdmin(address: string) {
   return org?.admin.toLowerCase() === account.address?.toLowerCase();
 }
 
-// TODO: Update logic to tokens where {owner => user, attestationId => org.delegateRoleId}
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function useIsDelegate(address: string) {
-  // const { address: user } = useAccount();
-  // const org = useGetOrg(address);
-  return false;
+  const { address: user } = useAccount();
+  const org = useGetOrg(address);
+  return user && org?.delegates.includes(user.toLowerCase());
 }
 
 export function useIsAdminOrDelegate(address: string) {

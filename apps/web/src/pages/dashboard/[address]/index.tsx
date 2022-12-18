@@ -2,11 +2,9 @@ import DesocDetails from "components/UI/Desoc/DesocDetails";
 import useDashboard from "hooks/useDashboard";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useGetDesocBadges } from "services/thegraph/desoc/hooks";
 
 const Dashboard: NextPage = () => {
   const { org, hasAccess } = useDashboard();
-  useGetDesocBadges(org.address);
   return (
     <div className="py-0 w-full">
       <Head>

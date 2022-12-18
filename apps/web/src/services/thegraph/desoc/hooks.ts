@@ -42,13 +42,13 @@ const api = thegraphApi.injectEndpoints({
 
 export const { useGetSocietiesMutation } = api;
 
-export function useGetDesocBadges(id: string) {
+export function useGetDesocBadges(id?: string) {
   const dispatch = useDispatch();
   const { chain } = useNetwork();
 
   const { data, isLoading, isError } = useGetDesocAttestationsQuery(
     { endpoint: CHAIN_SUBGRAPH_URL[chain?.id ?? chainId.goerli] },
-    { society: id }
+    { society: id ?? "" }
   );
 
   const parseData = useCallback(
@@ -63,7 +63,7 @@ export function useGetDesocBadges(id: string) {
         metadata,
         createdAt: Number(attestation.createdAt ?? 0) * 1000,
         updatedAt: Number(attestation.updatedAt ?? 0) * 1000,
-        society: id,
+        society: id ?? "",
         metadataUri: attestation.metadataUri,
       };
     },
@@ -71,18 +71,18 @@ export function useGetDesocBadges(id: string) {
   );
 
   const processData = useCallback(
-    async (data: GetDesocAttestationsQuery["attestations"]) => {
+    async (id: string, data: GetDesocAttestationsQuery["attestations"]) => {
       const results = await Promise.all(data.map(parseData));
       dispatch(setAttestations({ [id]: results }));
       dispatch(setIsLoading(false));
     },
-    [dispatch, id, parseData]
+    [dispatch, parseData]
   );
 
   useEffect(() => {
-    if (isLoading || isError || !data?.attestations) return;
-    processData(data.attestations);
-  }, [data, isLoading, isError, processData]);
+    if (!id || isLoading || isError || !data?.attestations) return;
+    processData(id, data.attestations);
+  }, [data, isLoading, isError, processData, id]);
 }
 
 export function useGetSbtTokens(attestationId: string) {
@@ -129,13 +129,13 @@ export function useGetSbtTokens(attestationId: string) {
   }, [data, isLoading, isError, processData]);
 }
 
-export function useDelegateTokens(society: Org | PendingOrg) {
+export function useDelegateTokens(society?: Org | PendingOrg) {
   const dispatch = useDispatch();
   const { chain } = useNetwork();
 
   const { data, isLoading, isError } = useGetDelegateTokensQuery(
     { endpoint: CHAIN_SUBGRAPH_URL[chain?.id ?? chainId.goerli] },
-    { attestation: society.delegateRoleId }
+    { attestation: society?.delegateRoleId }
   );
 
   const parseData = useCallback(
@@ -152,7 +152,7 @@ export function useDelegateTokens(society: Org | PendingOrg) {
   );
 
   const processData = useCallback(
-    async (data: GetDelegateTokensQuery["tokens"]) => {
+    async (address: string, data: GetDelegateTokensQuery["tokens"]) => {
       const results = await Promise.all(data.map(parseData));
       const validTokens = results
         .filter((t) => !!t && t.active === true)
@@ -160,17 +160,17 @@ export function useDelegateTokens(society: Org | PendingOrg) {
       if (validTokens.length === 0) return;
       dispatch(
         addDelegates({
-          org: society.address,
+          org: address,
           delegates: validTokens as string[],
         })
       );
       dispatch(setIsLoading(false));
     },
-    [dispatch, parseData, society]
+    [dispatch, parseData]
   );
 
   useEffect(() => {
-    if (isLoading || isError || !data?.tokens) return;
-    processData(data.tokens);
-  }, [data, isLoading, isError, processData]);
+    if (!society || isLoading || isError || !data?.tokens) return;
+    processData(society.address, data.tokens);
+  }, [data, isLoading, isError, processData, society]);
 }
