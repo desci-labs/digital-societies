@@ -1,6 +1,8 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import ContentLoader from "components/ContentLoader/ContentLoader";
 import Link from "next/link";
+import { Org, PendingOrg } from "services/orgs/types";
+import { useDelegateTokens } from "services/thegraph/desoc/hooks";
 import { useAccount } from "wagmi";
 import {
   MetadataCard,
@@ -8,6 +10,21 @@ import {
 } from "../../Attestation/MetadataCard";
 import Toolbar from "./Toolbar";
 import useFilteredOrg from "./useFilteredOrg";
+
+function SocietyItem({ org }: { org: Org | PendingOrg }) {
+  // trigger updater hook
+  useDelegateTokens(org);
+
+  return (
+    <MetadataCard
+      link={`orgs/${org.address}`}
+      banner={org.metadata.banner}
+      metadata={org.metadata}
+      verified={org.verified}
+      bannerClass="h-40"
+    />
+  );
+}
 
 export default function DesocList() {
   const {
@@ -36,14 +53,7 @@ export default function DesocList() {
       {searchText && data.length === 0 && <NoResult text={searchText} />}
       <div className="container mx-auto py-10 grid grid-cols-1 content-start gap-y-10 place-items-center mt-2">
         {data.map((org, idx) => (
-          <MetadataCard
-            key={idx}
-            link={`orgs/${org.address}`}
-            banner={org.metadata.banner}
-            metadata={org.metadata}
-            verified={org.verified}
-            bannerClass="h-40"
-          />
+          <SocietyItem org={org} key={idx} />
         ))}
       </div>
     </div>

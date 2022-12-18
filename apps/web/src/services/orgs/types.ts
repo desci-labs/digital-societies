@@ -10,7 +10,7 @@ export type Revoked = {
 export type OrgMeta = {
   address: string;
   dateCreated: number;
-  delegates?: never[];
+  delegates: string[];
   admin: string;
   verified: boolean;
   delegateRoleId: string;

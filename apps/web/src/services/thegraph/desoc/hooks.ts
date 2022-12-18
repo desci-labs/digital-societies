@@ -8,7 +8,8 @@ import {
   setTokens,
 } from "services/attestations/reducer";
 import { Attestation, AttestationToken } from "services/attestations/types";
-import { THEGRAPH_API_ENDPOINT } from "thegraph/config";
+import { addDelegates } from "services/orgs/reducer";
+import { Org, PendingOrg } from "services/orgs/types";
 import {
   QuerySocietiesArgs,
   Society,
@@ -16,6 +17,8 @@ import {
   GetDesocAttestationsQuery,
   useGetAttestationTokensQuery,
   GetAttestationTokensQuery,
+  useGetDelegateTokensQuery,
+  GetDelegateTokensQuery,
 } from "thegraph/desoc/graphql";
 import { chainId, useNetwork } from "wagmi";
 import { thegraphApi } from ".";
@@ -118,6 +121,52 @@ export function useGetSbtTokens(attestationId: string) {
       dispatch(setIsLoading(false));
     },
     [dispatch, parseData]
+  );
+
+  useEffect(() => {
+    if (isLoading || isError || !data?.tokens) return;
+    processData(data.tokens);
+  }, [data, isLoading, isError, processData]);
+}
+
+export function useDelegateTokens(society: Org | PendingOrg) {
+  const dispatch = useDispatch();
+  const { chain } = useNetwork();
+
+  const { data, isLoading, isError } = useGetDelegateTokensQuery(
+    { endpoint: CHAIN_SUBGRAPH_URL[chain?.id ?? chainId.goerli] },
+    { attestation: society.delegateRoleId }
+  );
+
+  const parseData = useCallback(
+    async (
+      token: GetDelegateTokensQuery["tokens"][number]
+    ): Promise<Partial<AttestationToken>> => {
+      return {
+        active: token?.active ?? false,
+        owner: token.owner.id,
+        tokenId: +token.tokenId,
+      };
+    },
+    []
+  );
+
+  const processData = useCallback(
+    async (data: GetDelegateTokensQuery["tokens"]) => {
+      const results = await Promise.all(data.map(parseData));
+      const validTokens = results
+        .filter((t) => !!t && t.active === true)
+        .map((t) => t.owner);
+      if (validTokens.length === 0) return;
+      dispatch(
+        addDelegates({
+          org: society.address,
+          delegates: validTokens as string[],
+        })
+      );
+      dispatch(setIsLoading(false));
+    },
+    [dispatch, parseData, society]
   );
 
   useEffect(() => {

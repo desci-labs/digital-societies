@@ -77,3 +77,14 @@ query getAttestationTokens($attestation: String) {
     }
   }
 }
+
+query getDelegateTokens($attestation: String) {
+  tokens(where: { attestation: $attestation }) {
+    id
+    tokenId
+    owner {
+      id
+    }
+    active
+  }
+}

@@ -64,25 +64,46 @@ const slice = createSlice({
       state.isLoading = payload;
     },
 
-    // addDelegate(
-    //   state,
-    //   { payload }: PayloadAction<{ org: string; delegate: string }>
-    // ) {
-    //   const org = state.data.find((item) => item.address === payload.org);
-    //   if (org?.delegates.includes(payload.delegate)) return;
-    //   org?.delegates.push(payload.delegate);
-    // },
+    addDelegates(
+      state,
+      { payload }: PayloadAction<{ org: string; delegates: string[] }>
+    ) {
+      const org = state.data.find((item) => item.address === payload.org);
+      if (!org) return;
+      org.delegates = org?.delegates ?? [];
+      payload.delegates.forEach((delegate) => {
+        if (!org?.delegates.includes(delegate)) {
+          org?.delegates.push(delegate);
+        }
+      });
+    },
+    addDelegate(
+      state,
+      { payload }: PayloadAction<{ org: string; delegate: string }>
+    ) {
+      const org = state.data.find((item) => item.address === payload.org);
+      if (org?.delegates.includes(payload.delegate)) return;
+      org?.delegates.push(payload.delegate);
+    },
 
-    // removeDelegate(
-    //   state,
-    //   { payload }: PayloadAction<{ org: string; delegate: string }>
-    // ) {
-    //   const org = state.data.find((item) => item.address === payload.org);
-    //   if (!org?.delegates.includes(payload.delegate)) return;
-    //   org.delegates = org?.delegates.filter((el) => el !== payload.delegate);
-    // },
+    removeDelegate(
+      state,
+      { payload }: PayloadAction<{ org: string; delegate: string }>
+    ) {
+      const org = state.data.find((item) => item.address === payload.org);
+      if (!org?.delegates.includes(payload.delegate)) return;
+      org.delegates = org?.delegates.filter((el) => el !== payload.delegate);
+    },
   },
 });
 
 export default slice.reducer;
-export const { resetOrgs, setOrg, setOrgs, setIsLoading } = slice.actions;
+export const {
+  resetOrgs,
+  setOrg,
+  setOrgs,
+  setIsLoading,
+  addDelegate,
+  addDelegates,
+  removeDelegate,
+} = slice.actions;

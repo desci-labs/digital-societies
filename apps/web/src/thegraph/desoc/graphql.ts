@@ -671,6 +671,7 @@ export type GetAttestationTokensQueryVariables = Exact<{
   attestation?: InputMaybe<Scalars["String"]>;
 }>;
 
+
 export type GetAttestationTokensQuery = {
   __typename?: "Query";
   tokens: Array<{
@@ -684,6 +685,22 @@ export type GetAttestationTokensQuery = {
     revokedAt?: any | null;
     owner: { __typename?: "User"; id: any };
     society: { __typename?: "Society"; id: any };
+  }>;
+};
+
+export type GetDelegateTokensQueryVariables = Exact<{
+  attestation?: InputMaybe<Scalars["String"]>;
+}>;
+
+
+export type GetDelegateTokensQuery = {
+  __typename?: "Query";
+  tokens: Array<{
+    __typename?: "Token";
+    id: string;
+    tokenId?: any | null;
+    active?: boolean | null;
+    owner: { __typename?: "User"; id: any };
   }>;
 };
 
@@ -826,6 +843,38 @@ export const useGetAttestationTokensQuery = <
       dataSource.endpoint,
       dataSource.fetchParams || {},
       GetAttestationTokensDocument,
+      variables
+    ),
+    options
+  );
+export const GetDelegateTokensDocument = `
+    query getDelegateTokens($attestation: String) {
+  tokens(where: {attestation: $attestation}) {
+    id
+    tokenId
+    owner {
+      id
+    }
+    active
+  }
+}
+    `;
+export const useGetDelegateTokensQuery = <
+  TData = GetDelegateTokensQuery,
+  TError = unknown
+>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables?: GetDelegateTokensQueryVariables,
+  options?: UseQueryOptions<GetDelegateTokensQuery, TError, TData>
+) =>
+  useQuery<GetDelegateTokensQuery, TError, TData>(
+    variables === undefined
+      ? ["getDelegateTokens"]
+      : ["getDelegateTokens", variables],
+    fetcher<GetDelegateTokensQuery, GetDelegateTokensQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      GetDelegateTokensDocument,
       variables
     ),
     options
