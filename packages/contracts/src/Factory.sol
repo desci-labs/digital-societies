@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.17;
 import "src/Desoc.sol";
-import "gsn/packages/contracts/src/ERC2771Recipient.sol";
-import "gsn/packages/contracts/src/forwarder/Forwarder.sol";
+// import "@opengsn/contracts/src/ERC2771Recipient.sol";
+// import "@opengsn/contracts/src/forwarder/Forwarder.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 import "./interfaces/IMetaHolder.sol";
 
@@ -11,9 +12,9 @@ import "./interfaces/IMetaHolder.sol";
 /// @notice You can use this contract to deploy a SBT contract for your organisation
 /// @dev All functions are subject to changes in the future.
 /// @custom:experimental This is an experimental contract for DeSci Labs (https://desci.com).
-contract Factory is ERC2771Recipient {
+contract Factory is Ownable {
     bool private _paused;
-    address public owner;
+    // address public owner;
     address private metadataHolderAddress;
     mapping(address => bool) public verified;
 
@@ -34,27 +35,27 @@ contract Factory is ERC2771Recipient {
      */
     event Unpaused(address account);
 
-    constructor(address forwarder) {
-        owner = _msgSender();
+    constructor() {
+        // owner = _msgSender();
         _paused = false;
-        _setTrustedForwarder(forwarder);
+        // _setTrustedForwarder(forwarder);
     }
 
     function pause() external {
-        require(_msgSender() == owner, "unauthorized: only owner");
+        require(_msgSender() == owner(), "unauthorized: only owner");
         _paused = true;
         emit Paused(_msgSender());
     }
 
     function unpause() external {
-        require(_msgSender() == owner, "unauthorized: only owner");
+        require(_msgSender() == owner(), "unauthorized: only owner");
         _paused = false;
         emit Unpaused(_msgSender());
     }
 
     function setMetaAddress(address _metaAddress) external {
         require(
-            _msgSender() == owner,
+            _msgSender() == owner(),
             "unauthorized: only owner"
         );
         require(
@@ -77,7 +78,7 @@ contract Factory is ERC2771Recipient {
         string memory _contractUri
     ) external returns (address token) {
         // only owner can deploy desoc when contract is paused
-        require(msg.sender == owner || !paused(), "Paused!");
+        require(msg.sender == owner() || !paused(), "Paused!");
         bytes memory code = abi.encodePacked(
             type(Desoc).creationCode,
             abi.encode(
@@ -107,7 +108,7 @@ contract Factory is ERC2771Recipient {
             IDesoc(org).supportsInterface(type(IDesoc).interfaceId) == true,
             "IDesoc interface not supported"
         );
-        require(_msgSender() == owner, "UnAuthorized");
+        require(_msgSender() == owner(), "UnAuthorized");
         verified[org] = true;
         emit Verified(org);
     }
@@ -116,7 +117,7 @@ contract Factory is ERC2771Recipient {
     /// @dev Remove an organisation's Desoc contract to the verified mapping
     /// @param org address of the Desoc smart contract
     function refute(address org) external {
-        require(_msgSender() == owner, "UnAuthorized");
+        require(_msgSender() == owner(), "UnAuthorized");
         verified[org] = false;
         emit Refuted(org);
     }

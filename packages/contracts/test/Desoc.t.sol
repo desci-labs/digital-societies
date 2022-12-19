@@ -42,7 +42,7 @@ contract DesocTest is Test {
         vm.label(delegate1, "delegate1");
         vm.label(delegate2, "delegate2");
 
-        factory = new Factory(_forwarder);
+        factory = new Factory();
         MetadataHolder meta = new MetadataHolder(address(factory));
         metadataHolderAddress = address(meta);
         factory.setMetaAddress(metadataHolderAddress);

@@ -17,7 +17,7 @@ contract FactoryScript is Script {
             forwarder != address(0),
             "Please set the forwarder contract address in you .env file"
         );
-        Factory factory = new Factory(forwarder);
+        Factory factory = new Factory();
         console.log("factory:", address(factory));
         vm.stopBroadcast();
     }

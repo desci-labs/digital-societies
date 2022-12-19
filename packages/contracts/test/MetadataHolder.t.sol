@@ -43,7 +43,7 @@ contract BaseSetup is Test {
         vm.label(delegate1, "delegate1");
         vm.label(delegate2, "delegate2");
 
-        factory = new Factory(_forwarder);
+        factory = new Factory();
         meta = new MetadataHolder(address(factory));
         metadataHolderAddress = address(meta);
         factory.setMetaAddress(metadataHolderAddress);
@@ -98,12 +98,12 @@ contract MetadataHolderTest is BaseSetup {
     }
 
     function testSetNewFactory() public {
-        Factory newFactory = new Factory(_forwarder);
+        Factory newFactory = new Factory();
         meta.setFactoryAddress(address(newFactory));
     }
 
     function testFailSetNewFactory() public {
-        Factory newFactory = new Factory(_forwarder);
+        Factory newFactory = new Factory();
         vm.startPrank(admin);
         meta.setFactoryAddress(address(newFactory));
     }

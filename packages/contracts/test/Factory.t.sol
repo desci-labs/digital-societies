@@ -29,7 +29,7 @@ contract FactoryTest is Test {
         vm.label(admin, "Admin");
         vm.label(user1, "User");
 
-        factory = new Factory(_forwarder);
+        factory = new Factory();
         metaHolder = new MetadataHolder(address(factory));
         factory.setMetaAddress(address(metaHolder));
         deploySBT();

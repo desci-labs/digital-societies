@@ -19,9 +19,9 @@ async function main() {
       "configure accounts for deployment in your hardhat.config.ts file"
     );
 
-  const FORWARDER_ADDRESS = process.env.FORWARDER;
+  // const FORWARDER_ADDRESS = process.env.FORWARDER;
   const Factory = await ethers.getContractFactory("Factory");
-  const factory: Factory = (await Factory.deploy(FORWARDER_ADDRESS)) as Factory;
+  const factory: Factory = (await Factory.deploy()) as Factory;
   await factory.deployed();
 
   console.log("Factory deployed to: ", factory.address);
