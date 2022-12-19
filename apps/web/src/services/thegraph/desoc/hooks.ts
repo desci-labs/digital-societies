@@ -11,8 +11,6 @@ import { Attestation, AttestationToken } from "services/attestations/types";
 import { addDelegates } from "services/orgs/reducer";
 import { Org, PendingOrg } from "services/orgs/types";
 import {
-  QuerySocietiesArgs,
-  Society,
   useGetDesocAttestationsQuery,
   GetDesocAttestationsQuery,
   useGetAttestationTokensQuery,
@@ -21,26 +19,8 @@ import {
   GetDelegateTokensQuery,
 } from "thegraph/desoc/graphql";
 import { chainId, useNetwork } from "wagmi";
-import { thegraphApi } from ".";
 import { CHAIN_SUBGRAPH_URL } from "../urls";
 export const defaultErrorMsg = "We encountered an error saving the metadata";
-
-const api = thegraphApi.injectEndpoints({
-  endpoints: (builder) => ({
-    getSocieties: builder.mutation<Society[], QuerySocietiesArgs>({
-      query: () => {
-        return {
-          method: "POST",
-          url: "",
-          params: {},
-        };
-      },
-      extraOptions: { maxRetries: 5 },
-    }),
-  }),
-});
-
-export const { useGetSocietiesMutation } = api;
 
 export function useGetDesocBadges(id?: string) {
   const dispatch = useDispatch();

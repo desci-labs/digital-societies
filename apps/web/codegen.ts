@@ -2,7 +2,7 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 import { config as dotenvConfig } from "dotenv";
 dotenvConfig({ path: ".env.local" });
 
-const productionApi = "";
+const productionApi = "https://graph-goerli-dev.desci.com/subgraphs/name/desoc";
 const config: CodegenConfig = {
   schema: process.env.THEGRAPH_API_ENDPOINT ?? productionApi,
   documents: ["src/**/*.{graphql,ts,tsx}"],
