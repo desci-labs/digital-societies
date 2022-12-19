@@ -74,5 +74,6 @@ export type LaunchMode = "create" | "update";
 
 export type LauncherFormValues = MetadataValues & { mode: LaunchMode };
 export type AttestationFormValues = AttestationMetadataValues & {
+  isDelegateRole: string;
   mode: LaunchMode;
 };

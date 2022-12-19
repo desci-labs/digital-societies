@@ -37,11 +37,14 @@ export default function useAttestationForm(address: string, tokenType: string) {
       dispatch(setFormLoading(true));
       updateTx({ step: Step.submit, message: "Pinning Metadata to IPFS..." });
 
-      const { mode, ...meta } = metadata;
+      const { mode, isDelegateRole, ...meta } = metadata;
       const { ipfsURL } = await pinAttestationMetadata(meta);
 
       updateTx({ step: Step.submit, message: "Confirming transaction..." });
-      const tx = await tokenContract.createAttestation(ipfsURL, false);
+      const tx = await tokenContract.createAttestation(
+        ipfsURL,
+        isDelegateRole == "true" ? true : false
+      );
       const typeId = (await tokenContract?.totalTypes()) ?? 0;
       const attestationId = utils.keccak256(
         utils.defaultAbiCoder.encode(

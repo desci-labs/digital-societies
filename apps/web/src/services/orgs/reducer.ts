@@ -25,12 +25,13 @@ const slice = createSlice({
         if (prev?.pending === true && data.pending === false) return true;
         if (prev.verified !== data.verified) return true;
         if (data.metadataUri !== prev.metadataUri) return true;
-        // if (data.delegates.length !== prev.delegates.length) return true;
-        // check diff in metadata
+        if (prev.delegateRoleId !== data.delegateRoleId) return true;
 
+        // check diff in metadata
         const canUpdate = compareMetadata(prev.metadata, data.metadata);
         return canUpdate;
       });
+
       state.data = state.data.filter((org) => {
         if (
           updatable.find(
@@ -72,6 +73,15 @@ const slice = createSlice({
 
     setIsLoading: (state, { payload }: PayloadAction<boolean>) => {
       state.isLoading = payload;
+    },
+
+    resetDelegates(
+      state,
+      { payload }: PayloadAction<{ org: string; delegates: string[] }>
+    ) {
+      const org = state.data.find((item) => item.address === payload.org);
+      if (!org) return;
+      org.delegates = payload.delegates ?? [];
     },
 
     addDelegates(
@@ -128,4 +138,5 @@ export const {
   addDelegates,
   removeDelegate,
   removeDelegates,
+  resetDelegates,
 } = slice.actions;

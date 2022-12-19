@@ -26,6 +26,7 @@ export default function CredentialLauncher({ org, Form, mode }: Props) {
     mode: "onChange",
     defaultValues: {
       mode,
+      isDelegateRole: "false",
       name: metadata.name,
       description: metadata.description,
       properties: { description: metadata?.properties?.description ?? "" },

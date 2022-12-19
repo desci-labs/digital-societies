@@ -8,7 +8,7 @@ import {
   setTokens,
 } from "services/attestations/reducer";
 import { Attestation, AttestationToken } from "services/attestations/types";
-import { addDelegates } from "services/orgs/reducer";
+import { resetDelegates } from "services/orgs/reducer";
 import { Org, PendingOrg } from "services/orgs/types";
 import {
   useGetDesocAttestationsQuery,
@@ -112,7 +112,6 @@ export function useGetSbtTokens(attestationId: string) {
 export function useDelegateTokens(society?: Org | PendingOrg) {
   const dispatch = useDispatch();
   const { chain } = useNetwork();
-
   const { data, isLoading, isError } = useGetDelegateTokensQuery(
     { endpoint: CHAIN_SUBGRAPH_URL[chain?.id ?? chainId.goerli] },
     { attestation: society?.delegateRoleId }
@@ -139,7 +138,7 @@ export function useDelegateTokens(society?: Org | PendingOrg) {
         .map((t) => t.owner);
       if (validTokens.length === 0) return;
       dispatch(
-        addDelegates({
+        resetDelegates({
           org: address,
           delegates: validTokens as string[],
         })

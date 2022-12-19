@@ -3,7 +3,14 @@ import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import FileDropzone from "components/FileDropzone";
-import { Form, Input, InputRow, SelectInput } from "components/Form/Index";
+import {
+  Form,
+  Input,
+  InputGrid,
+  InputRow,
+  RadioInput,
+  SelectInput,
+} from "components/Form/Index";
 import { useGetOrg } from "services/orgs/hooks";
 import { AttestationFormValues, MetadataValues } from "../types";
 import ImagePreview from "components/UI/ImagePreview";
@@ -14,6 +21,7 @@ import Button from "components/UI/Button/Index";
 import { attestationTypes } from "../constants";
 import { useSetFormView } from "context/useFormView";
 import RichTextEditor from "components/RichTextEditor/RichTextEditor";
+import Icon from "components/Icons/Icons";
 
 export default function AttestationForm() {
   const {
@@ -73,6 +81,26 @@ export default function AttestationForm() {
           {...register("attestationType")}
           className="mb-0 outline-none"
         />
+      </InputRow>
+      <InputRow labelText="Assign as Desoc delegation" className="text-sm mb-0">
+        <InputGrid className="mt-0">
+          <RadioInput
+            value="false"
+            title="No"
+            id="isDelegateRole-false"
+            subTitle="Regular attestation"
+            Icon={<Icon type="Close" size={30} />}
+            {...register("isDelegateRole")}
+          />
+          <RadioInput
+            value="true"
+            title="Yes"
+            id="isDelegateRole-true"
+            subTitle="Delegate role attestation"
+            Icon={<Icon type="CheckCircle" size={30} />}
+            {...register("isDelegateRole")}
+          />
+        </InputGrid>
       </InputRow>
       <InputRow label="name" labelText="Name">
         <Input

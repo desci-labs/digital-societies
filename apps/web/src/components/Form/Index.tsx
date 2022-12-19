@@ -27,6 +27,21 @@ export function InputRow(props: InputRowProps) {
   );
 }
 
+export function InputGrid(props: InputRowProps) {
+  return (
+    <div
+      className={`grid gap-6 w-full md:grid-cols-2 mt-5 ${
+        props.className ?? ""
+      }`}
+    >
+      {props.labelText && (
+        <LabelText label={props.label} text={props.labelText} />
+      )}
+      {props.children}
+    </div>
+  );
+}
+
 export const Input = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>(
   ({ className, ...restProps }, ref) => {
     return (
@@ -101,11 +116,49 @@ function Select<T>(
     </select>
   );
 }
-
 export const SelectInput = React.forwardRef(Select);
 
-export type FormProps = { title?: string; description?: string };
+type RadioInputProps = {
+  className?: string;
+  value: string | number;
+  title?: string;
+  subTitle?: string;
+  defaultChecked?: boolean;
+  id: string;
+  Icon?: JSX.Element;
+};
 
+function Radio(
+  { id, Icon, className, value, title, subTitle, ..._props }: RadioInputProps,
+  ref: React.ForwardedRef<HTMLInputElement>
+) {
+  return (
+    <div className={className ?? ""}>
+      <input
+        ref={ref}
+        {..._props}
+        id={id}
+        type="radio"
+        defaultValue={value}
+        className="hidden peer"
+        required
+      />
+      <label
+        htmlFor={id}
+        className="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-tint-primary peer-checked:border-tint-primary peer-checked:text-tint-primary hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+      >
+        <div className="block">
+          {title && <div className="w-full text-lg font-semibold">{title}</div>}
+          {subTitle && <div className="w-full">{subTitle}</div>}
+        </div>
+        {Icon && Icon}
+      </label>
+    </div>
+  );
+}
+export const RadioInput = forwardRef(Radio);
+
+export type FormProps = { title?: string; description?: string };
 export function Form(props: HTMLProps<HTMLFormElement> & FormProps) {
   return (
     <div

@@ -11,7 +11,6 @@ export function useGetOrgs() {
 }
 
 export function useGetOrg(address = "") {
-  console.log("useGetOrg: ", address);
   const { data } = useGetter((state) => state.org);
   return data.find(
     (org) => org.address.toLowerCase() === address.toLowerCase()
