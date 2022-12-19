@@ -6,8 +6,8 @@ import {
   Issued as IssuedEvent,
   Revoked as RevokedEvent,
   SocietyUpdated as SocietyUpdatedEvent,
-} from "../data/generated/MetadataHolder/MetadataHolder";
-import { Attestation, Society, Token, User } from "../data/generated/schema";
+} from "../generated/MetadataHolder/MetadataHolder";
+import { Attestation, Society, Token, User } from "../generated/schema";
 
 export function handleAdminUpdated(event: AdminUpdatedEvent): void {
   let society = Society.load(event.params.society);

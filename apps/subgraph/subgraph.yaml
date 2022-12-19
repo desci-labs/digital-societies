@@ -4,11 +4,10 @@ schema:
 dataSources:
   - kind: ethereum
     name: MetadataHolder
-    network: goerli
+    network: localhost
     source:
       abi: MetadataHolder
-      address: "0x029B4e81be0c74002Bfd19893bd5e33677829083"
-      startBlock: 8153332
+      address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -37,11 +36,10 @@ dataSources:
       file: ./src/metadata-holder.ts
   - kind: ethereum
     name: Factory
-    network: goerli
+    network: localhost
     source:
       abi: Factory
-      address: "0xE14f61D6d62806224a0ec8063FD5bA08b26c28d3"
-      startBlock: 8153332
+      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
