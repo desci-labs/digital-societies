@@ -10,6 +10,7 @@ import {
 } from "thegraph/desoc/graphql";
 import { CHAIN_SUBGRAPH_URL } from "services/thegraph/urls";
 import { chainId, useNetwork } from "wagmi";
+import useBlockNumber from "hooks/useBlockNumber";
 
 export default function FactoryUpdater() {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ export default function FactoryUpdater() {
     {},
     { staleTime: 6000 }
   );
-
+  const block = useBlockNumber();
   async function parseData(
     society: GetSocietiesQuery["societies"][number]
   ): Promise<Org | null> {
@@ -33,6 +34,7 @@ export default function FactoryUpdater() {
       address: society.id,
       dateCreated: 0,
       metadataUri: society.metadataUri,
+      pending: false,
     };
   }
 
@@ -57,6 +59,6 @@ export default function FactoryUpdater() {
   useEffect(() => {
     if (isLoading || !data?.societies) return;
     processData();
-  }, [isLoading, data, processData]);
+  }, [block, isLoading, data, processData]);
   return null;
 }

@@ -1,7 +1,10 @@
 {
   "goerli": {
     "MetadataHolder": {
-      "address": "0xF0cB9886197a28a4Fe926CED4F6582a1DA17973d"
+      "address": "0x029B4e81be0c74002Bfd19893bd5e33677829083"
+    },
+    "Factory": {
+      "address": "0xE14f61D6d62806224a0ec8063FD5bA08b26c28d3"
     }
   },
   "localhost": {

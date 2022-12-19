@@ -23,7 +23,7 @@ export type PendingOrg = OrgMeta & {
 };
 
 export type Org = OrgMeta & {
-  pending?: never;
+  pending?: false;
   metadata: Metadata;
 };
 

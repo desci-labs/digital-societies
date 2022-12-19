@@ -2,8 +2,8 @@ import {
   Deployed as DeployedEvent,
   Refuted as RefutedEvent,
   Verified as VerifiedEvent,
-} from "../generated/Factory/Factory";
-import { Society } from "../generated/schema";
+} from "../data/generated/Factory/Factory";
+import { Society } from "../data/generated/schema";
 
 export function handleDeployed(event: DeployedEvent): void {
   let entity = new Society(event.params.token);

@@ -9,7 +9,6 @@ export default function DesocDetailsPage() {
   const { org: adminOrg } = useDashboard();
 
   const org = useGetOrg(address as string);
-
   if (!org) return <Placeholder />;
 
   return (

@@ -17,27 +17,35 @@ const slice = createSlice({
 
       const updatable = payload.filter((data) => {
         if (data.metadata === null) return false;
-        const prev = state.data.find((org) => org.address === data.address);
+        const prev = state.data.find(
+          (org) => org.address.toLowerCase() === data.address.toLowerCase()
+        );
         if (!prev) return true;
-        if (prev?.pending === true && data.metadata !== null) return true;
+
+        if (prev?.pending === true && data.pending === false) return true;
         if (prev.verified !== data.verified) return true;
         if (data.metadataUri !== prev.metadataUri) return true;
         // if (data.delegates.length !== prev.delegates.length) return true;
-
         // check diff in metadata
+
         const canUpdate = compareMetadata(prev.metadata, data.metadata);
         return canUpdate;
       });
-
       state.data = state.data.filter((org) => {
-        if (updatable.find((d) => d.address === org.address)) return false;
+        if (
+          updatable.find(
+            (d) => d.address.toLowerCase() === org.address.toLowerCase()
+          )
+        )
+          return false;
         return true;
       });
-
       state.data.push(...updatable);
     },
     setOrg: (state, { payload }: PayloadAction<Org | PendingOrg>) => {
-      const prev = state.data.find((org) => org.address === payload.address);
+      const prev = state.data.find(
+        (org) => org.address.toLowerCase() === payload.address.toLowerCase()
+      );
       if (!prev) {
         state.data.push(payload);
       } else if (
@@ -45,7 +53,8 @@ const slice = createSlice({
         (prev.pending && payload.metadata)
       ) {
         state.data = state.data.map((org) => {
-          if (org.address === payload.address) return payload;
+          if (org.address.toLowerCase() === payload.address.toLowerCase())
+            return payload;
           return org;
         });
       } else {
@@ -53,7 +62,8 @@ const slice = createSlice({
 
         if (canUpdate) {
           state.data = state.data.map((org) => {
-            if (org.address === payload.address) return payload;
+            if (org.address.toLowerCase() === payload.address.toLowerCase())
+              return payload;
             return org;
           });
         }

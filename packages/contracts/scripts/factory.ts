@@ -1,5 +1,4 @@
-import { utils } from "ethers";
-import { network, ethers, run } from "hardhat";
+import { ethers } from "hardhat";
 import { Factory } from "../typechain-types/src/Factory";
 async function main() {
   const net = await ethers.provider.getNetwork();

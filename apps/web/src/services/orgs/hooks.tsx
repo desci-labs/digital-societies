@@ -10,30 +10,34 @@ export function useGetOrgs() {
   return data;
 }
 
-export function useGetOrg(address: string) {
+export function useGetOrg(address = "") {
+  console.log("useGetOrg: ", address);
   const { data } = useGetter((state) => state.org);
-  return data.find((org) => org.address === address);
+  return data.find(
+    (org) => org.address.toLowerCase() === address.toLowerCase()
+  );
 }
 
-export function useGetDesocMeta(address: string) {
+export function useGetDesocMeta(address = "") {
   const { data } = useGetter((state) => state.org);
-  return data.find((org) => org.address === address)?.metadata;
+  return data.find((org) => org.address.toLowerCase() === address.toLowerCase())
+    ?.metadata;
 }
 
-export function useIsAdmin(address: string) {
+export function useIsAdmin(address = "") {
   const account = useAccount();
   const org = useGetOrg(address);
   return org?.admin.toLowerCase() === account.address?.toLowerCase();
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function useIsDelegate(address: string) {
+export function useIsDelegate(address = "") {
   const { address: user } = useAccount();
   const org = useGetOrg(address);
   return user && org?.delegates.includes(user.toLowerCase());
 }
 
-export function useIsAdminOrDelegate(address: string) {
+export function useIsAdminOrDelegate(address = "") {
   const isDelegate = useIsDelegate(address);
   const isAdmin = useIsAdmin(address);
   return isDelegate || isAdmin;

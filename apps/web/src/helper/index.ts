@@ -62,7 +62,6 @@ export const compareMetadata = <M extends Metadata | MetadataValues>(
     old.external_link !== meta.external_link
   )
     return true;
-
   if (typeof old.image !== typeof meta.image) return true;
   if (typeof old.banner !== typeof meta.banner) return true;
 
