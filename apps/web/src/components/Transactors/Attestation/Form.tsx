@@ -124,29 +124,31 @@ export default function AttestationForm() {
           hasError={!!errors.image}
         />
       </InputRow>
-      <InputRow
-        labelText="Select Attestation Permission"
-        className="text-sm mb-5"
-      >
-        <InputGrid className="mt-0">
-          <RadioInput
-            value="false"
-            id="isDelegateRole-false"
-            title="Regular"
-            subTitle="Holders have no admin privileges"
-            Icon={<Icon type="CheckCircle" size={30} />}
-            {...register("isDelegateRole")}
-          />
-          <RadioInput
-            value="true"
-            id="isDelegateRole-true"
-            title="Admin"
-            subTitle="holders get admin privileges"
-            {...register("isDelegateRole")}
-            Icon={<Icon type="Admin" size={30} />}
-          />
-        </InputGrid>
-      </InputRow>
+      {mode === "create" && (
+        <InputRow
+          labelText="Select Attestation Permission"
+          className="text-sm mb-5"
+        >
+          <InputGrid className="mt-0">
+            <RadioInput
+              value="false"
+              id="isDelegateRole-false"
+              title="Regular"
+              subTitle="Holders have no admin privileges"
+              Icon={<Icon type="CheckCircle" size={30} />}
+              {...register("isDelegateRole")}
+            />
+            <RadioInput
+              value="true"
+              id="isDelegateRole-true"
+              title="Admin"
+              subTitle="holders get admin privileges"
+              {...register("isDelegateRole")}
+              Icon={<Icon type="Admin" size={30} />}
+            />
+          </InputGrid>
+        </InputRow>
+      )}
       <Button
         disabled={canDisable || !isValid}
         type="submit"
