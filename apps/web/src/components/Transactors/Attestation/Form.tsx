@@ -132,14 +132,16 @@ export default function AttestationForm() {
           <RadioInput
             value="false"
             id="isDelegateRole-false"
-            title="Regular attestation"
+            title="Regular"
+            subTitle="Holders have no admin privileges"
             Icon={<Icon type="CheckCircle" size={30} />}
             {...register("isDelegateRole")}
           />
           <RadioInput
             value="true"
             id="isDelegateRole-true"
-            title="Delegate attestation"
+            title="Admin"
+            subTitle="holders get admin privileges"
             {...register("isDelegateRole")}
             Icon={<Icon type="Admin" size={30} />}
           />
