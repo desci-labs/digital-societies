@@ -90,7 +90,7 @@ export function ToggleVerification(props: { society: Org | PendingOrg }) {
     <Button
       disabled={isSubmitting}
       onClick={() => (props.society.verified ? refute() : verify())}
-      className={`bg-transparent app-text bg-white bg-opacity-0 px-0 py-0 w-10 outline-0 hover:text-primary disabled:text-neutrals-gray-4 disabled:hover:text-neutrals-gray-4`}
+      className={`bg-transparent app-text bg-opacity-0 px-0 py-0 w-10 outline-0 app-text hover:text-white focus:text-white dark:hover:text-tint-primary dark:focus:text-tint-primary disabled:text-neutrals-gray-4`}
     >
       {props.society.verified ? "Refute" : "Verify"}
     </Button>
@@ -140,7 +140,7 @@ export function ToggleVisibility(props: { address: string }) {
     <Button
       onClick={trigger}
       disabled={isInserting}
-      className={`bg-transparent bg-white bg-opacity-0 px-0 py-0 w-10 outline-0`}
+      className={`bg-transparent bg-opacity-0 px-0 py-0 w-10 outline-0`}
     >
       {society?.disabled ? (
         <Icon
