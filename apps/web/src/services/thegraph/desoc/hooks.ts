@@ -145,11 +145,13 @@ export function useDelegateTokens(society?: Org | PendingOrg) {
       );
       dispatch(setIsLoading(false));
     },
-    [dispatch, parseData]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   );
 
   useEffect(() => {
-    if (!society || isLoading || isError || !data?.tokens) return;
+    if (!society?.delegateRoleId || isLoading || isError) return;
     processData(society.address, data.tokens);
-  }, [data, isLoading, isError, processData, society]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading, isError, society?.delegateRoleId]);
 }
