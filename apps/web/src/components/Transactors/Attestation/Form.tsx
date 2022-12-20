@@ -82,26 +82,6 @@ export default function AttestationForm() {
           className="mb-0 outline-none"
         />
       </InputRow>
-      <InputRow labelText="Assign as Desoc delegation" className="text-sm mb-0">
-        <InputGrid className="mt-0">
-          <RadioInput
-            value="false"
-            title="No"
-            id="isDelegateRole-false"
-            subTitle="Regular attestation"
-            Icon={<Icon type="Close" size={30} />}
-            {...register("isDelegateRole")}
-          />
-          <RadioInput
-            value="true"
-            title="Yes"
-            id="isDelegateRole-true"
-            subTitle="Delegate role attestation"
-            Icon={<Icon type="CheckCircle" size={30} />}
-            {...register("isDelegateRole")}
-          />
-        </InputGrid>
-      </InputRow>
       <InputRow label="name" labelText="Name">
         <Input
           id="name"
@@ -143,6 +123,27 @@ export default function AttestationForm() {
           disabled={isLoading}
           hasError={!!errors.image}
         />
+      </InputRow>
+      <InputRow
+        labelText="Select Attestation Permission"
+        className="text-sm mb-5"
+      >
+        <InputGrid className="mt-0">
+          <RadioInput
+            value="false"
+            id="isDelegateRole-false"
+            title="Regular attestation"
+            Icon={<Icon type="CheckCircle" size={30} />}
+            {...register("isDelegateRole")}
+          />
+          <RadioInput
+            value="true"
+            id="isDelegateRole-true"
+            title="Delegate attestation"
+            {...register("isDelegateRole")}
+            Icon={<Icon type="Admin" size={30} />}
+          />
+        </InputGrid>
       </InputRow>
       <Button
         disabled={canDisable || !isValid}

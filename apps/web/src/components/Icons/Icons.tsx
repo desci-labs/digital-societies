@@ -40,6 +40,7 @@ import { IconBaseProps } from "react-icons/lib";
 import { RiLoader5Fill } from "react-icons/ri";
 import { SiGitbook, SiHiveBlockchain } from "react-icons/si";
 import { VscLoading } from "react-icons/vsc";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
 
 export type IconTypes =
   | "Github"
@@ -76,7 +77,8 @@ export type IconTypes =
   | "ChevronBackCircle"
   | "FillMoon"
   | "FillBrightness"
-  | "GitBook";
+  | "GitBook"
+  | "Admin";
 
 export const iconList: { [key in IconTypes]: IconType } = {
   Facebook: BsFacebook,
@@ -114,6 +116,7 @@ export const iconList: { [key in IconTypes]: IconType } = {
   FillMoon: BsFillMoonFill,
   FillBrightness: BsFillBrightnessHighFill,
   ChevronBackCircle: IoChevronBackCircleOutline,
+  Admin: MdOutlineAdminPanelSettings,
 };
 
 interface IconProps extends IconBaseProps {
