@@ -99,7 +99,7 @@ export default function useAttestationForm(address: string, tokenType: string) {
       updateTx({ step: Step.submit, message: "Pinning update to IPFS..." });
       showModal(TransactionPrompt, {});
 
-      const { mode, ...meta } = metadata;
+      const { mode, isDelegateRole, ...meta } = metadata;
       const { ipfsURL } = await pinAttestationMetadata(meta);
       const update = {
         ...attestation,

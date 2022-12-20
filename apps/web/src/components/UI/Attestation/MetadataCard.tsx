@@ -31,7 +31,6 @@ export function MetadataCard<
     | MetadataValues
 >(props: MetaCardProps<M>) {
   const router = useRouter();
-
   if (!props.metadata) return null;
   return (
     <div

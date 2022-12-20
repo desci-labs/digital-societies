@@ -19,8 +19,7 @@ function RichTextEditor<T extends FieldValues>(props: BaseProps<T>) {
             onChange={onChange}
             onRawTextChanged={(text) => {
               // remove line break from empty text string
-              const val = text === "\n" ? "" : text;
-              setValue("description", val);
+              setValue("description", text.replaceAll("\n", ""));
             }}
           />
         );
