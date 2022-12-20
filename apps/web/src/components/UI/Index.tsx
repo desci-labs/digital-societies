@@ -14,7 +14,7 @@ export function ExternalLink(props: HTMLProps<HTMLAnchorElement>) {
       onClick={(e) => e.stopPropagation()}
       target="_blank"
       rel="noreferrer"
-      className="inline-block text-md text-tint-primary dark:border-none border-tint-primary hover:text-tint-primary-hover dark:bg-dark-gray focus:outline-tint-primary dark:focus:outline-neutrals-gray-7 text-center duration-200 rounded-md px-6 py-1.5"
+      className="inline-block capitalize text-md text-tint-primary dark:border-none border-tint-primary hover:text-tint-primary-hover dark:bg-dark-gray focus:outline-tint-primary dark:focus:outline-neutrals-gray-7 text-center duration-200 rounded-md px-6 py-1.5"
     >
       Visit website
     </a>

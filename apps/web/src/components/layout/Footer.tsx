@@ -5,14 +5,14 @@ export default function Footer() {
     <footer className="container mx-auto grid md:grid-cols-2 place-content-center md:place-content-between bg-transparent text-white py-5">
       <section className="flex my-2 flex-wrap order-1 md:order-0">
         <div className="mx-2 my-2">
-          <p className="text-black dark:text-white">DeSoc manager</p>
+          <p className="text-black dark:text-white">DeSoc Manager</p>
           <TextLink title="Terms and Services" />
         </div>
         <div className="mx-2 my-2 self-end">
           <TextLink title="Privacy and Cookies" />
         </div>
         <div className="mx-2 my-2 self-end">
-          <TextLink title="Cookie settings" />
+          <TextLink title="Cookie Settings" />
         </div>
       </section>
       <section className="place-self-center md:mb-5 md:place-self-end flex order-0 md:order-1">
