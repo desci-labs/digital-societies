@@ -20,6 +20,7 @@ export default function FileDropzone<T extends FieldValues>(
             maxFiles={1}
             maxSize={TWENTY_FIVE_MB}
             onDrop={(acceptedFiles) => {
+              console.log("onchange", acceptedFiles[0]);
               onChange({
                 file: acceptedFiles[0],
                 name: acceptedFiles[0]?.name,

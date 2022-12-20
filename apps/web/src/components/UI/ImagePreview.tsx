@@ -1,6 +1,6 @@
 import { FileObject } from "components/FileDropzone/types";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function ImagePreview({
   image,
@@ -11,27 +11,28 @@ export default function ImagePreview({
   className?: string;
   wrapperClassName?: string;
 }) {
-  const url = image.ipfsURL
-    ? image.ipfsURL
-    : image.file && image.file?.size > 0
-    ? window.URL.createObjectURL(image.file)
-    : "";
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
+    const url = image.ipfsURL
+      ? image.ipfsURL
+      : image.file && image.file?.size > 0
+      ? window.URL.createObjectURL(image.file)
+      : "";
+    setImageUrl(url);
     return () => {
       if (url.includes(window.location.origin)) {
         window.URL.revokeObjectURL(url);
       }
     };
-  }, [url]);
+  }, [image]);
 
-  if (!url) return null;
-
+  if (!imageUrl) return null;
   return (
     <div className={`w-full relative ${wrapperClassName}`}>
       <Image
         alt="preview"
-        src={url}
+        src={imageUrl}
         layout="fill"
         objectFit="cover"
         objectPosition="center"
