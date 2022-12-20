@@ -1,12 +1,14 @@
 name: Test
 
 on:
-  push:
-   paths:
-        - "apps/web/**"
+  # push:
+  #  paths:
+  #       - "apps/web/**"
   pull_request:
+    paths:
+      - "apps/web/**"
     branches:
-    - main
+      - main
 
 jobs:
   test:
