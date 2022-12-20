@@ -15,7 +15,7 @@ export default function TokenRecipients({
   if (!attestation) return null;
 
   const getRows = () => {
-    return ["logo", "TokenId", "Recipient", "issuer", "date Issued"];
+    return ["logo", "Attestation ID", "Recipient", "issuer", "date Issued"];
   };
 
   return (
