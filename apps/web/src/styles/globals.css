@@ -54,6 +54,14 @@ body.modal-open {
   .app-text {
     @apply text-dark dark:text-white;
   }
+  
+  .badge-fill {
+    @apply fill-curious-blue;
+  }
+  
+  .delegate-badge-fill {
+    @apply fill-gold-dark dark:fill-gold-light stroke-white dark:stroke-dark;
+  }
 
   .text-state-success {
     @apply text-states-success dark:text-states-success;

@@ -20,6 +20,7 @@ export type MetaCardProps<M> = {
   bannerClass?: string;
   verified?: boolean;
   banner: string | FileObject;
+  isDelegate?: boolean;
 };
 
 export function MetadataCard<
@@ -54,7 +55,9 @@ export function MetadataCard<
             <span className="text-md block font-bold mb-1 truncate">
               {props.metadata.name}
             </span>
-            {props.verified && <VerifiedBadgeIcon />}
+            {props.verified && (
+              <VerifiedBadgeIcon isDelegate={props.isDelegate} />
+            )}
           </div>
           <span className="text-[13px] text-neutrals-gray-4 block">
             {shortenText(props.metadata.description)}

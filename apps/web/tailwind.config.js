@@ -37,6 +37,11 @@ module.exports = {
         turquoise: "#42E2B8",
         "cornflower-blue": "#7B61FF",
         "curious-blue": "#2A8FD8",
+        "franc-blue": "rgb(32, 129, 226)",
+        gold: {
+          light: "rgb(255, 224, 66)",
+          dark: "rgb(220, 171, 0)",
+        },
         "wild-sand": "#F4F4F4",
         iron: "#CFD5D9",
         casal: "#2B6B5A",

@@ -44,6 +44,7 @@ export default function CredentialDetails() {
       <MetaDataView
         address={credential.society}
         verified={org?.verified || false}
+        isDelegate={org?.delegateRoleId === credential.id}
         metadata={credential.metadata}
         banner={metadata.banner ?? ""}
         showUpdater={hasAccess}

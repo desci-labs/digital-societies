@@ -44,6 +44,7 @@ export function AttestationList({
               banner={org.metadata.banner}
               metadata={attestation.metadata}
               verified={org?.verified}
+              isDelegate={org.delegateRoleId === attestation.id}
               link={`/attestations/${attestation.id}?address=${attestation.society}`}
             />
           ))}

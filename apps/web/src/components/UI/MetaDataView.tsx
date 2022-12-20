@@ -17,6 +17,7 @@ import { ImageBanner, RoundedLogo } from "./Index";
 type MetaViewProps = {
   address: string;
   verified: boolean;
+  isDelegate?: boolean;
   showUpdater?: boolean;
   onUpdateClick?: () => void;
   banner: string | FileObject;
@@ -68,7 +69,13 @@ export default function MetaDataView(props: MetaViewProps) {
       <div className="container mx-auto mt-12 px-2 lg:px-0">
         <div className="flex gap-2 items-center mb-2">
           <span className="heading-1 text-left">{props.metadata.name}</span>
-          {props.verified && <VerifiedBadgeIcon width="25" heigth="25" />}
+          {props.verified && (
+            <VerifiedBadgeIcon
+              isDelegate={props.isDelegate}
+              width="25"
+              heigth="25"
+            />
+          )}
           {props.showUpdater && (
             <EditButton
               desoc={props.address}
