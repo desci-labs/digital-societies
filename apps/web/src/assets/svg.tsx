@@ -12,8 +12,7 @@ export const DesocIcon = (props: IconProps) => {
   const isLight = resolvedTheme === "light";
   return (
     <svg
-      width={props.width ?? 28}
-      height={props.heigth ?? 28}
+      width={props.width ?? 13}
       viewBox="0 0 28 28"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

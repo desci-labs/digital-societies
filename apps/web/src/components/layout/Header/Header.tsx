@@ -26,7 +26,7 @@ export default function Header() {
       <div className="grow flex items-center justify-start gap-5">
         <Link href="/">
           <a className="cursor-pointer">
-            <DesocIcon width="15" heigth="15" />
+            <DesocIcon />
           </a>
         </Link>
         <NavLink href="/" className="hidden sm:block">

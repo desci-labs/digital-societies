@@ -28,20 +28,20 @@ export default function LaunchForm() {
   return (
     <Form
       onSubmit={handleSubmit(launch)}
-      title="Launch Organisation"
+      title="Launch Society"
       className="form"
     >
       <InputRow label="name" labelText="Name">
         <Input
           id="name"
-          placeholder="Organisation name (e.g Ethereum foundation)"
+          placeholder="Society name (e.g Ethereum Foundation)"
           {...register("name")}
         />
       </InputRow>
       <InputRow label="symbol" labelText="Symbol">
         <Input
           id="symbol"
-          placeholder="Organisation symbol (e.g ETF)"
+          placeholder="Society symbol (e.g ETF)"
           {...register("symbol")}
         />
       </InputRow>
@@ -103,7 +103,7 @@ export default function LaunchForm() {
         disabled={canDisable || !isValid}
         className="mt-4 w-full bg-tint-primary-dark disabled:bg-regent-gray"
       >
-        Deploy organisation
+        Deploy Society
       </Button>
     </Form>
   );
