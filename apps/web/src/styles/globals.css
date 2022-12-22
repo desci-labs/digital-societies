@@ -123,6 +123,6 @@ div.ql-disabled.ql-container {
 }
 
 /* Patch the flowbite tooltip div wrapper width set to fit-content */
-[data-testid="flowbite-tooltip-target"] {
+.delegate-tooltip > [data-testid="flowbite-tooltip-target"] {
   width: 100%;
 }

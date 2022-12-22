@@ -52,11 +52,11 @@ export function MetadataCard<
       <div className="px-2 mt-6 flex flex-col justify-between gap-1 h-32">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-md block font-bold mb-1 truncate">
+            <span className="text-md block font-bold truncate mb-1">
               {props.metadata.name}
             </span>
             {props.verified && (
-              <VerifiedBadge isDelegate={props.isDelegate} size="20" />
+              <VerifiedBadge isDelegate={props.isDelegate} size="18" />
             )}
           </div>
           <span className="text-[13px] text-neutrals-gray-4 block">

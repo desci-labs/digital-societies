@@ -11,7 +11,7 @@ import {
   RadioInput,
   SelectInput,
 } from "components/Form/Index";
-import { useGetOrg } from "services/orgs/hooks";
+import { useGetOrg, useIsAdmin } from "services/orgs/hooks";
 import { AttestationFormValues, MetadataValues } from "../types";
 import ImagePreview from "components/UI/ImagePreview";
 import useAttestationForm from "./useAttestationForm";
@@ -42,10 +42,10 @@ export default function AttestationForm() {
   const stage = useGetTxStage();
   const logo = watch("image");
   const mode = watch("mode");
-  const isDelegate = watch("isDelegateRole");
   const attestationType = watch("attestationType");
   const isUpdateMode = mode === "update";
   const { setView } = useSetFormView();
+  const isAdmin = useIsAdmin(address as string);
 
   const canDisable = useMemo(() => !isDirty || isLoading, [isDirty, isLoading]);
   useEffect(() => {
@@ -126,38 +126,7 @@ export default function AttestationForm() {
           hasError={!!errors.image}
         />
       </InputRow>
-      {mode === "create" && (
-        <InputRow
-          labelText="Select Attestation Permission"
-          className="text-sm mb-5"
-        >
-          {isDelegate === "true" && <DelegateWarning />}
-          <InputGrid className="mt-0">
-            <RadioInput
-              value="false"
-              id="isDelegateRole-false"
-              title="Regular"
-              subTitle="Holders have no admin privileges"
-              Icon={<Icon type="CheckCircle" size={30} />}
-              {...register("isDelegateRole")}
-            />
-            <Tooltip
-              content="The holder of this SBT can mint or revoke SBTs"
-              trigger="hover"
-              style="auto"
-            >
-              <RadioInput
-                value="true"
-                id="isDelegateRole-true"
-                title="Admin"
-                subTitle="holders get admin privileges"
-                {...register("isDelegateRole")}
-                Icon={<Icon type="Admin" size={30} />}
-              />
-            </Tooltip>
-          </InputGrid>
-        </InputRow>
-      )}
+      {mode === "create" && isAdmin && <AttestationPermission />}
       <Button
         disabled={canDisable || !isValid}
         type="submit"
@@ -172,6 +141,46 @@ export default function AttestationForm() {
     </Form>
   );
 }
+
+const AttestationPermission = () => {
+  const { watch, register } = useFormContext<AttestationFormValues>();
+  const isDelegate = watch("isDelegateRole");
+
+  return (
+    <InputRow
+      labelText="Select Attestation Permission"
+      className="text-sm mb-5"
+    >
+      {isDelegate === "true" && <DelegateWarning />}
+      <InputGrid className="mt-0">
+        <RadioInput
+          value="false"
+          id="isDelegateRole-false"
+          title="Regular"
+          subTitle="Holders have no admin privileges"
+          Icon={<Icon type="CheckCircle" size={30} />}
+          {...register("isDelegateRole")}
+        />
+        <div className="delegate-tooltip">
+          <Tooltip
+            content="The holder of this SBT can mint or revoke SBTs"
+            trigger="hover"
+            style="auto"
+          >
+            <RadioInput
+              value="true"
+              id="isDelegateRole-true"
+              title="Admin"
+              subTitle="holders get admin privileges"
+              {...register("isDelegateRole")}
+              Icon={<Icon type="Admin" size={30} />}
+            />
+          </Tooltip>
+        </div>
+      </InputGrid>
+    </InputRow>
+  );
+};
 
 const DelegateWarning = () => (
   <Alert color="warning">

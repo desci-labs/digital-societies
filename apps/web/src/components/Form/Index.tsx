@@ -30,13 +30,10 @@ export function InputRow(props: InputRowProps) {
 export function InputGrid(props: InputRowProps) {
   return (
     <div
-      className={`grid gap-6 w-full md:grid-cols-2 mt-5 ${
+      className={`grid gap-6 w-full md:grid-cols-2 mt-5 place-content-between ${
         props.className ?? ""
       }`}
     >
-      {props.labelText && (
-        <LabelText label={props.label} text={props.labelText} />
-      )}
       {props.children}
     </div>
   );
