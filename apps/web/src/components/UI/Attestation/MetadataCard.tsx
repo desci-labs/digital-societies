@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import { VerifiedBadgeIcon } from "assets/svg";
 import ContentLoader, {
   CircularLoader,
 } from "components/ContentLoader/ContentLoader";
@@ -13,6 +12,7 @@ import {
 import { getImageURL, shortenText } from "helper";
 import { useRouter } from "next/router";
 import { ExternalLink, ImageBanner, RoundedLogo } from "../Index";
+import VerifiedBadge from "../VerifiedBadge";
 
 export type MetaCardProps<M> = {
   link: string;
@@ -48,13 +48,6 @@ export function MetadataCard<
           src={getImageURL(props.metadata?.image || props.banner)}
           className="w-12 h-12 left-3 -bottom-5"
         />
-        {/* <div className="flex items-center justify-start">
-          <img
-            src={getImageURL(props.metadata?.image || props.banner)}
-            alt={props.metadata.name}
-            className="absolute left-2 w-12 h-12 border border-dark dark:border-white bg-gradient rounded-full"
-          />
-        </div> */}
       </div>
       <div className="px-2 mt-6 flex flex-col justify-between gap-1 h-32">
         <div>
@@ -63,7 +56,7 @@ export function MetadataCard<
               {props.metadata.name}
             </span>
             {props.verified && (
-              <VerifiedBadgeIcon isDelegate={props.isDelegate} />
+              <VerifiedBadge isDelegate={props.isDelegate} size="20" />
             )}
           </div>
           <span className="text-[13px] text-neutrals-gray-4 block">

@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import { VerifiedBadgeIcon } from "assets/svg";
 import { FileObject } from "components/FileDropzone/types";
 import Icon from "components/Icons/Icons";
 import RichTextRenderer from "components/RichTextRenderer/RichTextRenderer";
@@ -14,6 +13,7 @@ import { useRouter } from "next/router";
 import { PropsWithChildren } from "react";
 import Button from "./Button/Index";
 import { ImageBanner, RoundedLogo } from "./Index";
+import VerifiedBadge from "./VerifiedBadge";
 
 type MetaViewProps = {
   address: string;
@@ -66,25 +66,12 @@ export default function MetaDataView(props: MetaViewProps) {
             alt={props.metadata.name}
             className="w-32 h-32"
           />
-          {/* <div className="flex items-center justify-start">
-            <img
-              src={getImageURL(props.metadata.image)}
-              alt={props.metadata.name}
-              className="absolute left-0 -bottom-11 w-32 h-32 border border-dark dark:border-white bg-gradient rounded-full"
-            />
-          </div> */}
         </div>
       </div>
       <div className="container mx-auto mt-12 px-2 lg:px-0">
         <div className="flex gap-2 items-center mb-2">
           <span className="heading-1 text-left">{props.metadata.name}</span>
-          {props.verified && (
-            <VerifiedBadgeIcon
-              isDelegate={props.isDelegate}
-              width="25"
-              heigth="25"
-            />
-          )}
+          {props.verified && <VerifiedBadge isDelegate={props.isDelegate} />}
           {props.showUpdater && (
             <EditButton
               desoc={props.address}
