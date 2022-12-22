@@ -144,6 +144,7 @@ export default function AttestationForm() {
             <Tooltip
               content="The holder of this SBT can mint or revoke SBTs"
               trigger="hover"
+              style="auto"
             >
               <RadioInput
                 value="true"

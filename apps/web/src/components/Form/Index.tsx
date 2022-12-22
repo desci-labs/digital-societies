@@ -162,7 +162,7 @@ export type FormProps = { title?: string; description?: string };
 export function Form(props: HTMLProps<HTMLFormElement> & FormProps) {
   return (
     <div
-      className={`container mx-auto flex flex-col gap-5 py-8 mb-5 max-w-500 ${props.className}`}
+      className={`container min-w-full mx-auto flex flex-col gap-5 py-8 mb-5 max-w-500 ${props.className}`}
     >
       {props.title && (
         <h1 className="text-3xl font-bold mt-5 text-center capitalize text-darker">

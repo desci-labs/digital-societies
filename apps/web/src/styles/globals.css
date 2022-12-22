@@ -121,3 +121,8 @@ div.ql-disabled.ql-container {
   border: none;
   padding: 0;
 }
+
+/* Patch the flowbite tooltip div wrapper width set to fit-content */
+[data-testid="flowbite-tooltip-target"] {
+  width: 100%;
+}
