@@ -34,13 +34,13 @@ import {
   IoChevronBackCircleOutline,
   IoClose,
   IoWalletSharp,
-  IoWarning,
 } from "react-icons/io5";
 import { IconBaseProps } from "react-icons/lib";
 import { RiLoader5Fill } from "react-icons/ri";
 import { SiGitbook, SiHiveBlockchain } from "react-icons/si";
 import { VscLoading } from "react-icons/vsc";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
+import { TiWarningOutline } from "react-icons/ti";
 
 export type IconTypes =
   | "Github"
@@ -100,7 +100,7 @@ export const iconList: { [key in IconTypes]: IconType } = {
   CaretLeft: AiFillCaretLeft,
   Upload: AiOutlineUpload,
   Wallet: IoWalletSharp,
-  Warning: IoWarning,
+  Warning: TiWarningOutline,
   Blockchain: SiHiveBlockchain,
   Search: HiOutlineSearch,
   Edit: FiEdit,

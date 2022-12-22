@@ -22,6 +22,7 @@ import { attestationTypes } from "../constants";
 import { useSetFormView } from "context/useFormView";
 import RichTextEditor from "components/RichTextEditor/RichTextEditor";
 import Icon from "components/Icons/Icons";
+import { Alert, Tooltip } from "flowbite-react";
 
 export default function AttestationForm() {
   const {
@@ -41,6 +42,7 @@ export default function AttestationForm() {
   const stage = useGetTxStage();
   const logo = watch("image");
   const mode = watch("mode");
+  const isDelegate = watch("isDelegateRole");
   const attestationType = watch("attestationType");
   const isUpdateMode = mode === "update";
   const { setView } = useSetFormView();
@@ -129,6 +131,7 @@ export default function AttestationForm() {
           labelText="Select Attestation Permission"
           className="text-sm mb-5"
         >
+          {isDelegate === "true" && <DelegateWarning />}
           <InputGrid className="mt-0">
             <RadioInput
               value="false"
@@ -138,14 +141,19 @@ export default function AttestationForm() {
               Icon={<Icon type="CheckCircle" size={30} />}
               {...register("isDelegateRole")}
             />
-            <RadioInput
-              value="true"
-              id="isDelegateRole-true"
-              title="Admin"
-              subTitle="holders get admin privileges"
-              {...register("isDelegateRole")}
-              Icon={<Icon type="Admin" size={30} />}
-            />
+            <Tooltip
+              content="The holder of this SBT can mint or revoke SBTs"
+              trigger="hover"
+            >
+              <RadioInput
+                value="true"
+                id="isDelegateRole-true"
+                title="Admin"
+                subTitle="holders get admin privileges"
+                {...register("isDelegateRole")}
+                Icon={<Icon type="Admin" size={30} />}
+              />
+            </Tooltip>
           </InputGrid>
         </InputRow>
       )}
@@ -163,3 +171,19 @@ export default function AttestationForm() {
     </Form>
   );
 }
+
+const DelegateWarning = () => (
+  <Alert color="warning">
+    <div className="flex items-center justify-between gap-5">
+      <Icon type="Warning" size={60} className="font-bold w-32" />
+      <span className="block">
+        You are about to delegate certain admin rights. the owner of this SBT
+        will be granted permission to mint, revoke, edit, and define SBTs types
+        of behalf of the organisation.{" "}
+        <a href="#" target="_blank" rel="noopener" className="underline">
+          Learn more
+        </a>
+      </span>
+    </div>
+  </Alert>
+);

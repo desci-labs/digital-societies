@@ -2,7 +2,11 @@
 // import defaultTheme from "tailwindcss/defaultTheme";
 
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/**/*.html"],
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./public/**/*.html",
+    "../../node_modules/flowbite-react/**/*.js",
+  ],
   darkMode: "class",
   theme: {
     extend: {
@@ -112,5 +116,9 @@ module.exports = {
       transform: ["hover", "active"],
     },
   },
-  plugins: ["tailwindcss", "postcss-flexbugs-fixes"],
+  plugins: [
+    "tailwindcss",
+    "postcss-flexbugs-fixes",
+    require("flowbite/plugin"),
+  ],
 };

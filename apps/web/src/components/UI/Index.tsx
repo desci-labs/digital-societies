@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Image, { StaticImageData } from "next/image";
 import { HTMLProps, PropsWithChildren } from "react";
 
@@ -40,17 +41,14 @@ export function ImageBanner(props: ImgProps) {
 export function RoundedLogo(props: ImgProps) {
   return (
     <div
-      className={`w-32 h-32 z-20 absolute left-0 -bottom-11 rounded-full border border-dark dark:border-white bg-gradient ${
-        props.className ?? ""
+      className={` z-20 absolute left-0 -bottom-11 rounded-full bg-gradient ${
+        props.className ?? "w-32 h-32"
       }`}
     >
-      <Image
-        src={props.src}
-        layout="fill"
-        objectFit="cover"
-        objectPosition="center"
+      <img
+        src={props.src as string}
         alt={props.alt}
-        className="rounded-full"
+        className={`rounded-full border border-dark dark:border-white ${props.className}`}
       />
     </div>
   );

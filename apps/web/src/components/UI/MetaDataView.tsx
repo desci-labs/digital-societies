@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { VerifiedBadgeIcon } from "assets/svg";
 import { FileObject } from "components/FileDropzone/types";
 import Icon from "components/Icons/Icons";
@@ -63,7 +64,15 @@ export default function MetaDataView(props: MetaViewProps) {
           <RoundedLogo
             src={getImageURL(props.metadata.image)}
             alt={props.metadata.name}
+            className="w-32 h-32"
           />
+          {/* <div className="flex items-center justify-start">
+            <img
+              src={getImageURL(props.metadata.image)}
+              alt={props.metadata.name}
+              className="absolute left-0 -bottom-11 w-32 h-32 border border-dark dark:border-white bg-gradient rounded-full"
+            />
+          </div> */}
         </div>
       </div>
       <div className="container mx-auto mt-12 px-2 lg:px-0">
@@ -84,14 +93,6 @@ export default function MetaDataView(props: MetaViewProps) {
           )}
         </div>
         <Description metadata={props.metadata} />
-        {/* {!props.metadata?.properties?.description && (
-          <span className="text-lg block mb-2 text-left text-neutrals-gray-5">
-            {props.metadata.description}
-          </span>
-        )}
-        {props.metadata?.properties?.description && (
-          <RichTextRenderer text={props.metadata.properties.description} />
-        )} */}
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { VerifiedBadgeIcon } from "assets/svg";
 import ContentLoader, {
   CircularLoader,
@@ -47,6 +48,13 @@ export function MetadataCard<
           src={getImageURL(props.metadata?.image || props.banner)}
           className="w-12 h-12 left-3 -bottom-5"
         />
+        {/* <div className="flex items-center justify-start">
+          <img
+            src={getImageURL(props.metadata?.image || props.banner)}
+            alt={props.metadata.name}
+            className="absolute left-2 w-12 h-12 border border-dark dark:border-white bg-gradient rounded-full"
+          />
+        </div> */}
       </div>
       <div className="px-2 mt-6 flex flex-col justify-between gap-1 h-32">
         <div>
