@@ -163,7 +163,7 @@ const AttestationPermission = () => {
         />
         <div className="delegate-tooltip">
           <Tooltip
-            content="The holder of this SBT can mint or revoke SBTs"
+            content="The recipients of this attestation can mint or revoke SBTs"
             trigger="hover"
             style="auto"
           >
