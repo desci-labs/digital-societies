@@ -6,7 +6,7 @@ export default function Footer() {
       <section className="flex my-2 flex-wrap order-1 md:order-0">
         <div className="mx-2 my-2">
           <p className="text-black dark:text-white">DeSoc Manager</p>
-          <TextLink title="Terms of Services" />
+          <TextLink title="Terms of Service" />
         </div>
         <div className="mx-2 my-2 self-end">
           <TextLink title="Privacy and Cookies" />
@@ -16,14 +16,6 @@ export default function Footer() {
         </div>
       </section>
       <section className="place-self-center md:mb-5 md:place-self-end flex order-0 md:order-1">
-        {/* <a
-          href="#"
-          target="_blank"
-          rel="noopener"
-          className="mx-2 dark:bg-tint-primary p-1 w-[25px] h-[25px] rounded-full flex items-center justify-center"
-        >
-          <Icon type="GitBook" className="text-black" size={25} />
-        </a> */}
         <a
           href="https://github.com/desci-labs/soulbound/tree/dev"
           target="_blank"

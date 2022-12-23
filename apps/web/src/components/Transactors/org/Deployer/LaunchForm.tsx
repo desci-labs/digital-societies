@@ -26,11 +26,7 @@ export default function LaunchForm() {
   );
 
   return (
-    <Form
-      onSubmit={handleSubmit(launch)}
-      title="Launch Society"
-      className="form"
-    >
+    <Form onSubmit={handleSubmit(launch)} title="Launch Society" className="">
       <InputRow label="name" labelText="Name">
         <Input
           id="name"
