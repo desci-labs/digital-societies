@@ -37,7 +37,7 @@ contract Factory is Ownable {
 
     constructor() {
         // owner = _msgSender();
-        _paused = false;
+        // _paused = false;
         // _setTrustedForwarder(forwarder);
     }
 

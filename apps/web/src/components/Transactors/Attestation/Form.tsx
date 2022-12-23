@@ -189,7 +189,7 @@ const DelegateWarning = () => (
       <span className="block">
         You are about to delegate certain admin rights. the owner of this SBT
         will be granted permission to mint, revoke, edit, and define SBTs types
-        of behalf of the organisation.{" "}
+        on behalf of the organisation.{" "}
         <a href="#" target="_blank" rel="noopener" className="underline">
           Learn more
         </a>
