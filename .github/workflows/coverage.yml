@@ -1,9 +1,9 @@
+name: coverage report
+
 on: 
   pull_request:
     paths:
-      - "packages/contracts"
-
-name: Contracts coverage report
+      - "packages/contracts/**"
 
 jobs:
   coverage_report:

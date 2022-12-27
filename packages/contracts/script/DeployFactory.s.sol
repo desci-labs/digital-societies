@@ -24,7 +24,6 @@ contract FactoryScript is Script {
 }
 
 contract MetadataScript is Script {
-    // address factory = vm.envAddress("Factory");
     function setUp() public {}
 
     function run() public {
