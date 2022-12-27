@@ -16,11 +16,11 @@ jobs:
         uses: foundry-rs/foundry-toolchain@v1
         with:
           version: nightly
-
       # ... Generate LCOV files or download it from a different job
       - name: Generate Test coverage
         run: |
           /usr/bin/sudo apt-get install -y lcov
+          cd packages/contracts
           forge coverage --report lcov
           lcov --remove lcov.info  -o lcov.info 'test/*' 'script/*'
       - name: Report code coverage
@@ -30,4 +30,4 @@ jobs:
           minimum-coverage: 90
           artifact-name: contracts-coverage-report
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          working-directory: ./
+          working-directory: ./packages/contracts

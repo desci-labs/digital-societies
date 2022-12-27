@@ -32,7 +32,7 @@ contract MetadataScript is Script {
         MetadataHolder meta = new MetadataHolder(
             address(0xE14f61D6d62806224a0ec8063FD5bA08b26c28d3)
         );
-        console.log("meta:", address(meta));
+        console.log("MetadataHolder:", address(meta));
         vm.stopBroadcast();
     }
 }
