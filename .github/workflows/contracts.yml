@@ -2,11 +2,13 @@ name: main
 
 on:
   push:
-   paths:
-        - "apps/contracts/**"
+    paths:
+      - "packages/contracts/**"
   pull_request:
     branches:
-    - main
+      - main
+    paths:
+      - "packages/contracts/**"
 env:
   FOUNDRY_PROFILE: ci
 
@@ -17,7 +19,7 @@ jobs:
         version: [16]
       fail-fast: true
 
-    name: Foundry project
+    name: contracts
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -31,16 +33,14 @@ jobs:
 
       - name: Run Forge build
         run: |
-          cd apps/contracts
+          cd packages/contracts
           forge --version
-          cd lib/gsn && yarn install && cd ../..
           yarn install
           forge build --sizes
         id: build
 
       - name: Run Forge tests
         run: |
-          cd apps/contracts
-          cd lib/gsn && yarn install && cd ../..
+          cd packages/contracts
           forge test -vvv
         id: main

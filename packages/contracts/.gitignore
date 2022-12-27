@@ -44,3 +44,6 @@ cache
 artifacts
 
 cast_hints.txt
+
+# coverage file
+lcov.info
