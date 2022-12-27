@@ -28,6 +28,6 @@ jobs:
         with:
           coverage-files: coverage/lcov.*.info
           minimum-coverage: 90
-          artifact-name: contracts-coverage-report
+          artifact-name: coverage-report
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          working-directory: ./packages/contracts
+          working-directory: packages/contracts
