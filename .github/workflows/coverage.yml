@@ -3,7 +3,7 @@ on:
     paths:
       - "packages/contracts"
 
-name: Continuous Integration
+name: Contracts coverage report
 
 jobs:
   coverage_report:
