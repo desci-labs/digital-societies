@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.17;
 import "src/Desoc.sol";
-// import "@opengsn/contracts/src/ERC2771Recipient.sol";
-// import "@opengsn/contracts/src/forwarder/Forwarder.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 import "./interfaces/IMetaHolder.sol";

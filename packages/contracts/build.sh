@@ -25,7 +25,7 @@
 
 # # yarn install
 
-# # Run the build script
+# Run the build script
 yarn remapping-transform && forge build --force
 
 if [ -f "packages/contracts" ]; then

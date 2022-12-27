@@ -60,8 +60,7 @@ async function main() {
     console.log('funding paymaster....');
     const tx = await paymaster.deposit({ from: deployer.address, value: utils.parseEther('0.5')});
     await tx.wait();
-    console.log('Paymaster funded ✅', tx.hash);
-    
+    console.log("Paymaster funded ✅", tx.hash);
   } else {
     forwarder = localForwarder.address;
   }

@@ -32,21 +32,21 @@ async function main() {
 
   const tx = await factory.setMetaAddress(meta.address);
   await tx.wait();
-  console.log("Set meta address in Factory: ", factory.address, meta.address);
-  try {
-    await run(`verify:verify`, {
-      address: meta.address,
-    });
-  } catch (e) {
-    console.log("Error Meta:", e);
-  }
-  try {
-    await run(`verify:verify`, {
-      address: factory.address,
-    });
-  } catch (e) {
-    console.log("Error factory:", e);
-  }
+  console.log("Set meta address: ", factory.address, meta.address);
+  // try {
+  //   await run(`verify:verify`, {
+  //     address: meta.address,
+  //   });
+  // } catch (e) {
+  //   console.log("Error Meta:", e);
+  // }
+  // try {
+  //   await run(`verify:verify`, {
+  //     address: factory.address,
+  //   });
+  // } catch (e) {
+  //   console.log("Error factory:", e);
+  // }
 }
 
 // We recommend this pattern to be able to use async/await everywhere
