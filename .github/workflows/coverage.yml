@@ -24,11 +24,18 @@ jobs:
           forge coverage --report lcov
           mkdir coverage
           lcov --remove lcov.info  -o coverage/lcov.info 'test/*' 'script/*'
-      - name: Report code coverage
-        uses: zgosalvez/github-actions-report-lcov@v2
+          rm lcov.info
+      - name: Reporter
+        uses: manarbenkraouda/lcov-reporter-action@v0.3.5.3
         with:
-          coverage-files: coverage/lcov.*.info
-          minimum-coverage: 90
-          artifact-name: coverage-report
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          working-directory: packages/contracts
+          lcov-file: ./packages/contracts/coverage/lcov.info
+          lcov-base: ./packages/contracts/coverage/lcov.info
+      # - name: Report code coverage
+      #   uses: zgosalvez/github-actions-report-lcov@v2
+      #   with:
+      #     coverage-files: coverage/lcov.*.info
+      #     minimum-coverage: 90
+      #     artifact-name: coverage-report
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     working-directory: packages/contracts
