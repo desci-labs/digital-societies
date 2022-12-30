@@ -31,6 +31,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           lcov-file: ./packages/contracts/coverage/lcov.info
           lcov-base: ./packages/contracts/coverage/lcov.info
+          hide-table: false
       # - name: Report code coverage
       #   uses: zgosalvez/github-actions-report-lcov@v2
       #   with:

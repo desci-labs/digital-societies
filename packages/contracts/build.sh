@@ -32,7 +32,7 @@ if [ -f "packages/contracts" ]; then
     cd packages/contracts
 fi
 
-# npx hardhat compile --show-stack-traces
+# npx hardhat compile --show-stack-traces #
 
 # copy the required abis to the web/constants/abis
 cp ./out/Factory.sol/Factory.json ./src/abis/
