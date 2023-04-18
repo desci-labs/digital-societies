@@ -74,7 +74,8 @@ async function putHandler(
     if (!body.id) throw Error("Invalid input data");
     const { error, status } = await supabase
       .from("societies_manager")
-      .update(body);
+      .update(body)
+      .eq("id", body.id);
 
     if (error)
       return res

@@ -7,9 +7,9 @@ import { useAccount } from "wagmi";
 import {
   MetadataCard,
   MetadataCardPlaceholder,
-} from "../../Attestation/MetadataCard";
-import Toolbar from "./Toolbar";
-import useFilteredOrg from "./useFilteredOrg";
+} from "components/UI/Attestation/MetadataCard";
+import Toolbar from "components/UI/Desoc/DesocList/Toolbar";
+import useFilteredOrg from "components/UI/Desoc/DesocList/useFilteredOrg";
 
 function SocietyItem({ org }: { org: Org | PendingOrg }) {
   // trigger updater hook
